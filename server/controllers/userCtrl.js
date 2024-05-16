@@ -179,7 +179,7 @@ export const changeUserPassword = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Get all liked movies
+// @desc: Get all favourite movies
 // @route: GET /api/users/favourites
 // @access: private
 
@@ -189,6 +189,7 @@ export const getLikedMovies = asyncHandler(async (req, res) => {
         const user = await User.findById(req.user._id).populate("likedMovies");
         // if user exists send liked movies to client
         if (user) {
+            console.log(user.likedMovies);
             res.json(user.likedMovies);
         }
         // else send error message
@@ -201,7 +202,8 @@ export const getLikedMovies = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Add movie to liked movies
+
+// @desc: Add movie to favourites
 // @route: POST /api/users/favourites
 // @access: Private
 
@@ -264,7 +266,7 @@ export const deleteLikedMovies = asyncHandler(async (req, res) => {
 // @access: private/admin
 
 export const getUsers = asyncHandler(async (req, res) => {
-    try{
+    try {
         // find all users in DB
         const users = await User.find({});
         res.json(users);

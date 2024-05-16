@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Movie from "../models/movieModel.js";
 
 const userSchema = new mongoose.Schema(
     {
