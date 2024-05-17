@@ -1,13 +1,12 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import bcrypt from "bcryptjs";
-import { generateToken } from "../middlewares/auth.js";
+import { comparePassword, generateToken, hashPassword } from "../utils/authUtils.js";
 
 // **************************** PUBLIC CONTROLLERS *******************************
 
 // @desc: Register a user
 // @route: POST /api/users/register
-// @acess: Public
+// @access: Public
 
 export const registerUser = asyncHandler(async (req, res) => {
     const { fullName, email, password, image } = req.body;
@@ -19,15 +18,11 @@ export const registerUser = asyncHandler(async (req, res) => {
             throw new Error("Email already registered");
         }
 
-        // hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
         // create user in DB
         const user = await User.create({
             fullName,
             email,
-            password: hashedPassword,
+            password: hashPassword(password), // hash of password
             image,
         });
 
@@ -52,16 +47,18 @@ export const registerUser = asyncHandler(async (req, res) => {
 
 // @desc: Login a user
 // @route: POST /api/users/login
-// @acess: Public
+// @access: Public
 
 export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     try {
         // Find the user in DB
         const user = await User.findOne({ email });
-        //console.log(user);
-        // If user exists, comapre password with hashed password then send user data and token to client
-        if (user && (await bcrypt.compare(password, user.password))) {
+        // compare password entered with the actual hashed password
+        const validPassword = await comparePassword(password, user.password);
+
+        // If user exists, and given password is valid, then send user data and token to client
+        if (user && validPassword) {
             res.json({
                 _id: user._id,
                 fullName: user.fullName,
@@ -156,15 +153,13 @@ export const changeUserPassword = asyncHandler(async (req, res) => {
     try {
         // find user in DB
         const user = await User.findById(req.user._id);
+        // compare password entered with the old hashed password
+        const validPassword = await comparePassword(password, user.password);
 
         // if user exists compare old password with hashed password, then update user password and save it in the DB
-        if (user && (await bcrypt.compare(oldPassword, user.password))) {
-            // hash new password
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(newPassword, salt);
-
+        if (user && validPassword) {
             // Update user's password and save it in the database
-            user.password = hashedPassword; // Update user's password
+            user.password = hashPassword(password); // hash new password
             await user.save(); // Save user in the DB
 
             res.json({ message: "Password changed" });
@@ -201,7 +196,6 @@ export const getLikedMovies = asyncHandler(async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-
 
 // @desc: Add movie to favourites
 // @route: POST /api/users/favourites
@@ -259,7 +253,7 @@ export const deleteLikedMovies = asyncHandler(async (req, res) => {
     }
 });
 
-// **************************** PRIVATE CONTROLLERS *******************************
+// **************************** ADMIN CONTROLLERS *******************************
 
 // @desc: Get all the users
 // @route: GET /api/users
@@ -304,4 +298,4 @@ export const deleteUser = asyncHandler(async (req, res) => {
     }
 });
 
-// NOTE: The middleware will only execute if there's an error thrown in your route handlers or other middleware.
+// NOTE: The errorHandler middleware will only execute if there's an error thrown in your route handlers or other middleware.

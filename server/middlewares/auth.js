@@ -1,14 +1,5 @@
 import asyncHandler from "express-async-handler";
-import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
-
-// @desc: Authenticated user and get token
-
-export const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
-    });
-};
 
 // authentication middleware
 export const authenticate = asyncHandler(async (req, res, next) => {
