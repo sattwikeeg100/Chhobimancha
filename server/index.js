@@ -8,6 +8,7 @@ import userRouter from "./routes/userRoutes.js";
 import moviesRouter from "./routes/movieRoutes.js";
 import categoriesRouter from "./routes/categoryRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import uploadRouter from "./controllers/uploadFile.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRouter);
 app.use("/api/movies", moviesRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/upload", uploadRouter);
 
 // Error handling middleware should be placed after all routes and middleware
 app.use(errorHandler);
