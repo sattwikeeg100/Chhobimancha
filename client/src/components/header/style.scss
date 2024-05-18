@@ -56,7 +56,7 @@
             }
             cursor: pointer;
             &:hover {
-                color: var(--pink);
+                border-bottom: 4px solid white;
             }
         }
     }

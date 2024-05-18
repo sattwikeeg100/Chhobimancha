@@ -1,0 +1,35 @@
+// SeatingChart.scss
+.seating-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    margin: 20px;
+
+    .row {
+        display: flex;
+        margin-bottom: 10px;
+
+        .seat {
+            width: 30px;
+            height: 30px;
+            background-color: #ccc;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+
+            &.selected {
+                background-color: #f00;
+                color: #fff;
+            }
+
+            &:hover {
+                background-color: #bbb;
+            }
+        }
+    }
+}
