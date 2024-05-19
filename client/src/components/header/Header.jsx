@@ -61,15 +61,6 @@ const Header = () => {
         setShowSearch(false);
     };
 
-    const navigationHandler = (type) => {
-        if (type === "movie") {
-            navigate("/explore/movie");
-        } else {
-            navigate("/explore/tv");
-        }
-        setMobileMenu(false);
-    };
-
     return (
         <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
             <ContentWrapper>
@@ -79,17 +70,13 @@ const Header = () => {
                 <ul className="menuItems">
                     <li
                         className="menuItem"
-                        onClick={() => navigationHandler("movie")}>
+                        onClick={() => navigate("/explore/movie")}>
                         Movies
                     </li>
-                    <li
-                        className="menuItem"
-                        onClick={() => navigate("/shows")}>
+                    <li className="menuItem" onClick={() => navigate("/shows")}>
                         Theatres/Plays
                     </li>
-                    <li
-                        className="menuItem"
-                        onClick={() => console.log(login)}>
+                    <li className="menuItem" onClick={() => navigate("/login")}>
                         Login
                     </li>
                 </ul>
