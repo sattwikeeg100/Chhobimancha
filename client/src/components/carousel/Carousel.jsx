@@ -17,7 +17,7 @@ import "./style.scss";
 
 const Carousel = ({ data, loading, endpoint, title }) => {
     const carouselContainer = useRef();
-    const { url } = useSelector((state) => state.home);
+    //const { url } = useSelector((state) => state.home);
     const navigate = useNavigate();
 
     const navigation = (dir) => {
@@ -62,7 +62,7 @@ const Carousel = ({ data, loading, endpoint, title }) => {
                     <div className="carouselItems" ref={carouselContainer}>
                         {data?.map((item) => {
                             const posterUrl = item.poster_path
-                                ? url.poster + item.poster_path
+                                ? url?.poster + item.poster_path
                                 : PosterFallback;
                             return (
                                 <div

@@ -12,13 +12,13 @@ const HeroBanner = () => {
     const [background, setBackground] = useState("");
     const [query, setQuery] = useState("");
     const navigate = useNavigate();
-    const { url } = useSelector((state) => state.home);
     const { data, loading } = useFetch("/movie/upcoming");
 
     useEffect(() => {
-        const bg =
+        /* const bg =
             url.backdrop +
-            data?.results?.[Math.floor(Math.random() * 20)]?.backdrop_path;
+            data?.results?.[Math.floor(Math.random() * 20)]?.backdrop_path; */
+        const bg = "";
         setBackground(bg);
     }, [data]);
 
@@ -40,8 +40,12 @@ const HeroBanner = () => {
                         </span>
                     </div>
                     <div className="Navigatelinks">
-                        <button>Explore Movies</button>
-                        <button>Book for shows</button>
+                        <button onClick={() => navigate("/explore/movies")}>
+                            Explore Movies
+                        </button>
+                        <button onClick={() => navigate("/shows")}>
+                            Book for shows
+                        </button>
                     </div>
                 </ContentWrapper>
             </div>

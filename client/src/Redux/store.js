@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@redux/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import * as User from "./Reducers/useReducers";
 
 const rootReducer = combineReducers({
@@ -19,5 +19,4 @@ const initialState = {
 
 export const store = configureStore({
     reducer: rootReducer,
-    preloadedState: initialState,
 });
