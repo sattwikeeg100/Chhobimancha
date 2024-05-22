@@ -1,5 +1,6 @@
 import Shows from "../models/showModel.js";
 import asyncHandler from "express-async-handler";
+import slugify from "slugify";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
@@ -36,11 +37,22 @@ export const createShow = asyncHandler(async (req, res) => {
             ticketPrice,
             totalSeats,
             bookedSeats,
-            theatre
+            theatre,
         } = req.body;
+
+        const formatdate = (date) => {
+            return new Date(date)
+                .toLocaleDateString("en-GB")
+                .replace(/\//g, "");
+        };
+        const slug = slugify(`${showtitle}-${formatdate(date)}`, {
+            remove: /[*+/~.()'"!:@]/g,
+        }).toLowerCase();
+
         // create new show from the request body
         const show = new Shows({
             showtitle,
+            slug,
             showdesc,
             language,
             date,
@@ -67,17 +79,29 @@ export const createShow = asyncHandler(async (req, res) => {
 
 export const updateShow = asyncHandler(async (req, res) => {
     try {
+        const { showtitle, showdesc, language, date, time, ticketPrice } = req.body;
+
         // get the show from show id from request params
         const show = await Shows.findById(req.params.id);
 
+        const formatdate = (date) => {
+            return new Date(date).toLocaleDateString("en-GB").replace(/\//g, "");
+        }
+        let slug;
+        if (showtitle) {
+            slug = slugify(
+                `${showtitle}-${date ? formatdate(date) : formatdate(show.date)}`
+            ).toLowerCase();
+        }
         if (show) {
             // update show details
-            show.showtitle = req.body.showtitle || show.showtitle;
-            show.showdesc = req.body.showdesc || show.showdesc;
-            show.language = req.body.language || show.language;
-            show.date = req.body.date || show.date;
-            show.time = req.body.time || show.time;
-            show.ticketPrice = req.body.ticketPrice || show.ticketPrice;
+            show.showtitle = showtitle || show.showtitle;
+            show.slug = slug || show.slug;
+            show.showdesc = showdesc || show.showdesc;
+            show.language = language || show.language;
+            show.date = date || show.date;
+            show.time = time || show.time;
+            show.ticketPrice = ticketPrice || show.ticketPrice;
 
             // save the updated show
             const updatedshow = await show.save();

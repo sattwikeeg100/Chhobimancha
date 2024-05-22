@@ -9,7 +9,7 @@ const reviewSchema = mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required: true
+            required: true,
         },
     },
     {
@@ -26,6 +26,10 @@ const moviesSchema = new mongoose.Schema(
         name: {
             type: String,
             required: true,
+        },
+        slug: {
+            type: String,
+            lowercase: true,
         },
         desc: {
             type: String,

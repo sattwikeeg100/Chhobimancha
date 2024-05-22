@@ -6,6 +6,10 @@ const showSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        slug: {
+            type: String,
+            lowercase: true,
+        },
         showdesc: {
             type: String,
             required: true,

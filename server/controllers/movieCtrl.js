@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Movie from "../models/movieModel.js";
+import slugify from "slugify";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
@@ -178,9 +179,11 @@ export const createMovie = asyncHandler(async (req, res) => {
             casts,
         } = req.body;
 
+        const slug = slugify(`${name}-${year}`).toLowerCase();
         // create a mew movie
         const movie = new Movie({
             name,
+            slug,
             desc,
             image,
             titleImage,
@@ -196,7 +199,7 @@ export const createMovie = asyncHandler(async (req, res) => {
         });
 
         // save the movie in database
-        if (movie){
+        if (movie) {
             const createdMovie = await movie.save();
             res.status(201).json(createdMovie);
         } else {
@@ -229,12 +232,20 @@ export const updateMovie = asyncHandler(async (req, res) => {
             video,
             casts,
         } = req.body;
+
         // find movie by id in database
         const movie = await Movie.findById(req.params.id);
 
+        let slug;
+        if (name) {
+            slug = slugify(
+                `${name}-${year ? year : movie.year}`
+            ).toLowerCase();
+        }
         if (movie) {
             // update movie data
             movie.name = name || movie.name;
+            movie.slug = slug || movie.slug;
             movie.desc = desc || movie.desc;
             movie.image = image || movie.image;
             movie.titleImage = titleImage || movie.titleImage;
