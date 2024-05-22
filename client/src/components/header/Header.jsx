@@ -70,7 +70,7 @@ const Header = () => {
                 <ul className="menuItems">
                     <li
                         className="menuItem"
-                        onClick={() => navigate("/explore/movie")}>
+                        onClick={() => navigate("/explore/movies")}>
                         Movies
                     </li>
                     <li className="menuItem" onClick={() => navigate("/shows")}>

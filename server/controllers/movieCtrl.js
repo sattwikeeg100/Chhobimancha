@@ -1,19 +1,7 @@
 import asyncHandler from "express-async-handler";
-import { MoviesData } from "../data/movieData.js";
 import Movie from "../models/movieModel.js";
 
 // ************************* PUBLIC CONTROLLERS *********************
-// @desc: Import movies
-// @route: GET /api/movies/import
-// @access: Public
-
-export const importMovies = asyncHandler(async (req, res) => {
-    // first we make sure our movies table is empty by deleting all documents from the database
-    await Movie.deleteMany({});
-    // then we insert all the movies from MoviesData
-    const movies = await Movie.insertMany(MoviesData);
-    res.status(201).json(movies);
-});
 
 // @desc: Get all movies
 // @route: GET /api/movies
@@ -168,6 +156,58 @@ export const createMovieReview = asyncHandler(async (req, res) => {
 
 // ************************* ADMIN CONTROLLERS *********************
 
+// @desc: Create movie
+// @route: POST /api/movies
+// @access Private/Admin
+
+export const createMovie = asyncHandler(async (req, res) => {
+    try {
+        // get data from the request body
+        const {
+            name,
+            desc,
+            image,
+            titleImage,
+            averagerating,
+            numberOfReviews,
+            category,
+            time,
+            language,
+            year,
+            video,
+            casts,
+        } = req.body;
+
+        // create a mew movie
+        const movie = new Movie({
+            name,
+            desc,
+            image,
+            titleImage,
+            averagerating,
+            numberOfReviews,
+            category,
+            time,
+            language,
+            year,
+            video,
+            casts,
+            userId: req.user._id,
+        });
+
+        // save the movie in database
+        if (movie){
+            const createdMovie = await movie.save();
+            res.status(201).json(createdMovie);
+        } else {
+            res.status(400);
+            throw new Error("Invalid movie data");
+        }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 // @desc: Update movie
 // @route: PUT /api/movies/:id
 // @access: Private/admin
@@ -252,58 +292,6 @@ export const deleteAllMovies = asyncHandler(async (req, res) => {
         // delete all movies
         await Movie.deleteMany({});
         res.json({ message: "All movies removed" });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
-
-// @desc: Create movie
-// @route: POST /api/movies
-// @access Private/Admin
-
-export const createMovie = asyncHandler(async (req, res) => {
-    try {
-        // get data from the request body
-        const {
-            name,
-            desc,
-            image,
-            titleImage,
-            averagerating,
-            numberOfReviews,
-            category,
-            time,
-            language,
-            year,
-            video,
-            casts,
-        } = req.body;
-
-        // create a mew movie
-        const movie = new Movie({
-            name,
-            desc,
-            image,
-            titleImage,
-            averagerating,
-            numberOfReviews,
-            category,
-            time,
-            language,
-            year,
-            video,
-            casts,
-            userId: req.user._id,
-        });
-
-        // save the movie in database
-        if (movie){
-            const createdMovie = await movie.save();
-            res.status(201).json(createdMovie);
-        } else {
-            res.status(400);
-            throw new Error("Invalid movie data");
-        }
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

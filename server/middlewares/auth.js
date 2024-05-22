@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
@@ -14,6 +15,8 @@ export const authenticate = asyncHandler(async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1];
             // verify token and get user id
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            // console.log(decoded); { id: '664d4dba626eabc378610af5', iat: 1716342741, exp: 1716429141 }
+            
             // get user id from decoded token
             req.user = await User.findById(decoded.id).select("-password");
             next();

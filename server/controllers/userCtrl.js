@@ -9,7 +9,7 @@ import { comparePassword, generateToken, hashPassword } from "../utils/authUtils
 // @access: Public
 
 export const registerUser = asyncHandler(async (req, res) => {
-    const { fullName, email, password, image } = req.body;
+    const { fullName, email, password, image, isAdmin } = req.body;
     try {
         const userExists = await User.findOne({ email });
         // check if the email is already registered
@@ -18,20 +18,26 @@ export const registerUser = asyncHandler(async (req, res) => {
             throw new Error("Email already registered");
         }
 
+        // hash the password
+        const hash = await hashPassword(password);
         // create user in DB
-        const user = await User.create({
+        const user = new User({
             fullName,
             email,
-            password: hashPassword(password), // hash of password
+            password: hash, // hash of password
             image,
+            isAdmin
         });
+
+        await user.save();
 
         // if user is created successfully send user data and token to the client
         if (user) {
             res.status(201).json({
-                id: user._id,
+                _id: user._id,
                 fullName: user.fullName,
                 email: user.email,
+                image: user.image,
                 isAdmin: user.isAdmin,
                 token: generateToken(user._id),
             });
@@ -54,6 +60,11 @@ export const loginUser = asyncHandler(async (req, res) => {
     try {
         // Find the user in DB
         const user = await User.findOne({ email });
+        // If the user is not found in the DB, throw error
+        if(!user) {
+            throw new Error("User does not exist");
+        }
+
         // compare password entered with the actual hashed password
         const validPassword = await comparePassword(password, user.password);
 
@@ -69,7 +80,7 @@ export const loginUser = asyncHandler(async (req, res) => {
             });
         } else {
             res.status(401);
-            throw new Error("Invalid email or password");
+            throw new Error("Invalid password");
         }
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -136,7 +147,7 @@ export const deleteUserProfile = asyncHandler(async (req, res) => {
         } else {
             // If user doesn't exist, return a 404 error
             res.status(404);
-            throw new Error("User not found");
+            throw new Error("User does not exist");
         }
     } catch (error) {
         // Catch any errors that occur during the deletion process
@@ -153,16 +164,16 @@ export const changeUserPassword = asyncHandler(async (req, res) => {
     try {
         // find user in DB
         const user = await User.findById(req.user._id);
-        // compare password entered with the old hashed password
-        const validPassword = await comparePassword(password, user.password);
+        // compare old password entered with the old existing hashed password
+        const validPassword = await comparePassword(oldPassword, user.password);
 
         // if user exists compare old password with hashed password, then update user password and save it in the DB
         if (user && validPassword) {
             // Update user's password and save it in the database
-            user.password = hashPassword(password); // hash new password
+            user.password = await hashPassword(newPassword); // hash new password
             await user.save(); // Save user in the DB
 
-            res.json({ message: "Password changed" });
+            res.json({ message: "Password changed successfully" });
         } else {
             // If old password is incorrect or user doesn't exist, send error message
             res.status(401);
@@ -285,7 +296,7 @@ export const deleteUser = asyncHandler(async (req, res) => {
                 throw new Error("Can't delete admin user");
             }
             // else delete user from DB
-            await User.deleteOne({ _id: req.user._id }); // Use deleteOne() method instead of user.remove() method
+            await User.deleteOne(user); // Use deleteOne() method instead of user.remove() method
             res.json({ message: "User deleted successfully" });
         }
         // else send error message

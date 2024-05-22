@@ -7,6 +7,9 @@ import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import moviesRouter from "./routes/movieRoutes.js";
 import categoriesRouter from "./routes/categoryRoutes.js";
+import theatresRouter from "./routes/theatreRoutes.js";
+import showsRouter from "./routes/showRoutes.js";
+import bookingsRouter from "./routes/bookingRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import uploadRouter from "./controllers/uploadFile.js";
 
@@ -29,6 +32,9 @@ app.use("/api/users", userRouter);
 app.use("/api/movies", moviesRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/upload", uploadRouter);
+app.use("/api/theatres", theatresRouter);
+app.use("/api/shows", showsRouter);
+app.use("/api/bookings", bookingsRouter);
 
 // Error handling middleware should be placed after all routes and middleware
 app.use(errorHandler);
