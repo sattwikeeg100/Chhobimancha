@@ -4,9 +4,7 @@ import { comparePassword, generateToken, hashPassword } from "../utils/authUtils
 
 // **************************** PUBLIC CONTROLLERS *******************************
 
-// @desc: Register a user
-// @route: POST /api/users/register
-// @access: Public
+// Register a user
 
 export const registerUser = asyncHandler(async (req, res) => {
     const { fullName, email, password, image, isAdmin } = req.body;
@@ -51,9 +49,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Login a user
-// @route: POST /api/users/login
-// @access: Public
+// Login a user
 
 export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
@@ -89,9 +85,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 // **************************** PRIVATE CONTROLLERS *******************************
 
-// @desc: Update user profile
-// @route: PUT /api/users/profile
-// @access: protected
+// Update user profile
 
 export const updatedUserProfile = asyncHandler(async (req, res) => {
     const { fullName, email, image } = req.body;
@@ -124,9 +118,7 @@ export const updatedUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete user profile
-// @route: DELETE /api/users
-// @access: Private
+// Delete user profile
 
 export const deleteUserProfile = asyncHandler(async (req, res) => {
     try {
@@ -155,9 +147,7 @@ export const deleteUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Change user password
-// @route: PUT /api/users/password
-// @access: private
+// Change user password
 
 export const changeUserPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body;
@@ -185,9 +175,7 @@ export const changeUserPassword = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Get all favourite movies
-// @route: GET /api/users/favourites
-// @access: private
+// Get all favourite movies
 
 export const getLikedMovies = asyncHandler(async (req, res) => {
     try {
@@ -208,9 +196,7 @@ export const getLikedMovies = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Add movie to favourites
-// @route: POST /api/users/favourites
-// @access: Private
+// Add movie to favourites
 
 export const addLikedMovie = asyncHandler(async (req, res) => {
     const { movieId } = req.body;
@@ -240,9 +226,7 @@ export const addLikedMovie = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete all liked movies
-// @route: POST /api/users/favourites
-// @access: private
+// Delete all liked movies
 
 export const deleteLikedMovies = asyncHandler(async (req, res) => {
     try {
@@ -266,9 +250,7 @@ export const deleteLikedMovies = asyncHandler(async (req, res) => {
 
 // **************************** ADMIN CONTROLLERS *******************************
 
-// @desc: Get all the users
-// @route: GET /api/users
-// @access: private/admin
+// Get all the users
 
 export const getUsers = asyncHandler(async (req, res) => {
     try {
@@ -280,9 +262,7 @@ export const getUsers = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete user
-// @route: DELETE /api/users/:id
-// @access: Private/Admin
+// Delete a user
 
 export const deleteUser = asyncHandler(async (req, res) => {
     try {
@@ -308,5 +288,3 @@ export const deleteUser = asyncHandler(async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-
-// NOTE: The errorHandler middleware will only execute if there's an error thrown in your route handlers or other middleware.

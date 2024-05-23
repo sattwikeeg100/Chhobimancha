@@ -3,9 +3,7 @@ import asyncHandler from "express-async-handler";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
-// @desc: Get all theatres
-// @route: GET /api/theatres
-// @access: Public
+// Get all theatres
 
 export const getTheatres = asyncHandler(async (req, res) => {
     try {
@@ -20,9 +18,7 @@ export const getTheatres = asyncHandler(async (req, res) => {
 
 // ************************* ADMIN CONTROLLERS *********************
 
-// @desc: Create new theatre
-// @route: POST /api/theatres
-// @access: Private/admin
+// Create new theatre
 
 export const createTheatre = asyncHandler(async (req, res) => {
     try {
@@ -46,9 +42,7 @@ export const createTheatre = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Update theatre
-// @route: PUT /api/theatres/:id
-// @access: Private/admin
+// Update theatre
 
 export const updateTheatre = asyncHandler(async (req, res) => {
     try {
@@ -74,9 +68,7 @@ export const updateTheatre = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete theatre
-// @route: DELETE /api/theatres/:id
-// @access: Private/admin
+// Delete theatre
 
 export const deleteTheatre = asyncHandler(async (req, res) => {
     try {

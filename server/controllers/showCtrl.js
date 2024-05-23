@@ -4,9 +4,7 @@ import slugify from "slugify";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
-// @desc: Get all shows
-// @route: GET /api/shows
-// @access: Public
+// Get all shows
 
 export const getShows = asyncHandler(async (req, res) => {
     try {
@@ -21,9 +19,7 @@ export const getShows = asyncHandler(async (req, res) => {
 
 // ************************* ADMIN CONTROLLERS *********************
 
-// @desc: Create new show
-// @route: POST /api/shows
-// @access: Private/admin
+// Create new show
 
 export const createShow = asyncHandler(async (req, res) => {
     try {
@@ -73,9 +69,7 @@ export const createShow = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Update Show
-// @route: PUT /api/shows/:id
-// @access: Private/admin
+// Update Show
 
 export const updateShow = asyncHandler(async (req, res) => {
     try {
@@ -115,9 +109,7 @@ export const updateShow = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete show
-// @route: DELETE /api/shows/:id
-// @access: Private/admin
+// Delete show
 
 export const deleteShow = asyncHandler(async (req, res) => {
     try {

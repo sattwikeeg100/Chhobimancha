@@ -7,7 +7,6 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
 import moviesRouter from "./routes/movieRoutes.js";
-import categoriesRouter from "./routes/categoryRoutes.js";
 import theatresRouter from "./routes/theatreRoutes.js";
 import showsRouter from "./routes/showRoutes.js";
 import bookingsRouter from "./routes/bookingRoutes.js";
@@ -39,7 +38,6 @@ app.get("/", (req, res) => {
 // Other routes
 app.use("/api/users", userRouter);
 app.use("/api/movies", moviesRouter);
-app.use("/api/categories", categoriesRouter);
 app.use("/api/upload", uploadRouter);
 app.use("/api/theatres", theatresRouter);
 app.use("/api/shows", showsRouter);

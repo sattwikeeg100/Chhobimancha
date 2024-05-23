@@ -4,51 +4,7 @@ import slugify from "slugify";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
-// @desc: Get all movies
-// @route: GET /api/movies
-// @access: Public
-
-/* export const getMovies = asyncHandler(async (req, res) => {
-    try {
-        // Extract query parameters from req.query
-        const { category, time, language, rate, year, search } = req.query;
-
-        // Construct the MongoDB query object based on the provided parameters
-        let query = {
-            ...(category && { category }),
-            ...(time && { time }),
-            ...(language && { language }),
-            ...(rate && { rate }),
-            ...(year && { year }),
-            ...(search && { name: { $regex: search, $options: "i" } }),
-        };
-
-        // Pagination settings
-        const page = Number(req.query.pageNumber) || 1;
-        const limit = 2; // Number of movies per page
-        const skip = (page - 1) * limit;
-
-        // Find movies matching the query, with pagination
-        const movies = await Movie.find(query)
-            .sort({ createdAt: -1 }) // Sort by creation date descending
-            .skip(skip)
-            .limit(limit);
-
-        // Get total number of movies matching the query
-        const count = await Movie.countDocuments(query);
-
-        // Send response with movies, pagination information, and total number of movies
-        res.json({
-            movies,
-            page,
-            pages: Math.ceil(count / limit), // Calculate total number of pages
-            totalMovies: count,
-        });
-    } catch (error) {
-        // Catch and handle any errors that occur during the process
-        res.status(400).json({ message: error.message });
-    }
-}); */
+// Get all movies
 
 export const getMovies = asyncHandler(async (req, res) => {
     try {
@@ -60,9 +16,8 @@ export const getMovies = asyncHandler(async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-// @desc: Get movie by id
-// @route GET /api/movies/:id
-// @access Public
+
+// Get movie by id
 
 export const getMovieById = asyncHandler(async (req, res) => {
     try {
@@ -81,39 +36,9 @@ export const getMovieById = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Get top rated movies
-// @route GET /api/movies/rated/top
-// @access Public
-
-export const getTopRatedMovies = asyncHandler(async (req, res) => {
-    try {
-        // find top rated movies
-        const sortedmovies = await Movie.find({}).sort({ rate: -1 });
-        // send top rated movies to the client
-        res.json(sortedmovies);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-// @desc: GET random movies
-// @route: GET /api/movies/random/all
-// @access Public
-
-export const getRandomMovies = asyncHandler(async (req, res) => {
-    try {
-        const movies = await Movie.aggregate([{ $sample: { size: 8 } }]);
-        res.json(movies);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
 // ************************* PRIVATE CONTROLLERS *********************
 
-// @desc: Create movie review
-// @route: POST /api/movies/:id/reviews
-// @access: Private
+// Create movie review
 
 export const createMovieReview = asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
@@ -167,9 +92,7 @@ export const createMovieReview = asyncHandler(async (req, res) => {
 
 // ************************* ADMIN CONTROLLERS *********************
 
-// @desc: Create movie
-// @route: POST /api/movies
-// @access Private/Admin
+// Add a movie
 
 export const createMovie = asyncHandler(async (req, res) => {
     try {
@@ -221,9 +144,7 @@ export const createMovie = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Update movie
-// @route: PUT /api/movies/:id
-// @access: Private/admin
+// Update a movie
 
 export const updateMovie = asyncHandler(async (req, res) => {
     try {
@@ -281,9 +202,7 @@ export const updateMovie = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete movie
-// @route: DELETE /api/movies/:id
-// @access: Private/Admin
+// Delete a movie
 
 export const deleteMovie = asyncHandler(async (req, res) => {
     try {
@@ -304,9 +223,7 @@ export const deleteMovie = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Delete all movie
-// @route: DELETE /api/movies
-// @access: Private/Admin
+// Delete all movie
 
 export const deleteAllMovies = asyncHandler(async (req, res) => {
     try {

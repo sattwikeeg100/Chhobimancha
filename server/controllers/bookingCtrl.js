@@ -4,9 +4,7 @@ import Bookings from "../models/bookingModel.js";
 
 // ************************* Private CONTROLLERS *********************
 
-// @desc: Book a show
-// @route: POST /api/bookings
-// @access: Private
+// Book a show
 
 export const bookAShow = asyncHandler(async (req, res) => {
     try {
@@ -41,9 +39,7 @@ export const bookAShow = asyncHandler(async (req, res) => {
     }
 });
 
-// @desc: Get all bookings by user
-// @route: GET /api/bookings
-// @access: Private
+// Get all bookings by user
 
 export const getAllBookings = asyncHandler(async (req, res) => {
     try {

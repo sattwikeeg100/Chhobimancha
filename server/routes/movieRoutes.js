@@ -7,8 +7,6 @@ import {
     deleteMovie,
     getMovieById,
     getMovies,
-    getRandomMovies,
-    getTopRatedMovies,
     updateMovie,
 } from "../controllers/movieCtrl.js";
 
@@ -17,8 +15,6 @@ const router = express.Router();
 // ***************** PUBLIC ROUTES ***********************
 router.get("/", getMovies);
 router.get("/:id", getMovieById);
-router.get("/rated/top", getTopRatedMovies);
-router.get("/random/all", getRandomMovies);
 
 // ***************** PRIVATE ROUTES ***********************
 router.post("/:id/reviews", authenticate, createMovieReview);
