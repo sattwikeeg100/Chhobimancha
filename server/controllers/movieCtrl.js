@@ -8,7 +8,7 @@ import slugify from "slugify";
 // @route: GET /api/movies
 // @access: Public
 
-export const getMovies = asyncHandler(async (req, res) => {
+/* export const getMovies = asyncHandler(async (req, res) => {
     try {
         // Extract query parameters from req.query
         const { category, time, language, rate, year, search } = req.query;
@@ -48,8 +48,18 @@ export const getMovies = asyncHandler(async (req, res) => {
         // Catch and handle any errors that occur during the process
         res.status(400).json({ message: error.message });
     }
-});
+}); */
 
+export const getMovies = asyncHandler(async (req, res) => {
+    try {
+        const movies = await Movie.find({});
+
+        res.status(200).json(movies);
+    } catch (error) {
+        // Catch and handle any errors that occur during the process
+        res.status(400).json({ message: error.message });
+    }
+});
 // @desc: Get movie by id
 // @route GET /api/movies/:id
 // @access Public
