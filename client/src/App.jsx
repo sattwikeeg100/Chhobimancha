@@ -27,6 +27,7 @@ function App() {
                 <Route path="/show/slug" element={<ShowDetails />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
+                <Route path="/singlemovie" element={<Details />} />
                 <Route path="*" element={<PageNotFound />} />
             </Routes>
             <Footer />

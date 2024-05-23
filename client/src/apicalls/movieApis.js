@@ -21,26 +21,6 @@ export const GetMovie = async (id) => {
     }
 };
 
-// Get top rated movies
-export const TopRatedMovies = async () => {
-    try {
-        const response = await axios.get(`${APIURL}/movies/rated/top`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-// Get random movies
-export const RandomMovies = async () => {
-    try {
-        const response = await axios.get(`${APIURL}/movies/random/all`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 // *********************** signed in user apis ****************************
 
 // Create a movie review
