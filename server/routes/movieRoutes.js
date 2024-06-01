@@ -9,6 +9,7 @@ import {
     getMovies,
     updateMovie,
 } from "../controllers/movieCtrl.js";
+import { uploadVideo } from "../controllers/awsUpload.js";
 
 const router = express.Router();
 
@@ -24,5 +25,6 @@ router.post("/", authenticate, admin, createMovie);
 router.put("/:id", authenticate, admin, updateMovie);
 router.delete("/:id", authenticate, admin, deleteMovie);
 router.delete("/", authenticate, admin, deleteAllMovies);
+router.post("/uploadvid", uploadVideo);
 
 export default router;

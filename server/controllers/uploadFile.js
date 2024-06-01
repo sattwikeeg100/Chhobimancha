@@ -8,7 +8,7 @@ const upload = multer({
     storage: multer.memoryStorage(),
 });
 
-uploadRouter.post("/", upload.single("file"), async (req, res) => {
+uploadRouter.post("/image", upload.single("file"), async (req, res) => {
     try {
         // Check if file is present in request
         if (!req.file) {
@@ -50,5 +50,7 @@ uploadRouter.post("/", upload.single("file"), async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
+
+
 
 export default uploadRouter;
