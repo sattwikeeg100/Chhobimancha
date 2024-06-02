@@ -73,7 +73,7 @@ const AllMovies = () => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="text-5xl">Loading...</div>;
     }
 
     return (

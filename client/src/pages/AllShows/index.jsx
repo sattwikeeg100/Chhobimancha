@@ -6,6 +6,7 @@ const APIURL = import.meta.env.VITE_API_URL;
 
 const AllShows = () => {
     const [shows, setShows] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const GetAllShows = async () => {
         try {
@@ -13,6 +14,8 @@ const AllShows = () => {
             setShows(response.data);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -20,6 +23,10 @@ const AllShows = () => {
         GetAllShows();
     }, []);
 
+    if (loading) {
+        return <div className="text-5xl">Loading...</div>;
+    }
+    
     return (
         <div className="justify-center items-center sm:mx-36">
             <h1 className="text-5xl font-bold my-4">All Shows</h1>
