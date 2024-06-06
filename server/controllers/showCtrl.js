@@ -1,4 +1,4 @@
-import Shows from "../models/showModel.js";
+import Show from "../models/showModel.js";
 import asyncHandler from "express-async-handler";
 import slugify from "slugify";
 
@@ -6,10 +6,10 @@ import slugify from "slugify";
 
 // Get all shows
 
-export const getShows = asyncHandler(async (req, res) => {
+export const getAllShows = asyncHandler(async (req, res) => {
     try {
         // find all shows in database
-        const shows = await Shows.find({}).populate("theatre");
+        const shows = await Show.find({}).populate("theatre");
         // send all shows to the client
         res.json(shows);
     } catch (error) {
@@ -25,37 +25,38 @@ export const createShow = asyncHandler(async (req, res) => {
     try {
         // get the show details from req.body
         const {
-            showtitle,
-            showdesc,
+            title,
+            description,
+            poster,
             language,
             date,
             time,
             ticketPrice,
             totalSeats,
-            bookedSeats,
             theatre,
         } = req.body;
 
-        const formatdate = (date) => {
+        const formatDate = (date) => {
             return new Date(date)
                 .toLocaleDateString("en-GB")
                 .replace(/\//g, "");
         };
-        const slug = slugify(`${showtitle}-${formatdate(date)}`, {
+        const slug = slugify(`${title}-${formatDate(date)}`, {
             remove: /[*+/~.()'"!:@]/g,
         }).toLowerCase();
 
         // create new show from the request body
-        const show = new Shows({
-            showtitle,
+        const show = new Show({
+            userId: req.user._id,
+            title,
             slug,
-            showdesc,
+            description,
+            poster,
             language,
             date,
             time,
             ticketPrice,
             totalSeats,
-            bookedSeats,
             theatre,
         });
 
@@ -69,33 +70,55 @@ export const createShow = asyncHandler(async (req, res) => {
     }
 });
 
-// Update Show
+// Update a Show
 
 export const updateShow = asyncHandler(async (req, res) => {
     try {
-        const { showtitle, showdesc, language, date, time, ticketPrice } = req.body;
+        const {
+            title,
+            description,
+            poster,
+            language,
+            date,
+            time,
+            ticketPrice,
+            totalSeats,
+            theatre,
+        } = req.body;
 
         // get the show from show id from request params
-        const show = await Shows.findById(req.params.id);
+        const show = await Show.findById(req.params.id);
 
-        const formatdate = (date) => {
-            return new Date(date).toLocaleDateString("en-GB").replace(/\//g, "");
-        }
-        let slug;
-        if (showtitle) {
-            slug = slugify(
-                `${showtitle}-${date ? formatdate(date) : formatdate(show.date)}`
-            ).toLowerCase();
-        }
+        const formatDate = (date) => {
+            return new Date(date)
+                .toLocaleDateString("en-GB")
+                .replace(/\//g, "");
+        };       
+
         if (show) {
+            let slug;
+            if (title) {
+                slug = slugify(
+                    `${title}-${
+                        date ? formatDate(date) : formatDate(show.date)
+                    }`,
+                    {
+                        remove: /[*+/~.()'"!:@]/g,
+                    }
+                ).toLowerCase();
+            }
+
             // update show details
-            show.showtitle = showtitle || show.showtitle;
+            show.title = title || show.title;
             show.slug = slug || show.slug;
-            show.showdesc = showdesc || show.showdesc;
+            show.description = description || show.description;
+            show.poster = poster || show.poster;
             show.language = language || show.language;
             show.date = date || show.date;
             show.time = time || show.time;
             show.ticketPrice = ticketPrice || show.ticketPrice;
+            show.totalSeats = totalSeats || show.totalSeats;
+            show.theatre = theatre || show.theatre;
 
             // save the updated show
             const updatedshow = await show.save();
@@ -105,16 +128,17 @@ export const updateShow = asyncHandler(async (req, res) => {
             res.status(404).json({ message: "Show not found" });
         }
     } catch (error) {
+        console.error(error);
         res.status(400).json({ message: error.message });
     }
 });
 
-// Delete show
+// Delete a show
 
 export const deleteShow = asyncHandler(async (req, res) => {
     try {
         // get show id from request params
-        const show = await Shows.findById(req.params.id);
+        const show = await Show.findById(req.params.id);
 
         if (show) {
             // delete the show from database
@@ -124,6 +148,18 @@ export const deleteShow = asyncHandler(async (req, res) => {
         } else {
             res.status(404).json({ message: "Show not found" });
         }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Delete all shows
+
+export const deleteAllShows = asyncHandler(async (req, res) => {
+    try {
+        // delete all shows
+        await Show.deleteMany({});
+        res.json({ message: "All shows removed" });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

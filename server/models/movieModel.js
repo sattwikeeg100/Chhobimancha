@@ -1,9 +1,18 @@
 import mongoose from "mongoose";
 
-const reviewSchema = mongoose.Schema(
+const movieCineastSchema = new mongoose.Schema({
+    person: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cineast",
+        required: true,
+    },
+    role: {
+        type: String,
+    },
+});
+
+const reviewSchema = new mongoose.Schema(
     {
-        userName: { type: String, required: true },
-        userImage: { type: String, required: false },
         rating: { type: Number, required: true },
         comment: { type: String, required: true },
         userId: {
@@ -22,8 +31,9 @@ const moviesSchema = new mongoose.Schema(
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
+            required: true,
         },
-        name: {
+        title: {
             type: String,
             required: true,
         },
@@ -31,19 +41,19 @@ const moviesSchema = new mongoose.Schema(
             type: String,
             lowercase: true,
         },
-        desc: {
+        description: {
             type: String,
             required: true,
         },
-        titleImage: {
+        coverImage: {
             type: String,
             required: true,
         },
-        image: {
+        poster: {
             type: String,
             required: true,
         },
-        category: {
+        genre: {
             type: String,
             required: true,
         },
@@ -51,11 +61,11 @@ const moviesSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        year: {
-            type: String,
+        releaseDate: {
+            type: Date,
             required: true,
         },
-        time: {
+        duration: {
             type: Number,
             required: true,
         },
@@ -63,7 +73,7 @@ const moviesSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        averagerating: {
+        averageRating: {
             type: Number,
             required: true,
             default: 0,
@@ -74,12 +84,8 @@ const moviesSchema = new mongoose.Schema(
             default: 0,
         },
         reviews: [reviewSchema],
-        casts: [
-            {
-                name: { type: String, required: true },
-                image: { type: String, required: true },
-            },
-        ],
+        casts: [movieCineastSchema],
+        crews: [movieCineastSchema],
     },
     {
         timestamps: true,

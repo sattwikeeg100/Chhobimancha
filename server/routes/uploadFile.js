@@ -1,14 +1,16 @@
 import express from "express";
+import AWS from "aws-sdk";
 import multer from "multer";
+import multerS3 from "multer-s3";
 import storage from "../config/firebaseStorage.js";
 
 const uploadRouter = express.Router();
 
-const upload = multer({
+const uploadImage = multer({
     storage: multer.memoryStorage(),
 });
 
-uploadRouter.post("/image", upload.single("file"), async (req, res) => {
+uploadRouter.post("/image", uploadImage.single("file"), async (req, res) => {
     try {
         // Check if file is present in request
         if (!req.file) {
@@ -39,8 +41,10 @@ uploadRouter.post("/image", upload.single("file"), async (req, res) => {
             // get the public URL
             const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${storage.name}/o/${fileName}?alt=media`;
             // return the its public URL
-            res.status(200).json(publicUrl);
-            
+            res.status(200).json({
+                message: "File uploaded successfully",
+                url: publicUrl,
+            });
         });
 
         // End blob stream with file buffer
@@ -51,6 +55,40 @@ uploadRouter.post("/image", upload.single("file"), async (req, res) => {
     }
 });
 
+AWS.config.update({
+    region: process.env.AWS_S3_BUCKET_REGION,
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+});
 
+const s3 = new AWS.S3();
+
+const uploadVideo = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: process.env.AWS_S3_BUCKET_NAME,
+        metadata: function (req, file, cb) {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: function (req, file, cb) {
+            cb(null, Date.now().toString() + "-" + file.originalname);
+        },
+        contentType: multerS3.AUTO_CONTENT_TYPE,
+    }),
+});
+
+uploadRouter.post("/video", uploadVideo.single("video"), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send("Please upload a video.");
+    }
+
+    // Construct the CloudFront URL
+    const videoUrl = `${process.env.CLOUDFRONT_DOMAIN}/${req.file.key}`;
+
+    res.status(200).send({
+        message: "File uploaded successfully",
+        url: videoUrl,
+    });
+});
 
 export default uploadRouter;

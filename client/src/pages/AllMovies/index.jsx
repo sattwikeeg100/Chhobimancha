@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import MovieAdminCard from "../../components/movieCard";
 import MovieCard from "../../components/movieCard";
 
 const APIURL = import.meta.env.VITE_API_URL;

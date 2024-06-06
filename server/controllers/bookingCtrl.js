@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
-import Shows from "../models/showModel.js";
-import Bookings from "../models/bookingModel.js";
+import Show from "../models/showModel.js";
+import Booking from "../models/bookingModel.js";
 
 // ************************* Private CONTROLLERS *********************
 
@@ -11,17 +11,17 @@ export const bookAShow = asyncHandler(async (req, res) => {
         // get the details from req.body
         const { show, seats, transactionId } = req.body;
         // create new booking from the request body
-        const newBooking = new Bookings({
+        const newBooking = new Booking({
+            userId: req.user._id,
             show,
-            user: req.user._id,
             seats,
             transactionId, // we will get from stripe
         });
         await newBooking.save();
 
-        const bookedshow = await Shows.findById(req.body.show);
+        const bookedshow = await Show.findById(req.body.show);
         // update the list of booked seats for the show
-        await Shows.findByIdAndUpdate(req.body.show, {
+        await Show.findByIdAndUpdate(req.body.show, {
             bookedSeats: [...bookedshow.bookedSeats, ...req.body.seats],
         });
 
@@ -43,13 +43,13 @@ export const bookAShow = asyncHandler(async (req, res) => {
 
 export const getAllBookings = asyncHandler(async (req, res) => {
     try {
-        const bookings = await Bookings.find({ user: req.user._id })
+        const bookings = await Booking.find({ userId: req.user._id })
             .populate("show")
             .populate({
                 path: "show",
                 populate: {
                     path: "theatre",
-                    model: "Theatres",
+                    model: "Theatre",
                 },
             })
             .populate("user");

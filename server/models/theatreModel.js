@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const theatreSchema = new mongoose.Schema(
     {
-        theatreName: {
+        name: {
             type: String,
             required: true,
         },
@@ -15,8 +15,6 @@ const theatreSchema = new mongoose.Schema(
             required: true,
         },
         owner: {
-            /* type: mongoose.Schema.Types.ObjectId,
-            ref: "User", */
             type: String,
             required: true,
         },
@@ -24,4 +22,4 @@ const theatreSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.model("Theatres", theatreSchema);
+export default mongoose.model("Theatre", theatreSchema);

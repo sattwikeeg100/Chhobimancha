@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
     {
-        fullName: {
+        name: {
             type: String,
             required: [true, "Please enter your full name"],
         },
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        likedMovies: [
+        favoriteMovies: [
             {
                 type: mongoose.Schema.ObjectId,
                 ref: "Movie",

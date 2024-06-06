@@ -1,14 +1,14 @@
-import Theatres from "../models/theatreModel.js";
+import Theatre from "../models/theatreModel.js";
 import asyncHandler from "express-async-handler";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
 // Get all theatres
 
-export const getTheatres = asyncHandler(async (req, res) => {
+export const getAllTheatres = asyncHandler(async (req, res) => {
     try {
         // find all theatres in database
-        const theatres = await Theatres.find({});
+        const theatres = await Theatre.find({});
         // send all theatres to the client
         res.json(theatres);
     } catch (error) {
@@ -23,10 +23,10 @@ export const getTheatres = asyncHandler(async (req, res) => {
 export const createTheatre = asyncHandler(async (req, res) => {
     try {
         // get the details from req.body
-        const { theatreName, address, phone, owner } = req.body;
+        const { name, address, phone, owner } = req.body;
         // create new theatre from the request body
-        const theatre = new Theatres({
-            theatreName,
+        const theatre = new Theatre({
+            name,
             address,
             phone,
             owner,
@@ -42,16 +42,16 @@ export const createTheatre = asyncHandler(async (req, res) => {
     }
 });
 
-// Update theatre
+// Update a theatre
 
 export const updateTheatre = asyncHandler(async (req, res) => {
     try {
         // get the theatre from theatre id from request params
-        const theatre = await Theatres.findById(req.params.id);
+        const theatre = await Theatre.findById(req.params.id);
 
         if (theatre) {
             // update theatre details
-            theatre.theatreName = req.body.theatreName || theatre.theatreName;
+            theatre.name = req.body.name || theatre.name;
             theatre.address = req.body.address || theatre.address;
             theatre.phone = req.body.phone || theatre.phone;
             theatre.owner = req.body.owner || theatre.owner;
@@ -68,12 +68,12 @@ export const updateTheatre = asyncHandler(async (req, res) => {
     }
 });
 
-// Delete theatre
+// Delete a theatre
 
 export const deleteTheatre = asyncHandler(async (req, res) => {
     try {
         // get theatre id from request params
-        const theatre = await Theatres.findById(req.params.id);
+        const theatre = await Theatre.findById(req.params.id);
 
         if (theatre) {
             // delete the theatre from database

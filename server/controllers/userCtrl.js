@@ -1,13 +1,17 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import { comparePassword, generateToken, hashPassword } from "../utils/authUtils.js";
+import {
+    comparePassword,
+    generateToken,
+    hashPassword,
+} from "../utils/authUtils.js";
 
 // **************************** PUBLIC CONTROLLERS *******************************
 
 // Register a user
 
 export const registerUser = asyncHandler(async (req, res) => {
-    const { fullName, email, password, image, isAdmin } = req.body;
+    const { name, email, password, image, isAdmin } = req.body;
     try {
         const userExists = await User.findOne({ email });
         // check if the email is already registered
@@ -20,11 +24,11 @@ export const registerUser = asyncHandler(async (req, res) => {
         const hash = await hashPassword(password);
         // create user in DB
         const user = new User({
-            fullName,
+            name,
             email,
             password: hash, // hash of password
             image,
-            isAdmin
+            isAdmin,
         });
 
         await user.save();
@@ -37,6 +41,7 @@ export const registerUser = asyncHandler(async (req, res) => {
                 email: user.email,
                 image: user.image,
                 isAdmin: user.isAdmin,
+                favoriteMovies: user.favoriteMovies,
                 token: generateToken(user._id),
             });
         } else {
@@ -57,7 +62,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         // Find the user in DB
         const user = await User.findOne({ email });
         // If the user is not found in the DB, throw error
-        if(!user) {
+        if (!user) {
             throw new Error("User does not exist");
         }
 
@@ -68,10 +73,11 @@ export const loginUser = asyncHandler(async (req, res) => {
         if (user && validPassword) {
             res.json({
                 _id: user._id,
-                fullName: user.fullName,
+                name: user.name,
                 email: user.email,
                 image: user.image,
                 isAdmin: user.isAdmin,
+                favoriteMovies: user.favoriteMovies,
                 token: generateToken(user._id),
             });
         } else {
@@ -79,7 +85,7 @@ export const loginUser = asyncHandler(async (req, res) => {
             throw new Error("Invalid password");
         }
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(401).json({ message: error.message });
     }
 });
 
@@ -88,12 +94,12 @@ export const loginUser = asyncHandler(async (req, res) => {
 // Update user profile
 
 export const updatedUserProfile = asyncHandler(async (req, res) => {
-    const { fullName, email, image } = req.body;
+    const { name, email, image } = req.body;
     try {
         const user = await User.findById(req.user._id);
         // if user exists update user data and save it in DB
         if (user) {
-            user.fullName = fullName || user.fullName;
+            user.name = name || user.name;
             user.email = email || user.email;
             user.image = image || user.image;
 
@@ -101,10 +107,11 @@ export const updatedUserProfile = asyncHandler(async (req, res) => {
             // send updated user data and token to the client
             res.json({
                 _id: updatedUser._id,
-                fullName: updatedUser.fullName,
+                name: updatedUser.name,
                 email: updatedUser.email,
                 image: updatedUser.image,
                 isAdmin: updatedUser.isAdmin,
+                favoriteMovies: user.favoriteMovies,
                 token: generateToken(updatedUser._id),
             });
         }
@@ -175,16 +182,17 @@ export const changeUserPassword = asyncHandler(async (req, res) => {
     }
 });
 
-// Get all favourite movies
+// Get all favorite movies
 
-export const getLikedMovies = asyncHandler(async (req, res) => {
+export const getAllFavoriteMovies = asyncHandler(async (req, res) => {
     try {
         // find user in DB
-        const user = await User.findById(req.user._id).populate("likedMovies");
-        // if user exists send liked movies to client
+        const user = await User.findById(req.user._id).populate(
+            "favoriteMovies"
+        );
+        // if user exists send favorite movies to client
         if (user) {
-            console.log(user.likedMovies);
-            res.json(user.likedMovies);
+            res.json(user.favoriteMovies);
         }
         // else send error message
         else {
@@ -198,23 +206,23 @@ export const getLikedMovies = asyncHandler(async (req, res) => {
 
 // Add movie to favourites
 
-export const addLikedMovie = asyncHandler(async (req, res) => {
+export const addToFavoriteMovies = asyncHandler(async (req, res) => {
     const { movieId } = req.body;
     try {
         // find user in DB
         const user = await User.findById(req.user._id);
-        // if user exists, add movie to liked movies and save it in DB
+        // if user exists, add movie to favorite movies and save it in DB
         if (user) {
-            // check if movie already liked
-            // if movie already liked send error message
-            if (user.likedMovies.includes(movieId)) {
+            // check if movie already added to favorites
+            // if movie already added send error message
+            if (user.favoriteMovies.includes(movieId)) {
                 res.status(400);
                 throw new Error("Movie already liked");
             }
-            // else add movie to liked movies and save it in DB
-            user.likedMovies.push(movieId);
+            // else add movie to favorite movies and save it in DB
+            user.favoriteMovies.push(movieId);
             await user.save();
-            res.json(user.likedMovies);
+            res.json(user.favoriteMovies);
         }
         // else send error message
         else {
@@ -226,17 +234,17 @@ export const addLikedMovie = asyncHandler(async (req, res) => {
     }
 });
 
-// Delete all liked movies
+// Delete all favorite movies
 
-export const deleteLikedMovies = asyncHandler(async (req, res) => {
+export const deleteAllFavoriteMovies = asyncHandler(async (req, res) => {
     try {
         // find user in DB
         const user = await User.findById(req.user._id);
-        // if user exists delete all liked movies and save it in DB
+        // if user exists delete all favorite movies and save it in DB
         if (user) {
-            user.likedMovies = [];
+            user.favoriteMovies = [];
             await user.save();
-            res.json({ message: "All liked movies deleted successfully." });
+            res.json({ message: "All favorite movies deleted successfully." });
         }
         // else send error message
         else {
@@ -252,7 +260,7 @@ export const deleteLikedMovies = asyncHandler(async (req, res) => {
 
 // Get all the users
 
-export const getUsers = asyncHandler(async (req, res) => {
+export const getAllUsers = asyncHandler(async (req, res) => {
     try {
         // find all users in DB
         const users = await User.find({});

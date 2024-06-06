@@ -2,7 +2,12 @@ import mongoose from "mongoose";
 
 const showSchema = new mongoose.Schema(
     {
-        showtitle: {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+        title: {
             type: String,
             required: true,
         },
@@ -10,7 +15,11 @@ const showSchema = new mongoose.Schema(
             type: String,
             lowercase: true,
         },
-        showdesc: {
+        description: {
+            type: String,
+            required: true,
+        },
+        poster: {
             type: String,
             required: true,
         },
@@ -40,11 +49,11 @@ const showSchema = new mongoose.Schema(
         },
         theatre: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Theatres",
+            ref: "Theatre",
             required: true,
         },
     },
     { timestamps: true }
 );
 
-export default mongoose.model("Shows", showSchema);
+export default mongoose.model("Show", showSchema);

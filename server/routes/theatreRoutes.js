@@ -3,14 +3,14 @@ import { admin, authenticate } from "../middlewares/auth.js";
 import {
     createTheatre,
     deleteTheatre,
-    getTheatres,
+    getAllTheatres,
     updateTheatre,
 } from "../controllers/theatreCtrl.js";
 
 const router = express.Router();
 
 // ***************** PUBLIC ROUTES ***********************
-router.get("/", getTheatres);
+router.get("/", getAllTheatres);
 
 // ***************** ADMIN ROUTES ***********************
 router.post("/", authenticate, admin, createTheatre);

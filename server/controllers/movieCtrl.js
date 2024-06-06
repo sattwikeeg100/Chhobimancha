@@ -1,14 +1,17 @@
 import asyncHandler from "express-async-handler";
 import Movie from "../models/movieModel.js";
 import slugify from "slugify";
+import mongoose from "mongoose";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
 // Get all movies
 
-export const getMovies = asyncHandler(async (req, res) => {
+export const getAllMovies = asyncHandler(async (req, res) => {
     try {
-        const movies = await Movie.find({});
+        const movies = await Movie.find({})
+            .populate("casts.person")
+            .populate("crews.person");
 
         res.status(200).json(movies);
     } catch (error) {
@@ -22,7 +25,10 @@ export const getMovies = asyncHandler(async (req, res) => {
 export const getMovieById = asyncHandler(async (req, res) => {
     try {
         // find movie by id in database
-        const movie = await Movie.findById(req.params.id);
+        const movie = await Movie.findById(req.params.id)
+            .populate("reviews.userId")
+            .populate("casts.person")
+            .populate("crews.person");
         // if the movie is found, send it to the client
         if (movie) {
             res.json(movie);
@@ -59,9 +65,7 @@ export const createMovieReview = asyncHandler(async (req, res) => {
             }
             // otherwise create a new review
             const review = {
-                userName: req.user.fullName,
                 userId: req.user._id,
-                userImage: req.user.image,
                 rating: Number(rating),
                 comment,
             };
@@ -70,8 +74,8 @@ export const createMovieReview = asyncHandler(async (req, res) => {
             // increment the number of reviews
             movie.numberOfReviews = movie.reviews.length;
 
-            // calculate the new averagerating
-            movie.averagerating =
+            // calculate the new averageRating
+            movie.averageRating =
                 movie.reviews.reduce((acc, item) => item.rating + acc, 0) /
                 movie.reviews.length;
 
@@ -98,37 +102,43 @@ export const createMovie = asyncHandler(async (req, res) => {
     try {
         // get data from the request body
         const {
-            name,
-            desc,
-            image,
-            titleImage,
-            averagerating,
-            numberOfReviews,
-            category,
-            time,
+            title,
+            description,
+            coverImage,
+            poster,
+            genre,
             language,
-            year,
+            releaseDate,
+            duration,
             video,
             casts,
+            crews,
         } = req.body;
 
-        const slug = slugify(`${name}-${year}`).toLowerCase();
+        const formatDate = (date) => {
+            return new Date(date)
+                .toLocaleDateString("en-GB")
+                .replace(/\//g, "");
+        };
+        const slug = slugify(`${title}-${formatDate(releaseDate)}`, {
+            remove: /[*+/~.()'"!:@]/g,
+        }).toLowerCase();
+
         // create a mew movie
         const movie = new Movie({
-            name,
+            userId: req.user._id,
+            title,
             slug,
-            desc,
-            image,
-            titleImage,
-            averagerating,
-            numberOfReviews,
-            category,
-            time,
+            description,
+            coverImage,
+            poster,
+            genre,
             language,
-            year,
+            releaseDate,
+            duration,
             video,
             casts,
-            userId: req.user._id,
+            crews,
         });
 
         // save the movie in database
@@ -150,44 +160,55 @@ export const updateMovie = asyncHandler(async (req, res) => {
     try {
         // get data from the request body
         const {
-            name,
-            desc,
-            image,
-            titleImage,
-            averagerating,
-            numberOfReviews,
-            category,
-            time,
+            title,
+            description,
+            coverImage,
+            poster,
+            genre,
             language,
-            year,
+            releaseDate,
+            duration,
             video,
             casts,
+            crews,
         } = req.body;
 
         // find movie by id in database
         const movie = await Movie.findById(req.params.id);
 
+        const formatDate = (date) => {
+            return new Date(date)
+                .toLocaleDateString("en-GB")
+                .replace(/\//g, "");
+        };
+
         let slug;
-        if (name) {
+        if (title) {
             slug = slugify(
-                `${name}-${year ? year : movie.year}`
+                `${title}-${
+                    releaseDate
+                        ? formatDate(releaseDate)
+                        : formatDate(movie.releaseDate)
+                }`,
+                {
+                    remove: /[*+/~.()'"!:@]/g,
+                }
             ).toLowerCase();
         }
         if (movie) {
             // update movie data
-            movie.name = name || movie.name;
+            movie.title = title || movie.title;
             movie.slug = slug || movie.slug;
-            movie.desc = desc || movie.desc;
-            movie.image = image || movie.image;
-            movie.titleImage = titleImage || movie.titleImage;
-            movie.averagerating = averagerating || movie.averagerating;
-            movie.numberOfReviews = numberOfReviews || movie.numberOfReviews;
-            movie.category = category || movie.category;
-            movie.time = time || movie.time;
+            movie.description = description || movie.description;
+            movie.coverImage = coverImage || movie.coverImage;
+            movie.poster = poster || movie.poster;
+            movie.genre = genre || movie.genre;
             movie.language = language || movie.language;
-            movie.year = year || movie.year;
+            movie.releaseDate = releaseDate || movie.releaseDate;
+            movie.duration = duration || movie.duration;
             movie.video = video || movie.video;
             movie.casts = casts || movie.casts;
+            movie.crews = crews || movie.crews;
 
             // save the movie in database
             const updatedMovie = await movie.save();

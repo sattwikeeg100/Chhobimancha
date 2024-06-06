@@ -9,9 +9,8 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
             <div className="relative">
                 <img
                     className="w-full h-96 object-cover"
-                    src="https://images-cdn.ubuy.co.in/63503469d017ab73b23f23fb-sholay-bollywood-movie-poster-metal-tin.jpg"
-                    //src={movie.image}
-                    alt={movie.name}
+                    src={movie.poster}
+                    alt={movie.title}
                 />
                 <button
                     onClick={() => onAddToFavorites(movie)}
@@ -21,14 +20,14 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
             </div>
             <div className="flex justify-between">
                 <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{movie.name}</div>
-                    <p className="text-gray-400 text-base">{movie.desc}</p>
+                    <div className="font-bold text-xl mb-2">{movie.title}</div>
+                    <p className="text-gray-400 text-base">{movie.description}</p>
                 </div>
                 <div className="size-24 justify-center items-center m-4">
                     <CircularProgressbar
-                        value={movie.averagerating}
+                        value={movie.averageRating}
                         maxValue={10}
-                        text={`${movie.averagerating}`}
+                        text={`${movie.averageRating}`}
                         styles={buildStyles({
                             textColor: "white",
                             pathColor: "yellow",
