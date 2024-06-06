@@ -20,14 +20,14 @@ const ReviewForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className=" mx-auto w-full max-w-2xl p-10 bg-gray-500 shadow-xl rounded-lg m-10">
+    <form onSubmit={handleSubmit} className=" mx-auto w-full max-w-2xl p-10 bg-gray-700 shadow-2xl rounded-lg m-10">
       <h2 className="text-xl font-semibold mb-4">How was the movie?</h2>
 
       <div className="flex flex-row items-center mb-8 gap-5 mx-auto justify-center">
         {[...Array(5)].map((_, index) => (
           <FaStar
             key={index}
-            className={index < rating ? "text-yellow-400 cursor-pointer h-5 w-5" : "text-white cursor-pointer h-5 w-5"}
+            className={index < rating ? "text-red-600 cursor-pointer h-5 w-5" : "text-white cursor-pointer h-5 w-5"}
             
             onClick={() => handleStarClick(index)}
           />
@@ -42,7 +42,7 @@ const ReviewForm = ({ onSubmit }) => {
           id="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow-xl appearance border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           rows="4"
           placeholder="Write your review here..."
         ></textarea>
