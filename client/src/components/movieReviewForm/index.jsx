@@ -1,0 +1,63 @@
+import React, { useState } from 'react';
+import { FaStar } from 'react-icons/fa';
+
+const ReviewForm = ({ onSubmit }) => {
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [noOfReview,setReview]= useState(0);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit({ rating, comment });
+    alert('Thanks for submitting your review !!!');
+    setRating(0);
+    setComment('');
+    setReview(noOfReview+1);
+  };
+
+  const handleStarClick = (index) => {
+    setRating(index + 1);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className=" mx-auto w-full max-w-2xl p-10 bg-gray-500 shadow-xl rounded-lg m-10">
+      <h2 className="text-xl font-semibold mb-4">How was the movie?</h2>
+
+      <div className="flex flex-row items-center mb-8 gap-5 mx-auto justify-center">
+        {[...Array(5)].map((_, index) => (
+          <FaStar
+            key={index}
+            className={index < rating ? "text-yellow-400 cursor-pointer h-5 w-5" : "text-white cursor-pointer h-5 w-5"}
+            
+            onClick={() => handleStarClick(index)}
+          />
+        ))}
+      </div>
+
+      <div className="mb-8">
+        <label className="block text-black text-md font-semibold mb-2" htmlFor="comment">
+          Express more, write a review :
+        </label>
+        <textarea
+          id="comment"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          rows="4"
+          placeholder="Write your review here..."
+        ></textarea>
+      </div>
+
+      <div className="flex items-center justify-center">
+        <button
+          type="submit"
+          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+        >
+          Submit Review
+        </button>
+      </div>
+    </form>
+  );
+};
+
+export default ReviewForm;

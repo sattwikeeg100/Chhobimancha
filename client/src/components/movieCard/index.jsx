@@ -21,7 +21,9 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
             <div className="flex justify-between">
                 <div className="px-6 py-4">
                     <div className="font-bold text-xl mb-2">{movie.title}</div>
-                    <p className="text-gray-400 text-base">{movie.description}</p>
+                    <p className="text-gray-400 text-base">
+                        {movie.description}
+                    </p>
                 </div>
                 <div className="size-24 justify-center items-center m-4">
                     <CircularProgressbar
