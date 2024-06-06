@@ -1,25 +1,31 @@
+
 import React, { useState } from 'react';
-import CastSlider from '../../components/castSlider/index'
-import ReviewForm from '../../components/movieReviewForm/index'; 
+import CastSlider from '../../components/castSlider/index';
+import ReviewForm from '../../components/movieReviewForm/index';
+import Modal from '../../components/movieReviewModal'; 
 import { BiRightArrow } from "react-icons/bi";
 import { FaStar } from "react-icons/fa6";
 import { LuDot } from "react-icons/lu";
-import './styles.css'; 
+import './styles.css';
+import Reviews from '../../components/Reviews';
+
 
 const SingleMovie = () => {
-  const [reviews, setReviews] = useState([]); // State to store reviews
+  const [reviews, setReviews] = useState([]);//to add reviews
+  const [showModal, setShowModal] = useState(false); // State to control the modal visibility
 
+//movie data
   const movie = {
     "_id": "664d5bbfb6c3bb004d8cd020",
     "userId": "664d4cef626eabc378610af1",
-    "name": "Eta Amader Golpo",
+    "name": "Chhota Bheem and the Curse of Damyaan (Hindi)",
     "desc": "Two mature individuals from disparately different regions of India meet in a laughing class and fall in love. Will their families be able to ascribe to their contrasting cultures?",
     "titleImage": "https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-250,h-390/et00394855-xcwqkafasa-portrait.jpg",
     "image": "https://assets-in.bmscdn.com/discovery-catalog/events/et00394855-ftkukbxcsf-landscape.jpg",
-    "category": "Drama, Romantic",
+    "category": "Action, Adventure, Family, Fantasy",
     "language": "Bengali",
     "year": "2024",
-    "time": 2.2,
+    "time": 2,
     "video": "byomkesh.mp3",
     "averagerating": 0,
     "numberOfReviews": 0,
@@ -67,103 +73,152 @@ const SingleMovie = () => {
     "__v": 0
   };
 
+//to add reviews and close the review form
   const handleReviewSubmit = (review) => {
-    setReviews([...reviews, review]); // Update the reviews state with the new review
+    setReviews([...reviews, review]);
     movie.numberOfReviews++;
+    setShowModal(false); // Close the modal after submitting the review
   };
 
+  //for play now button
   const handleClick = (e) => {
     e.preventDefault();
-    alert("Sorry, we don't have this movie available right now ");
+    alert("Sorry, we don't have this movie available right now");
   };
 
   return (
     <div className='bg-black'>
 
-      <div className=" relative xl:h-[75vh] lg:h-[60vh] w-full bg-cover bg-center" style={{ backgroundImage: `url(${movie.image})` }}>
+      {/* background image */}
+      <div className="relative w-full bg-cover bg-center 
+      xl:h-[75vh] lg:h-[58vh] sm:h-[55vh] "
+       style={{ backgroundImage: `url(${movie.image})` }}>
 
+        {/* shadow */}
         <div className="flex flex-row h-full bg-black bg-opacity-80 gap-5">
 
-            <div className="lg:w-1/5 h-auto ml-24  flex flex-col justify-center items-center">
+          {/* left side */}
+          <div className=" h-auto lg:ml-24 md:ml-10 sm:ml-5 flex flex-col 
+          justify-center items-center
+          xl:w-1/5 lg:w-1/4 md:w-1/5 sm:w-1/4">
 
-                <img src={movie.titleImage} alt={`${movie.name} Poster`} className="w-auto h-auto mb-2 mt-3 p-2 rounded-lg " />
+            {/* poster image */}
+            <img src={movie.titleImage} alt={`${movie.name} Poster`} className="w-auto h-auto mb-2 mt-3 p-2 rounded-xl " />
 
-                        <div id="button-div">
-                            <button id="button" onClick={handleClick} className='group rounded-lg mb-3 px-[4.5rem] py-2 flex items-center space-x-0.5 bg-red-600 hover:bg-red-800 '>
-                                <span className='text-lg font-semibold text-white'>Play Now</span>
-                                <div className='flex items-center translate-x-1 transition-all duration-300'>
-                                    <BiRightArrow className='w-6 h-5 text-white' />
-                                </div>
-                            </button>
-                        </div>
+            <div id="button-div">
 
+              {/* play now button */}
+              <button id="button" onClick={handleClick} className='group rounded-lg mb-3 flex items-center 
+                space-x-0.5 bg-red-600 hover:bg-red-800
+                lg:px-[4.5rem] lg:py-2
+                md:px-6 md:py-2 
+                sm:px-10 sm:py-1'>
+
+                <span className=' 
+                font-semibold text-white
+                lg:text-lg md:text-md sm:text-sm'>
+                  Play Now
+                  </span>
+
+                <div className='flex items-center translate-x-1 transition-all duration-300'>
+                  <BiRightArrow className=' text-white
+                  lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3' />
+                </div>
+
+              </button>              
             </div>
 
-            <div className="lg:w-2/5 flex flex-col justify-center items-start gap-5 text-white">
-              <div className="text-4xl mb-6 ml-3 tracking-normal"><strong>{movie.name}</strong></div>
+          </div>
+
+          {/* right side */}
+          <div className="flex flex-col justify-center items-start text-white
+          xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 
+          lg:gap-5 md:gap-2 sm:gap-1">
+
+            {/* movie name */}
+            <div className=" tracking-normal text-left
+            lg:text-4xl md:text-xl mb-6 md:mb-1 md:ml-3 sm:ml-1">
+              <strong>{movie.name}</strong></div>
 
               <div className='flex flex-row items-center'>
-                  <LuDot className='w-6 h-6'/>
-                  <div className="text-xl tracking-normal mr-3">{movie.time} hours</div>
-                  <LuDot className='w-6 h-10'/>
-                  <div className="text-xl tracking-normal mr-3">{movie.year}</div>
-                  <LuDot className='w-6 h-10'/>
-                  <div className="text-xl tracking-normal">{movie.category}</div>
+
+                {/* duration */}
+                <LuDot className='md:w-6 md:h-6 sm:w-3 sm:h-3' />
+                <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight lg:mr-3 md:mr-2 sm:mr-1">{movie.time} hr</div>
+
+                {/* year of release */}
+                <LuDot className='md:w-6 md:h-6 sm:w-3 sm:h-3' />
+                <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight mr-3">{movie.year}</div>
+
+                {/* category */}
+                <LuDot className='md:w-6 md:h-6 sm:w-3 sm:h-3' />
+                <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight">{movie.category}</div>
+                
               </div>
 
-              <div className='flex flex-row gap-2 items-center py-3 ml-3 rounded-[8px]'>
-                <FaStar className='h-4 w-4 text-white'/>
-                <div className="text-xl tracking-normal">{movie.averagerating}/5</div>
-                <div className="text-xl ml-10 tracking-normal">{reviews.length} votes</div>
-              </div>
 
-              <div className="bg-white text-black px-4 py-1 ml-3 text-lg mb-2 tracking-wide">
-                <strong>{movie.language}</strong>
-              </div>
+            <div className='flex flex-row gap-2 items-center py-3 md:ml-3 sm:ml-0 rounded-[8px]'>
+
+                {/* average rating */}
+                <FaStar className='h-4 w-4 sm:w-3 sm:h-3  text-white' />
+                <div className="lg:text-xl md:text-sm sm:text-xs tracking-normal md:tracking-tight">{movie.averagerating}/5</div>
+
+                {/* total ratings */}
+                <div className="lg:text-xl md:text-sm sm:text-xs lg:ml-10 sm:ml-5 tracking-normal md:tracking-tight">{reviews.length} votes</div>
+
+                {/* add review button */}
+                <div className='lg:ml-10 md:ml-5 lg:text-md md:text-sm sm:text-xs sm:ml-3'>
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg focus:outline-none focus:shadow-outline
+                        sm:py-[.35rem] md:px-6 sm:px-3">
+                        Add Review
+                    </button>
+                  </div>
             </div>
 
+            {/* movie language */}
+            <div className="bg-white text-black md:px-4 sm:py-1 sm:px-3  md:ml-3 sm:ml-0 lg:text-lg md:text-sm sm:text-xs mb-2 tracking-wide">
+              <strong>{movie.language}</strong>
+            </div>
 
+          </div>
         </div>
-
       </div>
 
-      {/* Movie Description */}
-      <div className='px-10 mt-10 flex flex-col gap-4'>
 
-        <div className="px-20 py-5 text-left text-white flex flex-col gap-5">
-          <h1 className="text-2xl font-bold tracking-wider">Description:</h1>
-          <p className="text-lg mb-2">{movie.desc}</p>
+      {/* Movie Description */}
+      <div className='lg:px-10 sm:px-5  mt-10 flex flex-col gap-4'>
+
+        <div className=" text-left text-white flex flex-col gap-5 common-container">
+          <h1 className="lg:text-2xl sm:text-xl font-bold tracking-wider common-heading">Description:</h1>
+          <p className="lg:text-lg sm:text-md mb-2">{movie.desc}</p>
         </div>
 
+        {/* Casts */}
         <div className='py-10'>
           <CastSlider casts={movie.casts}/>
         </div>
 
+        {/* Crew */}
         <div>
-          <CastSlider casts={movie.casts}/>
+          <CastSlider casts={movie.casts} />
         </div>
 
-        {/* Review Form */}
-        <ReviewForm onSubmit={handleReviewSubmit} />
+        {/* For displaying the review form */}
+        <Modal show={showModal} onClose={() => setShowModal(false)}>
+          <ReviewForm onSubmit={handleReviewSubmit} />
+        </Modal>
 
-        {/* Display Reviews */}
-        <div className=" text-left text-white flex flex-col gap-5">
-          <h2 className="text-2xl font-bold tracking-wider">Reviews:</h2>
-          {reviews.length > 0 ? (
-            reviews.map((review, index) => (
-              <div key={index} className="mb-4">
-                <div className="text-lg font-bold">Rating: {review.rating}</div>
-                <div className="text-lg">{review.comment}</div>
-              </div>
-            ))
-          ) : (
-            <p className="text-lg">No reviews yet.</p>
-          )}
+        {/* Reviews */}
+        <div>
+          <Reviews reviews={reviews}/>
         </div>
-        
+
       </div>
     </div>
   );
 };
 
 export default SingleMovie;
+
