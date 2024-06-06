@@ -12,12 +12,7 @@ import theatresRouter from "./routes/theatreRoutes.js";
 import showsRouter from "./routes/showRoutes.js";
 import bookingsRouter from "./routes/bookingRoutes.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-<<<<<<< HEAD
 import uploadRouter from "./routes/uploadFile.js";
-=======
-import uploadRouter from "./controllers/uploadFile.js";
-// import testRouter from "./controllers/testUpload.js";
->>>>>>> bd64a0c1dcada89c1ca6f1974548ea52f3b3e35d
 
 dotenv.config();
 
@@ -48,11 +43,7 @@ app.use("/api/cineasts", cineastsRouter);
 app.use("/api/shows", showsRouter);
 app.use("/api/theatres", theatresRouter);
 app.use("/api/bookings", bookingsRouter);
-<<<<<<< HEAD
 app.use("/api/upload", uploadRouter);
-=======
-// app.use("/api/test", testRouter);
->>>>>>> bd64a0c1dcada89c1ca6f1974548ea52f3b3e35d
 
 // Error handling middleware should be placed after all routes and middleware
 app.use(errorHandler);
