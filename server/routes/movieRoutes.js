@@ -6,7 +6,7 @@ import {
     deleteAllMovies,
     deleteMovie,
     getAllMovies,
-    getMovieById,
+    getMovieBySlugId,
     updateMovie,
 } from "../controllers/movieCtrl.js";
 
@@ -14,7 +14,7 @@ const router = express.Router();
 
 // ***************** PUBLIC ROUTES ***********************
 router.get("/", getAllMovies);
-router.get("/:id", getMovieById);
+router.get("/:slug", getMovieBySlugId);
 
 // ***************** PRIVATE ROUTES ***********************
 router.post("/reviews/:id", authenticate, createMovieReview);

@@ -45,7 +45,7 @@ const TheatreModal = ({ theatre, onClose }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded shadow-lg w-96">
+            <div className="bg-white p-8 rounded shadow-lg w-[40%]">
                 <h2 className="text-xl font-bold mb-4">
                     {theatre ? "Edit Theatre" : "Add New Theatre"}
                 </h2>

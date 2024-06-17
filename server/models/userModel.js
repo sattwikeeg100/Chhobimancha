@@ -24,6 +24,14 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        isSubscriber: {
+            type: Boolean,
+            default: false,
+        },
+        subscriptionId: {
+            type: String,
+            default: '',
+        },
         favoriteMovies: [
             {
                 type: mongoose.Schema.ObjectId,

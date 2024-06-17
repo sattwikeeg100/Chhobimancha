@@ -24,7 +24,7 @@ const AdminUsers = () => {
         GetAllUsers();
     }, []);
 
-    const handleDeleteClick = async (userId) => {
+/*     const handleDeleteClick = async (userId) => {
         try {
             await axios.delete(`${APIURL}/users/${userId}`);
             GetAllUsers();
@@ -32,6 +32,7 @@ const AdminUsers = () => {
             console.error("Error deleting user:", error);
         }
     };
+ */
 
     if (loading) {
         return <div className="text-5xl">Loading...</div>;
@@ -39,13 +40,13 @@ const AdminUsers = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Admin User Management</h1>
+            <h1 className="text-2xl font-bold mb-4">All Users</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {users.map((user) => (
                     <UserCard
                         key={user._id}
                         user={user}
-                        onDeleteClick={handleDeleteClick}
+                        //onDeleteClick={handleDeleteClick}
                     />
                 ))}
             </div>

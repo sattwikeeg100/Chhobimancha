@@ -3,11 +3,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import LoginModal from "../modals/login";
 import SignUpModal from "../modals/signup";
 import ForgotPasswordModal from "../modals/forgotpassword";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../store/slices/userSlice";
+import { setTheme } from "../../store/slices/themeSlice";
+import { setLanguage } from "../../store/slices/languageSlice";
+import { LuSunMedium } from "react-icons/lu";
+import { RiMoonClearLine } from "react-icons/ri";
 
 const Navbar = () => {
-    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -16,16 +19,12 @@ const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dispatch = useDispatch();
 
+    const storedUser = useSelector((state) => state.user.user);
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            setUser(storedUser);
         }
     }, []);
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-    };
 
     const getInitials = (name) => {
         const names = name.split(" ");
@@ -73,6 +72,24 @@ const Navbar = () => {
         window.location.reload();
     };
 
+    const theme = useSelector((state) => state.theme);
+    const handleThemeChange = () => {
+        const newTheme = theme === "light" ? "dark" : "light";
+        if (newTheme !== theme) {
+            dispatch(setTheme(newTheme));
+        }
+        alert("The theme change functionality is coming soon...");
+    };
+
+    const language = useSelector((state) => state.language);
+    const handleLangTranslation = () => {
+        const newLang = language === "english" ? "bengali" : "english";
+        if (newLang !== language) {
+            dispatch(setLanguage(newLang));
+        }
+        alert("The language change functionality is coming soon...");
+    };
+
     return (
         <div className="bg-gray-900 text-white font-semibold py-4 px-8 flex justify-between items-center">
             <div className="text-xl font-bold">
@@ -103,27 +120,29 @@ const Navbar = () => {
                     }>
                     Book a show
                 </NavLink>
-                {user ? (
+                {user && (
                     <NavLink
-                        to="/favorites"
+                        to="/subscribe"
                         className={({ isActive }) =>
                             isActive ? "text-yellow-400" : "hover:text-gray-400"
                         }>
-                        My Favorites
+                        Buy Subscription
                     </NavLink>
-                ) : null}
+                )}
             </nav>
 
             <div className="flex justify-between space-x-6">
-                <form onSubmit={handleSearch} className="flex items-center">
-                    <input
-                        type="text"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search..."
-                        className="px-2 py-1 rounded bg-gray-800 border border-gray-700 focus:outline-none focus:border-yellow-400"
-                    />
-                </form>
+                <button
+                    onClick={() => handleThemeChange()}
+                    className="h-50 w-50">
+                    {theme === "dark" ? <LuSunMedium /> : <RiMoonClearLine />}
+                </button>
+
+                <button
+                    onClick={() => handleLangTranslation()}
+                    className="font-medium hover:font-bold">
+                    {language === "english" ? "BENG" : "ENG"}
+                </button>
 
                 <div className="relative ml-4 flex items-center">
                     {user ? (
@@ -145,7 +164,7 @@ const Navbar = () => {
                             {isDropdownOpen && (
                                 <div className="absolute right-0 mt-56 w-48 bg-white rounded-md shadow-lg py-2 text-gray-800">
                                     <NavLink
-                                        to="/favorites"
+                                        to="/myfavourites"
                                         className="block px-4 py-2 hover:bg-gray-200"
                                         onClick={() =>
                                             setIsDropdownOpen(false)
@@ -153,7 +172,7 @@ const Navbar = () => {
                                         My Favorites
                                     </NavLink>
                                     <NavLink
-                                        to="/bookings"
+                                        to="/mybookings"
                                         className="block px-4 py-2 hover:bg-gray-200"
                                         onClick={() =>
                                             setIsDropdownOpen(false)
@@ -161,7 +180,7 @@ const Navbar = () => {
                                         My Bookings
                                     </NavLink>
                                     <NavLink
-                                        to="/profile"
+                                        to="/myprofile"
                                         className="block px-4 py-2 hover:bg-gray-200"
                                         onClick={() =>
                                             setIsDropdownOpen(false)

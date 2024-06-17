@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../config/axiosInstance.js";
+
 const APIURL = import.meta.env.VITE_API_URL;
 
 const getUserFromLocalStorage = () => {
@@ -11,11 +12,31 @@ export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (payload, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${APIURL}/users/login`, payload);
-            return response.data; // userdata
+            const response = await axiosInstance.post(
+                `${APIURL}/users/login`,
+                payload
+            );
+            return response.data;
         } catch (error) {
             console.error(error);
-            // Return a rejected value to trigger the rejected action
+            return rejectWithValue(
+                error.response ? error.response.data : error.message
+            );
+        }
+    }
+);
+
+export const updateUser = createAsyncThunk(
+    "user/updateUser",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.put(
+                `${APIURL}/users`,
+                payload
+            );
+            return response.data;
+        } catch (error) {
+            console.error(error);
             return rejectWithValue(
                 error.response ? error.response.data : error.message
             );
@@ -45,19 +66,28 @@ const userSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload; // userdata
+                state.user = action.payload;
                 localStorage.setItem("user", JSON.stringify(action.payload));
                 state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.user = null;
-                console.log(action.error.message);
-                if (action.payload && action.payload.message) {
-                    state.error = action.payload.message; // Assuming action.payload is an object
-                } else {
-                    state.error = action.payload || "An error occurred";
-                }
+                state.error = action.payload || "An error occurred";
+            })
+            .addCase(updateUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                localStorage.setItem("user", JSON.stringify(action.payload));
+                state.error = null;
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "An error occurred";
             });
     },
 });

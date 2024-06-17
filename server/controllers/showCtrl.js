@@ -17,6 +17,27 @@ export const getAllShows = asyncHandler(async (req, res) => {
     }
 });
 
+// Get show by slug
+
+export const getShowBySlugId = asyncHandler(async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        // find show by slug in database
+        const show = await Show.findOne({ slug: slug })
+            .populate("theatre")
+        // if the show is found, send it to the client
+        if (show) {
+            res.json(show);
+        } else {
+            res.status(404);
+            throw new Error("Show not found");
+        }
+    } catch (error) {
+        // Catch and handle any errors that occur during the process
+        console.error(error);
+        res.status(400).json({ message: error.message });
+    }
+});
 // ************************* ADMIN CONTROLLERS *********************
 
 // Create new show

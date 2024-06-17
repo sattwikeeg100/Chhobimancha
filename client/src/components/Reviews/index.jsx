@@ -1,5 +1,4 @@
 import React from 'react';
-import user_img from '../../pages/SingleMovie/chandrima.jpg';
 import { FaStar } from "react-icons/fa6";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -50,9 +49,9 @@ const Reviews = ({ reviews }) => {
               <div className="relative p-5 bg-[#010b14] h-60 border border-gray-300 rounded-lg shadow-md flex flex-col">
                 <div className="sticky-top flex items-center gap-2">
                   <div className="flex-shrink-0 w-10 h-10">
-                    <img src={user_img} className="w-full h-full rounded-full object-cover" alt="User" />
+                    <img src={review.userId.image} className="w-full h-full rounded-full object-cover" alt="User" />
                   </div>
-                  <div className="text-white font-semibold">Anonymous</div>
+                  <div className="text-white font-semibold">{review.userId.name}</div>
                 </div>
                 <div className="sticky-top absolute top-7 right-5 text-red-600 font-bold text-md flex items-center gap-1">
                   <FaStar />

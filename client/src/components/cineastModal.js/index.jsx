@@ -6,6 +6,7 @@ const APIURL = import.meta.env.VITE_API_URL;
 
 const CineastModal = ({ cineast, onClose }) => {
     const [name, setName] = useState("");
+    const [imageFile, setImageFile] = useState();
     const [image, setImage] = useState("");
     const [details, setDetails] = useState("");
 
@@ -16,6 +17,29 @@ const CineastModal = ({ cineast, onClose }) => {
             setDetails(cineast.details);
         }
     }, [cineast]);
+
+    const handleImageFileUpload = async () => {
+        if (imageFile) {
+            const formData = new FormData();
+            formData.append("file", imageFile);
+            try {
+                const response = await axios.post(
+                    `${APIURL}/upload/image`,
+                    formData,
+                    {
+                        headers: { "Content-Type": "multipart/form-data" },
+                    }
+                );
+                setImage(response.data.url);
+                setImageFile(null);
+                console.log(response.data.url);
+            } catch (error) {
+                console.error("Error uploading file:", error);
+            }
+        } else {
+            return;
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,7 +65,7 @@ const CineastModal = ({ cineast, onClose }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded shadow-lg w-96">
+            <div className="bg-white p-8 w-[40%] rounded shadow-lg">
                 <h2 className="text-xl font-bold mb-4">
                     {cineast ? "Edit Cineast" : "Add New Cineast"}
                 </h2>
@@ -57,12 +81,22 @@ const CineastModal = ({ cineast, onClose }) => {
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700">Image URL</label>
-                        <input
-                            className="w-full px-3 py-2 border rounded"
-                            type="text"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                        />
+                        <div className="flex flex-row justify-between">
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="file"
+                                onChange={(e) =>
+                                    setImageFile(e.target.files[0])
+                                }
+                            />
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    handleImageFileUpload()
+                                }>
+                                <u>Upload</u>
+                            </button>
+                        </div>
                     </div>
                     <div className="mb-4">
                         <label className="block text-gray-700">Details</label>

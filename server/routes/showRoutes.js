@@ -5,6 +5,7 @@ import {
     deleteAllShows,
     deleteShow,
     getAllShows,
+    getShowBySlugId,
     updateShow,
 } from "../controllers/showCtrl.js";
 
@@ -12,6 +13,7 @@ const router = express.Router();
 
 // ***************** PUBLIC ROUTES ***********************
 router.get("/", getAllShows);
+router.get("/:slug", getShowBySlugId);
 
 // ***************** ADMIN ROUTES ***********************
 router.post("/", authenticate, admin, createShow);

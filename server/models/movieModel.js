@@ -71,7 +71,7 @@ const moviesSchema = new mongoose.Schema(
         },
         video: {
             type: String,
-            required: true,
+            //required: true,
         },
         averageRating: {
             type: Number,

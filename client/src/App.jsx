@@ -17,7 +17,10 @@ import AdminProfileSettings from "./pages/AdminSettings";
 import AdminUsers from "./pages/AdminUsers";
 import AdminTheatres from "./pages/AdminTheatres";
 import AdminCineasts from "./pages/AdminCineasts";
-import UserWatchlists from "./pages/UserWatchlist";
+import MyFavourites from "./pages/MyFavourites";
+import MyBookings from "./pages/MyBookings";
+import MyProfile from "./pages/MyProfile";
+import SubscriptionPage from "./pages/SubscriptionPage";
 
 const UserLayout = ({ children }) => {
     return (
@@ -136,9 +139,16 @@ function App() {
                                 element={<SingleShow />}
                             />
                             <Route
-                                path="explore/mywatchlists"
-                                element={<UserWatchlists />}
+                                path="/myfavourites"
+                                element={<MyFavourites />}
                             />
+                            <Route
+                                path="/mybookings"
+                                element={<MyBookings />}
+                            />
+                            <Route path="/myprofile" element={<MyProfile />} />
+                            <Route path="/myprofile" element={<MyProfile />} />
+                            <Route path="/subscribe" element={<SubscriptionPage />} />
                             <Route
                                 path="*"
                                 element={<div>Page not found...</div>}

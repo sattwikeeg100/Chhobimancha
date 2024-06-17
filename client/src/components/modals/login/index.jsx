@@ -20,6 +20,7 @@ const LoginModal = ({ isOpen, onClose, onSignUpClick, onForgotPassClick }) => {
             email,
             password,
         };
+        console.log("payload");
         dispatch(loginUser(payload)).then((result) => {
             if (result.payload) {
                 setEmail("");

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../store/slices/userSlice";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const AdminNavSidebar = ({ isOpen, toggleSidebar }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [user, setUser] = useState(null);
+    const loggedInUser = useSelector((state) => state.user.user);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
+        if (loggedInUser) {
+            setUser(loggedInUser);
         }
     }, []);
 
@@ -27,7 +27,7 @@ const AdminNavSidebar = ({ isOpen, toggleSidebar }) => {
         setUser(null);
         navigate("/");
         window.location.reload();
-    }
+    };
 
     return (
         <div

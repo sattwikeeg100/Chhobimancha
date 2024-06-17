@@ -156,7 +156,7 @@ const MovieModal = ({ movie, onClose }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded shadow-lg w-96">
+            <div className="bg-white p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
                 <h2 className="text-xl font-bold mb-4">
                     {movie ? "Edit Movie" : "Add New Movie"}
                 </h2>
@@ -176,16 +176,15 @@ const MovieModal = ({ movie, onClose }) => {
                         <label className="block text-gray-700">
                             Description
                         </label>
-                        <input
+                        <textarea
                             className="w-full px-3 py-2 border rounded"
-                            type="text"
                             value={description}
                             onChange={handleInputChange(setDescription)}
                         />
                     </div>
                     {/* Cover Image */}
                     {!movie && (
-                        <div className="flex flex-row gap-3">
+                        <div className="flex flex-row justify-between">
                             <div className="mb-4">
                                 <label className="block text-gray-700">
                                     Cover Image
@@ -213,7 +212,7 @@ const MovieModal = ({ movie, onClose }) => {
                     )}
                     {/* Poster */}
                     {!movie && (
-                        <div className="flex flex-row gap-3">
+                        <div className="flex flex-row justify-between">
                             <div className="mb-4">
                                 <label className="block text-gray-700">
                                     Poster
@@ -285,7 +284,7 @@ const MovieModal = ({ movie, onClose }) => {
                     </div>
                     {/* Video */}
                     {!movie && (
-                        <div className="flex flex-row gap-3">
+                        <div className="flex flex-row justify-between">
                             <div className="mb-4">
                                 <label className="block text-gray-700">
                                     Video

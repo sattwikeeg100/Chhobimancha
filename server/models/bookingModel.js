@@ -16,8 +16,20 @@ const bookingSchema = new mongoose.Schema(
             type: Array,
             required: true,
         },
-        transactionId: {
+        orderId: {
             type: String,
+            required: true,
+        },
+        paymentId: {
+            type: String,
+            required: true,
+        },
+        signatureId: {
+            type: String,
+            required: true,
+        },
+        totalAmount: {
+            type: Number,
             required: true,
         },
     },

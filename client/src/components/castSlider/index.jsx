@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import '../../pages/SingleMovie/styles.css';
 
-const CastSlider = ({ casts }) => {
+const CastSlider = ({ casts, who }) => {
   const sliderRef = useRef(null);
 
   const scrollLeft = () => {
@@ -14,7 +14,7 @@ const CastSlider = ({ casts }) => {
 
   return (
     <div className="relative w-full px-10">
-      <h2 className="text-2xl font-bold mb-4 text-left px-10 text-white">Cast</h2>
+      <h2 className="text-2xl font-bold mb-4 text-left px-10 text-white">{who === "casts"? "Casts": "Crews"}</h2>
       <div className="flex items-center">
 
         <button onClick={scrollLeft} className="p-3 mr-4 rounded-full bg-gray-300 hover:bg-gray-400">
@@ -23,14 +23,15 @@ const CastSlider = ({ casts }) => {
 
         <div ref={sliderRef} className="flex overflow-x-auto gap-[3rem] hide-scrollbar">
 
-          {casts.map((member, index) => (
+          {casts.map((cast, index) => (
 
             <div key={index} className="flex-shrink-0 w-32">
 
-              <img src={member.image} alt={member.name} className="w-full h-auto rounded-full mb-2" />
+              <img src={cast.person.image} alt={cast.person.name} className="w-28 h-28 rounded-full mb-2" />
 
-              <div className="text-center">
-                <div className="font-semibold text-white">{member.name}</div>
+              <div className="text-center flex flex-col">
+                <div className="font-semibold text-white">{cast.person.name}</div>
+                <div className="text-white">{cast.role}</div>
               </div>
 
             </div>

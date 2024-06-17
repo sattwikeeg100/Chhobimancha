@@ -5,13 +5,14 @@ import {
     generateToken,
     hashPassword,
 } from "../utils/authUtils.js";
+import { instance } from "../config/paymentGatewayConfig.js";
 
 // **************************** PUBLIC CONTROLLERS *******************************
 
 // Register a user
 
 export const registerUser = asyncHandler(async (req, res) => {
-    const { name, email, password, image, isAdmin } = req.body;
+    const { name, email, password, image, isAdmin, isSubscriber } = req.body;
     try {
         const userExists = await User.findOne({ email });
         // check if the email is already registered
@@ -29,6 +30,7 @@ export const registerUser = asyncHandler(async (req, res) => {
             password: hash, // hash of password
             image,
             isAdmin,
+            isSubscriber,
         });
 
         await user.save();
@@ -41,6 +43,7 @@ export const registerUser = asyncHandler(async (req, res) => {
                 email: user.email,
                 image: user.image,
                 isAdmin: user.isAdmin,
+                isSubscriber: user.isSubscriber,
                 favoriteMovies: user.favoriteMovies,
                 token: generateToken(user._id),
             });
@@ -77,6 +80,8 @@ export const loginUser = asyncHandler(async (req, res) => {
                 email: user.email,
                 image: user.image,
                 isAdmin: user.isAdmin,
+                isSubscriber: user.isSubscriber,
+                subscriptionId: user.subscriptionId,
                 favoriteMovies: user.favoriteMovies,
                 token: generateToken(user._id),
             });
@@ -91,10 +96,20 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 // **************************** PRIVATE CONTROLLERS *******************************
 
+// Get the details of logged in user
+
+export const getLoggedInUserDetails = asyncHandler(async (req, res) => {
+    try {
+        res.status(200).json(req.user);
+    } catch (error) {
+        res.status(401).json({ message: error.message });
+    }
+});
+
 // Update user profile
 
 export const updatedUserProfile = asyncHandler(async (req, res) => {
-    const { name, email, image } = req.body;
+    const { name, email, image, isSubscriber, subscriptionId } = req.body;
     try {
         const user = await User.findById(req.user._id);
         // if user exists update user data and save it in DB
@@ -102,6 +117,13 @@ export const updatedUserProfile = asyncHandler(async (req, res) => {
             user.name = name || user.name;
             user.email = email || user.email;
             user.image = image || user.image;
+            if (isSubscriber === false) {
+                user.isSubscriber = false;
+                user.subscriptionId = "";
+            } else {
+                user.isSubscriber = isSubscriber || user.isSubscriber;
+                user.subscriptionId = subscriptionId || user.subscriptionId;
+            }
 
             const updatedUser = await user.save();
             // send updated user data and token to the client
@@ -111,6 +133,8 @@ export const updatedUserProfile = asyncHandler(async (req, res) => {
                 email: updatedUser.email,
                 image: updatedUser.image,
                 isAdmin: updatedUser.isAdmin,
+                isSubscriber: updatedUser.isSubscriber,
+                subscriptionId: updatedUser.subscriptionId,
                 favoriteMovies: user.favoriteMovies,
                 token: generateToken(updatedUser._id),
             });
@@ -251,6 +275,40 @@ export const deleteAllFavoriteMovies = asyncHandler(async (req, res) => {
             res.status(404);
             throw new Error("User not found");
         }
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Buy a subscription
+
+export const buySubscription = asyncHandler(async (req, res) => {
+    try {
+        const { plan_id, customer_notify } = req.body;
+
+        const subscription = await instance.subscriptions.create({
+            plan_id,
+            customer_notify,
+            total_count: 6, // Monthly subscription for 6 months
+        });
+
+        res.status(200).json(subscription);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
+// Cancel a subscription
+
+export const cancelSubscription = asyncHandler(async (req, res) => {
+    try {
+        const { subscription_id } = req.body;
+
+        const cancellationResponse = await instance.subscriptions.cancel(
+            subscription_id
+        );
+
+        res.status(200).json(cancellationResponse);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

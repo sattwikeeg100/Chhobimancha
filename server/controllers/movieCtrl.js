@@ -20,12 +20,13 @@ export const getAllMovies = asyncHandler(async (req, res) => {
     }
 });
 
-// Get movie by id
+// Get movie by slug
 
-export const getMovieById = asyncHandler(async (req, res) => {
+export const getMovieBySlugId = asyncHandler(async (req, res) => {
     try {
-        // find movie by id in database
-        const movie = await Movie.findById(req.params.id)
+        const slug = req.params.slug;
+        // find movie by slug in database
+        const movie = await Movie.findOne({ slug: slug })
             .populate("reviews.userId")
             .populate("casts.person")
             .populate("crews.person");
@@ -38,6 +39,7 @@ export const getMovieById = asyncHandler(async (req, res) => {
         }
     } catch (error) {
         // Catch and handle any errors that occur during the process
+        console.error(error);
         res.status(400).json({ message: error.message });
     }
 });

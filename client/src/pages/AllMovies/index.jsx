@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import MovieAdminCard from "../../components/movieCard";
 import MovieCard from "../../components/movieCard";
+import axiosInstance from "../../config/axiosInstance";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
 const AllMovies = () => {
+    const [user, setUser] = useState(null);
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const AllMovies = () => {
 
     const GetAllMovies = async () => {
         try {
-            const response = await axios.get(`${APIURL}/movies`);
+            const response = await axiosInstance.get("/movies");
             setMovies(response.data);
             setFilteredMovies(response.data);
         } catch (error) {
@@ -24,6 +24,13 @@ const AllMovies = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
 
     useEffect(() => {
         GetAllMovies();
@@ -77,6 +84,20 @@ const AllMovies = () => {
         return <div className="text-5xl">Loading...</div>;
     }
 
+    const handleAddToFavorites = async (movieId) => {
+        try {
+            console.log(movieId);
+            const response = await axiosInstance.post(
+                `${APIURL}/users/favourites`,
+                { movieId: movieId }
+            );
+            alert("Successfully added to favorites");
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        }
+    };
+
     return (
         <div className="justify-center items-center sm:mx-36">
             <h1 className="text-5xl font-bold my-8">All Movies</h1>
@@ -91,7 +112,7 @@ const AllMovies = () => {
                     onChange={(e) => setSelectedGenre(e.target.value)}>
                     <option value="">All</option>
                     <option value="Action">Action</option>
-                    <option value="Drama">Drama</option>
+                    <option value="Romance">Romance</option>
                     <option value="Comedy">Comedy</option>
                     <option value="Horror">Horror</option>
                     {/* Add more genres as needed */}
@@ -124,7 +145,11 @@ const AllMovies = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {filteredMovies.map((movie, index) => (
-                    <MovieCard key={index} movie={movie} />
+                    <MovieCard
+                        key={index}
+                        movie={movie}
+                        onAddToFavorites={() => handleAddToFavorites(movie._id)}
+                    />
                 ))}
             </div>
         </div>

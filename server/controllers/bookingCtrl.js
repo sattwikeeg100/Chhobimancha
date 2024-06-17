@@ -1,41 +1,74 @@
+import crypto from "crypto";
 import asyncHandler from "express-async-handler";
+import { instance } from "../config/paymentGatewayConfig.js";
 import Show from "../models/showModel.js";
 import Booking from "../models/bookingModel.js";
+import { request } from "http";
 
 // ************************* Private CONTROLLERS *********************
 
-// Book a show
-
-export const bookAShow = asyncHandler(async (req, res) => {
+export const checkout = asyncHandler(async (req, res) => {
     try {
-        // get the details from req.body
-        const { show, seats, transactionId } = req.body;
-        // create new booking from the request body
-        const newBooking = new Booking({
-            userId: req.user._id,
+        const options = {
+            amount: Number(req.body.amount * 100),
+            currency: "INR",
+        };
+        const order = await instance.orders.create(options);
+        console.log(order);
+        res.status(200).json({
+            success: true,
+            order,
+        });
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+export const paymentVerification = asyncHandler(async (req, res) => {
+    try {
+        const {
+            orderId,
+            paymentId,
+            signatureId,
             show,
             seats,
-            transactionId, // we will get from stripe
-        });
-        await newBooking.save();
+            totalAmount,
+        } = req.body;
 
-        const bookedshow = await Show.findById(req.body.show);
-        // update the list of booked seats for the show
-        await Show.findByIdAndUpdate(req.body.show, {
-            bookedSeats: [...bookedshow.bookedSeats, ...req.body.seats],
-        });
+        const body = orderId + "|" + paymentId;
+        const expectedSignature = crypto
+            .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+            .update(body.toString())
+            .digest("hex");
 
-        // send the response to the client and also send the booking details
-        res.status(201).json({
-            success: true,
-            message: "Show booked successfully",
-            data: newBooking,
-        });
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            message: error.message,
-        });
+        const isAuthentic = expectedSignature === signatureId;
+
+        if (isAuthentic) {
+            const newBooking = new Booking({
+                userId: req.user._id,
+                show,
+                seats,
+                orderId,
+                paymentId,
+                signatureId,
+                totalAmount,
+            });
+            await newBooking.save();
+
+            // update the list of booked seats for the show
+
+            const bookedshow = await Show.findById(show);
+            await Show.findByIdAndUpdate(show, {
+                bookedSeats: [...bookedshow.bookedSeats, ...seats],
+            });
+
+            res.status(201).json({ message: "Booking confirmed" });
+        } else {
+            res.status(400).json({ message: "Invalid signature" });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Payment Verification Failed!" });
     }
 });
 
@@ -52,7 +85,7 @@ export const getAllBookings = asyncHandler(async (req, res) => {
                     model: "Theatre",
                 },
             })
-            .populate("user");
+            .populate("userId");
 
         res.status(201).json({ bookings });
     } catch (error) {

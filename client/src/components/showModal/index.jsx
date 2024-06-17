@@ -97,7 +97,7 @@ const ShowModal = ({ show, onClose }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded shadow-lg w-96">
+            <div className="bg-white p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
                 <h2 className="text-xl font-bold mb-4">
                     {show ? "Edit Show" : "Add New Show"}
                 </h2>
@@ -117,36 +117,33 @@ const ShowModal = ({ show, onClose }) => {
                         <label className="block text-gray-700">
                             Description
                         </label>
-                        <input
+                        <textarea
                             className="w-full px-3 py-2 border rounded"
-                            type="text"
                             value={description}
                             onChange={handleInputChange(setDescription)}
                         />
                     </div>
                     {/* Poster */}
-                    <div className="flex flex-row gap-3">
-                        <div className="mb-4">
-                            <label className="block text-gray-700">
-                                Poster
-                            </label>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Poster</label>
+                        <div className="flex flex-row gap-3">
                             <input
                                 className="w-full px-3 py-2 border rounded"
                                 type="file"
                                 onChange={handleFileInputChange(setPosterFile)}
                             />
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    handleImageFileUpload(
+                                        setPoster,
+                                        setPosterFile,
+                                        posterFile
+                                    )
+                                }>
+                                <u>Upload</u>
+                            </button>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleImageFileUpload(
-                                    setPoster,
-                                    setPosterFile,
-                                    posterFile
-                                )
-                            }>
-                            <u>Upload</u>
-                        </button>
                     </div>
                     {/* Language */}
                     <div className="mb-4">
