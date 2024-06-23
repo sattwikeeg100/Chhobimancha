@@ -19,21 +19,17 @@ export const checkout = asyncHandler(async (req, res) => {
             success: true,
             order,
         });
-    } catch (err) {
+    } catch (error) {
         console.error(err);
+        res.status(400);
+        throw new Error(error.message);
     }
 });
 
 export const paymentVerification = asyncHandler(async (req, res) => {
     try {
-        const {
-            orderId,
-            paymentId,
-            signatureId,
-            show,
-            seats,
-            totalAmount,
-        } = req.body;
+        const { orderId, paymentId, signatureId, show, seats, totalAmount } =
+            req.body;
 
         const body = orderId + "|" + paymentId;
         const expectedSignature = crypto
@@ -68,7 +64,7 @@ export const paymentVerification = asyncHandler(async (req, res) => {
         }
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Payment Verification Failed!" });
+        throw new Error("Payment Verification Failed!");
     }
 });
 
@@ -89,6 +85,7 @@ export const getAllBookings = asyncHandler(async (req, res) => {
 
         res.status(201).json({ bookings });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400);
+        throw new Error(error.message);
     }
 });

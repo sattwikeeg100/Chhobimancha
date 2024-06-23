@@ -12,7 +12,8 @@ export const getAllCineasts = asyncHandler(async (req, res) => {
         // send all cineasts to the client
         res.json(cineasts);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400);
+        throw new Error(error.message);
     }
 });
 
@@ -28,7 +29,7 @@ export const createCineast = asyncHandler(async (req, res) => {
         const cineast = new Cineast({
             name,
             image,
-            details
+            details,
         });
 
         // save the cineast in database
@@ -37,51 +38,46 @@ export const createCineast = asyncHandler(async (req, res) => {
         // send new cineast to the client
         res.status(201).json(createdcineast);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400);
+        throw new Error(error.message);
     }
 });
 
 // Update cineast infos
 
 export const updateCineast = asyncHandler(async (req, res) => {
-    try {
-        // get the cineast from cineast id from request params
-        const cineast = await Cineast.findById(req.params.id);
+    // get the cineast from cineast id from request params
+    const cineast = await Cineast.findById(req.params.id);
 
-        if (cineast) {
-            // update cineast details
-            cineast.name = req.body.name || cineast.name;
-            cineast.image = req.body.image || cineast.image;
-            cineast.details = req.body.details || cineast.details;
+    if (cineast) {
+        // update cineast details
+        cineast.name = req.body.name || cineast.name;
+        cineast.image = req.body.image || cineast.image;
+        cineast.details = req.body.details || cineast.details;
 
-            // save the updated cineast
-            const updatedcineast = await cineast.save();
-            // send the updated cineast to the client
-            res.json(updatedcineast);
-        } else {
-            res.status(404).json({ message: "Cineast not found" });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        // save the updated cineast
+        const updatedcineast = await cineast.save();
+        // send the updated cineast to the client
+        res.json(updatedcineast);
+    } else {
+        res.status(404);
+        throw new Error("Cineast not found");
     }
 });
 
 // Delete a cineast
 
 export const deleteCineast = asyncHandler(async (req, res) => {
-    try {
-        // get cineast id from request params
-        const cineast = await Cineast.findById(req.params.id);
+    // get cineast id from request params
+    const cineast = await Cineast.findById(req.params.id);
 
-        if (cineast) {
-            // delete the cineast from database
-            await Cineast.deleteOne({ _id: req.params.id }); // Use deleteOne() method instead of cineast.remove() method
-            // send success message to the client
-            res.json({ message: "Cineast removed successfully" });
-        } else {
-            res.status(404).json({ message: "Cineast not found" });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+    if (cineast) {
+        // delete the cineast from database
+        await Cineast.deleteOne({ _id: req.params.id }); // Use deleteOne() method instead of cineast.remove() method
+        // send success message to the client
+        res.json({ message: "Cineast removed successfully" });
+    } else {
+        res.status(404);
+        throw new Error("Cineast not found");
     }
 });

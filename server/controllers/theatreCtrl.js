@@ -12,7 +12,8 @@ export const getAllTheatres = asyncHandler(async (req, res) => {
         // send all theatres to the client
         res.json(theatres);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400);
+        throw new Error(error.message);
     }
 });
 
@@ -38,52 +39,47 @@ export const createTheatre = asyncHandler(async (req, res) => {
         // send new theatre to the client
         res.status(201).json(createdtheatre);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400);
+        throw new Error(error.message);
     }
 });
 
 // Update a theatre
 
 export const updateTheatre = asyncHandler(async (req, res) => {
-    try {
-        // get the theatre from theatre id from request params
-        const theatre = await Theatre.findById(req.params.id);
+    // get the theatre from theatre id from request params
+    const theatre = await Theatre.findById(req.params.id);
 
-        if (theatre) {
-            // update theatre details
-            theatre.name = req.body.name || theatre.name;
-            theatre.address = req.body.address || theatre.address;
-            theatre.phone = req.body.phone || theatre.phone;
-            theatre.owner = req.body.owner || theatre.owner;
+    if (theatre) {
+        // update theatre details
+        theatre.name = req.body.name || theatre.name;
+        theatre.address = req.body.address || theatre.address;
+        theatre.phone = req.body.phone || theatre.phone;
+        theatre.owner = req.body.owner || theatre.owner;
 
-            // save the updated theatre
-            const updatedtheatre = await theatre.save();
-            // send the updated theatre to the client
-            res.json(updatedtheatre);
-        } else {
-            res.status(404).json({ message: "Theatre not found" });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        // save the updated theatre
+        const updatedtheatre = await theatre.save();
+        // send the updated theatre to the client
+        res.status(200).json(updatedtheatre);
+    } else {
+        res.status(404);
+        throw new Error("Theatre not found");
     }
 });
 
 // Delete a theatre
 
 export const deleteTheatre = asyncHandler(async (req, res) => {
-    try {
-        // get theatre id from request params
-        const theatre = await Theatre.findById(req.params.id);
+    // get theatre id from request params
+    const theatre = await Theatre.findById(req.params.id);
 
-        if (theatre) {
-            // delete the theatre from database
-            await theatre.deleteOne({ _id: req.params.id }); // Use deleteOne() method instead of theatre.remove() method
-            // send success message to the client
-            res.json({ message: "Theatre removed successfully" });
-        } else {
-            res.status(404).json({ message: "Theatre not found" });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+    if (theatre) {
+        // delete the theatre from database
+        await theatre.deleteOne({ _id: req.params.id }); // Use deleteOne() method instead of theatre.remove() method
+        // send success message to the client
+        res.json({ message: "Theatre removed successfully" });
+    } else {
+        res.status(404);
+        throw new Error("Theatre not found");
     }
 });

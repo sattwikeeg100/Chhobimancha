@@ -1,6 +1,5 @@
 import express from "express";
 import {
-    addToFavoriteMovies,
     buySubscription,
     cancelSubscription,
     changeUserPassword,
@@ -12,6 +11,7 @@ import {
     getLoggedInUserDetails,
     loginUser,
     registerUser,
+    toggleAddToFavoriteMovies,
     updatedUserProfile,
 } from "../controllers/userCtrl.js";
 import { admin, authenticate } from "../middlewares/auth.js";
@@ -28,7 +28,7 @@ router.put("/", authenticate, updatedUserProfile);
 router.delete("/", authenticate, deleteUserProfile);
 router.put("/password", authenticate, changeUserPassword);
 router.get("/favourites", authenticate, getAllFavoriteMovies);
-router.post("/favourites", authenticate, addToFavoriteMovies);
+router.post("/favourites", authenticate, toggleAddToFavoriteMovies);
 router.delete("/favourites", authenticate, deleteAllFavoriteMovies);
 router.post("/buy-subscription", authenticate, buySubscription);
 router.post("/cancel-subscription", authenticate, cancelSubscription);
