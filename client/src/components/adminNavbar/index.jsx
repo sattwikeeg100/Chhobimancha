@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../store/slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "sonner";
 
-const AdminNavSidebar = ({ isOpen, toggleSidebar }) => {
+const AdminNavSidebar = ({ isOpen }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [user, setUser] = useState(null);
-    const loggedInUser = useSelector((state) => state.user.user);
+    const loggedInUser = useSelector((state) => state.user.userInfo);
+    console.log(loggedInUser);
 
     useEffect(() => {
         if (loggedInUser) {
@@ -23,10 +25,15 @@ const AdminNavSidebar = ({ isOpen, toggleSidebar }) => {
     };
 
     const handleLogout = () => {
-        dispatch(logoutUser());
-        setUser(null);
-        navigate("/");
-        window.location.reload();
+        try {
+            dispatch(logoutUser());
+            setUser(null);
+            navigate("/");
+            window.location.reload();
+            toast.success("Please visit again!");
+        } catch (e) {
+            toast.error("Failed logging out! Please try again.");
+        }
     };
 
     return (
@@ -51,7 +58,7 @@ const AdminNavSidebar = ({ isOpen, toggleSidebar }) => {
                     ) : (
                         <img
                             className="w-24 h-24 rounded-full"
-                            src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.1141335507.1717372800&semt=ais_user"
+                            src="\avatar.jpg"
                             alt="User avatar"
                         />
                     )}

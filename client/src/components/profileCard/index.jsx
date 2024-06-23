@@ -3,14 +3,24 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
+    const getInitials = (name) => {
+        const names = name.split(" ");
+        const initials = names.map((name) => name[0]).join("");
+        return initials.toUpperCase();
+    };
+
     return (
         <div className="bg-white rounded shadow p-4 flex flex-col items-center">
-            {profile.image && (
+            {profile.image ? (
                 <img
                     src={profile.image}
                     alt={profile.name}
                     className="w-32 h-32 object-cover mb-4 rounded-full"
                 />
+            ) : (
+                <div className="w-24 h-24 flex items-center justify-center bg-gray-700 rounded-full text-4xl text-white font-semibold">
+                    {getInitials(profile.name)}
+                </div>
             )}
             <h2 className="text-xl font-bold mb-2 text-center">
                 {profile.name}

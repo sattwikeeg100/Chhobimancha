@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import PaymentPopup from "./PaymentPopup";
 import BookYourSeat from "./BookYourSeat";
 import ShowDetails from "./ShowDetails";
+import { useDispatch } from "react-redux";
+import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
+import axiosInstance from "../../config/axiosInstance";
 
 const SingleShow = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -19,6 +21,8 @@ const SingleShow = () => {
   const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
@@ -28,7 +32,7 @@ const SingleShow = () => {
 
   const fetchShow = async () => {
       try {
-          const response = await axios.get(`${APIURL}/shows/${slug}`);
+          const response = await axiosInstance.get(`${APIURL}/shows/${slug}`);
           setShow(response.data);
       } catch (err) {
           console.error(err);
@@ -56,12 +60,12 @@ const SingleShow = () => {
 
   const handleBookNow = async () => {
       if(!user) {
-        alert("Please login to book seats for your favouite show!");
+        dispatch(switchLoginModalOpen(true));
         return;
       }
       if (selectedSeats.length > 0) {
           try {
-              const orderInfo = await axios.post(
+              const orderInfo = await axiosInstance.post(
                   `${APIURL}/bookings/checkout`,
                   { amount: "5000" }
               );
@@ -84,7 +88,7 @@ const SingleShow = () => {
                               totalAmount: orderInfo.data.order.amount/100,
                           };
                           console.log("BBOKINGDATA: ", bookingData);
-                          await axios.post(
+                          await axiosInstance.post(
                               `${APIURL}/bookings/paymentverification`,
                               bookingData,
                               {

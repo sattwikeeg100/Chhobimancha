@@ -71,7 +71,7 @@ export const updateCineast = asyncHandler(async (req, res) => {
 export const deleteCineast = asyncHandler(async (req, res) => {
     try {
         // get cineast id from request params
-        const cineast = await cineast.findById(req.params.id);
+        const cineast = await Cineast.findById(req.params.id);
 
         if (cineast) {
             // delete the cineast from database

@@ -1,7 +1,7 @@
 // src/components/AdminUsers.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import UserCard from "../../components/userCard";
+import axiosInstance from "../../config/axiosInstance";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -11,7 +11,7 @@ const AdminUsers = () => {
 
     const GetAllUsers = async () => {
         try {
-            const response = await axios.get(`${APIURL}/users`);
+            const response = await axiosInstance.get(`${APIURL}/users`);
             setUsers(response.data);
         } catch (error) {
             console.error(error);
@@ -23,16 +23,6 @@ const AdminUsers = () => {
     useEffect(() => {
         GetAllUsers();
     }, []);
-
-/*     const handleDeleteClick = async (userId) => {
-        try {
-            await axios.delete(`${APIURL}/users/${userId}`);
-            GetAllUsers();
-        } catch (error) {
-            console.error("Error deleting user:", error);
-        }
-    };
- */
 
     if (loading) {
         return <div className="text-5xl">Loading...</div>;

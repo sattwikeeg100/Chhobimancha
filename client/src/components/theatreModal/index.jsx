@@ -1,6 +1,7 @@
 // src/components/TheatreModal.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -23,23 +24,26 @@ const TheatreModal = ({ theatre, onClose }) => {
         e.preventDefault();
         try {
             if (theatre) {
-                await axios.put(`${APIURL}/theatres/${theatre._id}`, {
+                await axiosInstance.put(`${APIURL}/theatres/${theatre._id}`, {
                     name,
                     owner,
                     address,
                     contact,
                 });
+                toast.success("Theatre added successfully!");
             } else {
-                await axios.post(`${APIURL}/theatres`, {
+                await axiosInstance.post(`${APIURL}/theatres`, {
                     name,
                     owner,
                     address,
                     contact,
                 });
+                toast.success("Theatre updated successfully!");
             }
             onClose();
         } catch (error) {
             console.error("Error saving theatre:", error);
+            toast.error("Error Updating Theatre!");
         }
     };
 

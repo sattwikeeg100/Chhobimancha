@@ -4,15 +4,15 @@ import { FaStar } from 'react-icons/fa';
 const ReviewForm = ({ onSubmit }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  const [noOfReview,setReview]= useState(0);
+  const [loading,setLoading]= useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     onSubmit({ rating, comment });
-    alert('Thanks for submitting your review !!!');
     setRating(0);
     setComment('');
-    setReview(noOfReview+1);
+    setLoading(false);
   };
 
   const handleStarClick = (index) => {
@@ -49,12 +49,16 @@ const ReviewForm = ({ onSubmit }) => {
       </div>
 
       <div className="flex items-center justify-center">
-        <button
+        {loading ? <button
+          className="bg-red-500 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline cursor-not-allowed"
+        >
+          Submitting...
+        </button> : <button
           type="submit"
           className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
         >
           Submit Review
-        </button>
+        </button>}
       </div>
     </form>
   );

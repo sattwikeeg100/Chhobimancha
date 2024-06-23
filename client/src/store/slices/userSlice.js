@@ -18,9 +18,10 @@ export const loginUser = createAsyncThunk(
             );
             return response.data;
         } catch (error) {
-            console.error(error);
             return rejectWithValue(
-                error.response ? error.response.data : error.message
+                error.response && error.response.data
+                    ? error.response.data.message
+                    : error.message
             );
         }
     }
@@ -48,7 +49,7 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         loading: false,
-        user: getUserFromLocalStorage(),
+        userInfo: getUserFromLocalStorage(),
         error: null,
     },
     reducers: {

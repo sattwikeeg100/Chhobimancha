@@ -1,6 +1,7 @@
 // src/components/MovieModal.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -17,22 +18,18 @@ const MovieModal = ({ movie, onClose }) => {
     const [casts, setCasts] = useState([{ person: "", role: "" }]);
     const [crews, setCrews] = useState([{ person: "", role: "" }]);
     const [cineasts, setCineasts] = useState([]);
-    const [user, setUser] = useState(null);
     const [coverImageFile, setCoverImageFile] = useState(null);
     const [posterFile, setPosterFile] = useState(null);
     const [videoFile, setVideoFile] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
         fetchCineasts();
     }, []);
 
     const fetchCineasts = async () => {
         try {
-            const response = await axios.get(`${APIURL}/cineasts`);
+            const response = await axiosInstance.get(`${APIURL}/cineasts`);
             setCineasts(response.data);
         } catch (error) {
             console.error("Error fetching cineasts:", error);
@@ -81,7 +78,7 @@ const MovieModal = ({ movie, onClose }) => {
             const formData = new FormData();
             formData.append("file", file);
             try {
-                const response = await axios.post(
+                const response = await axiosInstance.post(
                     `${APIURL}/upload/image`,
                     formData,
                     {
@@ -90,7 +87,6 @@ const MovieModal = ({ movie, onClose }) => {
                 );
                 urlSetter(response.data.url);
                 fileSetter(null);
-                console.log(response.data.url);
             } catch (error) {
                 console.error("Error uploading file:", error);
             }
@@ -104,7 +100,7 @@ const MovieModal = ({ movie, onClose }) => {
             const formData = new FormData();
             formData.append("video", file);
             try {
-                const response = await axios.post(
+                const response = await axiosInstance.post(
                     `${APIURL}/upload/video`,
                     formData,
                     {
@@ -124,6 +120,7 @@ const MovieModal = ({ movie, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             const movieData = {
                 title,
@@ -140,17 +137,21 @@ const MovieModal = ({ movie, onClose }) => {
             };
 
             if (movie) {
-                await axios.put(`${APIURL}/movies/${movie._id}`, movieData, {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
+                await axiosInstance.put(
+                    `${APIURL}/movies/${movie._id}`,
+                    movieData
+                );
+                toast.success("Movie updated successfully!");
             } else {
-                await axios.post(`${APIURL}/movies`, movieData, {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
+                await axiosInstance.post(`${APIURL}/movies`, movieData);
+                toast.success("Movie added successfully!");
             }
             onClose();
         } catch (error) {
-            console.error("Error saving movie:", error);
+            console.error("Error saving movie: ", error);
+            toast.success("Error saving movie!");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -197,6 +198,12 @@ const MovieModal = ({ movie, onClose }) => {
                                     )}
                                 />
                             </div>
+                            {coverImage && (
+                                <img
+                                    src={coverImage}
+                                    className="h-14 w-14 rounded-full"
+                                />
+                            )}
                             <button
                                 type="button"
                                 onClick={() =>
@@ -225,6 +232,12 @@ const MovieModal = ({ movie, onClose }) => {
                                     )}
                                 />
                             </div>
+                            {poster && (
+                                <img
+                                    src={poster}
+                                    className="h-14 w-14 rounded-full"
+                                />
+                            )}
                             <button
                                 type="button"
                                 onClick={() =>
@@ -273,7 +286,7 @@ const MovieModal = ({ movie, onClose }) => {
                     {/* Duration */}
                     <div className="mb-4">
                         <label className="block text-gray-700">
-                            Duration (minutes)
+                            Duration (hours)
                         </label>
                         <input
                             className="w-full px-3 py-2 border rounded"
@@ -426,11 +439,17 @@ const MovieModal = ({ movie, onClose }) => {
                             type="button">
                             Cancel
                         </button>
-                        <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded"
-                            type="submit">
-                            Save
-                        </button>
+                        {loading ? (
+                            <button className="bg-blue-400 text-white py-2 px-4 rounded cursor-not-allowed">
+                                Saving...
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-blue-500 text-white py-2 px-4 rounded"
+                                type="submit">
+                                Save
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>

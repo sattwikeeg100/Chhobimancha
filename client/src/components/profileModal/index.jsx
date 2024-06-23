@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -54,9 +55,11 @@ const ProfileModal = ({ profile, onClose }) => {
         try {
             const profileData = { name, email, image };
             dispatch(updateUser(profileData));
+            toast.success("Profile updated successfully!");
             onClose();
         } catch (error) {
             console.error("Error updating profile:", error);
+            toast.error("Error updating profile!");
         }
     };
 

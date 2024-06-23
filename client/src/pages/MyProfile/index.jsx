@@ -10,7 +10,7 @@ const APIURL = import.meta.env.VITE_API_URL;
 const MyProfile = () => {
     //const [profile, setProfile] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.user.userInfo);
 
     const handleEditClick = () => {
         setModalOpen(true);

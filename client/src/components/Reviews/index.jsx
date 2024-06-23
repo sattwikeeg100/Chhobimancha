@@ -49,7 +49,7 @@ const Reviews = ({ reviews }) => {
               <div className="relative p-5 bg-[#010b14] h-60 border border-gray-300 rounded-lg shadow-md flex flex-col">
                 <div className="sticky-top flex items-center gap-2">
                   <div className="flex-shrink-0 w-10 h-10">
-                    <img src={review.userId.image} className="w-full h-full rounded-full object-cover" alt="User" />
+                    <img src={review.userId.image ? review.userId.image : "/avatar.jpg"} className="w-full h-full rounded-full object-cover" alt="User" />
                   </div>
                   <div className="text-white font-semibold">{review.userId.name}</div>
                 </div>

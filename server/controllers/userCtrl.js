@@ -60,15 +60,22 @@ export const registerUser = asyncHandler(async (req, res) => {
 // Login a user
 
 export const loginUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, isLoggingAsAdmin } = req.body;
     try {
         // Find the user in DB
         const user = await User.findOne({ email });
+
         // If the user is not found in the DB, throw error
         if (!user) {
             throw new Error("User does not exist");
         }
 
+        // check if the user is logging in for the correct role
+        const validRole = isLoggingAsAdmin === user.isAdmin;
+        if (!validRole) {
+            throw new Error("Invalid login role");
+        }
+        
         // compare password entered with the actual hashed password
         const validPassword = await comparePassword(password, user.password);
 

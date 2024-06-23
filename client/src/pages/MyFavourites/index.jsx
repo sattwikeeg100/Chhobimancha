@@ -5,7 +5,6 @@ import MovieCard from "../../components/movieCard";
 const MyFavourites = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
-    const APIURL = import.meta.env.VITE_API_URL;
 
     const GetAllFavouriteMovies = async () => {
         try {

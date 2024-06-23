@@ -9,17 +9,18 @@ import { setTheme } from "../../store/slices/themeSlice";
 import { setLanguage } from "../../store/slices/languageSlice";
 import { LuSunMedium } from "react-icons/lu";
 import { RiMoonClearLine } from "react-icons/ri";
+import { toast } from "sonner";
+import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const [isSignupModalOpen, setIsSignUpModalOpen] = useState(false);
     const [isForgotPassModalOpen, setIsForgotPassModalOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dispatch = useDispatch();
 
-    const storedUser = useSelector((state) => state.user.user);
+    const storedUser = useSelector((state) => state.user.userInfo);
     useEffect(() => {
         if (storedUser) {
             setUser(storedUser);
@@ -32,8 +33,8 @@ const Navbar = () => {
         return initials.toUpperCase();
     };
 
-    const toggleLoginModal = () => {
-        setIsLoginModalOpen(!isLoginModalOpen);
+    const openLoginModal = () => {
+        dispatch(switchLoginModalOpen(true));
     };
 
     const toggleSignUpModal = () => {
@@ -45,18 +46,18 @@ const Navbar = () => {
     };
 
     const switchToSignUpModal = () => {
-        setIsLoginModalOpen(false);
+        dispatch(switchLoginModalOpen(false));
         setIsSignUpModalOpen(true);
     };
 
     const switchToLoginModal = () => {
         setIsSignUpModalOpen(false);
         setIsForgotPassModalOpen(false);
-        setIsLoginModalOpen(true);
+        dispatch(switchLoginModalOpen(true));
     };
 
     const switchToForgotPassModal = () => {
-        setIsLoginModalOpen(false);
+        dispatch(switchLoginModalOpen(false));
         setIsForgotPassModalOpen(true);
     };
 
@@ -70,6 +71,7 @@ const Navbar = () => {
         setIsDropdownOpen(false);
         navigate("/");
         window.location.reload();
+        toast.success("Please visit again!");
     };
 
     const theme = useSelector((state) => state.theme);
@@ -120,15 +122,13 @@ const Navbar = () => {
                     }>
                     Book a show
                 </NavLink>
-                {user && (
-                    <NavLink
-                        to="/subscribe"
-                        className={({ isActive }) =>
-                            isActive ? "text-yellow-400" : "hover:text-gray-400"
-                        }>
-                        Buy Subscription
-                    </NavLink>
-                )}
+                <NavLink
+                    to="/subscribe"
+                    className={({ isActive }) =>
+                        isActive ? "text-yellow-400" : "hover:text-gray-400"
+                    }>
+                    Buy Subscription
+                </NavLink>
             </nav>
 
             <div className="flex justify-between space-x-6">
@@ -197,7 +197,7 @@ const Navbar = () => {
                         </>
                     ) : (
                         <button
-                            onClick={toggleLoginModal}
+                            onClick={openLoginModal}
                             className="bg-yellow-400 text-gray-900 px-4 py-2 rounded">
                             Login
                         </button>
@@ -206,8 +206,6 @@ const Navbar = () => {
             </div>
 
             <LoginModal
-                isOpen={isLoginModalOpen}
-                onClose={toggleLoginModal}
                 onSignUpClick={switchToSignUpModal}
                 onForgotPassClick={switchToForgotPassModal}
             />

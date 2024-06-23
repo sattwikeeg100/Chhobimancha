@@ -1,8 +1,9 @@
 // src/components/AdminShows.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import ShowAdminCard from "../../components/showAdminCard";
 import ShowModal from "../../components/showModal";
+import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -14,7 +15,7 @@ const AdminShows = () => {
 
     const GetAllShows = async () => {
         try {
-            const response = await axios.get(`${APIURL}/shows`);
+            const response = await axiosInstance.get(`${APIURL}/shows`);
             setShows(response.data);
         } catch (error) {
             console.error(error);
@@ -38,11 +39,14 @@ const AdminShows = () => {
     };
 
     const handleDeleteClick = async (showId) => {
+        window.confirm("Are you sure you want to delete the show?");
         try {
-            await axios.delete(`${APIURL}/shows/${showId}`);
+            await axiosInstance.delete(`${APIURL}/shows/${showId}`);
+            toast.success("Show deleted successfully!");
             GetAllShows();
         } catch (error) {
             console.error("Error deleting show:", error);
+            toast.error("Error deleting show!");
         }
     };
 

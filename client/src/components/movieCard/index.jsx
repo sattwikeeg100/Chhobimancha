@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { FaHeart } from "react-icons/fa";
+import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
 
 const MovieCard = ({ movie, onAddToFavorites }) => {
     const navigate = useNavigate();
-    const [isFavourite, setIsFavourite] = useState();
-    const user = useSelector((state) => state.user.user);
+    const [isFavourite, setIsFavourite] = useState(false);
+    const user = useSelector((state) => state.user.userInfo);
+    const dispatch = useDispatch();
 
     const fetchUserFavLists = async (user) => {
         try {
@@ -23,7 +25,11 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
         if (user) {
             fetchUserFavLists(user);
         }
-    }, []);
+    }, [user]); // Add user to the dependency array
+
+    const switchToLogin = () => {
+        dispatch(switchLoginModalOpen(true));
+    };
 
     return (
         <div className="max-w-xs rounded overflow-hidden shadow-lg relative bg-gray-800 text-white">
@@ -34,13 +40,9 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
                     alt={movie.title}
                 />
                 <button
-                    onClick={onAddToFavorites}
+                    onClick={user ? onAddToFavorites : switchToLogin}
                     className="absolute top-2 right-2 bg-yellow-400 text-gray-900 p-2 rounded-full hover:bg-yellow-500">
-                    {isFavourite ? (
-                        <FaHeart color="red" />
-                    ) : (
-                        <FaHeart/>
-                    )}
+                    {isFavourite ? <FaHeart color="red" /> : <FaHeart />}
                 </button>
             </div>
             <div

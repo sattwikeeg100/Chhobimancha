@@ -1,6 +1,7 @@
 // src/components/ShowModal.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -14,14 +15,8 @@ const ShowModal = ({ show, onClose }) => {
     const [ticketPrice, setTicketPrice] = useState("");
     const [totalSeats, setTotalSeats] = useState("");
     const [posterFile, setPosterFile] = useState(null);
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    const [theatres, setTheatres] = useState([]);
+    const [selectedTheatre, setSelectedTheatre] = useState("");
 
     useEffect(() => {
         if (show) {
@@ -32,8 +27,19 @@ const ShowModal = ({ show, onClose }) => {
             setTime(show.time);
             setTicketPrice(show.ticketPrice);
             setTotalSeats(show.totalSeats);
+            setSelectedTheatre(show.theatre || "");
         }
+        fetchTheatres();
     }, [show]);
+
+    const fetchTheatres = async () => {
+        try {
+            const response = await axiosInstance.get(`${APIURL}/theatres`);
+            setTheatres(response.data);
+        } catch (error) {
+            console.error("Error fetching theatres:", error);
+        }
+    };
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
@@ -48,7 +54,7 @@ const ShowModal = ({ show, onClose }) => {
             const formData = new FormData();
             formData.append("file", file);
             try {
-                const response = await axios.post(
+                const response = await axiosInstance.post(
                     `${APIURL}/upload/image`,
                     formData,
                     {
@@ -57,7 +63,6 @@ const ShowModal = ({ show, onClose }) => {
                 );
                 urlSetter(response.data.url);
                 fileSetter(null);
-                console.log(response.data.url);
             } catch (error) {
                 console.error("Error uploading file:", error);
             }
@@ -78,16 +83,18 @@ const ShowModal = ({ show, onClose }) => {
                 time,
                 ticketPrice,
                 totalSeats,
+                theatre: selectedTheatre,
             };
 
             if (show) {
-                await axios.put(`${APIURL}/shows/${show._id}`, showData, {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
+                await axiosInstance.put(
+                    `${APIURL}/shows/${show._id}`,
+                    showData
+                );
+                toast.success("Show updated successfully!");
             } else {
-                await axios.post(`${APIURL}/shows`, showData, {
-                    headers: { Authorization: `Bearer ${user.token}` },
-                });
+                await axiosInstance.post(`${APIURL}/shows`, showData);
+                toast.success("Show added successfully!");
             }
             onClose();
         } catch (error) {
@@ -132,6 +139,12 @@ const ShowModal = ({ show, onClose }) => {
                                 type="file"
                                 onChange={handleFileInputChange(setPosterFile)}
                             />
+                            {poster && (
+                                <img
+                                    src={poster}
+                                    className="w-14 h-14 rounded-full"
+                                />
+                            )}
                             <button
                                 type="button"
                                 onClick={() =>
@@ -198,6 +211,21 @@ const ShowModal = ({ show, onClose }) => {
                             value={totalSeats}
                             onChange={handleInputChange(setTotalSeats)}
                         />
+                    </div>
+                    {/* Theatre */}
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Theatre</label>
+                        <select
+                            className="w-full px-3 py-2 border rounded"
+                            value={selectedTheatre}
+                            onChange={handleInputChange(setSelectedTheatre)}>
+                            <option value="">Select a theatre</option>
+                            {theatres.map((theatre) => (
+                                <option key={theatre._id} value={theatre._id}>
+                                    {theatre.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     {/* Submit Button */}
                     <div className="flex justify-end">

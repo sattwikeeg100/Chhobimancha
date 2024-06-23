@@ -1,8 +1,9 @@
 // src/components/AdminMovies.jsx
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import MovieAdminCard from "../../components/movieAdminCard";
 import MovieModal from "../../components/movieModal";
+import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -11,18 +12,10 @@ const AdminMovies = () => {
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
     const [currentMovie, setCurrentMovie] = useState(null);
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
 
     const GetAllMovies = async () => {
         try {
-            const response = await axios.get(`${APIURL}/movies`);
+            const response = await axiosInstance.get(`${APIURL}/movies`);
             setMovies(response.data);
         } catch (error) {
             console.error(error);
@@ -46,13 +39,15 @@ const AdminMovies = () => {
     };
 
     const handleDeleteClick = async (movieId) => {
+        window.confirm("Are you sure you want to delete the movie?");
+        
         try {
-            await axios.delete(`${APIURL}/movies/${movieId}`, {
-                headers: `Authorization: Bearer ${user.token}`,
-            });
+            await axiosInstance.delete(`${APIURL}/movies/${movieId}`);
+            toast.success("Movie deleted successfully!");
             GetAllMovies();
         } catch (error) {
             console.error("Error deleting movie:", error);
+            toast.success("Error deleting movie!");
         }
     };
 

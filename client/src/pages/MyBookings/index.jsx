@@ -1,7 +1,7 @@
 // MyBookings.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import BookingItem from "../../components/bookingItem";
+import axiosInstance from "../../config/axiosInstance";
 
 const MyBookings = () => {
     const [bookings, setBookings] = useState([]);
@@ -12,13 +12,8 @@ const MyBookings = () => {
 
     useEffect(() => {
         const fetchBookings = async () => {
-            const user = JSON.parse(localStorage.getItem("user"));
             try {
-                const response = await axios.get(`${APIURL}/bookings`, {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`,
-                    },
-                });
+                const response = await axiosInstance.get(`${APIURL}/bookings`);
                 setBookings(response.data.bookings);
                 setLoading(false);
             } catch (error) {

@@ -1,6 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-const APIURL = import.meta.env.VITE_API_URL;
+import { createSlice } from "@reduxjs/toolkit";
 
 const getThemeFromLocalStorage = () => {
     const theme = localStorage.getItem("theme");

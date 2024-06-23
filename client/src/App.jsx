@@ -21,12 +21,16 @@ import MyFavourites from "./pages/MyFavourites";
 import MyBookings from "./pages/MyBookings";
 import MyProfile from "./pages/MyProfile";
 import SubscriptionPage from "./pages/SubscriptionPage";
+import NotFound from "./pages/NotFound";
+import { Toaster } from "sonner";
+import Footer from "./components/footer";
 
 const UserLayout = ({ children }) => {
     return (
         <>
             <Navbar />
             {children}
+            <Footer />
         </>
     );
 };
@@ -59,7 +63,6 @@ const AdminLayout = ({ children }) => {
     );
 };
 
-
 function App() {
     // Initialize user state properly
     const [user, setUser] = useState(null);
@@ -75,86 +78,106 @@ function App() {
         <Provider store={store}>
             <BrowserRouter>
                 {user?.isAdmin ? (
-                    <AdminLayout>
-                        <Routes>
-                            <Route
-                                exact
-                                path="/"
-                                element={<AdminDashboard />}
-                            />
-                            <Route
-                                exact
-                                path="/users"
-                                element={<AdminUsers />}
-                            />
-                            <Route
-                                exact
-                                path="/movies"
-                                element={<AdminMovies />}
-                            />
-                            <Route
-                                exact
-                                path="/cineasts"
-                                element={<AdminCineasts />}
-                            />
-                            <Route
-                                exact
-                                path="/shows"
-                                element={<AdminShows />}
-                            />
-                            <Route
-                                exact
-                                path="/theatres"
-                                element={<AdminTheatres />}
-                            />
-                            <Route
-                                exact
-                                path="/settings"
-                                element={<AdminProfileSettings />}
-                            />
-                            <Route
-                                path="*"
-                                element={<div>Page not found(admin) ...</div>}
-                            />
-                        </Routes>
-                    </AdminLayout>
+                    <>
+                        <Toaster
+                            richColors
+                            position="top-right"
+                            closeButton="true"
+                        />
+                        <AdminLayout>
+                            <Routes>
+                                <Route
+                                    exact
+                                    path="/"
+                                    element={<AdminDashboard />}
+                                />
+                                <Route
+                                    exact
+                                    path="/users"
+                                    element={<AdminUsers />}
+                                />
+                                <Route
+                                    exact
+                                    path="/movies"
+                                    element={<AdminMovies />}
+                                />
+                                <Route
+                                    exact
+                                    path="/cineasts"
+                                    element={<AdminCineasts />}
+                                />
+                                <Route
+                                    exact
+                                    path="/shows"
+                                    element={<AdminShows />}
+                                />
+                                <Route
+                                    exact
+                                    path="/theatres"
+                                    element={<AdminTheatres />}
+                                />
+                                <Route
+                                    exact
+                                    path="/settings"
+                                    element={<AdminProfileSettings />}
+                                />
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </AdminLayout>
+                    </>
                 ) : (
-                    <UserLayout>
-                        <Routes>
-                            <Route exact path="/" element={<Home />} />
-                            <Route
-                                path="explore/movies"
-                                element={<AllMovies />}
-                            />
-                            <Route
-                                path="explore/shows"
-                                element={<AllShows />}
-                            />
-                            <Route
-                                path="explore/movies/:slug"
-                                element={<SingleMovie />}
-                            />
-                            <Route
-                                path="explore/shows/:slug"
-                                element={<SingleShow />}
-                            />
-                            <Route
-                                path="/myfavourites"
-                                element={<MyFavourites />}
-                            />
-                            <Route
-                                path="/mybookings"
-                                element={<MyBookings />}
-                            />
-                            <Route path="/myprofile" element={<MyProfile />} />
-                            <Route path="/myprofile" element={<MyProfile />} />
-                            <Route path="/subscribe" element={<SubscriptionPage />} />
-                            <Route
-                                path="*"
-                                element={<div>Page not found...</div>}
-                            />
-                        </Routes>
-                    </UserLayout>
+                    <>
+                        <Toaster
+                            richColors
+                            position="top-right"
+                            className="mt-10"
+                            closeButton="true"
+                        />
+                        <UserLayout>
+                            <Routes>
+                                <Route exact path="/" element={<Home />} />
+                                <Route
+                                    path="explore/movies"
+                                    element={<AllMovies />}
+                                />
+                                <Route
+                                    path="explore/shows"
+                                    element={<AllShows />}
+                                />
+                                <Route
+                                    path="explore/movies/:slug"
+                                    element={<SingleMovie />}
+                                />
+                                <Route
+                                    path="explore/shows/:slug"
+                                    element={<SingleShow />}
+                                />
+                                <Route
+                                    path="/subscribe"
+                                    element={<SubscriptionPage />}
+                                />
+                                {user && (
+                                    <Route
+                                        path="/myfavourites"
+                                        element={<MyFavourites />}
+                                    />
+                                )}
+                                {user && (
+                                    <Route
+                                        path="/mybookings"
+                                        element={<MyBookings />}
+                                    />
+                                )}
+                                {user && (
+                                    <Route
+                                        path="/myprofile"
+                                        element={<MyProfile />}
+                                    />
+                                )}
+                                <Route path="*" element={<NotFound />} />
+                            </Routes>
+                        </UserLayout>
+                    </>
                 )}
             </BrowserRouter>
         </Provider>

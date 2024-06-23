@@ -1,19 +1,60 @@
 import React, { useState } from "react";
+import axiosInstance from "../../../config/axiosInstance.js";
+import { toast } from "sonner";
 
 const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
-    const [isAdmin, setIsAdmin] = useState(false);
-
     if (!isOpen) return null;
 
-    const handleIsAdminChange = () => {
-        setIsAdmin(!isAdmin);
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [imageFile, setImageFile] = useState(null);
+    const [image, setImage] = useState();
+    const [imageUploading, setImageUploading] = useState(false);
+    const [error, setError] = useState(false);
+
+    const APIURL = import.meta.env.VITE_API_URL;
+
+    const handleImageFileUpload = async (imageFile) => {
+        if (imageFile) {
+            setImageUploading(true);
+            const formData = new FormData();
+            formData.append("file", imageFile);
+            try {
+                const response = await axiosInstance.post(
+                    `${APIURL}/upload/image`,
+                    formData
+                );
+                setImage(response.data.url);
+                setImageFile(null);
+                setImageUploading(false);
+                console.log(response.data.url);
+            } catch (error) {
+                console.error("Error uploading file:", error);
+            }
+        } else {
+            return;
+        }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData(event.target);
-        formData.append("isAdmin", isAdmin);
-        // Handle form submission here, e.g., send formData to the backend
+        const payload = {
+            name,
+            email,
+            image,
+            password,
+        };
+        try {
+            const response = await axiosInstance.post(`${APIURL}/users`, payload);
+            setError(null);
+            toast.success("Registration successful !");
+            onLoginClick();
+        } catch (error) {
+            console.log(error);
+            setError(error.response.data.message);
+            toast.error("Registration failed !");
+        }
     };
 
     return (
@@ -26,7 +67,9 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                         <input
                             type="text"
                             name="name"
-                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                             autoComplete="username"
                         />
@@ -36,7 +79,9 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                         <input
                             type="email"
                             name="email"
-                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                             autoComplete="email"
                         />
@@ -46,7 +91,9 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                         <input
                             type="password"
                             name="password"
-                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             required
                             autoComplete="password"
                         />
@@ -55,23 +102,44 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                         <label className="block text-gray-700">
                             Profile Image
                         </label>
-                        <input
-                            type="file"
-                            name="image"
-                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
+                        <div className="flex flex-row gap-3">
+                            <input
+                                type="file"
+                                name="image"
+                                onChange={(e) =>
+                                    setImageFile(e.target.files[0])
+                                }
+                                className="w-full text-black px-3 py-2 border rounded"
+                            />
+                            {image && (
+                                <img
+                                    className="h-12 w-12 rounded-full"
+                                    src={image}
+                                />
+                            )}
+                            {imageUploading ? (
+                                <button type="button" className="text-black cursor-not-allowed">
+                                    Uploading...
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="text-black"
+                                    onClick={() =>
+                                        handleImageFileUpload(imageFile)
+                                    }>
+                                    <u>Upload</u>
+                                </button>
+                            )}
+                        </div>
                     </div>
-                    <div className="mb-4 flex items-center">
-                        <label className="block text-gray-700 mr-2">
-                            Register as Admin
-                        </label>
-                        <input
-                            type="checkbox"
-                            checked={isAdmin}
-                            onChange={handleIsAdminChange}
-                            className="form-checkbox h-5 w-5 text-green-500"
-                        />
-                    </div>
+                    {error && (
+                        <div
+                            className="alert alert-danger text-red-500"
+                            role="alert">
+                            {error} !
+                        </div>
+                    )}
                     <div className="flex justify-end">
                         <button
                             type="button"
@@ -81,7 +149,7 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                         </button>
                         <button
                             type="submit"
-                            className="bg-green-500 text-white px-4 py-2 rounded">
+                            className="bg-blue-500 text-white px-4 py-2 rounded">
                             Sign Up
                         </button>
                     </div>

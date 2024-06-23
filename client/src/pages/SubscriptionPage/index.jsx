@@ -58,7 +58,6 @@ const SubscriptionPage = () => {
     const handleCancelSubscription = async () => {
         try {
             if (true) {
-                console.log("HULLLAAAAA");
                 dispatch(
                     updateUser({ isSubscriber: false, subscriptionId: "" })
                 ).then(() => {
@@ -175,7 +174,7 @@ const SubscriptionPage = () => {
                     </div>
 
                     <div className="mt-12 text-center">
-                        {user.isSubscriber === false ? (
+                        {!user || !user.isSubscriber ? (
                             <button
                                 onClick={handlePayment}
                                 className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">

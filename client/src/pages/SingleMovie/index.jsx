@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import moment from "moment";
 import CastSlider from "../../components/castSlider/index";
 import ReviewForm from "../../components/movieReviewForm/index";
@@ -11,9 +10,12 @@ import { LuDot } from "react-icons/lu";
 import "./styles.css";
 import Reviews from "../../components/Reviews";
 import ReactPlayer from "react-player";
+import { useDispatch, useSelector } from "react-redux";
+import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
+import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
 
 const SingleMovie = () => {
-    const [reviews, setReviews] = useState([]); //to add reviews
     const [showModal, setShowModal] = useState(false); // State to control the modal visibility
     const [videoModalOpen, setVideoModalOpen] = useState(false);
     const navigate = useNavigate();
@@ -22,10 +24,13 @@ const SingleMovie = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const APIURL = import.meta.env.VITE_API_URL;
+    const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.user.userInfo);
 
     const fetchMovie = async () => {
         try {
-            const response = await axios.get(`${APIURL}/movies/${slug}`);
+            const response = await axiosInstance.get(`${APIURL}/movies/${slug}`);
             setMovie(response.data);
         } catch (err) {
             console.error(err);
@@ -37,25 +42,46 @@ const SingleMovie = () => {
 
     useEffect(() => {
         fetchMovie();
-    }, [slug]);
+    }, []);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    const handleReviewRequest = () => {
+        if (user) setShowModal(true);
+        else {
+            dispatch(switchLoginModalOpen(true));
+        }
+    };
+
     //to add reviews and close the review form
-    const handleReviewSubmit = (review) => {
-        setReviews([...reviews, review]);
-        movie.numberOfReviews++;
-        setShowModal(false); // Close the modal after submitting the review
+    const handleReviewSubmit = async (review) => {
+        try {
+            await axiosInstance.post(
+                `${APIURL}/movies/reviews/${movie._id}`,
+                review
+            );
+            toast.success("Successfully added review");
+        } catch (error) {
+            console.error(error.message);
+            toast.error("Error adding review!");
+        } finally {
+            setShowModal(false); // Close the modal after submitting the review
+            fetchMovie();
+        }
     };
 
     //for play now button
     const handleClick = (e) => {
         e.preventDefault();
-        if (movie.video) {
-            setVideoModalOpen(true);
+        if (user?.isSubscriber) {
+            if (movie.video) {
+                setVideoModalOpen(true);
+            } else {
+                alert("Sorry, we don't have this movie available right now");
+            }
         } else {
-            alert("Sorry, we don't have this movie available right now");
+            navigate("/subscribe");
         }
     };
 
@@ -143,13 +169,15 @@ const SingleMovie = () => {
 
                                     {/* total ratings */}
                                     <div className="lg:text-xl md:text-sm sm:text-xs lg:ml-10 sm:ml-5 tracking-normal md:tracking-tight">
-                                        {reviews.length} votes
+                                        {movie.reviews.length} votes
                                     </div>
 
                                     {/* add review button */}
                                     <div className="lg:ml-10 md:ml-5 lg:text-md md:text-sm sm:text-xs sm:ml-3">
                                         <button
-                                            onClick={() => setShowModal(true)}
+                                            onClick={() =>
+                                                handleReviewRequest()
+                                            }
                                             className="bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg focus:outline-none focus:shadow-outline
                         sm:py-[.35rem] md:px-6 sm:px-3">
                                             Add Review

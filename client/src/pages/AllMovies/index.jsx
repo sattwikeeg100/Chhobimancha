@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../../components/movieCard";
 import axiosInstance from "../../config/axiosInstance";
+import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
 const AllMovies = () => {
-    const [user, setUser] = useState(null);
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -24,13 +24,6 @@ const AllMovies = () => {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
 
     useEffect(() => {
         GetAllMovies();
@@ -91,10 +84,10 @@ const AllMovies = () => {
                 `${APIURL}/users/favourites`,
                 { movieId: movieId }
             );
-            alert("Successfully added to favorites");
+            toast.success("Successfully added to favorites");
         } catch (error) {
             console.error(error);
-            alert(error.message);
+            toast.error(error.message);
         }
     };
 
