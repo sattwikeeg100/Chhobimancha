@@ -148,7 +148,7 @@ export const updatedUserProfile = asyncHandler(async (req, res) => {
             isAdmin: updatedUser.isAdmin,
             isSubscriber: updatedUser.isSubscriber,
             subscriptionId: updatedUser.subscriptionId,
-            favoriteMovies: user.favoriteMovies,
+            favoriteMovies: updatedUser.favoriteMovies,
             token: generateToken(updatedUser._id),
         });
     }

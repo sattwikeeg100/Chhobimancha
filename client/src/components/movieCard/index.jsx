@@ -5,19 +5,23 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { FaHeart } from "react-icons/fa";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
+import axiosInstance from "../../config/axiosInstance";
+import { updateUser } from "../../store/slices/userSlice";
+import { toast } from "sonner";
 
-const MovieCard = ({ movie, onAddToFavorites }) => {
+const MovieCard = ({ movie }) => {
     const navigate = useNavigate();
     const [isFavourite, setIsFavourite] = useState(false);
     const user = useSelector((state) => state.user.userInfo);
     const dispatch = useDispatch();
+    const APIURL = import.meta.env.VITE_API_URL;
 
     const fetchUserFavLists = async (user) => {
         try {
             const userFavList = user.favoriteMovies;
             setIsFavourite(userFavList.includes(movie._id));
         } catch (error) {
-            console.error("Error fetching user cart:", error);
+            console.error("Error fetching user favlist:", error);
         }
     };
 
@@ -31,6 +35,22 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
         dispatch(switchLoginModalOpen(true));
     };
 
+    const handleAddToFavorites = async () => {
+        try {
+            const response = await axiosInstance.post(
+                `${APIURL}/users/favourites`,
+                { movieId: movie._id }
+            );
+            isFavourite
+                ? toast.warning("Removed from favourites")
+                : toast.success("Successfully added to favorites");
+            dispatch(updateUser());
+        } catch (error) {
+            console.error(error);
+            toast.error(error.message);
+        }
+    };
+
     return (
         <div className="max-w-xs rounded overflow-hidden shadow-lg relative bg-gray-800 text-white">
             <div className="relative">
@@ -40,7 +60,7 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
                     alt={movie.title}
                 />
                 <button
-                    onClick={user ? onAddToFavorites : switchToLogin}
+                    onClick={user ? handleAddToFavorites : switchToLogin}
                     className="absolute top-2 right-2 bg-yellow-400 text-gray-900 p-2 rounded-full hover:bg-yellow-500">
                     {isFavourite ? <FaHeart color="red" /> : <FaHeart />}
                 </button>
@@ -59,7 +79,7 @@ const MovieCard = ({ movie, onAddToFavorites }) => {
                     style={{ width: 50, height: 50 }}>
                     <CircularProgressbar
                         value={movie.averageRating}
-                        maxValue={10}
+                        maxValue={5}
                         text={`${movie.averageRating}`}
                         styles={buildStyles({
                             textColor: "white",

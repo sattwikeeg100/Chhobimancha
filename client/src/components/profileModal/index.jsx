@@ -4,6 +4,7 @@ import axiosInstance from "../../config/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
 import { toast } from "sonner";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -47,6 +48,18 @@ const ProfileModal = ({ profile, onClose }) => {
             } catch (error) {
                 console.error("Error uploading image:", error);
             }
+        }
+    };
+
+    const handleImageFileDelete = async (filename, callback) => {
+        try {
+            const response = await axiosInstance.delete(
+                `${APIURL}/upload/image/${filename}`
+            );
+            callback(); // Callback to update state or UI after deletion
+            console.log(response.data.message);
+        } catch (error) {
+            console.error("Error deleting file:", error);
         }
     };
 
@@ -113,6 +126,16 @@ const ProfileModal = ({ profile, onClose }) => {
                                     alt="Profile"
                                     className="w-32 h-32 rounded-full"
                                 />
+                                <button
+                                    onClick={() =>
+                                        handleImageFileDelete(
+                                            image.split("/").pop(),
+                                            () => setImage("")
+                                        )
+                                    }
+                                    className="mt-2 bg-red-500 text-white py-2 px-4 rounded">
+                                    <TiDeleteOutline />
+                                </button>
                             </div>
                         )}
                     </div>

@@ -91,4 +91,34 @@ uploadRouter.post("/video", uploadVideo.single("video"), (req, res) => {
     });
 });
 
+uploadRouter.delete("/image/:filename", async (req, res) => {
+    const { filename } = req.params;
+
+    try {
+        const file = storage.file(filename);
+        await file.delete();
+        res.status(200).json({ message: "File deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting file:", error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
+uploadRouter.delete("/video/:filename", async (req, res) => {
+    const { filename } = req.params;
+
+    const params = {
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
+        Key: filename,
+    };
+
+    try {
+        await s3.deleteObject(params).promise();
+        res.status(200).json({ message: "File deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting file:", error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
 export default uploadRouter;

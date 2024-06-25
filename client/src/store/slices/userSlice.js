@@ -35,6 +35,7 @@ export const updateUser = createAsyncThunk(
                 `${APIURL}/users`,
                 payload
             );
+            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error(error);
@@ -62,18 +63,18 @@ const userSlice = createSlice({
         builder
             .addCase(loginUser.pending, (state) => {
                 state.loading = true;
-                state.user = null;
+                state.userInfo = null;
                 state.error = null;
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload;
+                state.userInfo = action.payload;
                 localStorage.setItem("user", JSON.stringify(action.payload));
                 state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
-                state.user = null;
+                state.userInfo = null;
                 state.error = action.payload || "An error occurred";
             })
             .addCase(updateUser.pending, (state) => {
@@ -82,7 +83,7 @@ const userSlice = createSlice({
             })
             .addCase(updateUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload;
+                state.userInfo = action.payload;
                 localStorage.setItem("user", JSON.stringify(action.payload));
                 state.error = null;
             })
