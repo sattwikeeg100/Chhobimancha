@@ -7,7 +7,7 @@ const SubscriptionPage = () => {
     const APIURL = import.meta.env.VITE_API_URL;
     const dispatch = useDispatch();
 
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.user.userInfo);
 
     const handlePayment = async () => {
         const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;

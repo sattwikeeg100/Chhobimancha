@@ -8,6 +8,7 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword]=useState();
     const [imageFile, setImageFile] = useState(null);
     const [image, setImage] = useState();
     const [imageUploading, setImageUploading] = useState(false);
@@ -94,6 +95,18 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                             className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
+                            autoComplete="password"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700">Confirm Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                             autoComplete="password"
                         />
