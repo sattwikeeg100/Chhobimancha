@@ -50,7 +50,7 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                         className={`w-1/2 py-2 ${
                             tab === "user"
                                 ? "bg-blue-500 text-white"
-                                : "bg-gray-200"
+                                : "bg-gray-300"
                         }`}
                         onClick={() => setTab("user")}>
                         User Login
@@ -59,7 +59,7 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                         className={`w-1/2 py-2 ${
                             tab === "admin"
                                 ? "bg-blue-500 text-white"
-                                : "bg-gray-200"
+                                : "bg-gray-300"
                         }`}
                         onClick={() => setTab("admin")}>
                         Admin Login

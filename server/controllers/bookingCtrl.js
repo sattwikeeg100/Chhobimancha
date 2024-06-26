@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import { instance } from "../config/paymentGatewayConfig.js";
 import Show from "../models/showModel.js";
 import Booking from "../models/bookingModel.js";
-import { request } from "http";
+import nodemailer from "nodemailer";
 
 // ************************* Private CONTROLLERS *********************
 
@@ -51,22 +51,65 @@ export const paymentVerification = asyncHandler(async (req, res) => {
             });
             await newBooking.save();
 
-            // update the list of booked seats for the show
-
-            const bookedshow = await Show.findById(show);
+            // Update the list of booked seats for the show
+            const bookedShow = await Show.findById(show);
             await Show.findByIdAndUpdate(show, {
-                bookedSeats: [...bookedshow.bookedSeats, ...seats],
+                bookedSeats: [...bookedShow.bookedSeats, ...seats],
             });
 
-            res.status(201).json({ message: "Booking confirmed" });
-        } else {
-            res.status(400).json({ message: "Invalid signature" });
+            // Fetch the show details along with theatre details
+            const showDetails = await Show.findById(show).populate("theatre");
+
+            res.status(201).json({
+                message: "Booking confirmed",
+                booking: { show: showDetails, seats, totalAmount },
+            });
         }
     } catch (err) {
         console.error(err);
         throw new Error("Payment Verification Failed!");
     }
 });
+
+export const sendEmailWithPDF = async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.TEAM_EMAIL_ADDRESS,
+            pass: process.env.TEAM_EMAIL_PASSWORD,
+        },
+    });
+
+    const mailOptions = {
+        from: "showtime360.team@gmail.com",
+        to: req.body.email,
+        subject: "Your Booking Confirmation",
+        text: `Dear ${req.body.name},
+
+Thank you for booking with Showtime360! Your seats for the upcoming Bengali theatre play are confirmed. We can't wait to have you join us for an evening of captivating performances and unforgettable moments.
+
+See you at the show!
+
+Warm regards,
+The Showtime360 Team`,
+        attachments: [
+            {
+                filename: `${req.body.showTitle}-ticket.pdf`,
+                content: req.body.pdfBlob,
+                encoding: "base64",
+            },
+        ],
+    };
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully.");
+        res.status(200).json(info);
+    } catch (error) {
+        console.error("Error sending email:", error);
+        throw new Error("Failed to send email");
+    }
+};
 
 // Get all bookings by user
 

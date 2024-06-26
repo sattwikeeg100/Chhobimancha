@@ -9,14 +9,14 @@ const TheatreModal = ({ theatre, onClose }) => {
     const [name, setName] = useState("");
     const [owner, setOwner] = useState("");
     const [address, setAddress] = useState("");
-    const [contact, setContact] = useState("");
+    const [phone, setPhone] = useState("");
 
     useEffect(() => {
         if (theatre) {
             setName(theatre.name);
             setOwner(theatre.owner);
             setAddress(theatre.address);
-            setContact(theatre.contact);
+            setPhone(theatre.phone);
         }
     }, [theatre]);
 
@@ -28,7 +28,7 @@ const TheatreModal = ({ theatre, onClose }) => {
                     name,
                     owner,
                     address,
-                    contact,
+                    phone,
                 });
                 toast.success("Theatre added successfully!");
             } else {
@@ -36,7 +36,7 @@ const TheatreModal = ({ theatre, onClose }) => {
                     name,
                     owner,
                     address,
-                    contact,
+                    phone,
                 });
                 toast.success("Theatre updated successfully!");
             }
@@ -86,12 +86,12 @@ const TheatreModal = ({ theatre, onClose }) => {
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Contact</label>
+                        <label className="block text-gray-700">phone</label>
                         <input
                             className="w-full px-3 py-2 border rounded"
                             type="text"
-                            value={contact}
-                            onChange={(e) => setContact(e.target.value)}
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                         />
                     </div>
                     <div className="flex justify-end">

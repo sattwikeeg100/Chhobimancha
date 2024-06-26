@@ -11,8 +11,11 @@ import {
     getLoggedInUserDetails,
     loginUser,
     registerUser,
+    requestPasswordReset,
+    resetPassword,
     toggleAddToFavoriteMovies,
     updatedUserProfile,
+    verifyCode,
 } from "../controllers/userCtrl.js";
 import { admin, authenticate } from "../middlewares/auth.js";
 
@@ -21,6 +24,9 @@ const router = express.Router();
 // ***************** PUBLIC ROUTES ***********************
 router.post("/", registerUser);
 router.post("/login", loginUser);
+router.post("/forgot-password", requestPasswordReset);
+router.post("/verify-code", verifyCode);
+router.post("/reset-password", resetPassword);
 
 // ***************** PRIVATE ROUTES ***********************
 router.get("/userdetails", authenticate, getLoggedInUserDetails);

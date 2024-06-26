@@ -6,6 +6,18 @@ import {
     hashPassword,
 } from "../utils/authUtils.js";
 import { instance } from "../config/paymentGatewayConfig.js";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+
+// configuration
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.TEAM_EMAIL_ADDRESS,
+        pass: process.env.TEAM_EMAIL_PASSWORD,
+    },
+});
 
 // **************************** PUBLIC CONTROLLERS *******************************
 
@@ -111,6 +123,69 @@ export const loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid password");
     }
 });
+
+export const requestPasswordReset = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(404).send("User not found");
+    }
+
+    const code = crypto.randomInt(100000, 999999).toString(); // Generate a 6-digit code
+    user.resetPasswordCode = code;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    await user.save();
+
+    const mailOptions = {
+        to: user.email,
+        from: process.env.TEAM_EMAIL_ADDRESS,
+        subject: "Showtime360: Password Reset Verification Code",
+        text: `Your password reset verification code is ${code}. It is valid for 1 hour.`,
+    };
+
+    transporter.sendMail(mailOptions, (err) => {
+        if (err) {
+            throw new Error("Error sending email");
+        }
+        res.send("Verification code sent");
+    });
+});
+
+export const verifyCode = async (req, res) => {
+    const { email, code } = req.body;
+    const user = await User.findOne({
+        email,
+        resetPasswordCode: code,
+        resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+        return res
+            .status(400)
+            .send("Verification code is invalid or has expired.");
+    }
+    res.send("Code is valid");
+};
+
+export const resetPassword = async (req, res) => {
+    const { email, code, password } = req.body;
+    const user = await User.findOne({
+        email,
+        resetPasswordCode: code,
+        resetPasswordExpires: { $gt: Date.now() },
+    });
+    if (!user) {
+        return res
+            .status(400)
+            .send("Verification code is invalid or has expired.");
+    }
+
+    user.password = await hashPassword(password);
+    user.resetPasswordCode = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.send("Password has been reset");
+};
 
 // **************************** PRIVATE CONTROLLERS *******************************
 
@@ -239,7 +314,7 @@ export const toggleAddToFavoriteMovies = asyncHandler(async (req, res) => {
         if (user.favoriteMovies.includes(movieId)) {
             user.favoriteMovies.pull(movieId);
         }
-        // else add movie to favorite movies 
+        // else add movie to favorite movies
         else {
             user.favoriteMovies.push(movieId);
         }
@@ -276,11 +351,23 @@ export const deleteAllFavoriteMovies = asyncHandler(async (req, res) => {
 export const buySubscription = asyncHandler(async (req, res) => {
     try {
         const { plan_id, customer_notify } = req.body;
+        const userId = req.user._id;
 
         const subscription = await instance.subscriptions.create({
             plan_id,
             customer_notify,
             total_count: 6, // Monthly subscription for 6 months
+        });
+
+        const subscriptionStart = new Date();
+        const subscriptionEnd = new Date(subscriptionStart);
+        subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 6);
+
+        await User.findByIdAndUpdate(userId, {
+            isSubscriber: true,
+            subscriptionId: subscription.id,
+            subscriptionStart,
+            subscriptionEnd,
         });
 
         res.status(200).json(subscription);
@@ -295,10 +382,18 @@ export const buySubscription = asyncHandler(async (req, res) => {
 export const cancelSubscription = asyncHandler(async (req, res) => {
     try {
         const { subscription_id } = req.body;
+        const userId = req.user._id;
 
         const cancellationResponse = await instance.subscriptions.cancel(
             subscription_id
         );
+
+        await User.findByIdAndUpdate(userId, {
+            isSubscriber: false,
+            subscriptionId: "",
+            subscriptionStart: null,
+            subscriptionEnd: null,
+        });
 
         res.status(200).json(cancellationResponse);
     } catch (error) {

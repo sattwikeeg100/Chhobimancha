@@ -6,7 +6,6 @@ const rowToLetter = (row) => String.fromCharCode(64 + row); // Convert row numbe
 
 const BookYourSeat = ({
   selectedSeats,
-  bookedSeats,
   handleSeatClick,
   handleBookNow,
   getSeatClass,

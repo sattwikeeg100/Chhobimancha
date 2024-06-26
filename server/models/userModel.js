@@ -17,6 +17,8 @@ const userSchema = new mongoose.Schema(
             required: [true, "Please enter your password"],
             minlength: [6, "Password must be at least 6 characters"],
         },
+        resetPasswordCode: { type: String },
+        resetPasswordExpires: { type: Date },
         image: {
             type: String,
         },
@@ -30,7 +32,13 @@ const userSchema = new mongoose.Schema(
         },
         subscriptionId: {
             type: String,
-            default: '',
+            default: "",
+        },
+        subscriptionStart: {
+            type: Date,
+        },
+        subscriptionEnd: {
+            type: Date,
         },
         favoriteMovies: [
             {

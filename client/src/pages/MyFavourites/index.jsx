@@ -25,18 +25,6 @@ const MyFavourites = () => {
         return <div className="text-5xl">Loading...</div>;
     }
 
-    const handleAddToFavorites = async (movieId) => {
-        try {
-            const response = await axiosInstance.post(`/users/favourites`, {
-                movieId: movieId,
-            });
-            alert("Successfully added to favorites");
-        } catch (error) {
-            console.error(error);
-            alert(error.message);
-        }
-    };
-
     return (
         <div className="justify-center items-center sm:mx-36">
             <h1 className="text-5xl font-bold my-8">My Favourite Movies</h1>
@@ -46,7 +34,6 @@ const MyFavourites = () => {
                     <MovieCard
                         key={index}
                         movie={movie}
-                        onAddToFavorites={() => handleAddToFavorites(movie._id)}
                     />
                 ))}
             </div>

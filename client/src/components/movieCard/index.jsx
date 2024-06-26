@@ -76,7 +76,7 @@ const MovieCard = ({ movie }) => {
                 </div>
                 <div
                     className="flex justify-center items-center m-4"
-                    style={{ width: 50, height: 50 }}>
+                    style={{ width: 100, height: 100 }}>
                     <CircularProgressbar
                         value={movie.averageRating}
                         maxValue={5}

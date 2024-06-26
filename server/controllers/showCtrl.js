@@ -10,10 +10,31 @@ export const getAllShows = asyncHandler(async (req, res) => {
     try {
         // find all shows in database
         const shows = await Show.find({}).populate("theatre");
-        // send all shows to the client
-        res.json(shows);
+
+        const now = new Date();
+
+        // Filter shows to which are upcoming
+        const filteredShows = shows.filter((show) => {
+            if (show.date && show.time) {
+                const showDate = new Date(show.date); // MongoDB stores date as ISO string
+                const [hours, minutes] = show.time.split(":"); // Split time into hours and minutes
+
+                // Set the hours and minutes on the showDate object
+                showDate.setHours(hours);
+                showDate.setMinutes(minutes);
+                showDate.setSeconds(0); // Ensure seconds are set to 0
+
+                // Compare the showDate with the current date and time
+                return showDate > now;
+            }
+            return false;
+        });
+
+        // send the shows to the client
+        res.json(filteredShows);
     } catch (error) {
         res.status(400);
+        console.error(error);
         throw new Error(error.message);
     }
 });
