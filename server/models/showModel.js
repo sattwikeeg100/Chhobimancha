@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+const showCineastSchema = new mongoose.Schema({
+    person: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cineast",
+        required: true,
+    },
+    role: {
+        type: String,
+    },
+});
+
 const showSchema = new mongoose.Schema(
     {
         userId: {
@@ -52,6 +63,8 @@ const showSchema = new mongoose.Schema(
             ref: "Theatre",
             required: true,
         },
+        casts: [showCineastSchema],
+        crews: [showCineastSchema],
     },
     { timestamps: true }
 );

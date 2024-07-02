@@ -11,27 +11,8 @@ export const getAllShows = asyncHandler(async (req, res) => {
         // find all shows in database
         const shows = await Show.find({}).populate("theatre");
 
-        const now = new Date();
-
-        // Filter shows to which are upcoming
-        const filteredShows = shows.filter((show) => {
-            if (show.date && show.time) {
-                const showDate = new Date(show.date); // MongoDB stores date as ISO string
-                const [hours, minutes] = show.time.split(":"); // Split time into hours and minutes
-
-                // Set the hours and minutes on the showDate object
-                showDate.setHours(hours);
-                showDate.setMinutes(minutes);
-                showDate.setSeconds(0); // Ensure seconds are set to 0
-
-                // Compare the showDate with the current date and time
-                return showDate > now;
-            }
-            return false;
-        });
-
         // send the shows to the client
-        res.json(filteredShows);
+        res.json(shows);
     } catch (error) {
         res.status(400);
         console.error(error);
@@ -44,7 +25,10 @@ export const getAllShows = asyncHandler(async (req, res) => {
 export const getShowBySlugId = asyncHandler(async (req, res) => {
     const slug = req.params.slug;
     // find show by slug in database
-    const show = await Show.findOne({ slug: slug }).populate("theatre");
+    const show = await Show.findOne({ slug: slug })
+        .populate("theatre")
+        .populate("casts.person")
+        .populate("crews.person");
     // if the show is found, send it to the client
     if (show) {
         res.status(200).json(show);
@@ -71,6 +55,8 @@ export const createShow = asyncHandler(async (req, res) => {
             ticketPrice,
             totalSeats,
             theatre,
+            casts,
+            crews
         } = req.body;
 
         const formatDate = (date) => {
@@ -95,6 +81,8 @@ export const createShow = asyncHandler(async (req, res) => {
             ticketPrice,
             totalSeats,
             theatre,
+            casts,
+            crews
         });
 
         // save the show in database
@@ -121,6 +109,8 @@ export const updateShow = asyncHandler(async (req, res) => {
         ticketPrice,
         totalSeats,
         theatre,
+        casts,
+        crews,
     } = req.body;
 
     // get the show from show id from request params
@@ -152,6 +142,8 @@ export const updateShow = asyncHandler(async (req, res) => {
         show.ticketPrice = ticketPrice || show.ticketPrice;
         show.totalSeats = totalSeats || show.totalSeats;
         show.theatre = theatre || show.theatre;
+        show.casts = casts || show.casts;
+        show.crews = crews || show.crews;
 
         // save the updated show
         const updatedshow = await show.save();

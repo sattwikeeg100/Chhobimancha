@@ -217,8 +217,39 @@ const SingleShow = () => {
                 />
             )}
             <div className="text-3xl text-white">About the play</div>
-            <div className="text-3xl text-white">Cast</div>
-            <div className="text-3xl text-white">Crew</div>
+            {/* Casts Section */}
+            <div className="text-white mt-5">
+                <h2 className="text-3xl">Casts</h2>
+                <ul className="flex gap-6">
+                    {show.casts.map((cast, index) => (
+                        <li key={index}>
+                            <img
+                                src={cast.person.image}
+                                alt={cast.person.name}
+                                className="h-24 w-24"
+                            />
+                            <strong>{cast.role}:</strong> {cast.person.name}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            {/* Crews Section */}
+            <div className="text-white mt-5">
+                <h2 className="text-3xl">Crews</h2>
+                <ul className="flex gap-6">
+                    {show.crews.map((crew, index) => (
+                        <li key={index}>
+                            <img
+                                src={crew.person.image}
+                                alt={crew.person.name}
+                                className="h-24 w-24"
+                            />
+                            <strong>{crew.role}:</strong> {crew.person.name}
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </section>
     );
 };
