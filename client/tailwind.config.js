@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background1: "#000",
-        background2: "#161616",
+        background1: "#000407",
+        background2: "#010b14",
         shadow: "#696969",
-        primary_text: "#fff",
-        secondary_text: "#d0cccc",
-        highlight: "#E72929",
-        highlight_hover: "#7D0A0A",
+        primary_text: "#FFFAF4",
+        secondary_text: "#a3a09d",
+        highlight: "#e1251a",
+        highlight_hover: "#f43a3a77",
       },
     },
   },

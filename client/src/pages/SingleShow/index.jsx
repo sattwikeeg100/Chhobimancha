@@ -109,6 +109,7 @@ const SingleShow = () => {
 
   const handleSeatClick = (row, col) => {
     const seatId = `${String.fromCharCode(64 + row)}${col}`;
+    // console.log(seatId);
     if (!show.bookedSeats.includes(seatId)) {
       if (!selectedSeats.includes(seatId)) {
         setSelectedSeats([...selectedSeats, seatId]);
@@ -246,20 +247,38 @@ const SingleShow = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section className="py-5 px-10 bg-background1 flex flex-col gap-y-7">
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex flex-col lg:flex-row gap-x-7">
-          {/* poster */}
-          <ShowDetails show={show} />
+    <section className="py-5  bg-background1 flex flex-col gap-y-7">
+      <div className="px-10 flex flex-col lg:flex-row gap-x-7 justify-center">
+        {/* poster */}
+        <ShowDetails show={show} />
 
-          {/* booking */}
-          <BookYourSeat
+        <div className="flex flex-col gap-y-4 w-[64%]">
+          {/* cast */}
+          <div className=" flex flex-col ">
+            <div className="text-4xl text-white pl-10  font-bold">Artist</div>
+            <div className="pt-7">
+              <TheatreCastCrew casts={show.casts} />
+            </div>
+          </div>
+
+          {/* Crews Section */}
+
+          {/* crew */}
+          <div className=" flex flex-col ">
+            <div className="text-4xl text-white pl-10  font-bold">Crew</div>
+            <div className="pt-7">
+              <TheatreCastCrew casts={show.crews} />
+            </div>
+          </div>
+        </div>
+
+        {/* booking */}
+        {/* <BookYourSeat
             selectedSeats={selectedSeats}
             handleSeatClick={handleSeatClick}
             handleBookNow={handleBookNow}
             getSeatClass={getSeatClass}
-          />
-        </div>
+          /> */}
       </div>
 
       {/* popup for seat booking */}
@@ -273,7 +292,7 @@ const SingleShow = () => {
       )}
       {/* about section */}
 
-      <div className="flex flex-col gap-y-3">
+      <div className="px-10 flex flex-col gap-y-3">
         <div className="text-4xl text-white  font-bold">About The Play</div>
         <p className=" text-secondary_text text-lg leading-8">
           {show.description}
@@ -281,58 +300,20 @@ const SingleShow = () => {
       </div>
 
       {/* Casts Section */}
-      {/* cast */}
-      <div className=" flex flex-col ">
-        <div className="text-4xl text-white  font-bold">Artist</div>
-        <div className="pt-7">
-          <TheatreCastCrew casts={show.casts} />
+
+      {/* booking */}
+
+      <div className="flex flex-col gap-y-3">
+        <div className="px-10 text-4xl text-white  font-bold">
+          Grab Your Seats
         </div>
+        <BookYourSeat
+          selectedSeats={selectedSeats}
+          handleSeatClick={handleSeatClick}
+          handleBookNow={handleBookNow}
+          getSeatClass={getSeatClass}
+        />
       </div>
-
-      {/* <div className="text-white mt-5">
-        <h2 className="text-3xl">Casts</h2>
-        <ul className="flex gap-6">
-          {show.casts.map((cast, index) => (
-            <li key={index}>
-              <img
-                src={cast.person.image}
-                alt={cast.person.name}
-                className="h-24 w-24"
-              />
-              <strong>{cast.role}:</strong> {cast.person.name}
-            </li>
-          ))}
-        </ul>
-      </div> */}
-
-      {/* Crews Section */}
-
-      {/* crew */}
-      <div className=" flex flex-col ">
-        <div className="text-4xl text-white  font-bold">Crew</div>
-        <div className="pt-7">
-          <TheatreCastCrew casts={show.crews} />
-        </div>
-      </div>
-
-      {/* <div className="text-white mt-5">
-        <h2 className="text-3xl">Crews</h2>
-        <ul className="flex gap-6">
-          {show.crews.map((crew, index) => (
-            <li key={index}>
-              <img
-                src={crew.person.image}
-                alt={crew.person.name}
-                className="h-24 w-24"
-              />
-              <div className="flex flex-col items-center justify-center">
-                {crew.person.name}
-                <strong>{crew.role}</strong>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </section>
   );
 };

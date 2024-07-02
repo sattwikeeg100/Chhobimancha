@@ -27,11 +27,15 @@ const TheatreCastCrew = ({ casts }) => {
   }, [casts]);
 
   const scrollLeft = () => {
-    sliderRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
   };
 
   const scrollRight = () => {
-    sliderRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    if (sliderRef.current) {
+      sliderRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
   };
 
   return (
@@ -48,10 +52,7 @@ const TheatreCastCrew = ({ casts }) => {
           <div className="w-10" /> // Placeholder for left side gap
         )}
 
-        <div
-          ref={sliderRef}
-          className="flex overflow-x-auto gap-x-[2rem] px-1 "
-        >
+        <div ref={sliderRef} className="flex overflow-x-auto gap-x-[2rem] px-1">
           {casts.map((member, index) => (
             <div key={index} className="flex-shrink-0 w-36">
               <div className="w-36 h-36 rounded-full overflow-hidden mb-2">
