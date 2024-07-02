@@ -157,6 +157,19 @@ const SingleShow = () => {
     });
   };
 
+  const getSeatPrice = (seatId) => {
+    const row = seatId.charAt(0); // Extract the row letter
+    if (["A", "B", "C", "D"].includes(row)) {
+      return 500;
+    } else if (["E", "F", "G", "H", "I", "J"].includes(row)) {
+      return 300;
+    } else if (["K", "L", "M"].includes(row)) {
+      return 200;
+    } else {
+      return 0; // Default price if the row is not recognized
+    }
+  };
+
   const handleBookNow = async () => {
     if (!user) {
       dispatch(switchLoginModalOpen(true));
@@ -164,10 +177,16 @@ const SingleShow = () => {
     }
     if (selectedSeats.length > 0) {
       try {
+        // Calculate total amount based on selected seats
+        const totalAmount = selectedSeats.reduce((total, seatId) => {
+          return total + getSeatPrice(seatId);
+        }, 0);
+
         const orderInfo = await axiosInstance.post(
           `${APIURL}/bookings/checkout`,
-          { amount: "5000" }
+          { amount: totalAmount } // Amount in paise
         );
+
         const options = {
           key: razorpayKey,
           amount: orderInfo.data.order.amount,
@@ -303,7 +322,7 @@ const SingleShow = () => {
 
       {/* booking */}
 
-      <div className="flex flex-col gap-y-3">
+      <div className="flex flex-col gap-y-5">
         <div className="px-10 text-4xl text-white  font-bold">
           Grab Your Seats
         </div>
