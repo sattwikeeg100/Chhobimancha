@@ -6,6 +6,7 @@ const rowToLetter = (row) => String.fromCharCode(64 + row); // Convert row numbe
 
 const BookYourSeat = ({
   selectedSeats,
+  bookedSeats,
   handleSeatClick,
   handleBookNow,
   getSeatClass,
@@ -362,12 +363,23 @@ const BookYourSeat = ({
           <img src={stageImg} alt="Stage" />
         </div>
       </div>
-      <div>
-        {/* book npw button */}
+      <div className="flex flex-row items-center justify-between w-full">
+        <div className="flex text-primary_text py-2 gap-x-2">
+          <div className="border-highlight border-2 border-dashed text-white text-xl font-bold py-2 px-4 rounded-xl">
+            Balcony - Rs.200
+          </div>
+          <div className="border-highlight border-2 border-dashed text-white text-xl font-bold py-2 px-4 rounded-xl">
+            Rear Stall - Rs.300
+          </div>
+          <div className="border-highlight border-2 border-dashed text-white text-xl font-bold py-2 px-4 rounded-xl">
+            Front Stall - Rs.500
+          </div>
+        </div>
+        {/* book now button */}
         <button
           onClick={handleBookNow}
           type="button"
-          className=" bg-highlight hover:bg-highlight_hover w-full text-white font-bold py-2 px-4 rounded mt-4"
+          className=" bg-highlight hover:bg-highlight_hover text-white text-xl font-bold py-2 px-6 rounded-xl"
         >
           Book Now
         </button>
