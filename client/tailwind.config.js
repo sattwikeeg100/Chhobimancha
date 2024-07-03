@@ -5,12 +5,22 @@ export default {
     extend: {
       colors: {
         background1: "#000407",
-        background2: "#010b14",
-        shadow: "#696969",
+        background2: "#121212",
+        shadow: "#232222",
         primary_text: "#FFFAF4",
         secondary_text: "#a3a09d",
         highlight: "#e1251a",
         highlight_hover: "#f43a3a77",
+      },
+      fontFamily: {
+        // sans: ["var(--font-sora)", ...fontFamily.sans],
+        // code: "var(--font-code)",
+        // grotesk: "var(--font-grotesk)",
+        open_sans: ["Open Sans", "sans-serif"], // normal text
+        roboto: ["Roboto", "sans-serif"],
+        lato: ["Lato", "sans-serif"], // secondary heading
+        montserrat: ["Montserrat", "sans-serif"], // primary heading
+        ubuntu: ["Ubuntu", "sans-serif"], // buttons
       },
     },
   },

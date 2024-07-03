@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer{
+    body {
+        overflow-x: hidden;
+    }
+}
+
+.slick-dots li button::before {
+    
+    color: #fff;
+    opacity: 0.7;
+  }
+
+  .slick-dots li.slick-active button::before {
+    color: #fff;
+    opacity: 1;
+  }
