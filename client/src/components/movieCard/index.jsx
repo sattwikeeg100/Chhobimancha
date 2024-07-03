@@ -54,8 +54,8 @@ const MovieCard = ({ movie }) => {
     };
 
     return (
-        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 max-w-s rounded overflow-hidden shadow-lg relative bg-background2 text-white h-120">
-          <div className="relative border-2 border-white ">
+        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 max-w-s rounded overflow-hidden shadow-lg relative bg-background2 text-white h-150 p-4">
+          <div className="relative">
             <img
               className="w-80 h-80 object-cover "
               src={movie.poster}
@@ -76,21 +76,27 @@ const MovieCard = ({ movie }) => {
                 <div className="flex flex-row mb-5">
                     <div className="font-bold text-xl text-primary_text">{movie.title}</div>
                     <div
-                    className="flex justify-center items-center absolute right-3 top-100"
+                    className="flex justify-center items-center absolute right-3 top-100 font-semibold text-primary_text"
                     >
-                    <FaStar className="text-highlight mr-2"/>
+                    <FaStar className="text-highlight mr-2 "/>
                     {movie.averageRating}/5
                     </div>
             </div>
-              <p className="text-secondary_text font-semibold flex flex-row">
+              <p className="text-primary_text font-semibold flex flex-row">
               {moment(movie.releaseDate).year()}
                 
-                <BsDot className="text-bold w-5 h-5 mt-1"/>
+                <BsDot className="font-semibold w-5 h-5 mt-1"/>
                 {movie.genre}
               </p>
             </div>
+
+            
             
           </div>
+          <button className="bg-highlight hover:bg-highlight_hover text-white font-bold my-4 py-2 px-4 rounded w-full"
+          onClick={() => navigate(`/explore/movies/${movie.slug}`)}>
+              Watch Now
+            </button>
         </div>
       );
 };

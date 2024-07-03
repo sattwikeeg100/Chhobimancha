@@ -111,7 +111,7 @@ const AllMovies = () => {
     }
 
     return (
-        <div className="justify-center items-center px-20 py-5 bg-background1">
+        <div className="justify-center items-center px-10 py-5 bg-background1">
             <h1 className="text-5xl font-semibold py-8 text-primary_text">Movies</h1>
             <div className="absolute right-20 top-32 flex flex-row ">
                     <FaSearch className="text-primary_text mr-3 mt-2 w-6 h-6"/>
