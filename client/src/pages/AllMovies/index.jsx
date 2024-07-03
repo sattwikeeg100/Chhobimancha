@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import MovieCard from "../../components/movieCard";
+import MovieCard from "../../components/movieCard/index.jsx";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
+import GoToTop from "../../components/goToTopButton/index.jsx"; // Import the GoToTop component
 
 const APIURL = import.meta.env.VITE_API_URL;
+const INITIAL_LOAD_COUNT = 4;
+const LOAD_MORE_COUNT = 8;
 
 const AllMovies = () => {
     const [movies, setMovies] = useState([]);
@@ -12,12 +15,18 @@ const AllMovies = () => {
     const [selectedGenre, setSelectedGenre] = useState("");
     const [sortOption, setSortOption] = useState("");
     const [sortOrder, setSortOrder] = useState("asc");
+    const [isZoomed, setIsZoomed] = useState(false);
+    const [visibleMovies, setVisibleMovies] = useState(INITIAL_LOAD_COUNT);
+
+    const toggleZoom = () => {
+        setIsZoomed(!isZoomed);
+    };
 
     const GetAllMovies = async () => {
         try {
             const response = await axiosInstance.get("/movies");
             setMovies(response.data);
-            setFilteredMovies(response.data);
+            setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
         } catch (error) {
             console.error(error);
         } finally {
@@ -31,25 +40,23 @@ const AllMovies = () => {
 
     useEffect(() => {
         filterAndSortMovies();
-    }, [selectedGenre, sortOption, sortOrder]);
+    }, [selectedGenre, sortOption, sortOrder, visibleMovies]);
 
     const filterAndSortMovies = () => {
         let tempMovies = [...movies];
 
-        // Filter by genre
         if (selectedGenre) {
             tempMovies = tempMovies.filter(
                 (movie) => movie.category === selectedGenre
             );
         }
 
-        // Sort movies
         switch (sortOption) {
             case "rating":
                 tempMovies.sort((a, b) =>
                     sortOrder === "asc"
-                        ? a.averagerating - b.averagerating
-                        : b.averagerating - a.averagerating
+                        ? a.averageRating - b.averageRating
+                        : b.averageRating - a.averageRating
                 );
                 break;
             case "popularity":
@@ -70,16 +77,11 @@ const AllMovies = () => {
                 break;
         }
 
-        setFilteredMovies(tempMovies);
+        setFilteredMovies(tempMovies.slice(0, visibleMovies));
     };
-
-    if (loading) {
-        return <div className="text-5xl">Loading...</div>;
-    }
 
     const handleAddToFavorites = async (movieId) => {
         try {
-            console.log(movieId);
             const response = await axiosInstance.post(
                 `${APIURL}/users/favourites`,
                 { movieId: movieId }
@@ -91,15 +93,24 @@ const AllMovies = () => {
         }
     };
 
-    return (
-        <div className="justify-center items-center sm:mx-36">
-            <h1 className="text-5xl font-bold my-8">All Movies</h1>
+    const handleLoadMore = () => {
+        setVisibleMovies(prevVisibleMovies => Math.min(prevVisibleMovies + LOAD_MORE_COUNT, movies.length));
+    };
 
-            <div className="mb-4">
-                <label htmlFor="genre" className="mr-2">
+    if (loading) {
+        return <div className="text-5xl">Loading...</div>;
+    }
+
+    return (
+        <div className="justify-center items-center px-20 py-5 bg-background1">
+            <h1 className="text-5xl font-semibold py-8 text-primary_text">Movies</h1>
+
+            <div className="mb-10">
+                <label htmlFor="genre" className="mr-2 text-primary_text">
                     Genre:
                 </label>
                 <select
+                    className="text-primary_text bg-background2 "
                     id="genre"
                     value={selectedGenre}
                     onChange={(e) => setSelectedGenre(e.target.value)}>
@@ -111,10 +122,11 @@ const AllMovies = () => {
                     {/* Add more genres as needed */}
                 </select>
 
-                <label htmlFor="sort" className="ml-4 mr-2">
+                <label htmlFor="sort" className="ml-4 mr-2 text-primary_text">
                     Sort By:
                 </label>
                 <select
+                    className="text-primary_text bg-background2"
                     id="sort"
                     value={sortOption}
                     onChange={(e) => setSortOption(e.target.value)}>
@@ -124,10 +136,11 @@ const AllMovies = () => {
                     <option value="releaseDate">Release Date</option>
                 </select>
 
-                <label htmlFor="order" className="ml-4 mr-2">
+                <label htmlFor="order" className="ml-4 mr-2 text-primary_text">
                     Order:
                 </label>
                 <select
+                    className="text-primary_text bg-background2"
                     id="order"
                     value={sortOrder}
                     onChange={(e) => setSortOrder(e.target.value)}>
@@ -136,7 +149,7 @@ const AllMovies = () => {
                 </select>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 bg-background1">
                 {filteredMovies.map((movie, index) => (
                     <MovieCard
                         key={index}
@@ -145,6 +158,19 @@ const AllMovies = () => {
                     />
                 ))}
             </div>
+
+            {filteredMovies.length < movies.length && (
+                <div className="flex justify-center mt-8">
+                    <button
+                        onClick={handleLoadMore}
+                        className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded"
+                    >
+                        Load More
+                    </button>
+                </div>
+            )}
+
+            <GoToTop /> {/* Render the GoToTop component at the end of the movies list */}
         </div>
     );
 };
