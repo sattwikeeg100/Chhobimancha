@@ -52,45 +52,53 @@ const MovieCard = ({ movie }) => {
     };
 
     return (
-        <div className="max-w-xs rounded overflow-hidden shadow-lg relative bg-gray-800 text-white">
-            <div className="relative">
-                <img
-                    className="w-full h-96 object-cover"
-                    src={movie.poster}
-                    alt={movie.title}
-                />
-                <button
-                    onClick={user ? handleAddToFavorites : switchToLogin}
-                    className="absolute top-2 right-2 bg-yellow-400 text-gray-900 p-2 rounded-full hover:bg-yellow-500">
-                    {isFavourite ? <FaHeart color="red" /> : <FaHeart />}
-                </button>
-            </div>
-            <div
-                className="flex justify-between cursor-pointer"
-                onClick={() => navigate(`/explore/movies/${movie.slug}`)}>
-                <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{movie.title}</div>
-                    <p className="text-gray-400 text-base">
-                        {movie.description}
-                    </p>
-                </div>
-                <div
-                    className="flex justify-center items-center m-4"
-                    style={{ width: 100, height: 100 }}>
+        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 max-w-s rounded overflow-hidden shadow-lg relative bg-background2 text-white">
+          <div className="relative border-2 border-white ">
+            <img
+              className="w-full h-80 object-cover "
+              src={movie.poster}
+              alt={movie.title}
+            />
+            <button
+              onClick={user ? handleAddToFavorites : switchToLogin}
+              className="absolute top-2 right-2 bg-background1 text-yellow-500 p-2 rounded-full hover:text-highlight"
+            >
+              {isFavourite ? <FaHeart color="red" /> : <FaHeart />}
+            </button>
+          </div>
+          <div
+            className="flex justify-between cursor-pointer"
+            onClick={() => navigate(`/explore/movies/${movie.slug}`)}
+          >
+            <div className="px-6 py-4 flex flex-col">
+                <div className="flex flex-row mb-5">
+                    <div className="font-bold text-xl text-primary_text">{movie.title}</div>
+                    <div
+                    className="flex justify-center items-center absolute right-3 top-100"
+                    style={{ width: 25 , height: 25 }}
+                    >
                     <CircularProgressbar
                         value={movie.averageRating}
+                        className="w-100 h-100 "
                         maxValue={5}
                         text={`${movie.averageRating}`}
                         styles={buildStyles({
-                            textColor: "white",
-                            pathColor: "yellow",
-                            trailColor: "gray",
+                        textSize:"45px",
+                        textColor: "white",
+                        pathColor: "red",
+                        trailColor: "gray",
                         })}
                     />
-                </div>
+                    </div>
             </div>
+              <p className="text-secondary_text font-semibold">
+                {movie.description}
+              </p>
+            </div>
+            
+          </div>
         </div>
-    );
+      );
 };
 
 export default MovieCard;
