@@ -11,7 +11,7 @@ const ShowDetails = ({ show }) => {
           // src={hamlet_poster}
           // src="https://the14amazons.co.uk/Images/Movies/21843_Roja.jpg"
           alt="title"
-          className="rounded-xl object-cover max-h-[30rem] w-[30rem]"
+          className="rounded-xl object-cover  max-h-[30rem] min-h-[30rem] w-[30rem]"
         />
         <h2 className="text-2xl text-center leading-6 text-primary_text font-serif font-bold">
           {show.title}
