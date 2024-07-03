@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { FaStar } from "react-icons/fa6";
+import { BsDot } from "react-icons/bs";
 import "react-circular-progressbar/dist/styles.css";
 import { FaHeart } from "react-icons/fa";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
@@ -52,10 +54,10 @@ const MovieCard = ({ movie }) => {
     };
 
     return (
-        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 max-w-s rounded overflow-hidden shadow-lg relative bg-background2 text-white">
-          <div className="relative border-2 border-white ">
+        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 max-w-s rounded overflow-hidden shadow-lg relative bg-background2 text-white h-150 p-4">
+          <div className="relative">
             <img
-              className="w-full h-80 object-cover "
+              className="w-80 h-80 object-cover "
               src={movie.poster}
               alt={movie.title}
             />
@@ -74,29 +76,27 @@ const MovieCard = ({ movie }) => {
                 <div className="flex flex-row mb-5">
                     <div className="font-bold text-xl text-primary_text">{movie.title}</div>
                     <div
-                    className="flex justify-center items-center absolute right-3 top-100"
-                    style={{ width: 25 , height: 25 }}
+                    className="flex justify-center items-center absolute right-3 top-100 font-semibold text-primary_text"
                     >
-                    <CircularProgressbar
-                        value={movie.averageRating}
-                        className="w-100 h-100 "
-                        maxValue={5}
-                        text={`${movie.averageRating}`}
-                        styles={buildStyles({
-                        textSize:"45px",
-                        textColor: "white",
-                        pathColor: "red",
-                        trailColor: "gray",
-                        })}
-                    />
+                    <FaStar className="text-highlight mr-2 "/>
+                    {movie.averageRating}/5
                     </div>
             </div>
-              <p className="text-secondary_text font-semibold">
-                {movie.description}
+              <p className="text-primary_text font-semibold flex flex-row">
+              {moment(movie.releaseDate).year()}
+                
+                <BsDot className="font-semibold w-5 h-5 mt-1"/>
+                {movie.genre}
               </p>
             </div>
+
+            
             
           </div>
+          <button className="bg-highlight hover:bg-highlight_hover text-white font-bold my-4 py-2 px-4 rounded w-full"
+          onClick={() => navigate(`/explore/movies/${movie.slug}`)}>
+              Watch Now
+            </button>
         </div>
       );
 };
