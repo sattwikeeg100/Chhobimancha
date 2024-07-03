@@ -68,6 +68,7 @@ let recentMovies = [
         "Title" : "Name",
         "image" : "\\MOVIE COVERS\\Asukh_cover.jpg"
     },
+    
 ]
 export default movies
 export {recentMovies}

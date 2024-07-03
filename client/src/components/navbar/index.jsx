@@ -129,7 +129,7 @@ const Navbar = () => {
           to="/subscribe"
           className={({ isActive }) =>
             isActive ? "text-yellow-400" : "hover:text-gray-400"
-          }
+          } 
         >
           Buy Subscription
         </NavLink>
