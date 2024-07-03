@@ -45,7 +45,7 @@ const TrendingMovies = () => {
     return (
         <div id='' className=' m-auto w-[90%] ' >
             <h3 id='' className=' text-2xl text-white font-normal' >
-                trending movies
+                Trending movies
             </h3>
             <div className='my-5' >
                 <Slider {...settings}>
