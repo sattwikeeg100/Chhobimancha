@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
+import { handleImageFileDelete, handleImageFileUpload } from "../../utils/fileHandler";
+import { MdDeleteForever } from "react-icons/md";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -10,7 +12,8 @@ const CineastModal = ({ cineast, onClose }) => {
     const [imageFile, setImageFile] = useState();
     const [image, setImage] = useState("");
     const [details, setDetails] = useState("");
-    const [fileUploadLoading, setFileUploadLoading] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
+    const [deletingImage, setDeletingImage] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -21,27 +24,6 @@ const CineastModal = ({ cineast, onClose }) => {
         }
     }, [cineast]);
 
-    const handleImageFileUpload = async () => {
-        if (imageFile) {
-            setFileUploadLoading(true);
-            const formData = new FormData();
-            formData.append("file", imageFile);
-            try {
-                const response = await axiosInstance.post(
-                    `${APIURL}/upload/image`,
-                    formData
-                );
-                setImage(response.data.url);
-                setImageFile(null);
-            } catch (error) {
-                console.error("Error uploading file:", error);
-            } finally {
-                setFileUploadLoading(false);
-            }
-        } else {
-            return;
-        }
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -98,18 +80,44 @@ const CineastModal = ({ cineast, onClose }) => {
                                 }
                             />
                             {image && (
-                                <img
-                                    src={image}
-                                    className="h-12 w-12 rounded-full"
-                                />
+                                <>
+                                    <img
+                                        src={image}
+                                        className="h-14 w-14 rounded-full"
+                                    />
+                                    <MdDeleteForever
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                            handleImageFileDelete(
+                                                image.split("/").pop(),
+                                                setImage,
+                                                setDeletingImage
+                                            )
+                                        }
+                                    />
+                                </>
                             )}
-                            {fileUploadLoading ? (
-                                <p> Uploading... </p>
-                            ) : (
-                                <button onClick={() => handleImageFileUpload()}>
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    handleImageFileUpload(
+                                        setImage,
+                                        setImageFile,
+                                        setUploadingImage,
+                                        imageFile
+                                    )
+                                }
+                                className={
+                                    uploadingImage
+                                        ? "cursor-not-allowed"
+                                        : "cursor-pointer"
+                                }>
+                                {uploadingImage ? (
+                                    <u>Uploading...</u>
+                                ) : (
                                     <u>Upload</u>
-                                </button>
-                            )}
+                                )}
+                            </button>
                         </div>
                     </div>
                     <div className="mb-4">

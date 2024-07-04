@@ -4,13 +4,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        background1: "#000",
-        background2: "#161616",
-        shadow: "#696969",
-        primary_text: "#fff",
-        secondary_text: "#d0cccc",
-        highlight: "#E72929",
-        highlight_hover: "#7D0A0A",
+        background1: "#000407",
+        background2: "#121212",
+        shadow: "#232222",
+        primary_text: "#FFFAF4",
+        secondary_text: "#a3a09d",
+        highlight: "#e1251a",
+        highlight_hover: "#f43a3a77",
+      },
+      fontFamily: {
+        // sans: ["var(--font-sora)", ...fontFamily.sans],
+        // code: "var(--font-code)",
+        // grotesk: "var(--font-grotesk)",
+        open_sans: ["Open Sans", "sans-serif"], // normal text
+        roboto: ["Roboto", "sans-serif"],
+        lato: ["Lato", "sans-serif"], // secondary heading
+        montserrat: ["Montserrat", "sans-serif"], // primary heading
+        ubuntu: ["Ubuntu", "sans-serif"], // buttons
       },
     },
   },

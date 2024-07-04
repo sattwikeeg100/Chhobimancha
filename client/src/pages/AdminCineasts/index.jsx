@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import CineastAdminCard from "../../components/cineastAdminCard";
-import CineastModal from "../../components/cineastModal.js";
+import CineastModal from "../../components/cineastModal";
 import { toast } from "sonner";
 
 const APIURL = import.meta.env.VITE_API_URL;

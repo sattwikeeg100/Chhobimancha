@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
+import { handleImageFileDelete, handleImageFileUpload, handleVideoFileDelete, handleVideoFileUpload } from "../../utils/fileHandler";
+import { MdDeleteForever } from "react-icons/md";
+import { MdCloudDone } from "react-icons/md";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -22,6 +25,12 @@ const MovieModal = ({ movie, onClose }) => {
     const [posterFile, setPosterFile] = useState(null);
     const [videoFile, setVideoFile] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [uploadingCover, setUploadingCover] = useState(false);
+    const [uploadingPoster, setUploadingPoster] = useState(false);
+    const [uploadingVideo, setUploadingVideo] = useState(false);
+    const [deletingPoster, setDeletingPoster] = useState(false);
+    const [deletingCover, setDeletingCover] = useState(false);
+    const [deletingVideo, setDeletingVideo] = useState(false);
 
     useEffect(() => {
         fetchCineasts();
@@ -71,51 +80,6 @@ const MovieModal = ({ movie, onClose }) => {
     const removeArrayItem = (index, array, setArray) => () => {
         const newArray = array.filter((_, i) => i !== index);
         setArray(newArray);
-    };
-
-    const handleImageFileUpload = async (urlSetter, fileSetter, file) => {
-        if (file) {
-            const formData = new FormData();
-            formData.append("file", file);
-            try {
-                const response = await axiosInstance.post(
-                    `${APIURL}/upload/image`,
-                    formData,
-                    {
-                        headers: { "Content-Type": "multipart/form-data" },
-                    }
-                );
-                urlSetter(response.data.url);
-                fileSetter(null);
-            } catch (error) {
-                console.error("Error uploading file:", error);
-            }
-        } else {
-            return;
-        }
-    };
-
-    const handleVideoFileUpload = async (urlSetter, fileSetter, file) => {
-        if (file) {
-            const formData = new FormData();
-            formData.append("video", file);
-            try {
-                const response = await axiosInstance.post(
-                    `${APIURL}/upload/video`,
-                    formData,
-                    {
-                        headers: { "Content-Type": "multipart/form-data" },
-                    }
-                );
-                urlSetter(response.data.url);
-                fileSetter(null);
-                console.log(response.data.url);
-            } catch (error) {
-                console.error("Error uploading file:", error);
-            }
-        } else {
-            return;
-        }
     };
 
     const handleSubmit = async (e) => {
@@ -184,7 +148,7 @@ const MovieModal = ({ movie, onClose }) => {
                         />
                     </div>
                     {/* Cover Image */}
-                    {!movie && (
+                    {(!movie || !movie.coverImage) && (
                         <div className="flex flex-row justify-between">
                             <div className="mb-4">
                                 <label className="block text-gray-700">
@@ -199,10 +163,22 @@ const MovieModal = ({ movie, onClose }) => {
                                 />
                             </div>
                             {coverImage && (
-                                <img
-                                    src={coverImage}
-                                    className="h-14 w-14 rounded-full"
-                                />
+                                <>
+                                    <img
+                                        src={coverImage}
+                                        className="h-14 w-14 rounded-full"
+                                    />
+                                    <MdDeleteForever
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                            handleImageFileDelete(
+                                                coverImage.split("/").pop(),
+                                                setCoverImage,
+                                                setDeletingCover
+                                            )
+                                        }
+                                    />
+                                </>
                             )}
                             <button
                                 type="button"
@@ -210,15 +186,22 @@ const MovieModal = ({ movie, onClose }) => {
                                     handleImageFileUpload(
                                         setCoverImage,
                                         setCoverImageFile,
+                                        setUploadingCover,
                                         coverImageFile
                                     )
                                 }>
-                                <u>Upload</u>
+                                {uploadingCover ? (
+                                    <u className="cursor-not-allowed">
+                                        Uploading...
+                                    </u>
+                                ) : (
+                                    <u className="cursor-pointer">Upload</u>
+                                )}
                             </button>
                         </div>
                     )}
                     {/* Poster */}
-                    {!movie && (
+                    {(!movie || !movie.poster) && (
                         <div className="flex flex-row justify-between">
                             <div className="mb-4">
                                 <label className="block text-gray-700">
@@ -233,10 +216,22 @@ const MovieModal = ({ movie, onClose }) => {
                                 />
                             </div>
                             {poster && (
-                                <img
-                                    src={poster}
-                                    className="h-14 w-14 rounded-full"
-                                />
+                                <>
+                                    <img
+                                        src={poster}
+                                        className="h-14 w-14 rounded-full"
+                                    />
+                                    <MdDeleteForever
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                            handleImageFileDelete(
+                                                poster.split("/").pop(),
+                                                setPoster,
+                                                setDeletingPoster
+                                            )
+                                        }
+                                    />
+                                </>
                             )}
                             <button
                                 type="button"
@@ -244,10 +239,20 @@ const MovieModal = ({ movie, onClose }) => {
                                     handleImageFileUpload(
                                         setPoster,
                                         setPosterFile,
+                                        setUploadingPoster,
                                         posterFile
                                     )
+                                }
+                                className={
+                                    uploadingPoster
+                                        ? "cursor-not-allowed"
+                                        : "cursor-pointer"
                                 }>
-                                <u>Upload</u>
+                                {uploadingPoster ? (
+                                    <u>Uploading...</u>
+                                ) : (
+                                    <u>Upload</u>
+                                )}
                             </button>
                         </div>
                     )}
@@ -296,7 +301,7 @@ const MovieModal = ({ movie, onClose }) => {
                         />
                     </div>
                     {/* Video */}
-                    {!movie && (
+                    {(!movie || !movie.video) && (
                         <div className="flex flex-row justify-between">
                             <div className="mb-4">
                                 <label className="block text-gray-700">
@@ -310,16 +315,41 @@ const MovieModal = ({ movie, onClose }) => {
                                     )}
                                 />
                             </div>
+                            {video && (
+                                <>
+                                    <MdCloudDone className="h-12 w-12"/>
+                                    <MdDeleteForever
+                                        className="cursor-pointer"
+                                        onClick={() =>
+                                            handleVideoFileDelete(
+                                                video.split("/").pop(),
+                                                setVideo,
+                                                setDeletingVideo
+                                            )
+                                        }
+                                    />
+                                </>
+                            )}
                             <button
                                 type="button"
                                 onClick={() =>
                                     handleVideoFileUpload(
                                         setVideo,
                                         setVideoFile,
+                                        setUploadingVideo,
                                         videoFile
                                     )
+                                }
+                                className={
+                                    uploadingVideo
+                                        ? "cursor-not-allowed"
+                                        : "cursor-pointer"
                                 }>
-                                <u>Upload</u>
+                                {uploadingVideo ? (
+                                    <u>Uploading...</u>
+                                ) : (
+                                    <u>Upload</u>
+                                )}
                             </button>
                         </div>
                     )}

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
 import { toast } from "sonner";
 import { TiDeleteOutline } from "react-icons/ti";
+import { handleImageFileDelete, handleImageFileUpload } from "../../utils/fileHandler";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -29,38 +30,6 @@ const ProfileModal = ({ profile, onClose }) => {
 
     const handleFileInputChange = (setter) => (e) => {
         setter(e.target.files[0]);
-    };
-
-    const handleImageUpload = async () => {
-        if (imageFile) {
-            const formData = new FormData();
-            formData.append("file", imageFile);
-            try {
-                const response = await axiosInstance.post(
-                    `${APIURL}/upload/image`,
-                    formData,
-                    {
-                        headers: { "Content-Type": "multipart/form-data" },
-                    }
-                );
-                setImage(response.data.url);
-                setImageFile(null);
-            } catch (error) {
-                console.error("Error uploading image:", error);
-            }
-        }
-    };
-
-    const handleImageFileDelete = async (filename, callback) => {
-        try {
-            const response = await axiosInstance.delete(
-                `${APIURL}/upload/image/${filename}`
-            );
-            callback(); // Callback to update state or UI after deletion
-            console.log(response.data.message);
-        } catch (error) {
-            console.error("Error deleting file:", error);
-        }
     };
 
     const handleSubmit = async (e) => {
@@ -114,7 +83,7 @@ const ProfileModal = ({ profile, onClose }) => {
                             />
                             <button
                                 type="button"
-                                onClick={handleImageUpload}
+                                onClick={handleImageFileUpload(setImage, setImageFile, imageFile)}
                                 className="bg-blue-500 text-white px-3 py-2 rounded">
                                 Upload
                             </button>
@@ -127,10 +96,9 @@ const ProfileModal = ({ profile, onClose }) => {
                                     className="w-32 h-32 rounded-full"
                                 />
                                 <button
-                                    onClick={() =>
-                                        handleImageFileDelete(
+                                    onClick={handleImageFileDelete(
                                             image.split("/").pop(),
-                                            () => setImage("")
+                                            setImage
                                         )
                                     }
                                     className="mt-2 bg-red-500 text-white py-2 px-4 rounded">
