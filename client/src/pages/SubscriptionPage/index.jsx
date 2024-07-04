@@ -151,9 +151,9 @@ const SubscriptionPage = () => {
     console.log(formData);
 
     return (
-        <div className="min-h-screen bg-gray-100 py-12">
+        <div className="min-h-screen  py-12 bg-gray-900">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-white shadow-xl rounded-lg p-8">
+                <div className=" bg-slate-100 shadow-xl rounded-lg p-8">
                     <h2 className="text-3xl font-extrabold text-center text-gray-900">
                         Subscribe Now
                     </h2>
@@ -163,7 +163,7 @@ const SubscriptionPage = () => {
                     </p>
 
                     <div className="mt-8">
-                        <h3 className="text-2xl font-semibold text-gray-800">
+                        <h3 className="text-2xl font-semibold text-gray-800 font-serif ">
                             Why Subscribe?
                         </h3>
                         <ul className="mt-4 space-y-2 text-gray-700">
@@ -179,7 +179,7 @@ const SubscriptionPage = () => {
                     </div>
 
                     <div className="mt-8">
-                        <h3 className="text-2xl font-semibold text-gray-800">
+                        <h3 className="text-2xl font-semibold text-gray-800 font-serif ">
                             Testimonials
                         </h3>
                         <div className="mt-4 space-y-4">
@@ -206,7 +206,7 @@ const SubscriptionPage = () => {
                     </div>
 
                     <div className="mt-8">
-                        <h3 className="text-2xl font-semibold text-gray-800">
+                        <h3 className="text-2xl font-semibold text-gray-800 font-serif ">
                             Frequently Asked Questions
                         </h3>
                         <div className="mt-4 space-y-4">
@@ -234,17 +234,17 @@ const SubscriptionPage = () => {
                         {!user || !user.isSubscriber ? (
                             <button
                                 onClick={handlePayment}
-                                className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">
+                                className="inline-block bg-indigo-900 hover:bg-blue-700 text-white tracking-widest font-semibold py-3 px-6 rounded-lg">
                                 Buy Subscription
                             </button>
                         ) : (
                             <>
-                                <p className="mb-2 font-medium">
+                                <p className="mb-2 font-medium font-roboto tracking-widest">
                                     You are already a subscriber!
                                 </p>
                                 <button
                                     onClick={handleCancelSubscription}
-                                    className="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg">
+                                    className="inline-block bg-rose-700 hover:bg-red-800 text-white font-semibold tracking-widest py-3 px-6 rounded-lg">
                                     Cancel Subscription
                                 </button>
                             </>
@@ -254,7 +254,7 @@ const SubscriptionPage = () => {
             </div>
             <div className="App">
                 <button
-                    className="fixed right-0 bottom-1/2  rotate-90 bg-blue-500 text-white py-2 px-4 rounded-lg"
+                    className="fixed right-0 bottom-1/2  rotate-90 bg-indigo-600 hover:bg-blue-700 text-gray-200 tracking-widest font-semibold py-2 px-4 rounded-xl cursor-pointer"
                     onClick={() => setShowModal(true)}>
                     Give feedback
                 </button>
