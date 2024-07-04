@@ -29,7 +29,7 @@ const MyFavourites = () => {
         <div className="justify-center items-center px-10 py-5 bg-background1">
             <h1 className="text-5xl font-semibold py-8 text-primary_text">My Favourite Movies</h1>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mb-10 bg-background1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 bg-background1">
                 {movies.map((movie, index) => (
                     <MovieCard
                         key={index}
