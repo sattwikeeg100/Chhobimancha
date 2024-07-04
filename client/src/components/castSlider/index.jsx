@@ -14,7 +14,7 @@ const CastSlider = ({ casts, who }) => {
 
   return (
     <div className="relative w-full px-10">
-      <h2 className="text-2xl font-bold mb-4 text-left px-10 text-white">{who === "casts"? "Casts": "Crews"}</h2>
+      <h2 className="text-2xl font-bold font-montserrat mb-4 text-left px-10 text-white">{who === "casts"? "Casts": "Crews"}</h2>
       <div className="flex items-center">
 
         <button onClick={scrollLeft} className="p-3 mr-4 rounded-full bg-gray-300 hover:bg-gray-400">
@@ -30,8 +30,8 @@ const CastSlider = ({ casts, who }) => {
               <img src={cast.person.image} alt={cast.person.name} className="w-28 h-28 rounded-full mb-2" />
 
               <div className="text-center flex flex-col">
-                <div className="font-semibold text-white">{cast.person.name}</div>
-                <div className="text-white">{cast.role}</div>
+                <div className="font-semibold font-lato text-white">{cast.person.name}</div>
+                <div className="text-white font-roboto">{cast.role}</div>
               </div>
 
             </div>
