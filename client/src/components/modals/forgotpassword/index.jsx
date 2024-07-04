@@ -25,13 +25,10 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
     const handleVerifyCode = async (e) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post(
-                "/users/verify-code",
-                {
-                    email,
-                    code,
-                }
-            );
+            const response = await axiosInstance.post("/users/verify-code", {
+                email,
+                code,
+            });
             if (response.data === "Code is valid") {
                 setStep(3);
             } else {
@@ -61,15 +58,19 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-4">Forgot Password</h2>
+            <div className="bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-md">
+                <h2 className="text-2xl font-montserrat font-bold mb-4">
+                    Forgot Password
+                </h2>
                 {step === 1 && (
                     <form onSubmit={handleRequestCode}>
                         <div className="mb-4">
-                            <label className="block text-gray-700">Email</label>
+                            <label className="block text-secondary_text">
+                                Email
+                            </label>
                             <input
                                 type="email"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                                className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                 required
                                 autoComplete="email"
                                 value={email}
@@ -79,13 +80,13 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
                         <div className="flex justify-end">
                             <button
                                 type="button"
-                                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+                                className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2"
                                 onClick={onClose}>
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white px-4 py-2 rounded">
+                                className="bg-highlight text-primary_text px-4 py-2 rounded transition-all duration-300">
                                 Request Code
                             </button>
                         </div>
@@ -94,12 +95,12 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
                 {step === 2 && (
                     <form onSubmit={handleVerifyCode}>
                         <div className="mb-4">
-                            <label className="block text-gray-700">
+                            <label className="block text-secondary_text">
                                 Verification Code
                             </label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                                className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                 required
                                 value={code}
                                 onChange={(e) => setCode(e.target.value)}
@@ -108,13 +109,13 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
                         <div className="flex justify-end">
                             <button
                                 type="button"
-                                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+                                className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2"
                                 onClick={onClose}>
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white px-4 py-2 rounded">
+                                className="bg-highlight text-primary_text px-4 py-2 rounded transition-all duration-300">
                                 Verify Code
                             </button>
                         </div>
@@ -123,12 +124,12 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
                 {step === 3 && (
                     <form onSubmit={handleResetPassword}>
                         <div className="mb-4">
-                            <label className="block text-gray-700">
+                            <label className="block text-secondary_text">
                                 New Password
                             </label>
                             <input
                                 type="password"
-                                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                                className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -137,19 +138,21 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
                         <div className="flex justify-end">
                             <button
                                 type="button"
-                                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+                                className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2"
                                 onClick={onClose}>
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white px-4 py-2 rounded">
+                                className="bg-highlight text-primary_text px-4 py-2 rounded transition-all duration-300">
                                 Reset Password
                             </button>
                         </div>
                     </form>
                 )}
-                <button onClick={onLoginClick} className="text-blue-500 mt-4">
+                <button
+                    onClick={onLoginClick}
+                    className="text-highlight hover:text-highlight_hover underline mt-4">
                     Go back to login
                 </button>
             </div>

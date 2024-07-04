@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
 import { toast } from "sonner";
 import { TiDeleteOutline } from "react-icons/ti";
-import { handleImageFileDelete, handleImageFileUpload } from "../../utils/fileHandler";
+import {
+    handleImageFileDelete,
+    handleImageFileUpload,
+} from "../../utils/fileHandler";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -47,49 +50,56 @@ const ProfileModal = ({ profile, onClose }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded shadow-lg w-96">
-                <h2 className="text-xl font-bold mb-4">Edit Profile</h2>
+            <div className="bg-background2 text-primary_text p-8 rounded-lg shadow-lg w-full max-w-lg">
+                <h2 className="text-2xl font-montserrat font-bold mb-4">
+                    Edit Profile
+                </h2>
                 <form onSubmit={handleSubmit}>
-                    {/* Name */}
                     <div className="mb-4">
-                        <label className="block text-gray-700">Name</label>
+                        <label className="block text-secondary_text mb-1">
+                            Name
+                        </label>
                         <input
-                            className="w-full px-3 py-2 border rounded"
+                            className="w-full px-3 py-2 border rounded bg-background1 text-primary_text"
                             type="text"
                             value={name}
                             onChange={handleInputChange(setName)}
                         />
                     </div>
-                    {/* Email */}
                     <div className="mb-4">
-                        <label className="block text-gray-700">Email</label>
+                        <label className="block text-secondary_text mb-1">
+                            Email
+                        </label>
                         <input
-                            className="w-full px-3 py-2 border rounded"
+                            className="w-full px-3 py-2 border rounded bg-background1 text-primary_text"
                             type="email"
                             value={email}
                             onChange={handleInputChange(setEmail)}
                         />
                     </div>
-                    {/* Image */}
                     <div className="mb-4">
-                        <label className="block text-gray-700">
+                        <label className="block text-secondary_text mb-1">
                             Profile Image
                         </label>
-                        <div className="flex flex-row gap-3">
+                        <div className="flex items-center space-x-3">
                             <input
-                                className="w-full px-3 py-2 border rounded"
+                                className="w-full px-3 py-2 border rounded bg-background1 text-primary_text"
                                 type="file"
                                 onChange={handleFileInputChange(setImageFile)}
                             />
                             <button
                                 type="button"
-                                onClick={handleImageFileUpload(setImage, setImageFile, imageFile)}
-                                className="bg-blue-500 text-white px-3 py-2 rounded">
+                                onClick={handleImageFileUpload(
+                                    setImage,
+                                    setImageFile,
+                                    imageFile
+                                )}
+                                className="bg-highlight hover:bg-highlight_hover text-primary_text px-3 py-2 rounded">
                                 Upload
                             </button>
                         </div>
                         {image && (
-                            <div className="mt-4">
+                            <div className="mt-4 relative w-fit">
                                 <img
                                     src={image}
                                     alt="Profile"
@@ -97,26 +107,24 @@ const ProfileModal = ({ profile, onClose }) => {
                                 />
                                 <button
                                     onClick={handleImageFileDelete(
-                                            image.split("/").pop(),
-                                            setImage
-                                        )
-                                    }
-                                    className="mt-2 bg-red-500 text-white py-2 px-4 rounded">
-                                    <TiDeleteOutline />
+                                        image.split("/").pop(),
+                                        setImage
+                                    )}
+                                    className="absolute top-0 right-0 bg-red-600 hover:bg-red-700 text-white p-1 rounded-full">
+                                    <TiDeleteOutline size={24} />
                                 </button>
                             </div>
                         )}
                     </div>
-                    {/* Submit Button */}
                     <div className="flex justify-end">
                         <button
-                            className="bg-gray-500 text-white py-2 px-4 rounded mr-2"
+                            className="bg-gray-500 text-primary_text py-2 px-4 rounded mr-2"
                             onClick={onClose}
                             type="button">
                             Cancel
                         </button>
                         <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded"
+                            className="bg-highlight hover:bg-highlight_hover text-primary_text py-2 px-4 rounded"
                             type="submit">
                             Save
                         </button>

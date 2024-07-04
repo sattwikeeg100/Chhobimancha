@@ -42,15 +42,17 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-4">Login</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
+            <div className="bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 scale-105">
+                <h2 className="text-2xl font-montserrat font-bold mb-4">
+                    Login
+                </h2>
                 <div className="flex mb-4">
                     <button
                         className={`w-1/2 py-2 ${
                             tab === "user"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-300"
+                                ? "bg-highlight text-primary_text"
+                                : "bg-gray-300 text-black"
                         }`}
                         onClick={() => setTab("user")}>
                         User Login
@@ -58,8 +60,8 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                     <button
                         className={`w-1/2 py-2 ${
                             tab === "admin"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-300"
+                                ? "bg-highlight text-primary_text"
+                                : "bg-gray-300 text-black"
                         }`}
                         onClick={() => setTab("admin")}>
                         Admin Login
@@ -67,65 +69,71 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                 </div>
                 <form onSubmit={handleLoginEvent}>
                     <div className="mb-4">
-                        <label className="block text-gray-700">Email</label>
+                        <label className="block text-secondary_text">
+                            Email
+                        </label>
                         <input
                             type="email"
-                            className="w-full px-4 py-2 text-black border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             autoComplete="email"
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Password</label>
+                    <div className="mb-2">
+                        <label className="block text-secondary_text">
+                            Password
+                        </label>
                         <input
                             type="password"
-                            className="w-full px-4 py-2 text-black border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             autoComplete="password"
                         />
                     </div>
+                    <button
+                        type="button"
+                        onClick={onForgotPassClick}
+                        className="text-highlight hover:text-highlight_hover underline mt-0 ml-1">
+                        Forgot Password?
+                    </button>
                     <div className="flex justify-end">
                         <button
                             type="button"
-                            className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
-                            onClick={() => dispatch(switchLoginModalOpen(false))}>
+                            className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300"
+                            onClick={() =>
+                                dispatch(switchLoginModalOpen(false))
+                            }>
                             Cancel
                         </button>
                         {loading ? (
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded cursor-not-allowed">
+                            <button className="bg-highlight text-primary_text px-4 py-2 rounded cursor-not-allowed transition-all duration-300">
                                 Logging in...
                             </button>
                         ) : (
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white px-4 py-2 rounded">
+                                className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded transition-all duration-300">
                                 Login
                             </button>
                         )}
                     </div>
                     {error && (
                         <div
-                            className="alert alert-danger text-red-500"
+                            className="alert alert-danger text-red-500 mt-4"
                             role="alert">
                             {error} !
                         </div>
                     )}
-                    <button
-                        type="button"
-                        onClick={onForgotPassClick}
-                        className="text-blue-500">
-                        Forgot Password?
-                    </button>
-                    <div className="flex-row w-full text-black items-center">
+                    <div className="mt-4 text-center text-secondary_text">
                         Don't have an account?{" "}
                         <button
                             type="button"
                             onClick={onSignUpClick}
-                            className="text-blue-500">
+                            className="text-highlight hover:text-highlight_hover underline">
                             Sign Up Now
                         </button>
                     </div>

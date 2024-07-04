@@ -1,6 +1,7 @@
 // src/components/ProfileCard.jsx
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
     const getInitials = (name) => {
@@ -10,32 +11,46 @@ const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
     };
 
     return (
-        <div className="bg-white rounded shadow p-4 flex flex-col items-center">
+        <div className="bg-background2 text-primary_text rounded-lg shadow-lg p-8 flex flex-col items-center w-full max-w-lg">
             {profile.image ? (
                 <img
                     src={profile.image}
                     alt={profile.name}
-                    className="w-32 h-32 object-cover mb-4 rounded-full"
+                    className="w-64 h-64 object-cover mb-4 rounded-full"
                 />
             ) : (
-                <div className="w-24 h-24 flex items-center justify-center bg-gray-700 rounded-full text-4xl text-white font-semibold">
+                <div className="w-64 h-64 flex items-center justify-center bg-gray-700 rounded-full text-4xl text-white font-semibold mb-4">
                     {getInitials(profile.name)}
                 </div>
             )}
-            <h2 className="text-xl font-bold mb-2 text-center">
+            <h2 className="text-3xl font-lato font-bold mb-2 text-center">
                 {profile.name}
             </h2>
-            <p className="text-gray-700 mb-2 text-center">{profile.email}</p>
-            <div className="flex justify-end space-x-2 mt-4">
+            <p className="text-primary_text mb-4 text-center">
+                {profile.email}
+            </p>
+            <p className="text-secondary_text mb-4 text-center">
+                {profile.isSubscriber ? "Subscriber" : "Not a Subscriber"}
+            </p>
+            {!profile.isSubscriber && (
+                <Link
+                    to="/subscribe"
+                    className="text-highlight mb-4 text-center">
+                    Planning to get a subscription? <u>Subscribe Now</u>
+                </Link>
+            )}
+            <div className="flex space-x-4">
                 <button
-                    className="bg-yellow-500 flex justify-center items-center text-white font-semibold p-2 rounded gap-2"
+                    className="border border-highlight text-highlight flex items-center font-semibold p-2 rounded gap-2"
                     onClick={onEditClick}>
-                    Edit Profile <FaEdit />
+                    Edit Profile
+                    <FaEdit />
                 </button>
                 <button
-                    className="bg-red-500 flex justify-center items-center text-white font-semibold p-2 rounded gap-2"
+                    className="bg-red-600 hover:bg-red-700 flex items-center text-primary_text font-semibold p-2 rounded gap-2"
                     onClick={onDeleteClick}>
-                    Delete Profile <FaTrash />
+                    Delete Account
+                    <FaTrash />
                 </button>
             </div>
         </div>

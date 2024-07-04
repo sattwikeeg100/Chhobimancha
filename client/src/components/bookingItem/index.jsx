@@ -1,10 +1,17 @@
-// BookingItem.jsx
 import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { FaDownload } from "react-icons/fa";
 import logo from "/logo.jpg";
 
 const BookingItem = ({ booking }) => {
+
+    const currentDate = new Date();
+    const [hours, minutes] = booking.show.time.split(":");
+    const [year, month, day] = booking.show.date.split("T")[0].split("-");
+    const showDateTime = new Date(year, month - 1, day, hours, minutes);
+    const isUpcoming = showDateTime >= currentDate;
+
     const handleDownloadTicket = () => {
         const doc = new jsPDF();
 
@@ -22,12 +29,9 @@ const BookingItem = ({ booking }) => {
             // Add booking details
             const details = [
                 ["Show Title", booking.show.title],
-                ["User Name", booking.userId.name],
-                ["User Email", booking.userId.email],
                 ["Show Date", new Date(booking.show.date).toLocaleDateString()],
                 ["Show Time", booking.show.time],
                 ["Theatre Name", booking.show.theatre.name],
-                ["Theatre Address", booking.show.theatre.address],
                 ["Booked Seats", booking.seats.join(", ")],
                 ["Total Amount", `$${(booking.totalAmount / 100).toFixed(2)}`],
             ];
@@ -47,41 +51,48 @@ const BookingItem = ({ booking }) => {
     };
 
     return (
-        <li className="bg-white shadow-md rounded-lg p-6">
-            <p>
-                <strong>Show Title:</strong> {booking.show.title}
-            </p>
-            <p>
-                <strong>User Name:</strong> {booking.userId.name}
-            </p>
-            <p>
-                <strong>User Email:</strong> {booking.userId.email}
-            </p>
-            <p>
-                <strong>Show Date:</strong>{" "}
-                {new Date(booking.show.date).toLocaleDateString()}
-            </p>
-            <p>
-                <strong>Show Time:</strong> {booking.show.time}
-            </p>
-            <p>
-                <strong>Theatre Name:</strong> {booking.show.theatre.name}
-            </p>
-            <p>
-                <strong>Theatre Address:</strong> {booking.show.theatre.address}
-            </p>
-            <p>
-                <strong>Booked Seats:</strong> {booking.seats.join(", ")}
-            </p>
-            <p>
-                <strong>Total Amount:</strong> ${booking.totalAmount / 100}
-            </p>
-            <button
+        <div
+            className={
+                isUpcoming
+                    ? "bg-shadow shadow-md rounded-lg p-4 flex justify-between items-center"
+                    : "bg-background2 shadow-md rounded-lg p-4 flex justify-between items-center"
+            }>
+            <div>
+                <h2 className="text-xl font-lato font-bold text-primary_text mb-1">
+                    {booking.show.title}
+                </h2>
+                <div className="text-primary_text">
+                    <span>
+                        <b>Date: </b>
+                        {new Date(booking.show.date).toLocaleDateString()}
+                    </span>{" "}
+                    |
+                    <span>
+                        <b>Time: </b> {booking.show.time}
+                    </span>{" "}
+                    |
+                    <span>
+                        <b>Theatre: </b> {booking.show.theatre.name}
+                    </span>{" "}
+                    |
+                    <span>
+                        {" "}
+                        <b>Seats: </b>
+                        {booking.seats.join(", ")}
+                    </span>{" "}
+                    |
+                    <span>
+                        {" "}
+                        <b>Amount: </b>${booking.totalAmount / 100}
+                    </span>
+                </div>
+            </div>
+            {isUpcoming && <button
                 onClick={handleDownloadTicket}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700">
-                Download Ticket
-            </button>
-        </li>
+                className="bg-highlight text-primary_text py-2 px-4 rounded-lg hover:bg-highlight_hover flex items-center">
+                <FaDownload className="mr-2" /> Download Ticket
+            </button>}
+        </div>
     );
 };
 

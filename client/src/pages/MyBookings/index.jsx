@@ -24,16 +24,22 @@ const MyBookings = () => {
         fetchBookings();
     }, []);
 
-    if (loading) return <p className="text-center mt-5">Loading...</p>;
+    if (loading)
+        return <p className="text-center mt-5 text-primary_text">Loading...</p>;
     if (error)
         return <p className="text-center mt-5 text-red-500">Error: {error}</p>;
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-4 text-center">Bookings</h1>
-            <ul className="space-y-4">
+        <div className="container mx-auto p-6 bg-background1">
+            <h1 className="text-4xl font-montserrat font-bold mb-8 text-center text-primary_text">
+                My Bookings
+            </h1>
+            <ul className="space-y-8">
                 {bookings.map((booking) => (
-                    <BookingItem key={booking._id} booking={booking} />
+                    <BookingItem
+                        key={booking._id}
+                        booking={booking}
+                    />
                 ))}
             </ul>
         </div>
