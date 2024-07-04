@@ -30,9 +30,8 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                 console.log(response.data.url);
             } catch (error) {
                 console.error("Error uploading file:", error);
+                setImageUploading(false);
             }
-        } else {
-            return;
         }
     };
 
@@ -66,21 +65,23 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                 payload
             );
             setError(null);
-            toast.success("Registration successful !");
+            toast.success("Registration successful!");
             onLoginClick();
         } catch (error) {
             console.log(error);
             setError(error.response.data.message);
-            toast.error("Registration failed !");
+            toast.error("Registration failed!");
         } finally {
             setSubmitting(false);
         }
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
+            <div className="bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 scale-105">
+                <h2 className="text-2xl font-montserrat font-bold mb-4">
+                    Sign Up
+                </h2>
                 <Formik
                     initialValues={{
                         name: "",
@@ -93,13 +94,13 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                     {({ isSubmitting, setFieldValue }) => (
                         <Form>
                             <div className="mb-4">
-                                <label className="block text-gray-700">
+                                <label className="block text-secondary_text">
                                     Name
                                 </label>
                                 <Field
                                     type="text"
                                     name="name"
-                                    className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                     autoComplete="username"
                                 />
                                 <ErrorMessage
@@ -109,13 +110,13 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700">
+                                <label className="block text-secondary_text">
                                     Email
                                 </label>
                                 <Field
                                     type="email"
                                     name="email"
-                                    className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                     autoComplete="email"
                                 />
                                 <ErrorMessage
@@ -125,13 +126,13 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700">
+                                <label className="block text-secondary_text">
                                     Password
                                 </label>
                                 <Field
                                     type="password"
                                     name="password"
-                                    className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                     autoComplete="password"
                                 />
                                 <ErrorMessage
@@ -141,13 +142,13 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700">
+                                <label className="block text-secondary_text">
                                     Confirm Password
                                 </label>
                                 <Field
                                     type="password"
                                     name="confirmPassword"
-                                    className="w-full px-4 py-2 border text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
                                     autoComplete="password"
                                 />
                                 <ErrorMessage
@@ -157,10 +158,10 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-700">
+                                <label className="block text-secondary_text">
                                     Profile Image
                                 </label>
-                                <div className="flex flex-row gap-3">
+                                <div className="flex flex-row gap-3 items-center">
                                     <input
                                         type="file"
                                         name="image"
@@ -171,7 +172,7 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                                 e.target.files[0]
                                             );
                                         }}
-                                        className="w-full text-black px-3 py-2 border rounded"
+                                        className="w-full text-primary_text px-3 py-2 border rounded bg-background1"
                                     />
                                     {image && (
                                         <img
@@ -182,13 +183,13 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                     {imageUploading ? (
                                         <button
                                             type="button"
-                                            className="text-black cursor-not-allowed">
+                                            className="text-secondary_text cursor-not-allowed">
                                             Uploading...
                                         </button>
                                     ) : (
                                         <button
                                             type="button"
-                                            className="text-black"
+                                            className="text-highlight hover:text-highlight_hover"
                                             onClick={() =>
                                                 handleImageFileUpload(imageFile)
                                             }>
@@ -201,29 +202,29 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                 <div
                                     className="alert alert-danger text-red-500"
                                     role="alert">
-                                    {error} !
+                                    {error}!
                                 </div>
                             )}
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+                                    className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300"
                                     onClick={onClose}>
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                                    className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded transition-all duration-300"
                                     disabled={isSubmitting}>
                                     {isSubmitting ? "Signing Up..." : "Sign Up"}
                                 </button>
                             </div>
-                            <div className="flex-row w-full text-black items-center">
+                            <div className="mt-4 text-center text-secondary_text">
                                 Already a user?{" "}
                                 <button
                                     type="button"
                                     onClick={onLoginClick}
-                                    className="text-blue-500">
+                                    className="text-highlight hover:text-highlight_hover underline">
                                     Login
                                 </button>
                             </div>

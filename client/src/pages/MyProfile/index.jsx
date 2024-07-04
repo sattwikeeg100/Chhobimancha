@@ -1,5 +1,5 @@
 // src/components/MyProfile.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import axiosInstance from "../../config/axiosInstance";
 import ProfileModal from "../../components/profileModal";
@@ -8,7 +8,6 @@ import ProfileCard from "../../components/profileCard";
 const APIURL = import.meta.env.VITE_API_URL;
 
 const MyProfile = () => {
-    //const [profile, setProfile] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const user = useSelector((state) => state.user.userInfo);
 
@@ -29,22 +28,22 @@ const MyProfile = () => {
 
     const handleModalClose = () => {
         setModalOpen(false);
-        //fetchUserProfile(user);
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">My Profile</h1>
-            <ProfileCard
-                profile={user}
-                onEditClick={handleEditClick}
-                onDeleteClick={handleDeleteClick}
-            />
-            {modalOpen && (
-                <ProfileModal
+        <div className="container mx-auto p-6 bg-background1 text-primary_text min-h-screen">
+            <h1 className="text-4xl font-montserrat font-bold mb-8 text-center">
+                My Profile
+            </h1>
+            <div className="flex justify-center">
+                <ProfileCard
                     profile={user}
-                    onClose={handleModalClose}
+                    onEditClick={handleEditClick}
+                    onDeleteClick={handleDeleteClick}
                 />
+            </div>
+            {modalOpen && (
+                <ProfileModal profile={user} onClose={handleModalClose} />
             )}
         </div>
     );

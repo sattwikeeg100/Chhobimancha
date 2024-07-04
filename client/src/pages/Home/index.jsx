@@ -33,14 +33,13 @@ const Home = () => {
     return (
         <div id="Home" className=" pb-16 w-screen h-fit flex flex-col items-center bg-black text-white font-semibold font-serif " >
 
-            < header className='h-full w-full my-8'>
-                <div className={` w-full h-full`}  >
+            <header className='h-full w-full my-8'>
+                <div className={` w-full h-full`}>
 
                     <Slider {...settings} className="mx-10 object-center ">
-
                         {
                             recentMovies.map((movie, key) => (
-                                <Link to="explore/shows/:slug" >
+                                <Link to={`explore/movies/${movie.slug}`} >
                                     <div className="">
                                         <img src={`${movie.image}`} alt="" className="w-[99%] h-[50vw] md:h-[30vw] object-center" />
 
@@ -50,7 +49,7 @@ const Home = () => {
                         }
                     </Slider>
                 </div>
-            </header >
+            </header>
             <div className="w-screen h-full flex justify-center items-center">
                 <div className=" w-full h-full" >
 
