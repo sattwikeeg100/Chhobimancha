@@ -20,8 +20,8 @@ const ReviewForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className=" mx-auto w-full max-w-2xl p-10 bg-gray-700 shadow-2xl rounded-lg m-10">
-      <h2 className="text-xl font-semibold mb-4">How was the movie?</h2>
+    <form onSubmit={handleSubmit} className=" mx-auto w-full max-w-2xl p-10 bg-shadow shadow-2xl rounded-lg m-10">
+      <h2 className="text-xl font-semibold mb-4 text-secondary_text font-lato">How was the movie?</h2>
 
       <div className="flex flex-row items-center mb-8 gap-5 mx-auto justify-center">
         {[...Array(5)].map((_, index) => (
@@ -35,14 +35,14 @@ const ReviewForm = ({ onSubmit }) => {
       </div>
 
       <div className="mb-8">
-        <label className="block text-black text-md font-semibold mb-2" htmlFor="comment">
+        <label className="block text-md font-semibold font-lato text-secondary_text mb-2" htmlFor="comment">
           Express more, write a review :
         </label>
         <textarea
           id="comment"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="shadow-xl appearance border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow-xl appearance border font-roboto rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           rows="4"
           placeholder="Write your review here..."
         ></textarea>
@@ -55,7 +55,7 @@ const ReviewForm = ({ onSubmit }) => {
           Submitting...
         </button> : <button
           type="submit"
-          className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-8 rounded focus:outline-none focus:shadow-outline"
+          className="bg-highlight hover:bg-highlight_hover text-white font-bold font-ubuntu py-2 px-8 rounded focus:outline-none focus:shadow-outline"
         >
           Submit Review
         </button>}
