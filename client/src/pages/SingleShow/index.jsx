@@ -266,7 +266,7 @@ const SingleShow = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <section className="py-5  bg-background1 flex flex-col gap-y-7">
+    <section className="py-5  bg-background1 flex flex-col gap-y-7 min-h-screen">
       <div className="px-10 flex flex-col lg:flex-row gap-x-7 justify-center">
         {/* poster */}
         <ShowDetails show={show} />
