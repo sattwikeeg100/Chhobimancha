@@ -196,16 +196,16 @@ const SingleMovie = () => {
                     {/* Movie Description */}
                     <div className="lg:px-10 sm:px-5  mt-10 flex flex-col gap-4">
                         <div className=" text-left text-white flex flex-col gap-5 common-container">
-                            <h1 className="lg:text-2xl sm:text-xl font-bold font-montserrat tracking-wider common-heading">
+                            <h1 className="lg:text-2xl sm:text-xl font-bold font-montserrat tracking-wider common-heading px-10">
                                 Description:
                             </h1>
-                            <p className="lg:text-lg sm:text-md mb-2 font-roboto ">
+                            <p className="lg:text-lg sm:text-md mb-2 font-roboto px-10">
                                 {movie.description}
                             </p>
                         </div>
 
                         {/* Casts */}
-                        <div className="py-10">
+                        <div className="">
                             <CastSlider casts={movie.casts} who="casts" />
                         </div>
 
