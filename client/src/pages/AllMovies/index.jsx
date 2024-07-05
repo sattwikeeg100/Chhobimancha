@@ -78,8 +78,8 @@ const AllMovies = () => {
             case "releaseDate":
                 tempMovies.sort((a, b) =>
                     sortOrder === "asc"
-                        ? new Date(a.year) - new Date(b.year)
-                        : new Date(b.year) - new Date(a.year)
+                        ? new Date(a.releaseDate) - new Date(b.releaseDate)
+                        : new Date(b.releaseDate) - new Date(a.releaseDate)
                 );
                 break;
             default:
