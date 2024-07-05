@@ -2,11 +2,31 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
-import { handleImageFileDelete, handleImageFileUpload, handleVideoFileDelete, handleVideoFileUpload } from "../../utils/fileHandler";
+import {
+    handleImageFileDelete,
+    handleImageFileUpload,
+    handleVideoFileDelete,
+    handleVideoFileUpload,
+} from "../../utils/fileHandler";
 import { MdDeleteForever } from "react-icons/md";
 import { MdCloudDone } from "react-icons/md";
+import Select from "react-select";
 
 const APIURL = import.meta.env.VITE_API_URL;
+
+const genreOptions = [
+    { value: "Drama", label: "Drama" },
+    { value: "Thriller", label: "Thriller" },
+    { value: "Romance", label: "Romance" },
+    { value: "Comedy", label: "Comedy" },
+    { value: "Action", label: "Action" },
+    { value: "Crime", label: "Crime" },
+    { value: "Horror", label: "Horror" },
+    { value: "History", label: "History" },
+    { value: "Documentary", label: "Documentary" },
+    { value: "Science-Fiction", label: "Science Fiction" },
+    { value: "Other", label: "Other" },
+];
 
 const MovieModal = ({ movie, onClose }) => {
     const [title, setTitle] = useState("");
@@ -14,7 +34,7 @@ const MovieModal = ({ movie, onClose }) => {
     const [coverImage, setCoverImage] = useState(null);
     const [poster, setPoster] = useState(null);
     const [video, setVideo] = useState(null);
-    const [genre, setGenre] = useState("");
+    const [genres, setGenres] = useState([]);
     const [language, setLanguage] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
     const [duration, setDuration] = useState("");
@@ -49,7 +69,7 @@ const MovieModal = ({ movie, onClose }) => {
         if (movie) {
             setTitle(movie.title);
             setDescription(movie.description);
-            setGenre(movie.genre);
+            setGenres(movie.genres);
             setLanguage(movie.language);
             setReleaseDate(movie.releaseDate);
             setDuration(movie.duration);
@@ -73,6 +93,11 @@ const MovieModal = ({ movie, onClose }) => {
         setArray(newArray);
     };
 
+    const handleGenreChange = (selectedOptions) => {
+        const newGenres = selectedOptions.map((option) => option.value);
+        setGenres(newGenres);
+    };
+
     const addArrayItem = (setArray, array) => () => {
         setArray([...array, { person: "", role: "" }]);
     };
@@ -91,7 +116,7 @@ const MovieModal = ({ movie, onClose }) => {
                 description,
                 coverImage,
                 poster,
-                genre,
+                genres,
                 language,
                 releaseDate,
                 duration,
@@ -258,12 +283,11 @@ const MovieModal = ({ movie, onClose }) => {
                     )}
                     {/* Genre */}
                     <div className="mb-4">
-                        <label className="block text-gray-700">Genre</label>
-                        <input
-                            className="w-full px-3 py-2 border rounded"
-                            type="text"
-                            value={genre}
-                            onChange={handleInputChange(setGenre)}
+                        <label className="block text-gray-700">Genres</label>
+                        <Select
+                            isMulti
+                            onChange={handleGenreChange}
+                            options={genreOptions}
                         />
                     </div>
                     {/* Language */}
@@ -317,7 +341,7 @@ const MovieModal = ({ movie, onClose }) => {
                             </div>
                             {video && (
                                 <>
-                                    <MdCloudDone className="h-12 w-12"/>
+                                    <MdCloudDone className="h-12 w-12" />
                                     <MdDeleteForever
                                         className="cursor-pointer"
                                         onClick={() =>

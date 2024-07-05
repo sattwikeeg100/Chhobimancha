@@ -86,7 +86,7 @@ const MovieCard = ({ movie }) => {
               {moment(movie.releaseDate).year()}
                 
                 <BsDot className="font-semibold w-5 h-5 mt-1"/>
-                {movie.genre}
+                {movie.genres.join(", ")}
               </p>
             </div>
 

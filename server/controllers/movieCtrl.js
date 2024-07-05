@@ -99,7 +99,7 @@ export const createMovie = asyncHandler(async (req, res) => {
             description,
             coverImage,
             poster,
-            genre,
+            genres,
             language,
             releaseDate,
             duration,
@@ -125,7 +125,7 @@ export const createMovie = asyncHandler(async (req, res) => {
             description,
             coverImage,
             poster,
-            genre,
+            genres,
             language,
             releaseDate,
             duration,
@@ -157,7 +157,7 @@ export const updateMovie = asyncHandler(async (req, res) => {
         description,
         coverImage,
         poster,
-        genre,
+        genres,
         language,
         releaseDate,
         duration,
@@ -193,7 +193,7 @@ export const updateMovie = asyncHandler(async (req, res) => {
         movie.description = description || movie.description;
         movie.coverImage = coverImage || movie.coverImage;
         movie.poster = poster || movie.poster;
-        movie.genre = genre || movie.genre;
+        movie.genres = genres || movie.genres;
         movie.language = language || movie.language;
         movie.releaseDate = releaseDate || movie.releaseDate;
         movie.duration = duration || movie.duration;

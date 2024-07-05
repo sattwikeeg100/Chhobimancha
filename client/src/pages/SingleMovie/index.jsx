@@ -156,7 +156,7 @@ const SingleMovie = () => {
                                     {/* category */}
                                     <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3" />
                                     <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight">
-                                        {movie.genre}
+                                        {movie.genres.join(", ")}
                                     </div>
                                 </div>
 

@@ -15,7 +15,7 @@ const MovieAdminCard = ({ movie, onEditClick, onDeleteClick }) => {
             </h2>
             <p className="text-gray-700 mb-2 text-center">{movie.desc}</p>
             <p className="text-gray-700 mb-2 font-semibold text-center">
-                {movie.genre}
+                {movie.genres.join(', ')}
             </p>
             <div className="flex justify-end space-x-2 mt-4">
                 <button

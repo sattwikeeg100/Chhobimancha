@@ -331,6 +331,7 @@ const SingleShow = () => {
           handleSeatClick={handleSeatClick}
           handleBookNow={handleBookNow}
           getSeatClass={getSeatClass}
+          ticketPrice={show.ticketPrice}
         />
       </div>
     </section>

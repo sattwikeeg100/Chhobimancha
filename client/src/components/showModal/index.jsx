@@ -17,7 +17,9 @@ const ShowModal = ({ show, onClose }) => {
     const [language, setLanguage] = useState("");
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
-    const [ticketPrice, setTicketPrice] = useState("");
+    const [frontStall, setFrontStall] = useState(0);
+    const [rearStall, setRearStall] = useState(0);
+    const [balcony, setBalcony] = useState(0);
     const [totalSeats, setTotalSeats] = useState("");
     const [posterFile, setPosterFile] = useState(null);
     const [theatres, setTheatres] = useState([]);
@@ -44,7 +46,9 @@ const ShowModal = ({ show, onClose }) => {
             setLanguage(show.language);
             setDate(show.date);
             setTime(show.time);
-            setTicketPrice(show.ticketPrice);
+            setFrontStall(show.ticketPrice.frontStall);
+            setRearStall(show.ticketPrice.rearStall);
+            setBalcony(show.ticketPrice.balcony);
             setTotalSeats(show.totalSeats);
             setSelectedTheatre(show.theatre || "");
             setCasts(show.casts);
@@ -96,7 +100,7 @@ const ShowModal = ({ show, onClose }) => {
                 language,
                 date,
                 time,
-                ticketPrice,
+                ticketPrice: { frontStall, rearStall, balcony},
                 totalSeats,
                 theatre: selectedTheatre,
                 casts,
@@ -231,16 +235,41 @@ const ShowModal = ({ show, onClose }) => {
                         />
                     </div>
                     {/* Ticket Price */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700">
-                            Ticket Price
-                        </label>
-                        <input
-                            className="w-full px-3 py-2 border rounded"
-                            type="number"
-                            value={ticketPrice}
-                            onChange={handleInputChange(setTicketPrice)}
-                        />
+                    <label className="block text-gray-700">Ticket Prices</label>
+                    <div className="flex flex-row w-full justify-between mt-2">
+                        <div className="mb-4">
+                            <label className="block text-gray-500 text-sm">
+                                Front Stall
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="number"
+                                value={frontStall}
+                                onChange={handleInputChange(setFrontStall)}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-500 text-sm">
+                                Rear Stall
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="number"
+                                value={rearStall}
+                                onChange={handleInputChange(setRearStall)}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-500 text-sm">
+                                Balcony
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="number"
+                                value={balcony}
+                                onChange={handleInputChange(setBalcony)}
+                            />
+                        </div>
                     </div>
                     {/* Total Seats */}
                     <div className="mb-4">

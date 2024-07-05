@@ -47,8 +47,18 @@ const showSchema = new mongoose.Schema(
             required: true,
         },
         ticketPrice: {
-            type: Number,
-            required: true,
+            frontStall: {
+                type: Number,
+                required: true,
+            },
+            rearStall: {
+                type: Number,
+                required: true,
+            },
+            balcony: {
+                type: Number,
+                required: true,
+            },
         },
         totalSeats: {
             type: Number,
