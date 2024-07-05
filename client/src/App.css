@@ -12,3 +12,10 @@
   background: #31363F;
   border-radius: 10px;
 }
+
+
+/* important to change the date picker color */
+
+/* ::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+} */
