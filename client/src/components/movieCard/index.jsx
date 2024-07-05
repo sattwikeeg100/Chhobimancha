@@ -54,7 +54,7 @@ const MovieCard = ({ movie }) => {
     };
 
     return (
-        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 max-w-s rounded overflow-hidden shadow-lg relative bg-background2 text-white h-150 p-4">
+        <div className="transition-transform duration-300 ease-in-out transform hover:scale-110 hover:border-white hover:border-2 hover:z-10 max-w-s rounded overflow-hidden shadow-lg relative bg-shadow text-white h-150 p-4">
           <div className="relative">
             <img
               className="w-80 h-80 object-cover "
@@ -63,7 +63,7 @@ const MovieCard = ({ movie }) => {
             />
             <button
               onClick={user ? handleAddToFavorites : switchToLogin}
-              className="absolute top-2 right-2 bg-background1 text-yellow-500 p-2 rounded-full hover:text-highlight"
+              className="absolute top-2 right-2 bg-background1 text-white p-2 rounded-full hover:text-highlight"
             >
               {isFavourite ? <FaHeart color="red" /> : <FaHeart />}
             </button>
@@ -72,28 +72,39 @@ const MovieCard = ({ movie }) => {
             className="flex justify-between cursor-pointer"
             onClick={() => navigate(`/explore/movies/${movie.slug}`)}
           >
-            <div className="px-6 py-4 flex flex-col">
+            <div className="mx-2 py-4 flex flex-col">
                 <div className="flex flex-row mb-5">
-                    <div className="font-bold text-xl text-primary_text">{movie.title}</div>
+                    <div className="font-bold text-xl text-primary_text font-montserrat">{movie.title}</div>
                     <div
-                    className="flex justify-center items-center absolute right-3 top-100 font-semibold text-primary_text"
+                    className="flex justify-center items-center absolute right-7 top-104 font-semibold font-lato text-primary_text"
                     >
                     <FaStar className="text-highlight mr-2 "/>
                     {movie.averageRating}/5
                     </div>
             </div>
-              <p className="text-primary_text font-semibold flex flex-row">
-              {moment(movie.releaseDate).year()}
-                
-                <BsDot className="font-semibold w-5 h-5 mt-1"/>
-                {movie.genre}
-              </p>
+              <div className="text-primary_text font-semibold font-lato flex flex-row justify-between gap-x-10">
+
+                <div className="flex flex-row gap-x-2">
+                  {/* <BsDot className="font-semibold w-5 h-5 mt-1"/> */}
+                  {moment(movie.releaseDate).year()}
+                </div>
+
+                <div className="flex flex-row gap-x-1">
+                  <BsDot className="font-semibold w-5 h-5 mt-1"/>
+                  {movie.genre}
+                </div>
+
+                <div className="flex flex-row gap-x-1">
+                  <BsDot className="font-semibold w-5 h-5 mt-1"/>
+                  {movie.duration} hr
+                </div>
+              </div>
             </div>
 
             
             
           </div>
-          <button className="bg-highlight hover:bg-highlight_hover text-white font-bold my-4 py-2 px-4 rounded w-full"
+          <button className="bg-highlight hover:bg-highlight_hover text-white font-bold  font-ubuntu my-4 py-2 px-4 rounded w-full"
           onClick={() => navigate(`/explore/movies/${movie.slug}`)}>
               Watch Now
             </button>

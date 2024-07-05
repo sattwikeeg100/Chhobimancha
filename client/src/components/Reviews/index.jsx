@@ -42,18 +42,18 @@ const Reviews = ({ reviews }) => {
   return (
     reviews.length > 0 ? (
       <div className="text-left text-white flex flex-col gap-1 common-container">
-        <h2 className="common-heading">Reviews:</h2>
+        <h2 className="common-heading font-montserrat">Reviews:</h2>
         <Slider {...sliderSettings}>
           {reviews.map((review, index) => (
             <div key={index} className="flex flex-row gap-5 mb-5 mt-5 p-5">
-              <div className="relative p-5 bg-[#010b14] h-60 border border-gray-300 rounded-lg shadow-md flex flex-col">
-                <div className="sticky-top flex items-center gap-2">
+              <div className="relative p-5 bg-shadow h-60 border border-gray-300 rounded-lg shadow-md flex flex-col">
+                <div className="sticky-top flex items-center gap-2 bg-shadow">
                   <div className="flex-shrink-0 w-10 h-10">
                     <img src={review.userId.image ? review.userId.image : "/avatar.jpg"} className="w-full h-full rounded-full object-cover" alt="User" />
                   </div>
-                  <div className="text-white font-semibold">{review.userId.name}</div>
+                  <div className="text-white font-semibold font-roboto bg-shadow">{review.userId.name}</div>
                 </div>
-                <div className="sticky-top absolute top-7 right-5 text-red-600 font-bold text-md flex items-center gap-1">
+                <div className="sticky-top absolute top-7 right-5 text-highlight font-bold font-lato bg-shadow text-md flex items-center gap-1">
                   <FaStar />
                   {review.rating}/5
                 </div>
