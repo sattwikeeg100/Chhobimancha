@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ShowCard from "../../components/showCard";
 import axios from "axios";
+import SkeletonAllShow from "../../components/Skeletons/skeletonAllShow";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
 const AllShows = () => {
   const [shows, setShows] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(true);
 
   const GetAllShows = async () => {
     try {
@@ -28,11 +29,15 @@ const AllShows = () => {
         const showDateTime = new Date(year, month - 1, day, hours, minutes);
         return showDateTime >= currentDate;
       });
-      setShows(upcomingShows);
+
+      // Set shows and update the loading state after a timeout
+      setTimeout(() => {
+        setShows(upcomingShows);
+        setLocalLoading(false);
+      }, 9000); // 900ms timeout
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
+      setLocalLoading(false); // Ensure loading state is updated on error
     }
   };
 
@@ -40,13 +45,15 @@ const AllShows = () => {
     GetAllShows();
   }, []);
 
-  if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+  if (localLoading) {
+    return <SkeletonAllShow />;
   }
 
   return (
-    <div className="justify-center items-center sm:px-10 bg-background1">
-      <h1 className="text-5xl font-bold text-white py-4">All Shows</h1>
+    <div className="justify-center items-center sm:px-10 bg-background1 min-h-screen">
+      <h1 className="text-5xl font-bold text-white py-4 font-montserrat">
+        Natyo kola
+      </h1>
       <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
         {shows.map((show, index) => (
           <div key={index}>
