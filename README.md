@@ -1,14 +1,14 @@
-# Welcome to Showtime360 - Your one stop source of entertainment !
+# Welcome to Chhobimancha - Your one stop source of entertainment !
 
 ## About
-Showtime360 is your one-stop solution for all your entertainment needs, built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. Whether you're a movie enthusiast, a theatre buff, or simply looking for a fun way to spend your time, we've got you covered. With Showtime360, you can stream movies, read and write reviews, and even book theatre shows—all in one convenient platform.
+Chhobimancha is your one-stop solution for all your entertainment needs, built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. Whether you're a movie enthusiast, a theatre buff, or simply looking for a fun way to spend your time, we've got you covered. With Chhobimancha, you can stream movies, read and write reviews, and even book theatre shows—all in one convenient platform.
 
 ## Features
 - **Movie Streaming:** Enjoy unlimited streaming of your favorite movies from our extensive library.
 - **Review and Ratings:** Share your thoughts and opinions by writing reviews and rating the movies you watch.
 - **Theatre Show Booking:** Book tickets for upcoming theatre shows and events hassle-free.
 - **Personalized Recommendations:** Discover new movies and shows tailored to your preferences with our recommendation system.
-- **Cross-Platform Access:** Access Showtime360 on all your devices, including smartphones, tablets, and computers.
+- **Cross-Platform Access:** Access Chhobimancha on all your devices, including smartphones, tablets, and computers.
 
 ## Technologies Used
 - **MongoDB:** NoSQL database for storing user data, movie information, reviews, and more.
@@ -29,12 +29,12 @@ Showtime360 is your one-stop solution for all your entertainment needs, built us
 5. **Personalize Your Experience:** Receive personalized recommendations based on your viewing history and preferences.
 
 ## Support
-If you have any questions, concerns, or feedback, feel free to reach out to our support team at support@showtime360.com. We're here to help!
+If you have any questions, concerns, or feedback, feel free to reach out to our support team at support@Chhobimancha.com. We're here to help!
 
 ## Stay Connected
 Follow us on social media to stay updated on the latest movies, shows, and events:
-- Facebook: [Showtime360](https://www.facebook.com/showtime360)
-- Twitter: [Showtime360Official](https://twitter.com/showtime360official)
-- Instagram: [Showtime360pics](https://www.instagram.com/showtime360pics)
+- Facebook: [Chhobimancha](https://www.facebook.com/Chhobimancha)
+- Twitter: [ChhobimanchaOfficial](https://twitter.com/Chhobimanchaofficial)
+- Instagram: [Chhobimanchapics](https://www.instagram.com/Chhobimanchapics)
 
-Thank you for choosing Showtime360 for your entertainment needs. Sit back, relax, and enjoy the show!
+Thank you for choosing Chhobimancha for your entertainment needs. Sit back, relax, and enjoy the show!
