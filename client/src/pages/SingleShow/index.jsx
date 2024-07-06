@@ -13,67 +13,6 @@ import logo from "/logo.jpg";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const theatre = {
-  about: `In the kingdom of Denmark, Prince Hamlet mourns his father, the king,
-            who has recently passed away. His mother, the Queen, quickly marries
-            Claudius, the king's brother. Hamlet is disgusted by this marriage,
-            believing it to be inappropriate and hasty. One night, a ghost appears
-            to Hamlet, resembling his deceased father. The ghost reveals he was
-            murdered by Claudius and pleads with Hamlet to avenge his death.
-            Consumed by grief and rage, Hamlet swears to take revenge. Hamlet
-            becomes withdrawn and erratic, baffling those around him. He feigns
-            madness to conceal his true motives from Claudius and the court. He
-            puts on a play that reenacts the murder of his father, hoping to see
-            Claudius betray himself. As the play unfolds, Claudius becomes
-            agitated and storms out, confirming Hamlet's suspicions. Hamlet
-            wrestles with doubt and the burden of revenge. He contemplates death
-            and the meaning of life. Meanwhile, Claudius grows fearful of Hamlet
-            and schemes to eliminate him. Hamlet hesitates to act, troubled by
-            moral dilemmas and the potential consequences. The play explores
-            themes of betrayal, revenge, grief, and mortality, building towards a
-            conflict-filled climax.`,
-  casts: [
-    {
-      name: "Riddhi Sen",
-      image:
-        "https://in.bmscdn.com/iedb/artist/images/website/poster/large/riddhi-sen-41799-02-12-2021-01-39-05.jpg",
-    },
-    {
-      name: "Surangana Bandyopadhyay",
-      image:
-        "https://www.indiablooms.com/showbiz_pic/2022/ca77088e5d8cc1d79a41345e83f442d1.jpeg",
-    },
-    {
-      name: "Kaushik Sen",
-      image:
-        "https://media.themoviedb.org/t/p/w500/51wHqBDdpHj15rvE2K1btwcaTqL.jpg",
-    },
-
-    {
-      name: "Reshmi Sen",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQw1mN-vHdksP6xHNbv1_M5vn970syr4VFHiQ&s",
-    },
-  ],
-  crew: [
-    {
-      name: "Kaushik Sen",
-      image:
-        "https://media.themoviedb.org/t/p/w500/51wHqBDdpHj15rvE2K1btwcaTqL.jpg",
-    },
-    {
-      name: "Chaiti Mitra",
-      image:
-        "https://photogallery.indiatimes.com/events/kolkata/upal-sengupta-presents-a-musical-event-with-folk-songs/chaiti-mitra/photo/65843902/Chaiti-Mitra.jpg",
-    },
-    {
-      name: "Swapnasandhani Production",
-      image:
-        "https://scontent.fccu32-1.fna.fbcdn.net/v/t39.30808-1/305479432_537097888220365_5273972752967471739_n.jpg?stp=dst-jpg_p200x200&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_ohc=bi2l7ZsSwhoQ7kNvgEOPNpz&_nc_ht=scontent.fccu32-1.fna&oh=00_AYB6Wv78JmstmLe3nP5zFlGIP-aqjLenQirs6mTIpxa0fQ&oe=666739AD",
-    },
-  ],
-};
-
 const SingleShow = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
