@@ -73,9 +73,9 @@ const AllShows = () => {
   };
 
   return (
-    <div className="justify-center items-center sm:px-10 bg-background1 min-h-screen">
+    <div className="justify-center items-center px-5 sm:px-10 bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-5xl font-bold text-white py-4 font-montserrat">
+        <h1 className=" text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
           Natyo kola
         </h1>
         <div className="flex items-center justify-center gap-x-4">
@@ -83,7 +83,7 @@ const AllShows = () => {
             <input
               type="text"
               placeholder="Search for shows..."
-              className="text-primary_text bg-shadow px-4 py-2 rounded-lg pl-10 focus:outline-none focus:border focus:border-highlight"
+              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10  px-0 sm:px-4 "
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -91,7 +91,7 @@ const AllShows = () => {
           </div>
           <div>
             <FaFilter
-              className="text-primary_text cursor-pointer w-5 h-5"
+              className="text-primary_text cursor-pointer w-4 h-4 sm:w-5 sm:h-5"
               onClick={() => setFilterModalOpen(true)}
             />
           </div>
@@ -102,12 +102,12 @@ const AllShows = () => {
 
       {filterModalOpen && (
         <div className="fixed inset-0 bg-background1 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-background2 w-[30%] p-6 rounded-lg relative">
+          <div className="bg-background2 sm:w-[40%] xl:w-[30%]  p-6 rounded-lg relative">
             <FaTimes
-              className="absolute top-2 right-2 text-highlight hover:text-highlight_hover text-2xl cursor-pointer"
+              className="absolute top-2 right-2 text-highlight hover:text-highlight_hover text-xl sm:text-2xl cursor-pointer"
               onClick={() => setFilterModalOpen(false)}
             />
-            <h2 className="text-3xl text-primary_text font-bold mb-4 font-montserrat">
+            <h2 className="text-2xl lg:text-3xl text-primary_text font-bold mb-4 font-montserrat">
               Filter Shows
             </h2>
 
@@ -156,7 +156,7 @@ const AllShows = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
         {filteredShows.map((show, index) => (
           <div key={index}>
             <ShowCard show={show} />
