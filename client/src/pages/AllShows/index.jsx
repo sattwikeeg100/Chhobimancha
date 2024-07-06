@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import ShowCard from "../../components/showCard";
 import axios from "axios";
+import SkeletonAllShow from "../../components/Skeletons/skeletonAllShow";
+import { FaSearch, FaFilter, FaTimes } from "react-icons/fa";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
 const AllShows = () => {
   const [shows, setShows] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const [filters, setFilters] = useState({ date: "", time: "", address: "" });
 
   const GetAllShows = async () => {
     try {
@@ -28,11 +33,15 @@ const AllShows = () => {
         const showDateTime = new Date(year, month - 1, day, hours, minutes);
         return showDateTime >= currentDate;
       });
-      setShows(upcomingShows);
+
+      // Set shows and update the loading state after a timeout
+      setTimeout(() => {
+        setShows(upcomingShows);
+        setLocalLoading(false);
+      }, 900); // 900ms timeout
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
+      setLocalLoading(false); // Ensure loading state is updated on error
     }
   };
 
@@ -40,15 +49,115 @@ const AllShows = () => {
     GetAllShows();
   }, []);
 
-  if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+  if (localLoading) {
+    return <SkeletonAllShow />;
   }
 
+  // Filter shows based on the search query and filters
+  const filteredShows = shows.filter((show) => {
+    const matchesSearch = show.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesDate = filters.date ? show.date.includes(filters.date) : true;
+    const matchesTime = filters.time ? show.time.includes(filters.time) : true;
+
+    return matchesSearch && matchesDate && matchesTime;
+  });
+
+  const handleApplyFilters = () => {
+    setFilterModalOpen(false);
+  };
+
+  const handleResetFilters = () => {
+    setFilters({ date: "", time: "", address: "" });
+  };
+
   return (
-    <div className="justify-center items-center sm:px-10 bg-background1">
-      <h1 className="text-5xl font-bold text-white py-4">All Shows</h1>
-      <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
-        {shows.map((show, index) => (
+    <div className="justify-center items-center sm:px-10 bg-background1 min-h-screen">
+      <div className="flex items-center justify-between">
+        <h1 className="text-5xl font-bold text-white py-4 font-montserrat">
+          Natyo kola
+        </h1>
+        <div className="flex items-center justify-center gap-x-4">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search for shows..."
+              className="text-primary_text bg-shadow px-4 py-2 rounded-lg pl-10 focus:outline-none focus:border focus:border-highlight"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
+          </div>
+          <div>
+            <FaFilter
+              className="text-primary_text cursor-pointer w-5 h-5"
+              onClick={() => setFilterModalOpen(true)}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Filter Modal */}
+
+      {filterModalOpen && (
+        <div className="fixed inset-0 bg-background1 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-background2 w-[30%] p-6 rounded-lg relative">
+            <FaTimes
+              className="absolute top-2 right-2 text-highlight hover:text-highlight_hover text-2xl cursor-pointer"
+              onClick={() => setFilterModalOpen(false)}
+            />
+            <h2 className="text-3xl text-primary_text font-bold mb-4 font-montserrat">
+              Filter Shows
+            </h2>
+
+            <div className="mb-4">
+              <label className="block text-secondary_text font-lato">
+                Date
+              </label>
+              <input
+                type="date"
+                className=" px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
+                value={filters.date}
+                onChange={(e) =>
+                  setFilters({ ...filters, date: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-secondary_text font-lato">
+                Time
+              </label>
+              <input
+                type="time"
+                className=" px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
+                value={filters.time}
+                onChange={(e) =>
+                  setFilters({ ...filters, time: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="flex justify-end gap-x-4">
+              <button
+                className="bg-highlight_hover hover:bg-highlight text-white font-bold py-2 px-4 rounded-lg"
+                onClick={handleResetFilters}
+              >
+                Reset
+              </button>
+              <button
+                className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-lg"
+                onClick={handleApplyFilters}
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
+        {filteredShows.map((show, index) => (
           <div key={index}>
             <ShowCard show={show} />
           </div>

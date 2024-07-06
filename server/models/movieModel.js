@@ -53,8 +53,8 @@ const moviesSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        genre: {
-            type: String,
+        genres: {
+            type: Array,
             required: true,
         },
         language: {

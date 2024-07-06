@@ -262,11 +262,19 @@ const SingleShow = () => {
     fetchShow();
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen bg-background1 text-white">Loading...</div>
+    );
+  if (error)
+    return (
+      <div className="min-h-screen bg-background1 text-white">
+        Error: {error}
+      </div>
+    );
 
   return (
-    <section className="py-5  bg-background1 flex flex-col gap-y-7">
+    <section className="py-5  bg-background1 flex flex-col gap-y-7 min-h-screen">
       <div className="px-10 flex flex-col lg:flex-row gap-x-7 justify-center">
         {/* poster */}
         <ShowDetails show={show} />
@@ -331,6 +339,7 @@ const SingleShow = () => {
           handleSeatClick={handleSeatClick}
           handleBookNow={handleBookNow}
           getSeatClass={getSeatClass}
+          ticketPrice={show.ticketPrice}
         />
       </div>
     </section>
