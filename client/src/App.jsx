@@ -34,7 +34,7 @@ import { Toaster } from "sonner";
 const UserLayout = ({ children }) => {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       {children}
       <Footer />
     </>
