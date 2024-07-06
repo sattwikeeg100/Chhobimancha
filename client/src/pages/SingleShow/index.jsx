@@ -275,24 +275,28 @@ const SingleShow = () => {
 
   return (
     <section className="py-5  bg-background1 flex flex-col gap-y-7 min-h-screen">
-      <div className="px-10 flex flex-col lg:flex-row gap-x-7 justify-center">
+      <div className="flex flex-col lg:flex-row gap-y-5 justify-center">
         {/* poster */}
         <ShowDetails show={show} />
 
-        <div className="flex flex-col gap-y-4 w-[64%]">
+        {/* Cast and Crews Section */}
+
+        <div className="flex flex-col gap-y-4 lg:w-[56%] xl:w-[64%] lg:pr-10">
           {/* cast */}
           <div className=" flex flex-col ">
-            <div className="text-4xl text-white pl-10  font-bold">Artist</div>
+            <div className="text-3xl sm:text-4xl text-white pl-10  font-bold">
+              Artist
+            </div>
             <div className="pt-7">
               <TheatreCastCrew casts={show.casts} />
             </div>
           </div>
 
-          {/* Crews Section */}
-
           {/* crew */}
           <div className=" flex flex-col ">
-            <div className="text-4xl text-white pl-10  font-bold">Crew</div>
+            <div className="text-3xl sm:text-4xl text-white pl-10  font-bold">
+              Crew
+            </div>
             <div className="pt-7">
               <TheatreCastCrew casts={show.crews} />
             </div>
@@ -320,8 +324,10 @@ const SingleShow = () => {
       {/* about section */}
 
       <div className="px-10 flex flex-col gap-y-3">
-        <div className="text-4xl text-white  font-bold">About The Play</div>
-        <p className=" text-secondary_text text-lg leading-8">
+        <div className=" text-3xl sm:text-4xl text-white  font-bold">
+          About The Play
+        </div>
+        <p className=" text-secondary_text sm:text-lg leading-8">
           {show.description}
         </p>
       </div>
@@ -330,7 +336,7 @@ const SingleShow = () => {
 
       {/* booking */}
 
-      <div className="flex flex-col gap-y-5">
+      {/* <div className="flex flex-col gap-y-5">
         <div className="px-10 text-4xl text-white  font-bold">
           Grab Your Seats
         </div>
@@ -341,7 +347,7 @@ const SingleShow = () => {
           getSeatClass={getSeatClass}
           ticketPrice={show.ticketPrice}
         />
-      </div>
+      </div> */}
     </section>
   );
 };
