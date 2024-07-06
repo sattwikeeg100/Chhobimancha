@@ -160,11 +160,11 @@ const SingleShow = () => {
   const getSeatPrice = (seatId) => {
     const row = seatId.charAt(0); // Extract the row letter
     if (["A", "B", "C", "D"].includes(row)) {
-      return 500;
+      return show.ticketPrice.frontStall;
     } else if (["E", "F", "G", "H", "I", "J"].includes(row)) {
-      return 300;
+      return show.ticketPrice.rearStall;
     } else if (["K", "L", "M"].includes(row)) {
-      return 200;
+      return show.ticketPrice.balcony;
     } else {
       return 0; // Default price if the row is not recognized
     }
@@ -277,30 +277,30 @@ const SingleShow = () => {
     <section className="py-5  bg-background1 flex flex-col gap-y-7 min-h-screen">
       <div className="flex flex-col lg:flex-row gap-y-5 justify-center">
         {/* poster */}
-        {/* <ShowDetails show={show} /> */}
+        <ShowDetails show={show} />
 
         {/* Cast and Crews Section */}
 
         <div className="flex flex-col gap-y-4 lg:w-[56%] xl:w-[64%] lg:pr-10">
           {/* cast */}
-          {/* <div className=" flex flex-col ">
+          <div className=" flex flex-col ">
             <div className="text-3xl sm:text-4xl text-white pl-10  font-bold">
               Artist
             </div>
             <div className="pt-7">
               <TheatreCastCrew casts={show.casts} />
             </div>
-          </div> */}
+          </div>
 
           {/* crew */}
-          {/* <div className=" flex flex-col ">
+          <div className=" flex flex-col ">
             <div className="text-3xl sm:text-4xl text-white pl-10  font-bold">
               Crew
             </div>
             <div className="pt-7">
               <TheatreCastCrew casts={show.crews} />
             </div>
-          </div> */}
+          </div>
         </div>
 
         {/* booking */}
@@ -314,14 +314,14 @@ const SingleShow = () => {
 
       {/* about section */}
 
-      {/* <div className="px-10 flex flex-col gap-y-3">
+      <div className="px-10 flex flex-col gap-y-3">
         <div className=" text-3xl sm:text-4xl text-white  font-bold">
           About The Play
         </div>
         <p className=" text-secondary_text sm:text-lg leading-8">
           {show.description}
         </p>
-      </div> */}
+      </div>
 
       {/* Casts Section */}
 
