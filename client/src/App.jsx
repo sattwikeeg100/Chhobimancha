@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import store from "./store";
 import "./App.css";
 
@@ -80,7 +80,6 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
       <BrowserRouter>
         {user?.isAdmin ? (
           <>
@@ -129,7 +128,6 @@ function App() {
           </>
         )}
       </BrowserRouter>
-    </Provider>
   );
 }
 
