@@ -32,9 +32,11 @@ import NotFound from "./pages/NotFound";
 import { Toaster } from "sonner";
 
 const UserLayout = ({ children }) => {
+  const [open, setOpen] = useState(true);
+
   return (
     <>
-      <Navbar />
+      <Navbar open={open} setOpen={setOpen} />
       {children}
       <Footer />
     </>

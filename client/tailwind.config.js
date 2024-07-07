@@ -21,6 +21,7 @@ export default {
         lato: ["Lato", "sans-serif"], // secondary heading
         montserrat: ["Montserrat", "sans-serif"], // primary heading
         ubuntu: ["Ubuntu", "sans-serif"], // buttons
+        logo_text: ["Macondo", "cursive"],
       },
     },
   },

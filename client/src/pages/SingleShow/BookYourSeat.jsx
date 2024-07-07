@@ -482,7 +482,7 @@ const BookYourSeat = ({
           <button
             onClick={handleBookNow}
             type="button"
-            className=" bg-highlight hover:bg-highlight_hover text-primary_text text-xs md:text-xl font-bold py-2 px-4 lg:px-6 rounded-xl"
+            className=" bg-highlight hover:bg-highlight_hover text-primary_text text-xs md:text-xl font-ubuntu font-bold py-2 px-4 lg:px-6 rounded-xl"
           >
             Book Now
           </button>
