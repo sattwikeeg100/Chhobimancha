@@ -24,7 +24,6 @@ ChartJS.register(
 );
 
 const AdminDashboard = () => {
-    const APIURL = import.meta.env.VITE_API_URL;
     const [allInfos, setAllInfos] = useState({});
     const [revenueData, setRevenueData] = useState([]);
     const [loading, setLoading] = useState(true);

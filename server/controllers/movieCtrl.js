@@ -5,32 +5,25 @@ import mongoose from "mongoose";
 
 // ************************* PUBLIC CONTROLLERS *********************
 
-// Get all movies
-
 export const getAllMovies = asyncHandler(async (req, res) => {
-    try {
-        const movies = await Movie.find({})
-            .populate("casts.person")
-            .populate("crews.person");
+    const movies = await Movie.find({})
+        .populate("casts.person")
+        .populate("crews.person");
 
-        res.status(200).json(movies);
-    } catch (error) {
-        // Catch and handle any errors that occur during the process
-        res.status(400);
-        throw new Error(error.message);
-    }
+    res.json(movies);
 });
-
-// Get movie by slug
 
 export const getMovieBySlugId = asyncHandler(async (req, res) => {
     const slug = req.params.slug;
-    // find movie by slug in database
     const movie = await Movie.findOne({ slug: slug })
-        .populate("reviews.userId")
+        .populate({
+            path: "reviews.user",
+            select: "image",
+            match: { _id: { $ne: null } },
+        })
         .populate("casts.person")
         .populate("crews.person");
-    // if the movie is found, send it to the client
+
     if (movie) {
         res.json(movie);
     } else {
@@ -41,46 +34,43 @@ export const getMovieBySlugId = asyncHandler(async (req, res) => {
 
 // ************************* PRIVATE CONTROLLERS *********************
 
-// Create movie review
-
 export const createMovieReview = asyncHandler(async (req, res) => {
     const { rating, comment } = req.body;
-    // find movie by id in database
     const movie = await Movie.findById(req.params.id);
 
     if (movie) {
         // check if the user already reviewed the movie
         const alreadyReviewed = movie.reviews.find(
-            (r) => r.userId.toString() === req.user._id.toString()
+            (r) => r.user.toString() === req.user._id.toString()
         );
 
-        // if the user already reviewed the movie, send 400 error
         if (alreadyReviewed) {
             res.status(400);
             throw new Error("You already reviewed the movie");
         }
-        // otherwise create a new review
+
         const review = {
-            userId: req.user._id,
+            user: req.user._id,
+            userName: req.user.name,
             rating: Number(rating),
             comment,
         };
-        // push the new review to the reviews array
-        movie.reviews.push(review);
-        // increment the number of reviews
-        movie.numberOfReviews = movie.reviews.length;
 
-        // calculate the new averageRating
+        movie.reviews.push(review);
+        movie.numberOfReviews = movie.reviews.length;
         movie.averageRating =
             movie.reviews.reduce((acc, item) => item.rating + acc, 0) /
             movie.reviews.length;
 
-        // save the movie in database
-        await movie.save();
-        // send the new movie to the client
-        res.status(200).json({
-            message: "Review added",
-        });
+        try {
+            await movie.save();
+            res.status(201).json({
+                message: "Review added successfully",
+            });
+        } catch (error) {
+            res.status(400);
+            throw new Error(error.message);
+        }
     } else {
         res.status(404);
         throw new Error("Movie not found");
@@ -89,58 +79,46 @@ export const createMovieReview = asyncHandler(async (req, res) => {
 
 // ************************* ADMIN CONTROLLERS *********************
 
-// Add a movie
-
 export const createMovie = asyncHandler(async (req, res) => {
+    const {
+        title,
+        description,
+        coverImage,
+        poster,
+        genres,
+        language,
+        releaseDate,
+        duration,
+        video,
+        casts,
+        crews,
+    } = req.body;
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString("en-GB").replace(/\//g, "");
+    };
+    const slug = slugify(`${title}-${formatDate(releaseDate)}`, {
+        remove: /[*+/~.()'"!:@]/g,
+    }).toLowerCase();
+
+    const movie = new Movie({
+        userId: req.user._id,
+        title,
+        slug,
+        description,
+        coverImage,
+        poster,
+        genres,
+        language,
+        releaseDate,
+        duration,
+        video,
+        casts,
+        crews,
+    });
     try {
-        // get data from the request body
-        const {
-            title,
-            description,
-            coverImage,
-            poster,
-            genres,
-            language,
-            releaseDate,
-            duration,
-            video,
-            casts,
-            crews,
-        } = req.body;
-
-        const formatDate = (date) => {
-            return new Date(date)
-                .toLocaleDateString("en-GB")
-                .replace(/\//g, "");
-        };
-        const slug = slugify(`${title}-${formatDate(releaseDate)}`, {
-            remove: /[*+/~.()'"!:@]/g,
-        }).toLowerCase();
-
-        // create a mew movie
-        const movie = new Movie({
-            userId: req.user._id,
-            title,
-            slug,
-            description,
-            coverImage,
-            poster,
-            genres,
-            language,
-            releaseDate,
-            duration,
-            video,
-            casts,
-            crews,
-        });
-
-        // save the movie in database
         if (movie) {
             const createdMovie = await movie.save();
             res.status(201).json(createdMovie);
-        } else {
-            res.status(400);
-            throw new Error("Invalid movie data");
         }
     } catch (error) {
         res.status(400);
@@ -148,10 +126,7 @@ export const createMovie = asyncHandler(async (req, res) => {
     }
 });
 
-// Update a movie
-
 export const updateMovie = asyncHandler(async (req, res) => {
-    // get data from the request body
     const {
         title,
         description,
@@ -166,7 +141,6 @@ export const updateMovie = asyncHandler(async (req, res) => {
         crews,
     } = req.body;
 
-    // find movie by id in database
     const movie = await Movie.findById(req.params.id);
 
     const formatDate = (date) => {
@@ -187,7 +161,6 @@ export const updateMovie = asyncHandler(async (req, res) => {
         ).toLowerCase();
     }
     if (movie) {
-        // update movie data
         movie.title = title || movie.title;
         movie.slug = slug || movie.slug;
         movie.description = description || movie.description;
@@ -201,42 +174,32 @@ export const updateMovie = asyncHandler(async (req, res) => {
         movie.casts = casts || movie.casts;
         movie.crews = crews || movie.crews;
 
-        // save the movie in database
-        const updatedMovie = await movie.save();
-        // send the updated movie to the client
-        res.status(201).json(updatedMovie);
+        try {
+            const updatedMovie = await movie.save();
+            res.json(updatedMovie);
+        } catch (error) {
+            res.status(400);
+            throw new Error(error.message);
+        }
     } else {
         res.status(404);
         throw new Error("Movie not found");
     }
 });
 
-// Delete a movie
-
 export const deleteMovie = asyncHandler(async (req, res) => {
-    // find movie by id in database
     const movie = await Movie.findById(req.params.id);
-    // if the movie is found, delete it
+
     if (movie) {
-        await Movie.deleteOne({ _id: req.params.id }); // Use deleteOne() method instead of movie.remove() method
-        res.json({ message: "Movie removed successfully" });
-    }
-    // if the movie is not found, send 404 error
-    else {
+        await Movie.deleteOne({ _id: req.params.id });
+        res.status(200).json({ message: "Movie removed successfully" });
+    } else {
         res.status(404);
         throw new Error("Movie not found");
     }
 });
 
-// Delete all movie
-
 export const deleteAllMovies = asyncHandler(async (req, res) => {
-    try {
-        // delete all movies
-        await Movie.deleteMany({});
-        res.json({ message: "All movies removed" });
-    } catch (error) {
-        res.status(400);
-        throw new Error(error.message);
-    }
+    await Movie.deleteMany({});
+    res.status(200).json({ message: "All movies removed" });
 });

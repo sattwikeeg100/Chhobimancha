@@ -5,8 +5,6 @@ import CineastAdminCard from "../../components/cineastAdminCard";
 import CineastModal from "../../components/cineastModal";
 import { toast } from "sonner";
 
-const APIURL = import.meta.env.VITE_API_URL;
-
 const AdminCineasts = () => {
     const [cineasts, setCineasts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,7 +14,7 @@ const AdminCineasts = () => {
     const GetAllCineasts = async () => {
         setLoading(true);
         try {
-            const response = await axiosInstance.get(`${APIURL}/cineasts`);
+            const response = await axiosInstance.get(`/cineasts`);
             setCineasts(response.data);
         } catch (error) {
             console.error(error);
@@ -39,11 +37,14 @@ const AdminCineasts = () => {
         setModalOpen(true);
     };
 
-    const handleDeleteClick = async (cineastId) => {
+    const handleDeleteClick = async (cineast) => {
         window.confirm("Are you sure you want to delete the cineast ?");
 
         try {
-            await axiosInstance.delete(`${APIURL}/cineasts/${cineastId}`);
+            await axiosInstance.delete(
+                `/upload/image/${cineast.image.split("/").pop()}`
+            );
+            await axiosInstance.delete(`/cineasts/${cineast._id}`);
             toast.success("Cineast deleted successfully!");
             GetAllCineasts();
         } catch (error) {

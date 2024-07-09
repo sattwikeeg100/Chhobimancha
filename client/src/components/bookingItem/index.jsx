@@ -2,7 +2,7 @@ import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { FaDownload } from "react-icons/fa";
-import logo from "/logo.jpg";
+import logo from "/chobimancha_logo.png";
 
 const BookingItem = ({ booking }) => {
 
@@ -15,25 +15,25 @@ const BookingItem = ({ booking }) => {
     const handleDownloadTicket = () => {
         const doc = new jsPDF();
 
-        // Add the logo
         const img = new Image();
-        img.src = logo;
+        img.src = logo; // TODO: Add the logo
 
         img.onload = () => {
             doc.addImage(img, "PNG", 14, 10, 50, 20);
 
-            // Set the title below the logo
             doc.setFontSize(18);
-            doc.text("Ticket Details", 14, 40);
+            doc.text("Chhobimancha: Booked Ticket Details", 14, 40);
 
-            // Add booking details
             const details = [
                 ["Show Title", booking.show.title],
                 ["Show Date", new Date(booking.show.date).toLocaleDateString()],
                 ["Show Time", booking.show.time],
                 ["Theatre Name", booking.show.theatre.name],
                 ["Booked Seats", booking.seats.join(", ")],
-                ["Total Amount", `$${(booking.totalAmount / 100).toFixed(2)}`],
+                [
+                    "Total Amount",
+                    `Rs. ${(booking.totalAmount / 100).toFixed(2)}`,
+                ],
             ];
 
             // Use autoTable to add the details in a table format
@@ -45,7 +45,7 @@ const BookingItem = ({ booking }) => {
             });
             const pdfBase64 = doc.output("datauristring");
             console.log(pdfBase64);
-            // Save the PDF
+
             doc.save(`${booking.show.title}-ticket.pdf`);
         };
     };
@@ -54,14 +54,14 @@ const BookingItem = ({ booking }) => {
         <div
             className={
                 isUpcoming
-                    ? "bg-shadow shadow-md rounded-lg p-4 flex justify-between items-center"
-                    : "bg-background2 shadow-md rounded-lg p-4 flex justify-between items-center"
+                    ? "bg-shadow shadow-md rounded-lg p-4 flex justify-between items-center text-primary_text"
+                    : "bg-background2 shadow-md rounded-lg p-4 flex justify-between items-center text-secondary_text"
             }>
             <div>
-                <h2 className="text-xl font-lato font-bold text-primary_text mb-1">
+                <h2 className="text-xl font-lato font-bold mb-1">
                     {booking.show.title}
                 </h2>
-                <div className="text-primary_text">
+                <div>
                     <span>
                         <b>Date: </b>
                         {new Date(booking.show.date).toLocaleDateString()}
@@ -87,11 +87,13 @@ const BookingItem = ({ booking }) => {
                     </span>
                 </div>
             </div>
-            {isUpcoming && <button
-                onClick={handleDownloadTicket}
-                className="bg-highlight text-primary_text py-2 px-4 rounded-lg hover:bg-highlight_hover flex items-center">
-                <FaDownload className="mr-2" /> Download Ticket
-            </button>}
+            {isUpcoming && (
+                <button
+                    onClick={handleDownloadTicket}
+                    className="bg-highlight text-primary_text py-2 px-4 rounded-lg hover:bg-highlight_hover flex items-center">
+                    <FaDownload className="mr-2" /> Download Ticket
+                </button>
+            )}
         </div>
     );
 };

@@ -12,15 +12,12 @@ const uploadImage = multer({
 
 uploadRouter.post("/image", uploadImage.single("file"), async (req, res) => {
     try {
-        // Check if file is present in request
         if (!req.file) {
             return res.status(400).json({ message: "Please upload a file" });
         }
 
-        // get file from request
         const file = req.file;
 
-        // create new filename
         const fileName = Date.now() + "-" + file.originalname;
 
         const blob = storage.file(fileName);
@@ -31,23 +28,19 @@ uploadRouter.post("/image", uploadImage.single("file"), async (req, res) => {
             },
         });
 
-        // Handle blob stream events
         blobStream.on("error", (error) => {
             console.error("Error uploading file:", error);
             res.status(400).json({ message: error.message });
         });
 
         blobStream.on("finish", () => {
-            // get the public URL
             const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${storage.name}/o/${fileName}?alt=media`;
-            // return the its public URL
             res.status(200).json({
                 message: "File uploaded successfully",
                 url: publicUrl,
             });
         });
 
-        // End blob stream with file buffer
         blobStream.end(file.buffer);
     } catch (error) {
         console.error("Error uploading file:", error);
@@ -82,7 +75,6 @@ uploadRouter.post("/video", uploadVideo.single("video"), (req, res) => {
         return res.status(400).send("Please upload a video.");
     }
 
-    // Construct the CloudFront URL
     const videoUrl = `${process.env.CLOUDFRONT_DOMAIN}/${req.file.key}`;
 
     res.status(200).send({

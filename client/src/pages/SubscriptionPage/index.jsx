@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../../config/axiosInstance.js";
 import { updateUser } from "../../store/slices/userSlice.js";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice.js";
+import { MdOutlineCancel } from "react-icons/md";
 import { toast } from "sonner";
 
 const SubscriptionPage = () => {
@@ -10,7 +11,6 @@ const SubscriptionPage = () => {
     const [formData, setFormData] = useState({});
     const [submitting, setSubmitting] = useState(false);
 
-    const APIURL = import.meta.env.VITE_API_URL;
     const dispatch = useDispatch();
     const FEEDBACK_URL = import.meta.env.VITE_GOOGLE_WEB_APP_URL;
 
@@ -26,7 +26,7 @@ const SubscriptionPage = () => {
         const razorpayPlan = import.meta.env.VITE_RAZORPAY_PLAN_ID;
         try {
             const response = await axiosInstance.post(
-                `${APIURL}/users/buy-subscription`,
+                `/users/buy-subscription`,
                 {
                     plan_id: razorpayPlan,
                     customer_notify: 1,
@@ -80,7 +80,7 @@ const SubscriptionPage = () => {
             }
 
             const response = await axiosInstance.post(
-                `${APIURL}/users/cancel-subscription`,
+                `/users/cancel-subscription`,
                 {
                     subscription_id: user.subscriptionId,
                 }
@@ -245,7 +245,10 @@ const SubscriptionPage = () => {
                                 <button
                                     onClick={handleCancelSubscription}
                                     className="inline-block bg-red-900 hover:bg-red-700 text-primary_text tracking-widest font-semibold py-3 px-6 rounded-lg transition-all duration-300">
-                                    Cancel Subscription
+                                    <p className="flex flex-row gap-2">
+                                        <MdOutlineCancel size={20} className="mt-0.5"/>
+                                        Cancel Subscription
+                                    </p>
                                 </button>
                             </>
                         )}
@@ -253,11 +256,13 @@ const SubscriptionPage = () => {
                 </div>
             </div>
             <div className="App">
-                {!showModal && <button
-                    className="fixed right-4 bottom-1/2 transform translate-y-1/2 rotate-90 bg-highlight hover:bg-highlight_hover text-primary_text tracking-widest font-semibold py-2 px-4 rounded-xl transition-all duration-300"
-                    onClick={() => setShowModal(true)}>
-                    Give Feedback
-                </button>}
+                {!showModal && (
+                    <button
+                        className="fixed right-4 bottom-1/2 transform translate-y-1/2 rotate-90 bg-highlight hover:bg-highlight_hover text-primary_text tracking-widest font-semibold py-2 px-4 rounded-xl transition-all duration-300"
+                        onClick={() => setShowModal(true)}>
+                        Give Feedback
+                    </button>
+                )}
 
                 {showModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">

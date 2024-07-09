@@ -1,9 +1,9 @@
 import express from "express";
 import {
+    authorizeAdmin,
     buySubscription,
     cancelSubscription,
     changeUserPassword,
-    deleteAllFavoriteMovies,
     deleteUser,
     deleteUserProfile,
     getAllFavoriteMovies,
@@ -17,7 +17,7 @@ import {
     updatedUserProfile,
     verifyCode,
 } from "../controllers/userCtrl.js";
-import { admin, authenticate } from "../middlewares/auth.js";
+import { admin, authenticate, owner } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -35,12 +35,14 @@ router.delete("/", authenticate, deleteUserProfile);
 router.put("/password", authenticate, changeUserPassword);
 router.get("/favourites", authenticate, getAllFavoriteMovies);
 router.post("/favourites", authenticate, toggleAddToFavoriteMovies);
-router.delete("/favourites", authenticate, deleteAllFavoriteMovies);
 router.post("/buy-subscription", authenticate, buySubscription);
 router.post("/cancel-subscription", authenticate, cancelSubscription);
 
 // ***************** ADMIN ROUTES ***********************
 router.get("/", getAllUsers);
-router.delete("/:id", authenticate, admin, deleteUser);
+
+// ***************** OWNER ROUTES ***********************
+router.put("/:id", authenticate, admin, owner, authorizeAdmin);
+router.delete("/:id", authenticate, admin, owner, deleteUser);
 
 export default router;

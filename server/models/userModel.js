@@ -14,16 +14,25 @@ const userSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: [true, "Please enter your password"],
             minlength: [6, "Password must be at least 6 characters"],
+        },
+        googleId: {
+            type: String,
+            unique: true,
         },
         resetPasswordCode: { type: String },
         resetPasswordExpires: { type: Date },
         image: {
             type: String,
         },
+        isOwner: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
         isAdmin: {
             type: Boolean,
+            required: true,
             default: false,
         },
         isSubscriber: {

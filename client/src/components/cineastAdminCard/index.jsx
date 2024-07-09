@@ -1,4 +1,3 @@
-// src/components/CineastAdminCard.jsx
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
@@ -22,7 +21,7 @@ const CineastAdminCard = ({ cineast, onEditClick, onDeleteClick }) => {
                 </button>
                 <button
                     className="bg-red-500 text-white p-2 rounded"
-                    onClick={() => onDeleteClick(cineast._id)}>
+                    onClick={() => onDeleteClick(cineast)}>
                     <FaTrash />
                 </button>
             </div>

@@ -23,14 +23,13 @@ const SingleMovie = () => {
     const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const APIURL = import.meta.env.VITE_API_URL;
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.user.userInfo);
 
     const fetchMovie = async () => {
         try {
-            const response = await axiosInstance.get(`${APIURL}/movies/${slug}`);
+            const response = await axiosInstance.get(`/movies/${slug}`);
             setMovie(response.data);
         } catch (err) {
             console.error(err);
@@ -58,7 +57,7 @@ const SingleMovie = () => {
     const handleReviewSubmit = async (review) => {
         try {
             await axiosInstance.post(
-                `${APIURL}/movies/reviews/${movie._id}`,
+                `/movies/reviews/${movie._id}`,
                 review
             );
             toast.success("Successfully added review");
@@ -94,8 +93,15 @@ const SingleMovie = () => {
                         className="absolute top-0 left-0"
                         playing
                         controls
+                        loop={true}
                         width="100%"
                         height="100%"
+                        config={{
+                            file: {
+                                attributes: { controlsList: "nodownload" },
+                            },
+                        }}
+                        onContextMenu={(e) => e.preventDefault()}
                     />
                 </div>
             )}

@@ -7,8 +7,7 @@ import {
     handleImageFileUpload,
 } from "../../utils/fileHandler";
 import { MdDeleteForever } from "react-icons/md";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const ShowModal = ({ show, onClose }) => {
     const [title, setTitle] = useState("");
@@ -19,37 +18,28 @@ const ShowModal = ({ show, onClose }) => {
     const [time, setTime] = useState("");
     const [frontStall, setFrontStall] = useState(0);
     const [rearStall, setRearStall] = useState(0);
-    const [balcony, setBalcony] = useState(0);
-    const [totalSeats, setTotalSeats] = useState("");
-    const [posterFile, setPosterFile] = useState(null);
+    const [balcony, setBalcony] = useState(0); // TODO: Remove the files state
     const [theatres, setTheatres] = useState([]);
     const [selectedTheatre, setSelectedTheatre] = useState("");
     const [casts, setCasts] = useState([{ person: "", role: "" }]);
     const [crews, setCrews] = useState([{ person: "", role: "" }]);
     const [cineasts, setCineasts] = useState([]);
-    const [uploadingPoster, setUploadingPoster] = useState("");
-    const [deletingPoster, setDeletingPoster] = useState("");
-
-    const fetchCineasts = async () => {
-        try {
-            const response = await axiosInstance.get(`${APIURL}/cineasts`);
-            setCineasts(response.data);
-        } catch (error) {
-            console.error("Error fetching cineasts:", error);
-        }
-    };
+    const [uploadingPoster, setUploadingPoster] = useState(false);
+    const [deletingPoster, setDeletingPoster] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [saveRequire, setSaveRequire] = useState(false);
 
     useEffect(() => {
         if (show) {
             setTitle(show.title);
             setDescription(show.description);
+            setPoster(show.poster);
             setLanguage(show.language);
             setDate(show.date);
             setTime(show.time);
             setFrontStall(show.ticketPrice.frontStall);
             setRearStall(show.ticketPrice.rearStall);
             setBalcony(show.ticketPrice.balcony);
-            setTotalSeats(show.totalSeats);
             setSelectedTheatre(show.theatre || "");
             setCasts(show.casts);
             setCrews(show.crews);
@@ -60,20 +50,27 @@ const ShowModal = ({ show, onClose }) => {
 
     const fetchTheatres = async () => {
         try {
-            const response = await axiosInstance.get(`${APIURL}/theatres`);
+            const response = await axiosInstance.get(`/theatres`);
             setTheatres(response.data);
         } catch (error) {
             console.error("Error fetching theatres:", error);
         }
     };
 
-    const handleInputChange = (setter) => (e) => {
-        setter(e.target.value);
+    const fetchCineasts = async () => {
+        try {
+            const response = await axiosInstance.get(`/cineasts`);
+            setCineasts(response.data);
+        } catch (error) {
+            console.error("Error fetching cineasts:", error);
+        }
     };
 
-    const handleFileInputChange = (setter) => (e) => {
-        setter(e.target.files[0]);
-    };
+    const handleInputChange = (setter) => (e) => {
+        setter(e.target.value);
+    }; // TODO:
+
+    // TODO: Remove the handleFile change
 
     const handleArrayChange = (index, array, setArray) => (e) => {
         const { name, value } = e.target;
@@ -90,8 +87,14 @@ const ShowModal = ({ show, onClose }) => {
         const newArray = array.filter((_, i) => i !== index);
         setArray(newArray);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!poster) {
+            toast.warning("Upload show poster before saving!");
+            return;
+        }
+        setLoading(true);
         try {
             const showData = {
                 title,
@@ -100,27 +103,46 @@ const ShowModal = ({ show, onClose }) => {
                 language,
                 date,
                 time,
-                ticketPrice: { frontStall, rearStall, balcony},
-                totalSeats,
+                ticketPrice: { frontStall, rearStall, balcony },
                 theatre: selectedTheatre,
                 casts,
-                crews
+                crews,
             };
 
             if (show) {
-                await axiosInstance.put(
-                    `${APIURL}/shows/${show._id}`,
-                    showData
-                );
+                await axiosInstance.put(`/shows/${show._id}`, showData);
                 toast.success("Show updated successfully!");
             } else {
-                await axiosInstance.post(`${APIURL}/shows`, showData);
+                await axiosInstance.post(`/shows`, showData);
                 toast.success("Show added successfully!");
             }
+            setSaveRequire(false);
             onClose();
         } catch (error) {
             console.error("Error saving show:", error);
+            toast.error("Error saving show!");
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const handleCancel = async () => {
+        // TODO:
+        if (show) {
+            if (!poster || saveRequire) {
+                toast.warning("You need to save the changes before leaving!");
+                return;
+            }
+        } else if (poster) {
+            try {
+                await axiosInstance.delete(
+                    `/upload/image/${poster.split("/").pop()}`
+                );
+            } catch (error) {
+                console.error("Error deleting uploaded file:", error);
+            }
+        }
+        onClose();
     };
 
     return (
@@ -151,59 +173,65 @@ const ShowModal = ({ show, onClose }) => {
                             onChange={handleInputChange(setDescription)}
                         />
                     </div>
-                    {/* Poster */}
-                    {(!show || !show.poster) && (
-                        <div className="flex flex-row justify-between">
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    Poster
+                    {/* Poster TODO: */}
+                    <div className="flex flex-row items-center mb-4">
+                        <label className="block text-gray-700 mb-1 w-full">
+                            Show Poster
+                        </label>
+                        <div className="flex items-center">
+                            {uploadingPoster ? (
+                                <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                    Uploading image...
                                 </label>
-                                <input
-                                    className="w-full px-3 py-2 border rounded"
-                                    type="file"
-                                    onChange={handleFileInputChange(
-                                        setPosterFile
-                                    )}
-                                />
-                            </div>
+                            ) : (
+                                <label
+                                    className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                    htmlFor="posterUpload">
+                                    Upload image
+                                </label>
+                            )}
+                            <input
+                                id="posterUpload"
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                    // TODO:
+                                    setSaveRequire(true);
+                                    handleImageFileUpload(
+                                        e.target.files[0],
+                                        poster,
+                                        setPoster,
+                                        setUploadingPoster
+                                    );
+                                }}
+                            />
                             {poster && (
-                                <>
+                                <div className="w-fit flex items-center ml-2">
                                     <img
                                         src={poster}
                                         className="h-14 w-14 rounded-full"
                                     />
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleImageFileDelete(
-                                                poster.split("/").pop(),
-                                                setPoster,
-                                                setDeletingPoster
-                                            )
-                                        }
-                                    />
-                                </>
+                                    {deletingPoster ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            size={46}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                                // TODO:
+                                                setSaveRequire(false);
+                                                handleImageFileDelete(
+                                                    poster,
+                                                    setPoster,
+                                                    setDeletingPoster
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             )}
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleImageFileUpload(
-                                        setPoster,
-                                        setPosterFile,
-                                        setUploadingPoster,
-                                        posterFile
-                                    )
-                                }>
-                                {uploadingPoster ? (
-                                    <u className="cursor-not-allowed">
-                                        Uploading...
-                                    </u>
-                                ) : (
-                                    <u className="cursor-pointer">Upload</u>
-                                )}
-                            </button>
                         </div>
-                    )}
+                    </div>
                     {/* Language */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Language</label>
@@ -270,18 +298,6 @@ const ShowModal = ({ show, onClose }) => {
                                 onChange={handleInputChange(setBalcony)}
                             />
                         </div>
-                    </div>
-                    {/* Total Seats */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700">
-                            Total Seats
-                        </label>
-                        <input
-                            className="w-full px-3 py-2 border rounded"
-                            type="number"
-                            value={totalSeats}
-                            onChange={handleInputChange(setTotalSeats)}
-                        />
                     </div>
                     {/* Theatre */}
                     <div className="mb-4">
@@ -410,15 +426,21 @@ const ShowModal = ({ show, onClose }) => {
                     <div className="flex justify-end">
                         <button
                             className="bg-gray-500 text-white py-2 px-4 rounded mr-2"
-                            onClick={onClose}
+                            onClick={() => handleCancel()}
                             type="button">
                             Cancel
                         </button>
-                        <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded"
-                            type="submit">
-                            Save
-                        </button>
+                        {loading ? (
+                            <button className="bg-blue-500 text-white py-2 px-4 rounded cursor-not-allowed">
+                                Saving...
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-blue-500 text-white py-2 px-4 rounded"
+                                type="submit">
+                                Save
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>

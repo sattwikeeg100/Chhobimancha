@@ -29,15 +29,28 @@ const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
             <p className="text-primary_text mb-4 text-center">
                 {profile.email}
             </p>
-            <p className="text-secondary_text mb-4 text-center">
-                {profile.isSubscriber ? "Subscriber" : "Not a Subscriber"}
-            </p>
-            {!profile.isSubscriber && (
-                <Link
-                    to="/subscribe"
-                    className="text-highlight mb-4 text-center">
-                    Planning to get a subscription? <u>Subscribe Now</u>
-                </Link>
+            {profile.isAdmin ? (
+                <p className="text-secondary_text mb-4 text-center">
+                    Admin
+                </p>
+            ) : (
+                    profile.isSubscriber ? (
+                        <p className="text-secondary_text mb-4 text-center">
+                            Subscriber
+                        </p>
+                    ) : (
+                        <>
+                            <p className="text-secondary_text mb-4 text-center">
+                                Subscriber
+                            </p>
+                            <Link
+                                to="/subscribe"
+                                className="text-highlight mb-4 text-center">
+                                Planning to get a subscription?{" "}
+                                <u>Subscribe Now</u>
+                            </Link>
+                        </>
+                    )
             )}
             <div className="flex space-x-4">
                 <button

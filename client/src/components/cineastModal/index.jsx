@@ -1,20 +1,21 @@
-// src/components/CineastModal.jsx
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
-import { handleImageFileDelete, handleImageFileUpload } from "../../utils/fileHandler";
+import {
+    handleImageFileDelete,
+    handleImageFileUpload,
+} from "../../utils/fileHandler";
 import { MdDeleteForever } from "react-icons/md";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const CineastModal = ({ cineast, onClose }) => {
     const [name, setName] = useState("");
-    const [imageFile, setImageFile] = useState();
     const [image, setImage] = useState("");
     const [details, setDetails] = useState("");
     const [uploadingImage, setUploadingImage] = useState(false);
     const [deletingImage, setDeletingImage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [saveRequire, setSaveRequire] = useState(false);
 
     useEffect(() => {
         if (cineast) {
@@ -24,26 +25,34 @@ const CineastModal = ({ cineast, onClose }) => {
         }
     }, [cineast]);
 
+    const handleInputChange = (setter) => (e) => {
+        setter(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!image) {
+            toast.warning("Upload cineast image before saving!");
+            return;
+        }
         setLoading(true);
         try {
             if (cineast) {
-                await axiosInstance.put(`${APIURL}/cineasts/${cineast._id}`, {
+                await axiosInstance.put(`/cineasts/${cineast._id}`, {
                     name,
                     image,
                     details,
                 });
                 toast.success("Cineast updated successfully!");
             } else {
-                await axiosInstance.post(`${APIURL}/cineasts`, {
+                await axiosInstance.post(`/cineasts`, {
                     name,
                     image,
                     details,
                 });
                 toast.success("Cineast added successfully!");
             }
+            setSaveRequire(false);
             onClose();
         } catch (error) {
             console.error("Error saving cineast:", error);
@@ -53,6 +62,24 @@ const CineastModal = ({ cineast, onClose }) => {
         }
     };
 
+    const handleCancel = async () => {
+        if (cineast) {
+            if (!image || saveRequire) {
+                toast.warning("You need to save the changes before leaving!");
+                return;
+            }
+        } else if (image) {
+            try {
+                await axiosInstance.delete(
+                    `/upload/image/${image.split("/").pop()}`
+                );
+            } catch (error) {
+                console.error("Error deleting uploaded file:", error);
+            }
+        }
+        onClose();
+    };
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-8 lg:w-[40%] md:w-[60%] w-full m-4 rounded shadow-lg">
@@ -60,78 +87,87 @@ const CineastModal = ({ cineast, onClose }) => {
                     {cineast ? "Edit Cineast" : "Add New Cineast"}
                 </h2>
                 <form onSubmit={handleSubmit}>
+                    {/* Name */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Name</label>
                         <input
                             className="w-full px-3 py-2 border rounded"
                             type="text"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={handleInputChange(setName)}
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700">Image</label>
-                        <div className="flex flex-row justify-between gap-4">
+                    {/* Image */}
+                    <div className="flex flex-row items-center mb-4">
+                        <label className="block text-gray-700 mb-1 w-full">
+                            Cineast Photo
+                        </label>
+                        <div className="flex items-center">
+                            {uploadingImage ? (
+                                <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                    Uploading image...
+                                </label>
+                            ) : (
+                                <label
+                                    className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                    htmlFor="imageUpload">
+                                    Upload image
+                                </label>
+                            )}
                             <input
-                                className="w-full px-3 py-2 border rounded"
+                                id="imageUpload"
                                 type="file"
-                                onChange={(e) =>
-                                    setImageFile(e.target.files[0])
-                                }
+                                className="hidden"
+                                onChange={(e) => {
+                                    setSaveRequire(true);
+                                    handleImageFileUpload(
+                                        e.target.files[0],
+                                        image,
+                                        setImage,
+                                        setUploadingImage
+                                    );
+                                }}
                             />
                             {image && (
-                                <>
+                                <div className="w-fit flex items-center ml-2">
                                     <img
                                         src={image}
                                         className="h-14 w-14 rounded-full"
                                     />
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleImageFileDelete(
-                                                image.split("/").pop(),
-                                                setImage,
-                                                setDeletingImage
-                                            )
-                                        }
-                                    />
-                                </>
+                                    {deletingImage ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            size={46}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                                setSaveRequire(false);
+                                                handleImageFileDelete(
+                                                    image,
+                                                    setImage,
+                                                    setDeletingImage
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             )}
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleImageFileUpload(
-                                        setImage,
-                                        setImageFile,
-                                        setUploadingImage,
-                                        imageFile
-                                    )
-                                }
-                                className={
-                                    uploadingImage
-                                        ? "cursor-not-allowed"
-                                        : "cursor-pointer"
-                                }>
-                                {uploadingImage ? (
-                                    <u>Uploading...</u>
-                                ) : (
-                                    <u>Upload</u>
-                                )}
-                            </button>
                         </div>
                     </div>
+                    {/* Details */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Details</label>
                         <textarea
                             className="w-full px-3 py-2 border rounded"
                             value={details}
-                            onChange={(e) => setDetails(e.target.value)}
+                            onChange={handleInputChange(setDetails)}
                         />
                     </div>
+
                     <div className="flex justify-end">
                         <button
                             className="bg-gray-500 text-white py-2 px-4 rounded mr-2"
-                            onClick={onClose}
+                            onClick={() => handleCancel()}
                             type="button">
                             Cancel
                         </button>

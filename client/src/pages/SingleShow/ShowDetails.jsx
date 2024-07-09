@@ -8,8 +8,6 @@ const ShowDetails = ({ show }) => {
       <div className="  bg-shadow lg:max-w-[30rem]   p-3 gap-y-3 rounded-xl flex flex-col items-center justify-center">
         <img
           src={show.poster}
-          // src={hamlet_poster}
-          // src="https://the14amazons.co.uk/Images/Movies/21843_Roja.jpg"
           alt="title"
           className="rounded-xl object-cover sm:w-[22rem]  lg:max-h-[30rem] lg:min-h-[30rem]  lg:w-[30rem]"
         />

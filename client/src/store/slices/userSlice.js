@@ -8,6 +8,22 @@ const getUserFromLocalStorage = () => {
     return user ? JSON.parse(user) : null;
 };
 
+export const oauthLoginUser = createAsyncThunk(
+    "user/oauthLoginUser",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.get(`/users/userdetails`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(
+                error.response && error.response.data
+                    ? error.response.data.message
+                    : error.message
+            );
+        }
+    }
+);
+
 export const loginUser = createAsyncThunk(
     "user/loginUser",
     async (payload, { rejectWithValue }) => {
@@ -55,8 +71,9 @@ const userSlice = createSlice({
     },
     reducers: {
         logoutUser: (state) => {
-            state.user = null;
+            state.userInfo = null;
             localStorage.removeItem("user");
+            localStorage.removeItem("OAuthToken");
         },
     },
     extraReducers: (builder) => {
@@ -73,6 +90,22 @@ const userSlice = createSlice({
                 state.error = null;
             })
             .addCase(loginUser.rejected, (state, action) => {
+                state.loading = false;
+                state.userInfo = null;
+                state.error = action.payload || "An error occurred";
+            })
+            .addCase(oauthLoginUser.pending, (state) => {
+                state.loading = true;
+                state.userInfo = null;
+                state.error = null;
+            })
+            .addCase(oauthLoginUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userInfo = action.payload;
+                localStorage.setItem("user", JSON.stringify(action.payload));
+                state.error = null;
+            })
+            .addCase(oauthLoginUser.rejected, (state, action) => {
                 state.loading = false;
                 state.userInfo = null;
                 state.error = action.payload || "An error occurred";

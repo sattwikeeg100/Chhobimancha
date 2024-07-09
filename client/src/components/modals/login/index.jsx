@@ -4,6 +4,9 @@ import { loginUser } from "../../../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { switchLoginModalOpen } from "../../../store/slices/loginModalOpenSlice";
+import googleicon from "../../../assets/google-color.svg";
+
+const APIURL = import.meta.env.VITE_API_URL;
 
 const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
     const isOpen = useSelector((state) => state.loginModalOpen);
@@ -25,7 +28,7 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
             isLoggingAsAdmin: tab === "admin",
         };
 
-        try {
+        try {// FIXME: Reload on clicking the login button
             const result = await dispatch(loginUser(payload)).unwrap();
             if (result) {
                 setEmail("");
@@ -35,8 +38,12 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                 window.location.reload();
             }
         } catch (error) {
-            toast.error("Login failed");
+            toast.error(`Login failed! ${error}`);
         }
+    };
+
+    const handleGoogleLogin = () => {
+        window.location.href = `${APIURL}/oauth/google`;
     };
 
     if (!isOpen) return null;
@@ -128,7 +135,7 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                             {error} !
                         </div>
                     )}
-                    <div className="mt-4 text-center text-secondary_text">
+                    <div className="mt-4 mb-4 text-center text-secondary_text">
                         Don't have an account?{" "}
                         <button
                             type="button"
@@ -138,6 +145,21 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
                         </button>
                     </div>
                 </form>
+                <hr />
+                <div className="flex justify-around">
+                    <button
+                        type="button"
+                        className="px-4 py-2 mt-4  border flex gap-2 border-secondary_text rounded-lg transition duration-150"
+                        onClick={() => handleGoogleLogin()}>
+                        <img
+                            className="w-6 h-6"
+                            src={googleicon}
+                            loading="lazy"
+                            alt="google logo"
+                        />
+                        <span>Continue with Google</span>
+                    </button>
+                </div>
             </div>
         </div>
     );
