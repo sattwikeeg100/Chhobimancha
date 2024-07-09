@@ -15,10 +15,8 @@ const ProfileModal = ({ profile, onClose }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [image, setImage] = useState(null);
-    const [imageFile, setImageFile] = useState(null);
     const [imageUploading, setImageUploading] = useState(false);
     const [imageDeleting, setImageDeleting] = useState(false);
-    const [preventPrevImageDelete, setPreventPrevImageDelete] = useState(false);
     const [saveRequire, setSaveRequire] = useState(false);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
@@ -28,25 +26,16 @@ const ProfileModal = ({ profile, onClose }) => {
             setName(profile.name);
             setEmail(profile.email);
             setImage(profile.image);
-            if(profile.image) {
-                setPreventPrevImageDelete(true);
-            }
         }
     }, [profile]);
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
-        setSaveRequire(true);
-    };
-
-    const handleFileInputChange = (setter) => (e) => {
-        setter(e.target.files[0]);
-        setSaveRequire(true);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!image && preventPrevImageDelete) {
+        if (!image && profile.image) {
             toast.warning("Upload profile image before saving!");
             return;
         }
@@ -56,7 +45,6 @@ const ProfileModal = ({ profile, onClose }) => {
             dispatch(updateUser(profileData));
             toast.success("Profile updated successfully!");
             setSaveRequire(false);
-            setPreventPrevImageDelete(false);
             onClose();
         } catch (error) {
             console.error("Error updating profile:", error);
@@ -67,7 +55,11 @@ const ProfileModal = ({ profile, onClose }) => {
     };
 
     const handleCancel = () => {
-        if (profile && saveRequire) {
+        if (!image && profile.image) {
+            toast.warning("Upload profile image before leaving!");
+            return;
+        }
+        if (saveRequire) {
             toast.warning("You need to save the changes before leaving!");
             return;
         }
@@ -103,36 +95,37 @@ const ProfileModal = ({ profile, onClose }) => {
                             onChange={handleInputChange(setEmail)}
                         />
                     </div>
+
                     <div className="mb-4">
                         <label className="block text-secondary_text mb-1">
                             Profile Image
                         </label>
                         <div className="flex items-center space-x-3">
-                            <input
-                                className="w-full px-3 py-2 border rounded bg-background1 text-primary_text"
-                                type="file"
-                                onChange={handleFileInputChange(setImageFile)}
-                            />
                             {imageUploading ? (
-                                <button
-                                    type="button"
-                                    className="bg-highlight_hover cursor-not-allowed text-primary_text px-3 py-2 rounded">
-                                    Uploading...
-                                </button>
+                                <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                    Uploading image...
+                                </label>
                             ) : (
-                                <button
-                                    type="button"
-                                    onClick={() => handleImageFileUpload(
+                                <label
+                                    className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                    htmlFor="imageUpload">
+                                    Upload image
+                                </label>
+                            )}
+                            <input
+                                id="imageUpload"
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                    setSaveRequire(true);
+                                    handleImageFileUpload(
+                                        e.target.files[0],
                                         image,
                                         setImage,
-                                        setImageFile,
-                                        setImageUploading,
-                                        imageFile
-                                    )}
-                                    className="bg-highlight hover:bg-highlight_hover text-primary_text px-3 py-2 rounded">
-                                    Upload
-                                </button>
-                            )}
+                                        setImageUploading
+                                    );
+                                }}
+                            />
                         </div>
                         {image && (
                             <div className="mt-4 relative w-fit">
@@ -146,11 +139,13 @@ const ProfileModal = ({ profile, onClose }) => {
                                 ) : (
                                     <MdDeleteForever
                                         size={32}
-                                        onClick={() => handleImageFileDelete(
-                                            image,
-                                            setImage,
-                                            setImageDeleting
-                                        )}
+                                        onClick={() =>
+                                            handleImageFileDelete(
+                                                image,
+                                                setImage,
+                                                setImageDeleting
+                                            )
+                                        }
                                         className="absolute top-0 right-0 text-highlight p-1 rounded-full cursor-pointer"
                                     />
                                 )}

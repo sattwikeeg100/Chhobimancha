@@ -2,11 +2,10 @@ import React from "react";
 import axiosInstance from "../config/axiosInstance";
 
 export const handleImageFileUpload = async (
+    file,
     existingImage,
     urlSetter,
-    fileSetter,
-    uploadStatus,
-    file
+    uploadStatus
 ) => {
     if (!file) return;
 
@@ -19,7 +18,6 @@ export const handleImageFileUpload = async (
             headers: { "Content-Type": "multipart/form-data" },
         });
         urlSetter(response.data.url);
-        fileSetter(null);
 
         if (existingImage) {
             const filename = existingImage.split("/").pop();
@@ -38,12 +36,12 @@ export const handleImageFileUpload = async (
 };
 
 export const handleVideoFileUpload = async (
+    file,
     existingVideo,
     urlSetter,
-    fileSetter,
-    uploadStatus,
-    file
+    uploadStatus
 ) => {
+    console.log(file);
     if (!file) return;
 
     uploadStatus(true);
@@ -55,7 +53,6 @@ export const handleVideoFileUpload = async (
             headers: { "Content-Type": "multipart/form-data" },
         });
         urlSetter(response.data.url);
-        fileSetter(null);
 
         if (existingVideo) {
             const filename = existingVideo.split("/").pop();

@@ -6,6 +6,8 @@ import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
 
 const AdminShows = () => {
+    const [upcomingShows, setUpcomingShows] = useState([]);
+    const [pastShows, setPastShows] = useState([]);
     const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalOpen, setModalOpen] = useState(false);
@@ -14,7 +16,33 @@ const AdminShows = () => {
     const GetAllShows = async () => {
         try {
             const response = await axiosInstance.get(`/shows`);
-            setShows(response.data);
+            const shows = response.data;
+            const currentDate = new Date();
+
+            // Separate shows into upcoming and past
+            const upcoming = [];
+            const past = [];
+
+            shows.forEach((show) => {
+                const [hours, minutes] = show.time.split(":");
+                const [year, month, day] = show.date.split("T")[0].split("-");
+
+                const showDateTime = new Date(
+                    year,
+                    month - 1,
+                    day,
+                    hours,
+                    minutes
+                );
+
+                if (showDateTime >= currentDate) {
+                    upcoming.push(show);
+                } else {
+                    past.push(show);
+                }
+            });
+            setUpcomingShows(upcoming);
+            setPastShows(past);
         } catch (error) {
             console.error(error);
         } finally {
@@ -69,8 +97,20 @@ const AdminShows = () => {
                 onClick={handleAddClick}>
                 Add New Show
             </button>
+            <h3 className="text-2xl font-bold mb-4">Upcoming Shows</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {shows.map((show) => (
+                {upcomingShows.map((show) => (
+                    <ShowAdminCard
+                        key={show._id}
+                        show={show}
+                        onEditClick={handleEditClick}
+                        onDeleteClick={handleDeleteClick}
+                    />
+                ))}
+            </div>
+            <h3 className="text-2xl font-bold mb-4">Past Shows</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {upcomingShows.map((show) => (
                     <ShowAdminCard
                         key={show._id}
                         show={show}

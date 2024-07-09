@@ -40,17 +40,15 @@ const MovieModal = ({ movie, onClose }) => {
     const [casts, setCasts] = useState([{ person: "", role: "" }]);
     const [crews, setCrews] = useState([{ person: "", role: "" }]);
     const [cineasts, setCineasts] = useState([]);
-    const [coverImageFile, setCoverImageFile] = useState(null);
-    const [posterFile, setPosterFile] = useState(null);
-    const [videoFile, setVideoFile] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [uploadingCover, setUploadingCover] = useState(false);
     const [uploadingPoster, setUploadingPoster] = useState(false);
     const [uploadingVideo, setUploadingVideo] = useState(false);
     const [deletingCover, setDeletingCover] = useState(false);
     const [deletingPoster, setDeletingPoster] = useState(false);
     const [deletingVideo, setDeletingVideo] = useState(false);
-    const [saveRequire, setSaveRequire] = useState(false);
+    const [loading, setSaving] = useState(false);
+    const [saveRequire_Cover, setSaveRequire_Cover] = useState(false);
+    const [saveRequire_Poster, setSaveRequire_Poster] = useState(false);
 
     useEffect(() => {
         fetchCineasts();
@@ -82,12 +80,6 @@ const MovieModal = ({ movie, onClose }) => {
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
-        setSaveRequire(true);
-    };
-
-    const handleFileInputChange = (setter) => (e) => {
-        setter(e.target.files[0]);
-        setSaveRequire(true);
     };
 
     const handleArrayChange = (index, array, setArray) => (e) => {
@@ -95,34 +87,30 @@ const MovieModal = ({ movie, onClose }) => {
         const newArray = [...array];
         newArray[index][name] = value;
         setArray(newArray);
-        setSaveRequire(true);
     };
 
     const handleGenreChange = (selectedOptions) => {
         const newGenres = selectedOptions.map((option) => option.value);
         setGenres(newGenres);
-        setSaveRequire(true);
     };
 
     const addArrayItem = (setArray, array) => () => {
         setArray([...array, { person: "", role: "" }]);
-        setSaveRequire(true);
     };
 
     const removeArrayItem = (index, array, setArray) => () => {
         const newArray = array.filter((_, i) => i !== index);
         setArray(newArray);
-        setSaveRequire(true);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!coverImage || !poster) {
+        if (!coverImage || !poster) {
             toast.warning("Upload movie cover image and poster before saving!");
             return;
         }
 
-        setLoading(true);
+        setSaving(true);
         try {
             const movieData = {
                 title,
@@ -139,32 +127,37 @@ const MovieModal = ({ movie, onClose }) => {
             };
 
             if (movie) {
-                await axiosInstance.put(
-                    `/movies/${movie._id}`,
-                    movieData
-                );
+                await axiosInstance.put(`/movies/${movie._id}`, movieData);
                 toast.success("Movie updated successfully!");
             } else {
                 await axiosInstance.post(`/movies`, movieData);
                 toast.success("Movie added successfully!");
             }
-            setSaveRequire(false);
+            setSaveRequire_Cover(false);
+            setSaveRequire_Poster(false);
             onClose();
         } catch (error) {
-            console.error("Error saving movie: ", error);
+            console.error("Error saving movie: ", error); 
             toast.error("Error saving movie!");
         } finally {
-            setLoading(false);
+            setSaving(false);
         }
     };
+    console.log(movie);
 
     const handleCancel = async () => {
-        if (movie && saveRequire) {
-            toast.warning("You need to save the changes before leaving!");
-            return;
-        }
-
-        if (!movie) {
+        if (movie) {
+            if (
+                !coverImage ||
+                !poster ||
+                saveRequire_Cover ||
+                saveRequire_Poster ||
+                video
+            ) {
+                toast.warning("You need to save the changes before leaving!");
+                return;
+            }
+        } else if (!movie && (coverImage || poster || video)) {
             try {
                 if (coverImage) {
                     await axiosInstance.delete(
@@ -188,7 +181,7 @@ const MovieModal = ({ movie, onClose }) => {
         }
         onClose();
     };
-    
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
@@ -218,117 +211,118 @@ const MovieModal = ({ movie, onClose }) => {
                         />
                     </div>
                     {/* Cover Image */}
-                    <div className="flex flex-row justify-between">
-                        <div className="mb-4">
-                            <label className="block text-gray-700">
-                                Cover Image
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 border rounded"
-                                type="file"
-                                onChange={handleFileInputChange(
-                                    setCoverImageFile
-                                )}
-                            />
-                        </div>
-                        {coverImage && (
-                            <>
-                                <img
-                                    src={coverImage}
-                                    className="h-14 w-14 rounded-full"
-                                />
-                                {deletingCover ? (
-                                    <AiOutlineLoading3Quarters className="animate-spin" />
-                                ) : (
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleImageFileDelete(
-                                                coverImage,
-                                                setCoverImage,
-                                                setDeletingCover
-                                            )
-                                        }
-                                    />
-                                )}
-                            </>
-                        )}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleImageFileUpload(
-                                    coverImage,
-                                    setCoverImage,
-                                    setCoverImageFile,
-                                    setUploadingCover,
-                                    coverImageFile
-                                )
-                            }>
+                    <div className="flex flex-row items-center mb-4">
+                        <label className="block text-gray-700 mb-1 w-full">
+                            Cover Image
+                        </label>
+                        <div className="flex items-center">
                             {uploadingCover ? (
-                                <u className="cursor-not-allowed">
-                                    Uploading...
-                                </u>
+                                <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                    Uploading image...
+                                </label>
                             ) : (
-                                <u className="cursor-pointer">Upload</u>
+                                <label
+                                    className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                    htmlFor="coverImageUpload">
+                                    Upload image
+                                </label>
                             )}
-                        </button>
-                    </div>
-                    {/* Poster */}
-                    <div className="flex flex-row justify-between">
-                        <div className="mb-4">
-                            <label className="block text-gray-700">
-                                Poster
-                            </label>
                             <input
-                                className="w-full px-3 py-2 border rounded"
+                                id="coverImageUpload"
                                 type="file"
-                                onChange={handleFileInputChange(setPosterFile)}
+                                className="hidden"
+                                onChange={(e) => {
+                                    setSaveRequire_Cover(true);
+                                    handleImageFileUpload(
+                                        e.target.files[0],
+                                        coverImage,
+                                        setCoverImage,
+                                        setUploadingCover
+                                    );
+                                }}
                             />
-                        </div>
-                        {poster && (
-                            <>
-                                <img
-                                    src={poster}
-                                    className="h-14 w-14 rounded-full"
-                                />
-                                {deletingPoster ? (
-                                    <AiOutlineLoading3Quarters className="animate-spin" />
-                                ) : (
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleImageFileDelete(
-                                                poster,
-                                                setPoster,
-                                                setDeletingPoster
-                                            )
-                                        }
+                            {coverImage && (
+                                <div className="w-fit flex items-center ml-2">
+                                    <img
+                                        src={coverImage}
+                                        className="h-14 w-14 rounded-full"
                                     />
-                                )}
-                            </>
-                        )}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleImageFileUpload(
-                                    poster,
-                                    setPoster,
-                                    setPosterFile,
-                                    setUploadingPoster,
-                                    posterFile
-                                )
-                            }
-                            className={
-                                uploadingPoster
-                                    ? "cursor-not-allowed"
-                                    : "cursor-pointer"
-                            }>
-                            {uploadingPoster ? (
-                                <u>Uploading...</u>
-                            ) : (
-                                <u>Upload</u>
+                                    {deletingCover ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            size={46}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                                setSaveRequire_Cover(false);
+                                                handleImageFileDelete(
+                                                    coverImage,
+                                                    setCoverImage,
+                                                    setDeletingCover
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                </div>
                             )}
-                        </button>
+                        </div>
+                    </div>
+                    {/* Poster */} 
+                    <div className="flex flex-row items-center mb-4">
+                        <label className="block text-gray-700 mb-1 w-full">
+                            Poster
+                        </label>
+                        <div className="flex items-center">
+                            {uploadingPoster ? (
+                                <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                    Uploading image...
+                                </label>
+                            ) : (
+                                <label
+                                    className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                    htmlFor="posterUpload">
+                                    Upload image
+                                </label>
+                            )}
+                            <input
+                                id="posterUpload"
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                    setSaveRequire_Poster(true);
+                                    handleImageFileUpload(
+                                        e.target.files[0],
+                                        poster,
+                                        setPoster,
+                                        setUploadingPoster
+                                    );
+                                }}
+                            />
+                            {poster && (
+                                <div className="w-fit flex items-center ml-2">
+                                    <img
+                                        src={poster}
+                                        className="h-14 w-14 rounded-full"
+                                    />
+                                    {deletingPoster ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            size={46}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                                setSaveRequire_Poster(false);
+                                                handleImageFileDelete(
+                                                    poster,
+                                                    setPoster,
+                                                    setDeletingPoster
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     {/* Genre */}
                     <div className="mb-4">
@@ -375,62 +369,58 @@ const MovieModal = ({ movie, onClose }) => {
                     </div>
                     {/* Video */}
                     {(!movie || !movie.video) && (
-                        <div className="flex flex-row justify-between">
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    Video
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 border rounded"
-                                    type="file"
-                                    onChange={handleFileInputChange(
-                                        setVideoFile
-                                    )}
-                                />
-                            </div>
-                            {video && (
-                                <>
-                                    {!uploadingVideo && (
-                                        <MdCloudDone className="h-12 w-12" />
-                                    )}
-                                    {deletingVideo ? (
-                                        <AiOutlineLoading3Quarters className="animate-spin" />
-                                    ) : (
-                                        <MdDeleteForever
-                                            className="cursor-pointer"
-                                            onClick={() =>
-                                                handleVideoFileDelete(
-                                                    video,
-                                                    setVideo,
-                                                    setDeletingVideo
-                                                )
-                                            }
-                                        />
-                                    )}
-                                </>
-                            )}
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleVideoFileUpload(
-                                        video,
-                                        setVideo,
-                                        setVideoFile,
-                                        setUploadingVideo,
-                                        videoFile
-                                    )
-                                }
-                                className={
-                                    uploadingVideo
-                                        ? "cursor-not-allowed"
-                                        : "cursor-pointer"
-                                }>
+                        <div className="flex flex-row items-center mb-4">
+                            <label className="block text-gray-700 mb-1 w-full">
+                                Movie Video
+                            </label>
+                            <div className="flex items-center">
                                 {uploadingVideo ? (
-                                    <u>Uploading...</u>
+                                    <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                        Uploading video...
+                                    </label>
                                 ) : (
-                                    <u>Upload</u>
+                                    <label
+                                        className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                        htmlFor="videoUpload">
+                                        Upload video
+                                    </label>
                                 )}
-                            </button>
+                                <input
+                                    id="videoUpload"
+                                    type="file"
+                                    className="hidden"
+                                    onChange={(e) =>
+                                        handleVideoFileUpload(
+                                            e.target.files[0],
+                                            video,
+                                            setVideo,
+                                            setUploadingVideo
+                                        )
+                                    }
+                                />
+                                {video && (
+                                    <div className="w-fit flex items-center ml-2">
+                                        {!uploadingVideo && (
+                                            <MdCloudDone className="h-12 w-12" />
+                                        )}
+                                        {deletingVideo ? (
+                                            <AiOutlineLoading3Quarters className="animate-spin" />
+                                        ) : (
+                                            <MdDeleteForever
+                                                size={46}
+                                                className="cursor-pointer"
+                                                onClick={() =>
+                                                    handleVideoFileDelete(
+                                                        video,
+                                                        setVideo,
+                                                        setDeletingVideo
+                                                    )
+                                                }
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
                     {/* Casts */}

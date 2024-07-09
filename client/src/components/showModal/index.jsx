@@ -18,9 +18,7 @@ const ShowModal = ({ show, onClose }) => {
     const [time, setTime] = useState("");
     const [frontStall, setFrontStall] = useState(0);
     const [rearStall, setRearStall] = useState(0);
-    const [balcony, setBalcony] = useState(0);
-    const [totalSeats, setTotalSeats] = useState("");
-    const [posterFile, setPosterFile] = useState(null);
+    const [balcony, setBalcony] = useState(0); // TODO: Remove the files state
     const [theatres, setTheatres] = useState([]);
     const [selectedTheatre, setSelectedTheatre] = useState("");
     const [casts, setCasts] = useState([{ person: "", role: "" }]);
@@ -42,7 +40,6 @@ const ShowModal = ({ show, onClose }) => {
             setFrontStall(show.ticketPrice.frontStall);
             setRearStall(show.ticketPrice.rearStall);
             setBalcony(show.ticketPrice.balcony);
-            setTotalSeats(show.totalSeats);
             setSelectedTheatre(show.theatre || "");
             setCasts(show.casts);
             setCrews(show.crews);
@@ -71,31 +68,24 @@ const ShowModal = ({ show, onClose }) => {
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
-        setSaveRequire(true);
-    };
+    }; // TODO:
 
-    const handleFileInputChange = (setter) => (e) => {
-        setter(e.target.files[0]);
-        setSaveRequire(true);
-    };
+    // TODO: Remove the handleFile change
 
     const handleArrayChange = (index, array, setArray) => (e) => {
         const { name, value } = e.target;
         const newArray = [...array];
         newArray[index][name] = value;
         setArray(newArray);
-        setSaveRequire(true);
     };
 
     const addArrayItem = (setArray, array) => () => {
         setArray([...array, { person: "", role: "" }]);
-        setSaveRequire(true);
     };
 
     const removeArrayItem = (index, array, setArray) => () => {
         const newArray = array.filter((_, i) => i !== index);
         setArray(newArray);
-        setSaveRequire(true);
     };
 
     const handleSubmit = async (e) => {
@@ -114,7 +104,6 @@ const ShowModal = ({ show, onClose }) => {
                 date,
                 time,
                 ticketPrice: { frontStall, rearStall, balcony },
-                totalSeats,
                 theatre: selectedTheatre,
                 casts,
                 crews,
@@ -138,12 +127,13 @@ const ShowModal = ({ show, onClose }) => {
     };
 
     const handleCancel = async () => {
-        if (show && saveRequire) {
-            toast.warning("You need to save the changes before leaving!");
-            return;
-        }
-
-        if (!show && poster) {
+        // TODO:
+        if (show) {
+            if (!poster || saveRequire) {
+                toast.warning("You need to save the changes before leaving!");
+                return;
+            }
+        } else if (poster) {
             try {
                 await axiosInstance.delete(
                     `/upload/image/${poster.split("/").pop()}`
@@ -183,59 +173,64 @@ const ShowModal = ({ show, onClose }) => {
                             onChange={handleInputChange(setDescription)}
                         />
                     </div>
-                    {/* Poster */}
-                    <div className="flex flex-row justify-between">
-                        <div className="mb-4">
-                            <label className="block text-gray-700">
-                                Poster
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 border rounded"
-                                type="file"
-                                onChange={handleFileInputChange(setPosterFile)}
-                            />
-                        </div>
-                        {poster && (
-                            <>
-                                <img
-                                    src={poster}
-                                    className="h-14 w-14 rounded-full"
-                                />
-                                {deletingPoster ? (
-                                    <AiOutlineLoading3Quarters className="animate-spin" />
-                                ) : (
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleImageFileDelete(
-                                                poster,
-                                                setPoster,
-                                                setDeletingPoster
-                                            )
-                                        }
-                                    />
-                                )}
-                            </>
-                        )}
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleImageFileUpload(
-                                    poster,
-                                    setPoster,
-                                    setPosterFile,
-                                    setUploadingPoster,
-                                    posterFile
-                                )
-                            }>
+                    {/* Poster TODO: */}
+                    <div className="flex flex-row items-center mb-4">
+                        <label className="block text-gray-700 mb-1 w-full">
+                            Show Poster
+                        </label>
+                        <div className="flex items-center">
                             {uploadingPoster ? (
-                                <u className="cursor-not-allowed">
-                                    Uploading...
-                                </u>
+                                <label className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer">
+                                    Uploading image...
+                                </label>
                             ) : (
-                                <u className="cursor-pointer">Upload</u>
+                                <label
+                                    className="bg-red-500 text-white px-3 py-2 rounded cursor-pointer"
+                                    htmlFor="posterUpload">
+                                    Upload image
+                                </label>
                             )}
-                        </button>
+                            <input
+                                id="posterUpload"
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                    // TODO:
+                                    setSaveRequire(true);
+                                    handleImageFileUpload(
+                                        e.target.files[0],
+                                        poster,
+                                        setPoster,
+                                        setUploadingPoster
+                                    );
+                                }}
+                            />
+                            {poster && (
+                                <div className="w-fit flex items-center ml-2">
+                                    <img
+                                        src={poster}
+                                        className="h-14 w-14 rounded-full"
+                                    />
+                                    {deletingPoster ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            size={46}
+                                            className="cursor-pointer"
+                                            onClick={() => {
+                                                // TODO:
+                                                setSaveRequire(false);
+                                                handleImageFileDelete(
+                                                    poster,
+                                                    setPoster,
+                                                    setDeletingPoster
+                                                );
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     {/* Language */}
                     <div className="mb-4">
@@ -303,18 +298,6 @@ const ShowModal = ({ show, onClose }) => {
                                 onChange={handleInputChange(setBalcony)}
                             />
                         </div>
-                    </div>
-                    {/* Total Seats */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700">
-                            Total Seats
-                        </label>
-                        <input
-                            className="w-full px-3 py-2 border rounded"
-                            type="number"
-                            value={totalSeats}
-                            onChange={handleInputChange(setTotalSeats)}
-                        />
                     </div>
                     {/* Theatre */}
                     <div className="mb-4">
