@@ -10,12 +10,11 @@ import bgright from "../../assets/theatreImages/bgright1.png";
 const rowToLetter = (row) => String.fromCharCode(64 + row); // Convert row number to letter
 
 const BookYourSeat = ({
-  selectedSeats,
-  bookedSeats,
   handleSeatClick,
   handleBookNow,
   getSeatClass,
   ticketPrice,
+  theatreImage,
 }) => {
   const rowLabels = [
     "A",
@@ -62,7 +61,7 @@ const BookYourSeat = ({
         <div className=" px-4 pt-4 flex flex-col  rounded-xl items-center relative">
           {/* stage */}
           <div className="w-full lg:w-[85%] mt-4">
-            <img src={stageImg} alt="Stage" />
+            <img src={theatreImage} alt="Stage"/>
           </div>
           <div className="flex flex-row items-center justify-center gap-x-6 lg:gap-x-10 w-full py-5">
             {/* left section */}

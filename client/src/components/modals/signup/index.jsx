@@ -3,6 +3,12 @@ import axiosInstance from "../../../config/axiosInstance.js";
 import { toast } from "sonner";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {
+    handleImageFileDelete,
+    handleImageFileUpload,
+} from "../../../utils/fileHandler.js";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { MdDeleteForever } from "react-icons/md";
 
 const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
     if (!isOpen) return null;
@@ -10,30 +16,10 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
     const [imageFile, setImageFile] = useState(null);
     const [image, setImage] = useState();
     const [imageUploading, setImageUploading] = useState(false);
+    const [imageDeleting, setImageDeleting] = useState(false);
     const [error, setError] = useState(false);
 
     const APIURL = import.meta.env.VITE_API_URL;
-
-    const handleImageFileUpload = async (imageFile) => {
-        if (imageFile) {
-            setImageUploading(true);
-            const formData = new FormData();
-            formData.append("file", imageFile);
-            try {
-                const response = await axiosInstance.post(
-                    `${APIURL}/upload/image`,
-                    formData
-                );
-                setImage(response.data.url);
-                setImageFile(null);
-                setImageUploading(false);
-                console.log(response.data.url);
-            } catch (error) {
-                console.error("Error uploading file:", error);
-                setImageUploading(false);
-            }
-        }
-    };
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -74,6 +60,19 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
         } finally {
             setSubmitting(false);
         }
+    };
+
+    const handleCancel = async () => {
+        if (image) {
+            try {
+                await axiosInstance.delete(
+                    `/upload/image/${image.split("/").pop()}`
+                );
+            } catch (error) {
+                console.error("Error deleting image:", error);
+            }
+        }
+        onClose();
     };
 
     return (
@@ -175,10 +174,26 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                         className="w-full text-primary_text px-3 py-2 border rounded bg-background1"
                                     />
                                     {image && (
-                                        <img
-                                            className="h-12 w-12 rounded-full"
-                                            src={image}
-                                        />
+                                        <>
+                                            <img
+                                                className="h-12 w-12 rounded-full"
+                                                src={image}
+                                            />
+                                            {imageDeleting ? (
+                                                <AiOutlineLoading3Quarters className="animate-spin" />
+                                            ) : (
+                                                <MdDeleteForever
+                                                    className="cursor-pointer"
+                                                    onClick={() =>
+                                                        handleImageFileDelete(
+                                                            image,
+                                                            setImage,
+                                                            setImageDeleting
+                                                        )
+                                                    }
+                                                />
+                                            )}
+                                        </>
                                     )}
                                     {imageUploading ? (
                                         <button
@@ -191,7 +206,13 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                             type="button"
                                             className="text-highlight hover:text-highlight_hover"
                                             onClick={() =>
-                                                handleImageFileUpload(imageFile)
+                                                handleImageFileUpload(
+                                                    image,
+                                                    setImage,
+                                                    setImageFile,
+                                                    setImageUploading,
+                                                    imageFile
+                                                )
                                             }>
                                             <u>Upload</u>
                                         </button>
@@ -209,15 +230,22 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                                 <button
                                     type="button"
                                     className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300"
-                                    onClick={onClose}>
+                                    onClick={() => handleCancel()}>
                                     Cancel
                                 </button>
-                                <button
-                                    type="submit"
-                                    className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded transition-all duration-300"
-                                    disabled={isSubmitting}>
-                                    {isSubmitting ? "Signing Up..." : "Sign Up"}
-                                </button>
+                                {isSubmitting ? (
+                                    <button
+                                        type="submit"
+                                        className="bg-highlight_hover cursor-not-allowed text-primary_text px-4 py-2 rounded transition-all duration-300">
+                                        Signing Up...
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="submit"
+                                        className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded transition-all duration-300">
+                                        Sign Up
+                                    </button>
+                                )}
                             </div>
                             <div className="mt-4 text-center text-secondary_text">
                                 Already a user?{" "}

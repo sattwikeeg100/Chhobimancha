@@ -15,8 +15,8 @@ import "jspdf-autotable";
 
 const SingleShow = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [bookedSeats, setBookedSeats] = useState([]);
-  const [bookedSeat, setBookedSeat] = useState(null);
+/*   const [bookedSeats, setBookedSeats] = useState([]);
+  const [bookedSeat, setBookedSeat] = useState(null); */
   const [showPopup, setShowPopup] = useState(false);
   const [emailSuccessPopup, setEmailSuccessPopup] = useState(false);
 
@@ -24,7 +24,6 @@ const SingleShow = () => {
   const [show, setShow] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const APIURL = import.meta.env.VITE_API_URL;
   const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
   const user = useSelector((state) => state.user.userInfo);
@@ -32,7 +31,7 @@ const SingleShow = () => {
 
   const fetchShow = async () => {
     try {
-      const response = await axiosInstance.get(`${APIURL}/shows/${slug}`);
+      const response = await axiosInstance.get(`/shows/${slug}`);
       setShow(response.data);
     } catch (err) {
       console.error(err);
@@ -122,58 +121,58 @@ const SingleShow = () => {
         }, 0);
 
         const orderInfo = await axiosInstance.post(
-          `${APIURL}/bookings/checkout`,
+          `/bookings/checkout`,
           { amount: totalAmount } // Amount in paise
         );
 
         const options = {
-          key: razorpayKey,
-          amount: orderInfo.data.order.amount,
-          currency: "INR",
-          name: "Sattwikee Ghosh",
-          description: "Booking show seats at Showtime360",
-          image: "https://avatars.githubusercontent.com/u/105354525?v=4",
-          order_id: orderInfo.data.order.id,
-          handler: async function (response) {
-            try {
-              const bookingData = {
-                show: show._id,
-                seats: selectedSeats,
-                orderId: response.razorpay_order_id,
-                paymentId: response.razorpay_payment_id,
-                signatureId: response.razorpay_signature,
-                totalAmount: orderInfo.data.order.amount / 100,
-              };
-              const bookingInfo = await axiosInstance.post(
-                `${APIURL}/bookings/paymentverification`,
-                bookingData
-              );
-              alert("Payment Successful and Booking Confirmed!");
-              console.log("RESPONSE:", bookingInfo);
-              const booking = bookingInfo.data.booking;
-              const pdfBlob = await generateBookingPDF(booking);
+            key: razorpayKey,
+            amount: orderInfo.data.order.amount,
+            currency: "INR",
+            name: "Chhobimancha",
+            description: "Booking show seats at Showtime360",
+            image: "https://i.ibb.co/B62hf01/chobimancha-logo.jpg", // TODO: Our logo url
+            order_id: orderInfo.data.order.id,
+            handler: async function (response) {
+                try {
+                    const bookingData = {
+                        show: show._id,
+                        seats: selectedSeats,
+                        orderId: response.razorpay_order_id,
+                        paymentId: response.razorpay_payment_id,
+                        signatureId: response.razorpay_signature,
+                        totalAmount: orderInfo.data.order.amount / 100,
+                    };
+                    const bookingInfo = await axiosInstance.post(
+                        `/bookings/paymentverification`,
+                        bookingData
+                    );
+                    alert("Payment Successful and Booking Confirmed!");
+                    console.log("RESPONSE:", bookingInfo);
+                    const booking = bookingInfo.data.booking;
+                    const pdfBlob = await generateBookingPDF(booking);
 
-              try {
-                await axiosInstance.post("/bookings/send-email", {
-                  name: user.name,
-                  email: user.email,
-                  pdfBlob,
-                  showTitle: booking.show.title,
-                });
-                setEmailSuccessPopup(true);
-              } catch (err) {
-                console.error(err);
-                alert("Failed to send ticket !");
-              }
-              setShowPopup(true);
-            } catch (error) {
-              console.error("Error saving booking", error);
-              alert("Payment successful but booking could not be saved.");
-            }
-          },
-          notes: {
-            address: "Razorpay Corporate Office",
-          },
+                    try {
+                        await axiosInstance.post("/bookings/send-email", {
+                            name: user.name,
+                            email: user.email,
+                            pdfBlob,
+                            showTitle: booking.show.title,
+                        });
+                        setEmailSuccessPopup(true);
+                    } catch (err) {
+                        console.error(err);
+                        alert("Failed to send ticket !");
+                    }
+                    setShowPopup(true);
+                } catch (error) {
+                    console.error("Error saving booking", error);
+                    alert("Payment successful but booking could not be saved.");
+                }
+            },
+            notes: {
+                address: "Razorpay Corporate Office",
+            },
         };
 
         const razor = new window.Razorpay(options);
@@ -276,6 +275,7 @@ const SingleShow = () => {
           handleBookNow={handleBookNow}
           getSeatClass={getSeatClass}
           ticketPrice={show.ticketPrice}
+          theatreImage={show.theatre.image}
         />
       </div>
 

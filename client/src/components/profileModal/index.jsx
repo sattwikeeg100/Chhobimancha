@@ -4,19 +4,23 @@ import axiosInstance from "../../config/axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../store/slices/userSlice";
 import { toast } from "sonner";
-import { TiDeleteOutline } from "react-icons/ti";
+import { MdDeleteForever } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import {
     handleImageFileDelete,
     handleImageFileUpload,
 } from "../../utils/fileHandler";
-
-const APIURL = import.meta.env.VITE_API_URL;
 
 const ProfileModal = ({ profile, onClose }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [image, setImage] = useState(null);
     const [imageFile, setImageFile] = useState(null);
+    const [imageUploading, setImageUploading] = useState(false);
+    const [imageDeleting, setImageDeleting] = useState(false);
+    const [preventPrevImageDelete, setPreventPrevImageDelete] = useState(false);
+    const [saveRequire, setSaveRequire] = useState(false);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,28 +28,50 @@ const ProfileModal = ({ profile, onClose }) => {
             setName(profile.name);
             setEmail(profile.email);
             setImage(profile.image);
+            if(profile.image) {
+                setPreventPrevImageDelete(true);
+            }
         }
     }, [profile]);
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
+        setSaveRequire(true);
     };
 
     const handleFileInputChange = (setter) => (e) => {
         setter(e.target.files[0]);
+        setSaveRequire(true);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!image && preventPrevImageDelete) {
+            toast.warning("Upload profile image before saving!");
+            return;
+        }
+        setLoading(true);
         try {
             const profileData = { name, email, image };
             dispatch(updateUser(profileData));
             toast.success("Profile updated successfully!");
+            setSaveRequire(false);
+            setPreventPrevImageDelete(false);
             onClose();
         } catch (error) {
             console.error("Error updating profile:", error);
             toast.error("Error updating profile!");
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const handleCancel = () => {
+        if (profile && saveRequire) {
+            toast.warning("You need to save the changes before leaving!");
+            return;
+        }
+        onClose();
     };
 
     return (
@@ -87,16 +113,26 @@ const ProfileModal = ({ profile, onClose }) => {
                                 type="file"
                                 onChange={handleFileInputChange(setImageFile)}
                             />
-                            <button
-                                type="button"
-                                onClick={handleImageFileUpload(
-                                    setImage,
-                                    setImageFile,
-                                    imageFile
-                                )}
-                                className="bg-highlight hover:bg-highlight_hover text-primary_text px-3 py-2 rounded">
-                                Upload
-                            </button>
+                            {imageUploading ? (
+                                <button
+                                    type="button"
+                                    className="bg-highlight_hover cursor-not-allowed text-primary_text px-3 py-2 rounded">
+                                    Uploading...
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    onClick={() => handleImageFileUpload(
+                                        image,
+                                        setImage,
+                                        setImageFile,
+                                        setImageUploading,
+                                        imageFile
+                                    )}
+                                    className="bg-highlight hover:bg-highlight_hover text-primary_text px-3 py-2 rounded">
+                                    Upload
+                                </button>
+                            )}
                         </div>
                         {image && (
                             <div className="mt-4 relative w-fit">
@@ -105,29 +141,40 @@ const ProfileModal = ({ profile, onClose }) => {
                                     alt="Profile"
                                     className="w-32 h-32 rounded-full"
                                 />
-                                <button
-                                    onClick={handleImageFileDelete(
-                                        image.split("/").pop(),
-                                        setImage
-                                    )}
-                                    className="absolute top-0 right-0 bg-red-600 hover:bg-red-700 text-white p-1 rounded-full">
-                                    <TiDeleteOutline size={24} />
-                                </button>
+                                {imageDeleting ? (
+                                    <AiOutlineLoading3Quarters className="animate-spin" />
+                                ) : (
+                                    <MdDeleteForever
+                                        size={32}
+                                        onClick={() => handleImageFileDelete(
+                                            image,
+                                            setImage,
+                                            setImageDeleting
+                                        )}
+                                        className="absolute top-0 right-0 text-highlight p-1 rounded-full cursor-pointer"
+                                    />
+                                )}
                             </div>
                         )}
                     </div>
                     <div className="flex justify-end">
                         <button
                             className="bg-gray-500 text-primary_text py-2 px-4 rounded mr-2"
-                            onClick={onClose}
+                            onClick={() => handleCancel()}
                             type="button">
                             Cancel
                         </button>
-                        <button
-                            className="bg-highlight hover:bg-highlight_hover text-primary_text py-2 px-4 rounded"
-                            type="submit">
-                            Save
-                        </button>
+                        {loading ? (
+                            <button className="bg-highlight_hover cursor-not-allowed text-primary_text py-2 px-4 rounded">
+                                Saving...
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-highlight hover:bg-highlight_hover text-primary_text py-2 px-4 rounded"
+                                type="submit">
+                                Save
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>

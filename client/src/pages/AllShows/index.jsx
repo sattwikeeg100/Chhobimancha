@@ -18,18 +18,13 @@ const AllShows = () => {
       const response = await axios.get(`${APIURL}/shows`);
       const shows = response.data;
 
-      // Get the current date and time
       const currentDate = new Date();
 
       // Filter shows to only include those that are not past the current date and time
       const upcomingShows = shows.filter((show) => {
-        // Split the time to get hours and minutes
         const [hours, minutes] = show.time.split(":");
-
-        // Extract year, month, and day from ISO string date
         const [year, month, day] = show.date.split("T")[0].split("-");
 
-        // Create a new Date object for the show date and time
         const showDateTime = new Date(year, month - 1, day, hours, minutes);
         return showDateTime >= currentDate;
       });

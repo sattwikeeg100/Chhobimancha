@@ -1,11 +1,13 @@
 // File: server.js
 
 import express from "express";
+import passport from "passport";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoutes.js";
+import oauthRouter from "./routes/oauthRoutes.js";
 import moviesRouter from "./routes/movieRoutes.js";
 import cineastsRouter from "./routes/cineastRoutes.js";
 import theatresRouter from "./routes/theatreRoutes.js";
@@ -26,6 +28,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
@@ -39,6 +42,7 @@ app.get("/", (req, res) => {
 
 // Other routes
 app.use("/api/users", userRouter);
+app.use("/api/oauth", oauthRouter);
 app.use("/api/movies", moviesRouter);
 app.use("/api/cineasts", cineastsRouter);
 app.use("/api/shows", showsRouter);
@@ -54,4 +58,6 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running successfully on port ${PORT}`);
+  console.log("Client ID:", process.env.OAUTH_CLIENT_ID);
+  console.log("Client Secret:", process.env.OAUTH_CLIENT_SECRET);
 });

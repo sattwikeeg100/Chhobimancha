@@ -6,7 +6,6 @@ import { MdArrowDownward } from "react-icons/md";
 import { toast } from "sonner";
 import GoToTop from "../../components/goToTopButton/index.jsx"; // Import the GoToTop component
 
-const APIURL = import.meta.env.VITE_API_URL;
 const INITIAL_LOAD_COUNT = 8;
 const LOAD_MORE_COUNT = 8;
 
@@ -105,7 +104,7 @@ const AllMovies = () => {
 
   const handleAddToFavorites = async (movieId) => {
     try {
-      const response = await axiosInstance.post(`${APIURL}/users/favourites`, {
+      const response = await axiosInstance.post(`/users/favourites`, {
         movieId: movieId,
       });
       toast.success("Successfully added to favorites");

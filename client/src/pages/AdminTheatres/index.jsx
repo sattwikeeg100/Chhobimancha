@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import TheatreAdminCard from "../../components/theatreAdminCard";
 import TheatreModal from "../../components/theatreModal";
 import axiosInstance from "../../config/axiosInstance";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { toast } from "sonner";
 
 const AdminTheatres = () => {
     const [theatres, setTheatres] = useState([]);
@@ -14,7 +13,7 @@ const AdminTheatres = () => {
 
     const GetAllTheatres = async () => {
         try {
-            const response = await axiosInstance.get(`${APIURL}/theatres`);
+            const response = await axiosInstance.get(`/theatres`);
             setTheatres(response.data);
         } catch (error) {
             console.error(error);
@@ -37,10 +36,14 @@ const AdminTheatres = () => {
         setModalOpen(true);
     };
 
-    const handleDeleteClick = async (theatreId) => {
+    const handleDeleteClick = async (theatre) => {
         window.confirm("Are you sure you want to delete the theatre?");
+        
         try {
-            await axiosInstance.delete(`${APIURL}/theatres/${theatreId}`);
+            await axiosInstance.delete(
+                `/upload/image/${theatre.image.split("/").pop()}`
+            );
+            await axiosInstance.delete(`/theatres/${theatre._id}`);
             toast.success("Theatre deleted successfully!");
             GetAllTheatres();
         } catch (error) {

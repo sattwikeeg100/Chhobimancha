@@ -15,7 +15,7 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
                 Description: {show.description}
             </p>
             <p className="text-gray-700 mb-2 text-center">
-                Date: {new Date(show.date).toLocaleDateString()}
+                Date: {new Date(show.date).toLocaleDateString("en-GB")}
             </p>
             <div className="flex justify-end space-x-2 mt-4">
                 <button
@@ -25,7 +25,7 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
                 </button>
                 <button
                     className="bg-red-500 text-white p-2 rounded"
-                    onClick={() => onDeleteClick(show._id)}>
+                    onClick={() => onDeleteClick(show)}>
                     <FaTrash />
                 </button>
             </div>

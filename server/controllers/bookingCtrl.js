@@ -8,22 +8,20 @@ import nodemailer from "nodemailer";
 // ************************* Private CONTROLLERS *********************
 
 export const checkout = asyncHandler(async (req, res) => {
-    try {
-        const options = {
-            amount: Number(req.body.amount * 100),
-            currency: "INR",
-        };
-        const order = await instance.orders.create(options);
-        console.log(order);
-        res.status(200).json({
-            success: true,
-            order,
-        });
-    } catch (error) {
-        console.error(err);
+    if (!req.body.amount) {
         res.status(400);
-        throw new Error(error.message);
+        throw new Error("Checkout amount required");
     }
+    const options = {
+        amount: Number(req.body.amount * 100),
+        currency: "INR",
+    };
+    const order = await instance.orders.create(options);
+
+    res.status(200).json({
+        success: true,
+        order,
+    });
 });
 
 export const paymentVerification = asyncHandler(async (req, res) => {
@@ -51,13 +49,11 @@ export const paymentVerification = asyncHandler(async (req, res) => {
             });
             await newBooking.save();
 
-            // Update the list of booked seats for the show
             const bookedShow = await Show.findById(show);
             await Show.findByIdAndUpdate(show, {
                 bookedSeats: [...bookedShow.bookedSeats, ...seats],
             });
 
-            // Fetch the show details along with theatre details
             const showDetails = await Show.findById(show).populate("theatre");
 
             res.status(201).json({
@@ -66,7 +62,7 @@ export const paymentVerification = asyncHandler(async (req, res) => {
             });
         }
     } catch (err) {
-        console.error(err);
+        // console.error(err);
         throw new Error("Payment Verification Failed!");
     }
 });
@@ -106,29 +102,22 @@ The Showtime360 Team`,
         console.log("Email sent successfully.");
         res.status(200).json(info);
     } catch (error) {
-        console.error("Error sending email:", error);
+        // console.error("Error sending email:", error);
         throw new Error("Failed to send email");
     }
 };
 
-// Get all bookings by user
-
 export const getAllBookings = asyncHandler(async (req, res) => {
-    try {
-        const bookings = await Booking.find({ userId: req.user._id })
-            .populate("show")
-            .populate({
-                path: "show",
-                populate: {
-                    path: "theatre",
-                    model: "Theatre",
-                },
-            })
-            .populate("userId");
+    const bookings = await Booking.find({ userId: req.user._id })
+        .populate("show")
+        .populate({
+            path: "show",
+            populate: {
+                path: "theatre",
+                model: "Theatre",
+            },
+        })
+        .populate("userId");
 
-        res.status(201).json({ bookings });
-    } catch (error) {
-        res.status(400);
-        throw new Error(error.message);
-    }
+    res.json(bookings);
 });

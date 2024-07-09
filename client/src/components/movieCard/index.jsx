@@ -16,7 +16,6 @@ const MovieCard = ({ movie }) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const user = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
-  const APIURL = import.meta.env.VITE_API_URL;
 
   const fetchUserFavLists = async (user) => {
     try {
@@ -39,7 +38,7 @@ const MovieCard = ({ movie }) => {
 
   const handleAddToFavorites = async () => {
     try {
-      const response = await axiosInstance.post(`${APIURL}/users/favourites`, {
+      const response = await axiosInstance.post(`/users/favourites`, {
         movieId: movie._id,
       });
       isFavourite

@@ -9,26 +9,23 @@ import Booking from "../models/bookingModel.js";
 const router = express.Router();
 
 // ***************** ADMIN ROUTES ***********************
+
 router.get("/", authenticate, admin,
     asyncHandler(async (req, res) => {
-        try {
-            const totalUsers = await User.countDocuments({});
-            const totalSubscribers = await User.countDocuments({
-                isSubscriber: true,
-            });
-            const totalMovies = await Movie.countDocuments({});
-            const totalShows = await Show.countDocuments({});
-            const totalBookings = await Booking.countDocuments({});
-            res.json({
-                totalUsers: totalUsers,
-                totalSubscribers: totalSubscribers,
-                totalMovies: totalMovies,
-                totalShows: totalShows,
-                totalBookings: totalBookings,
-            });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
-        }
+        const totalUsers = await User.countDocuments({});
+        const totalSubscribers = await User.countDocuments({
+            isSubscriber: true,
+        });
+        const totalMovies = await Movie.countDocuments({});
+        const totalShows = await Show.countDocuments({});
+        const totalBookings = await Booking.countDocuments({});
+        res.json({
+            totalUsers: totalUsers,
+            totalSubscribers: totalSubscribers,
+            totalMovies: totalMovies,
+            totalShows: totalShows,
+            totalBookings: totalBookings,
+        });
     })
 );
 
@@ -62,7 +59,7 @@ router.get("/revenue", authenticate, admin,
                 ],
             });
 
-            const subscriptionRevenue = subscribers.length * 50; // Assuming subscription price is $10
+            const subscriptionRevenue = subscribers.length * 50; // Subscription price is Rs. 50
 
             revenues.push({
                 month,

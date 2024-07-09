@@ -1,35 +1,41 @@
 // src/components/MyProfile.jsx
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../config/axiosInstance";
 import ProfileModal from "../../components/profileModal";
 import ProfileCard from "../../components/profileCard";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { logoutUser } from "../../store/slices/userSlice";
+import { toast } from "sonner";
 
 const AdminProfileSettings = () => {
-    //const [profile, setProfile] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const user = useSelector((state) => state.user.userInfo);
+    const dispatch = useDispatch();
 
     const handleEditClick = () => {
         setModalOpen(true);
     };
 
     const handleDeleteClick = async () => {
+        window.confirm("Are you sure you want to delete your account?");
+        alert("Account once deleted cannot be recovered! Continue ?");
+
         try {
-            await axiosInstance.delete(`${APIURL}/users/${user._id}`);
-            localStorage.removeItem("user");
-            alert("Profile deleted successfully");
-            window.location.reload();
+            await axiosInstance.delete(
+                `/upload/image/${user.image.split("/").pop()}`
+            );
+            await axiosInstance.delete(`/users`);
+            dispatch(logoutUser());
+            toast.success("Profile deleted successfully");
+            window.location.replace("/");
         } catch (error) {
             console.error("Error deleting profile:", error);
+            toast.error("Error deleting profile!");
         }
     };
 
     const handleModalClose = () => {
         setModalOpen(false);
-        //fetchUserProfile(user);
     };
 
     return (

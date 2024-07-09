@@ -5,6 +5,11 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
     return (
         <div className="bg-white rounded shadow p-4">
+            <img
+                src={theatre.image}
+                alt={theatre.name}
+                className="w-full h-72 mb-4 rounded-md"
+            />
             <h2 className="text-xl font-bold mb-2">{theatre.name}</h2>
             <p className="text-gray-700 mb-2">Owner: {theatre.owner}</p>
             <p className="text-gray-700 mb-2">Address: {theatre.address}</p>
@@ -17,7 +22,7 @@ const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
                 </button>
                 <button
                     className="bg-red-500 text-white p-2 rounded"
-                    onClick={() => onDeleteClick(theatre._id)}>
+                    onClick={() => onDeleteClick(theatre)}>
                     <FaTrash />
                 </button>
             </div>

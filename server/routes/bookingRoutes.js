@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/", authenticate, getAllBookings);
 
 // ------------------ Payment Routes -----------------------
-router.post("/checkout", checkout);
+router.post("/checkout", authenticate, checkout);
 router.post("/paymentverification", authenticate, paymentVerification);
 router.post("/send-email", authenticate, sendEmailWithPDF);
 

@@ -8,13 +8,11 @@ const MyBookings = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const APIURL = import.meta.env.VITE_API_URL;
-
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const response = await axiosInstance.get(`${APIURL}/bookings`);
-                setBookings(response.data.bookings);
+                const response = await axiosInstance.get(`/bookings`);
+                setBookings(response.data);
                 setLoading(false);
             } catch (error) {
                 setError(error.message);

@@ -1,11 +1,12 @@
-// src/components/CineastModal.jsx
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
-import { handleImageFileDelete, handleImageFileUpload } from "../../utils/fileHandler";
+import {
+    handleImageFileDelete,
+    handleImageFileUpload,
+} from "../../utils/fileHandler";
 import { MdDeleteForever } from "react-icons/md";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const CineastModal = ({ cineast, onClose }) => {
     const [name, setName] = useState("");
@@ -15,6 +16,7 @@ const CineastModal = ({ cineast, onClose }) => {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [deletingImage, setDeletingImage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [saveRequire, setSaveRequire] = useState(false);
 
     useEffect(() => {
         if (cineast) {
@@ -24,26 +26,41 @@ const CineastModal = ({ cineast, onClose }) => {
         }
     }, [cineast]);
 
+    const handleInputChange = (setter) => (e) => {
+        setter(e.target.value);
+        setSaveRequire(true);
+    };
+
+    const handleFileInputChange = (setter) => (e) => {
+        setter(e.target.files[0]);
+        setSaveRequire(true);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!image) {
+            toast.warning("Upload cineast image before saving!");
+            return;
+        }
+        
         setLoading(true);
         try {
             if (cineast) {
-                await axiosInstance.put(`${APIURL}/cineasts/${cineast._id}`, {
+                await axiosInstance.put(`/cineasts/${cineast._id}`, {
                     name,
                     image,
                     details,
                 });
                 toast.success("Cineast updated successfully!");
             } else {
-                await axiosInstance.post(`${APIURL}/cineasts`, {
+                await axiosInstance.post(`/cineasts`, {
                     name,
                     image,
                     details,
                 });
                 toast.success("Cineast added successfully!");
             }
+            setSaveRequire(false);
             onClose();
         } catch (error) {
             console.error("Error saving cineast:", error);
@@ -51,6 +68,26 @@ const CineastModal = ({ cineast, onClose }) => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleCancel = async () => {
+        if (cineast && saveRequire) {
+            toast.warning("You need to save the changes before leaving!");
+            return;
+        }
+
+        if (!cineast) {
+            if (image) {
+                try {
+                    await axiosInstance.delete(
+                        `/upload/image/${image.split("/").pop()}`
+                    );
+                } catch (error) {
+                    console.error("Error deleting uploaded file:", error);
+                }
+            }
+        }
+        onClose();
     };
 
     return (
@@ -66,7 +103,7 @@ const CineastModal = ({ cineast, onClose }) => {
                             className="w-full px-3 py-2 border rounded"
                             type="text"
                             value={name}
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={handleInputChange(setName)}
                         />
                     </div>
                     <div className="mb-4">
@@ -75,9 +112,7 @@ const CineastModal = ({ cineast, onClose }) => {
                             <input
                                 className="w-full px-3 py-2 border rounded"
                                 type="file"
-                                onChange={(e) =>
-                                    setImageFile(e.target.files[0])
-                                }
+                                onChange={handleFileInputChange(setImageFile)}
                             />
                             {image && (
                                 <>
@@ -85,37 +120,39 @@ const CineastModal = ({ cineast, onClose }) => {
                                         src={image}
                                         className="h-14 w-14 rounded-full"
                                     />
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleImageFileDelete(
-                                                image.split("/").pop(),
-                                                setImage,
-                                                setDeletingImage
-                                            )
-                                        }
-                                    />
+                                    {deletingImage ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            className="cursor-pointer"
+                                            onClick={() =>
+                                                handleImageFileDelete(
+                                                    image,
+                                                    setImage,
+                                                    setDeletingImage
+                                                )
+                                            }
+                                        />
+                                    )}
                                 </>
                             )}
                             <button
                                 type="button"
                                 onClick={() =>
                                     handleImageFileUpload(
+                                        image,
                                         setImage,
                                         setImageFile,
                                         setUploadingImage,
                                         imageFile
                                     )
-                                }
-                                className={
-                                    uploadingImage
-                                        ? "cursor-not-allowed"
-                                        : "cursor-pointer"
                                 }>
                                 {uploadingImage ? (
-                                    <u>Uploading...</u>
+                                    <u className="cursor-not-allowed">
+                                        Uploading...
+                                    </u>
                                 ) : (
-                                    <u>Upload</u>
+                                    <u className="cursor-pointer">Upload</u>
                                 )}
                             </button>
                         </div>
@@ -125,13 +162,13 @@ const CineastModal = ({ cineast, onClose }) => {
                         <textarea
                             className="w-full px-3 py-2 border rounded"
                             value={details}
-                            onChange={(e) => setDetails(e.target.value)}
+                            onChange={handleInputChange(setDetails)}
                         />
                     </div>
                     <div className="flex justify-end">
                         <button
                             className="bg-gray-500 text-white py-2 px-4 rounded mr-2"
-                            onClick={onClose}
+                            onClick={() => handleCancel()}
                             type="button">
                             Cancel
                         </button>

@@ -11,8 +11,7 @@ import {
 import { MdDeleteForever } from "react-icons/md";
 import { MdCloudDone } from "react-icons/md";
 import Select from "react-select";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const genreOptions = [
     { value: "Drama", label: "Drama" },
@@ -48,9 +47,10 @@ const MovieModal = ({ movie, onClose }) => {
     const [uploadingCover, setUploadingCover] = useState(false);
     const [uploadingPoster, setUploadingPoster] = useState(false);
     const [uploadingVideo, setUploadingVideo] = useState(false);
-    const [deletingPoster, setDeletingPoster] = useState(false);
     const [deletingCover, setDeletingCover] = useState(false);
+    const [deletingPoster, setDeletingPoster] = useState(false);
     const [deletingVideo, setDeletingVideo] = useState(false);
+    const [saveRequire, setSaveRequire] = useState(false);
 
     useEffect(() => {
         fetchCineasts();
@@ -58,7 +58,7 @@ const MovieModal = ({ movie, onClose }) => {
 
     const fetchCineasts = async () => {
         try {
-            const response = await axiosInstance.get(`${APIURL}/cineasts`);
+            const response = await axiosInstance.get(`/cineasts`);
             setCineasts(response.data);
         } catch (error) {
             console.error("Error fetching cineasts:", error);
@@ -68,6 +68,8 @@ const MovieModal = ({ movie, onClose }) => {
     useEffect(() => {
         if (movie) {
             setTitle(movie.title);
+            setCoverImage(movie.coverImage);
+            setPoster(movie.poster);
             setDescription(movie.description);
             setGenres(movie.genres);
             setLanguage(movie.language);
@@ -80,10 +82,12 @@ const MovieModal = ({ movie, onClose }) => {
 
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
+        setSaveRequire(true);
     };
 
     const handleFileInputChange = (setter) => (e) => {
         setter(e.target.files[0]);
+        setSaveRequire(true);
     };
 
     const handleArrayChange = (index, array, setArray) => (e) => {
@@ -91,24 +95,33 @@ const MovieModal = ({ movie, onClose }) => {
         const newArray = [...array];
         newArray[index][name] = value;
         setArray(newArray);
+        setSaveRequire(true);
     };
 
     const handleGenreChange = (selectedOptions) => {
         const newGenres = selectedOptions.map((option) => option.value);
         setGenres(newGenres);
+        setSaveRequire(true);
     };
 
     const addArrayItem = (setArray, array) => () => {
         setArray([...array, { person: "", role: "" }]);
+        setSaveRequire(true);
     };
 
     const removeArrayItem = (index, array, setArray) => () => {
         const newArray = array.filter((_, i) => i !== index);
         setArray(newArray);
+        setSaveRequire(true);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(!coverImage || !poster) {
+            toast.warning("Upload movie cover image and poster before saving!");
+            return;
+        }
+
         setLoading(true);
         try {
             const movieData = {
@@ -127,23 +140,55 @@ const MovieModal = ({ movie, onClose }) => {
 
             if (movie) {
                 await axiosInstance.put(
-                    `${APIURL}/movies/${movie._id}`,
+                    `/movies/${movie._id}`,
                     movieData
                 );
                 toast.success("Movie updated successfully!");
             } else {
-                await axiosInstance.post(`${APIURL}/movies`, movieData);
+                await axiosInstance.post(`/movies`, movieData);
                 toast.success("Movie added successfully!");
             }
+            setSaveRequire(false);
             onClose();
         } catch (error) {
             console.error("Error saving movie: ", error);
-            toast.success("Error saving movie!");
+            toast.error("Error saving movie!");
         } finally {
             setLoading(false);
         }
     };
 
+    const handleCancel = async () => {
+        if (movie && saveRequire) {
+            toast.warning("You need to save the changes before leaving!");
+            return;
+        }
+
+        if (!movie) {
+            try {
+                if (coverImage) {
+                    await axiosInstance.delete(
+                        `/upload/image/${coverImage.split("/").pop()}`
+                    );
+                }
+                if (poster) {
+                    await axiosInstance.delete(
+                        `/upload/image/${poster.split("/").pop()}`
+                    );
+                }
+
+                if (video) {
+                    await axiosInstance.delete(
+                        `/upload/video/${video.split("/").pop()}`
+                    );
+                }
+            } catch (error) {
+                console.error("Error deleting uploaded files:", error);
+            }
+        }
+        onClose();
+    };
+    
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-white p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
@@ -173,114 +218,118 @@ const MovieModal = ({ movie, onClose }) => {
                         />
                     </div>
                     {/* Cover Image */}
-                    {(!movie || !movie.coverImage) && (
-                        <div className="flex flex-row justify-between">
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    Cover Image
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 border rounded"
-                                    type="file"
-                                    onChange={handleFileInputChange(
-                                        setCoverImageFile
-                                    )}
+                    <div className="flex flex-row justify-between">
+                        <div className="mb-4">
+                            <label className="block text-gray-700">
+                                Cover Image
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="file"
+                                onChange={handleFileInputChange(
+                                    setCoverImageFile
+                                )}
+                            />
+                        </div>
+                        {coverImage && (
+                            <>
+                                <img
+                                    src={coverImage}
+                                    className="h-14 w-14 rounded-full"
                                 />
-                            </div>
-                            {coverImage && (
-                                <>
-                                    <img
-                                        src={coverImage}
-                                        className="h-14 w-14 rounded-full"
-                                    />
+                                {deletingCover ? (
+                                    <AiOutlineLoading3Quarters className="animate-spin" />
+                                ) : (
                                     <MdDeleteForever
                                         className="cursor-pointer"
                                         onClick={() =>
                                             handleImageFileDelete(
-                                                coverImage.split("/").pop(),
+                                                coverImage,
                                                 setCoverImage,
                                                 setDeletingCover
                                             )
                                         }
                                     />
-                                </>
-                            )}
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleImageFileUpload(
-                                        setCoverImage,
-                                        setCoverImageFile,
-                                        setUploadingCover,
-                                        coverImageFile
-                                    )
-                                }>
-                                {uploadingCover ? (
-                                    <u className="cursor-not-allowed">
-                                        Uploading...
-                                    </u>
-                                ) : (
-                                    <u className="cursor-pointer">Upload</u>
                                 )}
-                            </button>
-                        </div>
-                    )}
+                            </>
+                        )}
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleImageFileUpload(
+                                    coverImage,
+                                    setCoverImage,
+                                    setCoverImageFile,
+                                    setUploadingCover,
+                                    coverImageFile
+                                )
+                            }>
+                            {uploadingCover ? (
+                                <u className="cursor-not-allowed">
+                                    Uploading...
+                                </u>
+                            ) : (
+                                <u className="cursor-pointer">Upload</u>
+                            )}
+                        </button>
+                    </div>
                     {/* Poster */}
-                    {(!movie || !movie.poster) && (
-                        <div className="flex flex-row justify-between">
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    Poster
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 border rounded"
-                                    type="file"
-                                    onChange={handleFileInputChange(
-                                        setPosterFile
-                                    )}
+                    <div className="flex flex-row justify-between">
+                        <div className="mb-4">
+                            <label className="block text-gray-700">
+                                Poster
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="file"
+                                onChange={handleFileInputChange(setPosterFile)}
+                            />
+                        </div>
+                        {poster && (
+                            <>
+                                <img
+                                    src={poster}
+                                    className="h-14 w-14 rounded-full"
                                 />
-                            </div>
-                            {poster && (
-                                <>
-                                    <img
-                                        src={poster}
-                                        className="h-14 w-14 rounded-full"
-                                    />
+                                {deletingPoster ? (
+                                    <AiOutlineLoading3Quarters className="animate-spin" />
+                                ) : (
                                     <MdDeleteForever
                                         className="cursor-pointer"
                                         onClick={() =>
                                             handleImageFileDelete(
-                                                poster.split("/").pop(),
+                                                poster,
                                                 setPoster,
                                                 setDeletingPoster
                                             )
                                         }
                                     />
-                                </>
-                            )}
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleImageFileUpload(
-                                        setPoster,
-                                        setPosterFile,
-                                        setUploadingPoster,
-                                        posterFile
-                                    )
-                                }
-                                className={
-                                    uploadingPoster
-                                        ? "cursor-not-allowed"
-                                        : "cursor-pointer"
-                                }>
-                                {uploadingPoster ? (
-                                    <u>Uploading...</u>
-                                ) : (
-                                    <u>Upload</u>
                                 )}
-                            </button>
-                        </div>
-                    )}
+                            </>
+                        )}
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleImageFileUpload(
+                                    poster,
+                                    setPoster,
+                                    setPosterFile,
+                                    setUploadingPoster,
+                                    posterFile
+                                )
+                            }
+                            className={
+                                uploadingPoster
+                                    ? "cursor-not-allowed"
+                                    : "cursor-pointer"
+                            }>
+                            {uploadingPoster ? (
+                                <u>Uploading...</u>
+                            ) : (
+                                <u>Upload</u>
+                            )}
+                        </button>
+                    </div>
                     {/* Genre */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Genres</label>
@@ -341,23 +390,30 @@ const MovieModal = ({ movie, onClose }) => {
                             </div>
                             {video && (
                                 <>
-                                    <MdCloudDone className="h-12 w-12" />
-                                    <MdDeleteForever
-                                        className="cursor-pointer"
-                                        onClick={() =>
-                                            handleVideoFileDelete(
-                                                video.split("/").pop(),
-                                                setVideo,
-                                                setDeletingVideo
-                                            )
-                                        }
-                                    />
+                                    {!uploadingVideo && (
+                                        <MdCloudDone className="h-12 w-12" />
+                                    )}
+                                    {deletingVideo ? (
+                                        <AiOutlineLoading3Quarters className="animate-spin" />
+                                    ) : (
+                                        <MdDeleteForever
+                                            className="cursor-pointer"
+                                            onClick={() =>
+                                                handleVideoFileDelete(
+                                                    video,
+                                                    setVideo,
+                                                    setDeletingVideo
+                                                )
+                                            }
+                                        />
+                                    )}
                                 </>
                             )}
                             <button
                                 type="button"
                                 onClick={() =>
                                     handleVideoFileUpload(
+                                        video,
                                         setVideo,
                                         setVideoFile,
                                         setUploadingVideo,
@@ -489,7 +545,7 @@ const MovieModal = ({ movie, onClose }) => {
                     <div className="flex justify-end">
                         <button
                             className="bg-gray-500 text-white py-2 px-4 rounded mr-2"
-                            onClick={onClose}
+                            onClick={() => handleCancel()}
                             type="button">
                             Cancel
                         </button>

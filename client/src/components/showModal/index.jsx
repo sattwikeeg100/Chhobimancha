@@ -7,8 +7,7 @@ import {
     handleImageFileUpload,
 } from "../../utils/fileHandler";
 import { MdDeleteForever } from "react-icons/md";
-
-const APIURL = import.meta.env.VITE_API_URL;
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const ShowModal = ({ show, onClose }) => {
     const [title, setTitle] = useState("");
@@ -27,22 +26,16 @@ const ShowModal = ({ show, onClose }) => {
     const [casts, setCasts] = useState([{ person: "", role: "" }]);
     const [crews, setCrews] = useState([{ person: "", role: "" }]);
     const [cineasts, setCineasts] = useState([]);
-    const [uploadingPoster, setUploadingPoster] = useState("");
-    const [deletingPoster, setDeletingPoster] = useState("");
-
-    const fetchCineasts = async () => {
-        try {
-            const response = await axiosInstance.get(`${APIURL}/cineasts`);
-            setCineasts(response.data);
-        } catch (error) {
-            console.error("Error fetching cineasts:", error);
-        }
-    };
+    const [uploadingPoster, setUploadingPoster] = useState(false);
+    const [deletingPoster, setDeletingPoster] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [saveRequire, setSaveRequire] = useState(false);
 
     useEffect(() => {
         if (show) {
             setTitle(show.title);
             setDescription(show.description);
+            setPoster(show.poster);
             setLanguage(show.language);
             setDate(show.date);
             setTime(show.time);
@@ -60,19 +53,30 @@ const ShowModal = ({ show, onClose }) => {
 
     const fetchTheatres = async () => {
         try {
-            const response = await axiosInstance.get(`${APIURL}/theatres`);
+            const response = await axiosInstance.get(`/theatres`);
             setTheatres(response.data);
         } catch (error) {
             console.error("Error fetching theatres:", error);
         }
     };
 
+    const fetchCineasts = async () => {
+        try {
+            const response = await axiosInstance.get(`/cineasts`);
+            setCineasts(response.data);
+        } catch (error) {
+            console.error("Error fetching cineasts:", error);
+        }
+    };
+
     const handleInputChange = (setter) => (e) => {
         setter(e.target.value);
+        setSaveRequire(true);
     };
 
     const handleFileInputChange = (setter) => (e) => {
         setter(e.target.files[0]);
+        setSaveRequire(true);
     };
 
     const handleArrayChange = (index, array, setArray) => (e) => {
@@ -80,18 +84,27 @@ const ShowModal = ({ show, onClose }) => {
         const newArray = [...array];
         newArray[index][name] = value;
         setArray(newArray);
+        setSaveRequire(true);
     };
 
     const addArrayItem = (setArray, array) => () => {
         setArray([...array, { person: "", role: "" }]);
+        setSaveRequire(true);
     };
 
     const removeArrayItem = (index, array, setArray) => () => {
         const newArray = array.filter((_, i) => i !== index);
         setArray(newArray);
+        setSaveRequire(true);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!poster) {
+            toast.warning("Upload show poster before saving!");
+            return;
+        }
+        setLoading(true);
         try {
             const showData = {
                 title,
@@ -100,27 +113,46 @@ const ShowModal = ({ show, onClose }) => {
                 language,
                 date,
                 time,
-                ticketPrice: { frontStall, rearStall, balcony},
+                ticketPrice: { frontStall, rearStall, balcony },
                 totalSeats,
                 theatre: selectedTheatre,
                 casts,
-                crews
+                crews,
             };
 
             if (show) {
-                await axiosInstance.put(
-                    `${APIURL}/shows/${show._id}`,
-                    showData
-                );
+                await axiosInstance.put(`/shows/${show._id}`, showData);
                 toast.success("Show updated successfully!");
             } else {
-                await axiosInstance.post(`${APIURL}/shows`, showData);
+                await axiosInstance.post(`/shows`, showData);
                 toast.success("Show added successfully!");
             }
+            setSaveRequire(false);
             onClose();
         } catch (error) {
             console.error("Error saving show:", error);
+            toast.error("Error saving show!");
+        } finally {
+            setLoading(false);
         }
+    };
+
+    const handleCancel = async () => {
+        if (show && saveRequire) {
+            toast.warning("You need to save the changes before leaving!");
+            return;
+        }
+
+        if (!show && poster) {
+            try {
+                await axiosInstance.delete(
+                    `/upload/image/${poster.split("/").pop()}`
+                );
+            } catch (error) {
+                console.error("Error deleting uploaded file:", error);
+            }
+        }
+        onClose();
     };
 
     return (
@@ -152,58 +184,59 @@ const ShowModal = ({ show, onClose }) => {
                         />
                     </div>
                     {/* Poster */}
-                    {(!show || !show.poster) && (
-                        <div className="flex flex-row justify-between">
-                            <div className="mb-4">
-                                <label className="block text-gray-700">
-                                    Poster
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 border rounded"
-                                    type="file"
-                                    onChange={handleFileInputChange(
-                                        setPosterFile
-                                    )}
+                    <div className="flex flex-row justify-between">
+                        <div className="mb-4">
+                            <label className="block text-gray-700">
+                                Poster
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 border rounded"
+                                type="file"
+                                onChange={handleFileInputChange(setPosterFile)}
+                            />
+                        </div>
+                        {poster && (
+                            <>
+                                <img
+                                    src={poster}
+                                    className="h-14 w-14 rounded-full"
                                 />
-                            </div>
-                            {poster && (
-                                <>
-                                    <img
-                                        src={poster}
-                                        className="h-14 w-14 rounded-full"
-                                    />
+                                {deletingPoster ? (
+                                    <AiOutlineLoading3Quarters className="animate-spin" />
+                                ) : (
                                     <MdDeleteForever
                                         className="cursor-pointer"
                                         onClick={() =>
                                             handleImageFileDelete(
-                                                poster.split("/").pop(),
+                                                poster,
                                                 setPoster,
                                                 setDeletingPoster
                                             )
                                         }
                                     />
-                                </>
-                            )}
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleImageFileUpload(
-                                        setPoster,
-                                        setPosterFile,
-                                        setUploadingPoster,
-                                        posterFile
-                                    )
-                                }>
-                                {uploadingPoster ? (
-                                    <u className="cursor-not-allowed">
-                                        Uploading...
-                                    </u>
-                                ) : (
-                                    <u className="cursor-pointer">Upload</u>
                                 )}
-                            </button>
-                        </div>
-                    )}
+                            </>
+                        )}
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleImageFileUpload(
+                                    poster,
+                                    setPoster,
+                                    setPosterFile,
+                                    setUploadingPoster,
+                                    posterFile
+                                )
+                            }>
+                            {uploadingPoster ? (
+                                <u className="cursor-not-allowed">
+                                    Uploading...
+                                </u>
+                            ) : (
+                                <u className="cursor-pointer">Upload</u>
+                            )}
+                        </button>
+                    </div>
                     {/* Language */}
                     <div className="mb-4">
                         <label className="block text-gray-700">Language</label>
@@ -410,15 +443,21 @@ const ShowModal = ({ show, onClose }) => {
                     <div className="flex justify-end">
                         <button
                             className="bg-gray-500 text-white py-2 px-4 rounded mr-2"
-                            onClick={onClose}
+                            onClick={() => handleCancel()}
                             type="button">
                             Cancel
                         </button>
-                        <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded"
-                            type="submit">
-                            Save
-                        </button>
+                        {loading ? (
+                            <button className="bg-blue-500 text-white py-2 px-4 rounded cursor-not-allowed">
+                                Saving...
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-blue-500 text-white py-2 px-4 rounded"
+                                type="submit">
+                                Save
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>

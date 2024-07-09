@@ -5,8 +5,6 @@ import ShowModal from "../../components/showModal";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
 
-const APIURL = import.meta.env.VITE_API_URL;
-
 const AdminShows = () => {
     const [shows, setShows] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -15,7 +13,7 @@ const AdminShows = () => {
 
     const GetAllShows = async () => {
         try {
-            const response = await axiosInstance.get(`${APIURL}/shows`);
+            const response = await axiosInstance.get(`/shows`);
             setShows(response.data);
         } catch (error) {
             console.error(error);
@@ -38,10 +36,14 @@ const AdminShows = () => {
         setModalOpen(true);
     };
 
-    const handleDeleteClick = async (showId) => {
+    const handleDeleteClick = async (show) => {
         window.confirm("Are you sure you want to delete the show?");
+
         try {
-            await axiosInstance.delete(`${APIURL}/shows/${showId}`);
+            await axiosInstance.delete(
+                `/upload/image/${show.poster.split("/").pop()}`
+            );
+            await axiosInstance.delete(`/shows/${show._id}`);
             toast.success("Show deleted successfully!");
             GetAllShows();
         } catch (error) {
