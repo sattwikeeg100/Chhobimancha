@@ -1,6 +1,5 @@
 import React from 'react';
 import Skeleton  ,{SkeletonTheme} from 'react-loading-skeleton';
-// import SkeletonMoviecard from '../../../components/Skeletons/SkeletonMovieCard/SkeletonMoviecard';
 import SkeletonMoviecard from '../../../components/SkeletonMovieCard/SkeletonMoviecard';
 
 

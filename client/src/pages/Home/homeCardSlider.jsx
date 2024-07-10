@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-// import SwitchTabs from '../../SwitchTabs/SwitchTabs'
 import movies from "./movies.js"
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
