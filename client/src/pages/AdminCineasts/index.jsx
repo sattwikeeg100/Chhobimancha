@@ -72,12 +72,12 @@ const AdminCineasts = () => {
 
   return (
     <div className="container  mx-auto p-4 min-h-screen">
-      <h1 className="text-xl sm:text-5xl font-bold text-primary_text py-4 font-montserrat">
+      <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
         Admin Cineast Management
       </h1>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 mb-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold text-xl  py-2 px-4 rounded "
+          className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold sm:text-xl  py-2 px-4 rounded "
           onClick={handleAddClick}
         >
           Add New Cineast
@@ -87,14 +87,14 @@ const AdminCineasts = () => {
           <input
             type="text"
             placeholder="Search for shows..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10  px-0 sm:px-4 "
+            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight px-4 py-2 text-xs sm:text-base pl-10 sm:pl-10  px-0 sm:px-4 "
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
         {filteredCineasts.map((cineast) => (
           <CineastAdminCard
             key={cineast._id}
