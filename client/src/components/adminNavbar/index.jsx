@@ -5,6 +5,37 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { IoIosLogOut } from "react-icons/io";
 
+export const adminNavData = [
+  {
+    name: "Dashboard",
+    path: "/",
+  },
+  {
+    name: "Manage Users",
+    path: "/users",
+  },
+  {
+    name: "Manage Movies",
+    path: "/movies",
+  },
+  {
+    name: "Manage Cineasts",
+    path: "/cineasts",
+  },
+  {
+    name: "Manage Shows",
+    path: "/shows",
+  },
+  {
+    name: "Manage Theatres",
+    path: "/theatres",
+  },
+  {
+    name: "Profile Settings",
+    path: "/settings",
+  },
+];
+
 const AdminNavSidebar = ({ open }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,108 +74,62 @@ const AdminNavSidebar = ({ open }) => {
     <div
       className={`fixed z-50 lg:flex inset-y-0 left-0 transform ${
         open ? "w-[200px]" : "w-[0px]"
-      } overflow-auto transition-width duration-700 bg-background2 text-white flex flex-col items-center `}
+      } overflow-auto transition-width duration-700 bg-background2 text-primary_text flex flex-col justify-between items-center`}
     >
-      <div className="p-4 flex flex-col justify-center items-center">
-        <div className="flex-shrink-0 mb-2">
-          {user ? (
-            user.image ? (
+      {/* Top section */}
+      <div className="flex flex-col items-center">
+        {/* admin/owner name and photo */}
+        <div className="p-4 flex flex-col justify-center items-center">
+          <div className="flex-shrink-0 mb-2">
+            {user ? (
+              user.image ? (
+                <img
+                  className="w-24 h-24 rounded-full"
+                  src={user.image}
+                  alt="User avatar"
+                />
+              ) : (
+                <div className="w-24 h-24 flex items-center justify-center bg-shadow rounded-full text-4xl font-semibold">
+                  {getInitials(user.name)}
+                </div>
+              )
+            ) : (
               <img
                 className="w-24 h-24 rounded-full"
-                src={user.image}
+                src="\avatar.jpg"
                 alt="User avatar"
               />
-            ) : (
-              <div className="w-24 h-24 flex items-center justify-center bg-shadow rounded-full text-4xl font-semibold">
-                {getInitials(user.name)}
-              </div>
-            )
-          ) : (
-            <img
-              className="w-24 h-24 rounded-full"
-              src="\avatar.jpg"
-              alt="User avatar"
-            />
-          )}
+            )}
+          </div>
+          <p className="text-lg font-semibold font-montserrat">{user?.name}</p>
         </div>
-        <div className="ml-4">
-          <p className="text-xl font-semibold">{user?.name}</p>
-        </div>
-      </div>
-      <div className="p-4">
+
+        {/* Links */}
         <nav>
-          <ul>
-            <li className="mb-2">
-              <NavLink
-                to="/"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Dashboard
-              </NavLink>
-            </li>
-            <li className="mb-2">
-              <NavLink
-                to="/users"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Manage Users
-              </NavLink>
-            </li>
-            <li className="mb-2">
-              <NavLink
-                to="/movies"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Manage Movies
-              </NavLink>
-            </li>
-            <li className="mb-2">
-              <NavLink
-                to="/cineasts"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Manage Cineasts
-              </NavLink>
-            </li>
-            <li className="mb-2">
-              <NavLink
-                to="/shows"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Manage Shows
-              </NavLink>
-            </li>
-            <li className="mb-2">
-              <NavLink
-                to="/theatres"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Manage Theatres
-              </NavLink>
-            </li>
-            <li className="mb-2">
-              <NavLink
-                to="/settings"
-                className="block px-4 py-2 hover:bg-gray-700 rounded"
-              >
-                Profile Settings
-              </NavLink>
-            </li>
-            <li className="mb-2" onClick={handleLogout}>
-              <NavLink className=" px-4 py-2 hover:bg-gray-700 flex flex-row text-md hover:underline hover:font-bold justify-center items-center gap-2">
-                <button>Logout</button>
-                <IoIosLogOut className="mt-1" />
-              </NavLink>
-            </li>
+          <ul className="p-4 flex flex-col items-center justify-center gap-y-2">
+            {adminNavData.map((links, i) => (
+              <li key={i}>
+                <NavLink
+                  to={links.path}
+                  className="block px-4 py-2 hover:bg-shadow hover:font-bold font-medium rounded font-lato text-base text-center"
+                >
+                  {links.name}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
-      {/* <button onClick={handleLogout}>
-        <span className="flex flex-row text-md hover:underline hover:font-bold justify-center items-center gap-2">
-          Logout
-          <IoIosLogOut className="mt-1" />
-        </span>
-      </button> */}
+
+      {/* Logout button at the bottom */}
+      <div className="mb-4">
+        <button onClick={handleLogout}>
+          <span className="flex flex-row  px-4 py-2 text-md hover:bg-shadow font-medium hover:font-bold justify-center items-center gap-2">
+            Logout
+            <IoIosLogOut className="mt-1" />
+          </span>
+        </button>
+      </div>
     </div>
   );
 };
