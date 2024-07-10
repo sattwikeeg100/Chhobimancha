@@ -39,7 +39,8 @@ const SubscriptionPage = () => {
             const options = {
                 key: razorpayKey,
                 subscription_id: subscription.id,
-                name: "Showtime360 Premium",
+                name: "Chhobimancha Premium",
+                image: "https://i.ibb.co/B62hf01/chobimancha-logo.jpg", // TODO: Our logo url
                 description: "Subscription for enjoying unlimited movies",
                 handler: function (response) {
                     dispatch(
@@ -68,26 +69,21 @@ const SubscriptionPage = () => {
     };
 
     const handleCancelSubscription = async () => {
-        try {
-            if (true) {
-                dispatch(
-                    updateUser({ isSubscriber: false, subscriptionId: "" })
-                ).then(() => {
-                    alert("Subscription cancelled successfully!");
-                });
-            } else {
-                alert("Failed to cancel subscription. Please try again.");
-            }
+        window.confirm("Are you sure you want to cancel your subscription?");
 
+        try {
             const response = await axiosInstance.post(
                 `/users/cancel-subscription`,
                 {
                     subscription_id: user.subscriptionId,
                 }
             );
-
             const cancellation = response.data;
-            console.log(cancellation);
+            dispatch(
+                updateUser({ isSubscriber: false, subscriptionId: "" })
+            ).then(() => {
+                alert("Subscription cancelled successfully!");
+            });
         } catch (error) {
             console.error("Error cancelling subscription:", error);
             alert("Error cancelling subscription. Please try again.");

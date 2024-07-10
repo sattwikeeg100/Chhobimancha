@@ -11,7 +11,7 @@ const SkeletonLoaderHome = () => {
             <header className='h-full w-full my-8'>
                 <div className={`w-full h-full`}>
                     <div className="mx-10">
-                        <Skeleton height={400} width="99%" />
+                        <Skeleton height={400} width="99%" className='animate-pulse rounded-lg' />
                     </div>
                 </div>
             </header>
