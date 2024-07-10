@@ -86,7 +86,7 @@ const AdminLayout = ({ children }) => {
             {open ? <RiMenuUnfold2Line /> : <RiMenuFold2Line />}
           </h1>
         </div>
-        <div className="p-4 bg-white">{children}</div>
+        <div className="p-4 bg-background1">{children}</div>
       </div>
     </div>
   );
