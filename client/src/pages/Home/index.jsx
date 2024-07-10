@@ -2,12 +2,37 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import Skeleton from "react-loading-skeleton";
 import axiosInstance from "../../config/axiosInstance";
 import HomeCardSlider from "./homeCardSlider";
+import SkeletonLoaderHome from './Skeletons/SkeletonLoaderHome';
+import "react-loading-skeleton/dist/skeleton.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import './custom-slick.css'; // Import your custom CSS for further styling
+
+const NextArrow = ({ className, style, onClick }) => {
+    return (
+        <div
+            className={className}
+            style={{ ...style, display: "block", background: "black", width: "60px", height: "60px", borderRadius: "50%", fontSize: "30px" }}
+            onClick={onClick}
+        />
+    );
+};
+
+const PrevArrow = ({ className, style, onClick }) => {
+    return (
+        <div
+            className={className}
+            style={{ ...style, display: "block", background: "black", width: "60px", height: "60px", borderRadius: "50%", fontSize: "30px" }}
+            onClick={onClick}
+        />
+    );
+};
 
 const Home = () => {
+    const [loading, setLoading] = useState(true);
     const [oldSlide, setOldSlide] = useState(0);
     const [activeSlide, setActiveSlide] = useState(0);
     const [activeSlide2, setActiveSlide2] = useState(0);
@@ -18,10 +43,8 @@ const Home = () => {
     const [moviesLoading, setMoviesLoading] = useState(true);
     const [showsLoading, setShowsLoading] = useState(true);
 
-    useEffect(() => {
-        GetAllMovies();
-        GetAllShows();
-    }, []);
+
+
 
     const GetAllMovies = async () => {
         try {
@@ -93,6 +116,8 @@ const Home = () => {
         cssEase: "linear",
         slidesToShow: 1,
         slidesToScroll: 1,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
         beforeChange: (current, next) => {
             setOldSlide(current);
             setActiveSlide(next);
@@ -100,15 +125,30 @@ const Home = () => {
         afterChange: (current) => setActiveSlide2(current),
     };
 
+    useEffect(() => {
+        GetAllMovies();
+        GetAllShows();
+        console.log()
+    }, []);
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 3000); // Adjust the timeout as needed
+    }, []);
+    if (loading) {
+        return <SkeletonLoaderHome />;
+    }
+
+
     return (
         <div
             id="Home"
             className=" pb-16 w-screen h-fit flex flex-col items-center bg-black text-white font-semibold font-serif ">
-            <header className="h-full w-full my-8">
+            <header className="h-full w-[95%] my-8">
                 <div className={` w-full h-full`}>
-                    <Slider {...settings} className="mx-10 object-center ">
-                        {recentMovies.map((movie, key) => (
-                            <Link to={`explore/movies/${movie.slug}`} key={key}>
+                    <Slider {...settings} className="mx-9 object-center ">
+                        {recentMovies.map(movie => (
+                            <Link to={`explore/movies/${movie.slug}`}>
                                 <div className="">
                                     <img
                                         src={`${movie.coverImage}`}
