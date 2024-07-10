@@ -21,12 +21,19 @@ dotenv.config();
 
 const app = express();
 
-const corsOptions = {
+/* const corsOptions = {
   origin: process.env.SITE_URL,
   credentials: true,
   optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions));
+}; */
+app.use(
+    cors({
+        origin: [process.env.SITE_URL],
+        methods: ["GET", "POST", "DELETE", "PUT"],
+        credentials: true,
+    })
+);
+//app.use(cors(corsOptions));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(express.urlencoded({ extended: true }));
