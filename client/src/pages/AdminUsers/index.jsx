@@ -11,7 +11,9 @@ const AdminUsers = () => {
 
     const [loading, setLoading] = useState(true);
 
-    const amOwner = useSelector((state) => state.user.userInfo.isOwner);
+    const CurrUser = useSelector((state) => state.user.userInfo);
+    const amOwner = CurrUser.isOwner;
+    console.log(amOwner);
 
     const GetAllUsers = async () => {
         try {
