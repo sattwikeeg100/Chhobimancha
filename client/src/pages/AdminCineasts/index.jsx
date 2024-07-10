@@ -1,21 +1,22 @@
-// src/components/AdminCineasts.jsx
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import CineastAdminCard from "../../components/cineastAdminCard";
 import CineastModal from "../../components/cineastModal";
 import { toast } from "sonner";
 
+import { FaSearch } from "react-icons/fa";
+
 const AdminCineasts = () => {
   const [cineasts, setCineasts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentCineast, setCurrentCineast] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const GetAllCineasts = async () => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`/cineasts`);
-
+      const response = await axiosInstance.get("/cineasts");
       setCineasts(response.data);
     } catch (error) {
       console.error(error);
@@ -59,6 +60,12 @@ const AdminCineasts = () => {
     GetAllCineasts();
   };
 
+  const filteredCineasts = cineasts.filter((cineast) => {
+    const cineastName = cineast.name.toLowerCase();
+    const searchQueryLowercase = searchQuery.toLowerCase();
+    return cineastName.includes(searchQueryLowercase);
+  });
+
   if (loading) {
     return <div className="text-5xl">Loading...</div>;
   }
@@ -68,14 +75,27 @@ const AdminCineasts = () => {
       <h1 className="text-xl sm:text-5xl font-bold text-primary_text py-4 font-montserrat">
         Admin Cineast Management
       </h1>
-      <button
-        className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold text-xl  py-2 px-4 rounded mb-4"
-        onClick={handleAddClick}
-      >
-        Add New Cineast
-      </button>
+      <div className="flex items-center justify-between mb-4">
+        <button
+          className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold text-xl  py-2 px-4 rounded "
+          onClick={handleAddClick}
+        >
+          Add New Cineast
+        </button>
+
+        <div className="relative flex items-center">
+          <input
+            type="text"
+            placeholder="Search for shows..."
+            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10  px-0 sm:px-4 "
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
+        </div>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {cineasts.map((cineast) => (
+        {filteredCineasts.map((cineast) => (
           <CineastAdminCard
             key={cineast._id}
             cineast={cineast}
