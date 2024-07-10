@@ -9,7 +9,7 @@ import SkeletonLoaderHome from './Skeletons/SkeletonLoaderHome';
 import "react-loading-skeleton/dist/skeleton.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './custom-slick.css'; // Import your custom CSS for further styling
+import './custom-slick.css'; 
 
 const NextArrow = ({ className, style, onClick }) => {
     return (
@@ -133,7 +133,7 @@ const Home = () => {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 3000); // Adjust the timeout as needed
+        }, 2000);
     }, []);
     if (loading) {
         return <SkeletonLoaderHome />;
