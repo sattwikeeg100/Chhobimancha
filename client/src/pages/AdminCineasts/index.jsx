@@ -86,7 +86,7 @@ const AdminCineasts = () => {
         <div className="relative flex items-center">
           <input
             type="text"
-            placeholder="Search for shows..."
+            placeholder="Search for cineasts..."
             className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight px-4 py-2 text-xs sm:text-base pl-10 sm:pl-10  px-0 sm:px-4 "
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
