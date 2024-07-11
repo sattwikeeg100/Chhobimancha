@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaClock } from "react-icons/fa";
 
 const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -39,10 +39,19 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
           </span>
         )}
       </p>
+
       <p className="text-secondary_text font-medium text-center text-2xl">
         <strong className="underline text-primary_text">Date</strong>:{" "}
         {new Date(show.date).toLocaleDateString()}
       </p>
+
+      <p className="text-primary_text font-medium text-center text-2xl flex flex-row space-x-2">
+        <strong className="mt-1">
+          <FaClock className="w-7 h-7" />
+        </strong>
+        <div>{show.time}</div>
+      </p>
+
       <div className="flex justify-end space-x-2 mt-4">
         <button
           className="bg-highlight hover:bg-highlight_hover text-white p-2 rounded"

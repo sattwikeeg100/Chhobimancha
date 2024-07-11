@@ -8,9 +8,12 @@ import { FaSearch } from "react-icons/fa";
 const AdminShows = () => {
   const [upcomingShows, setUpcomingShows] = useState([]);
   const [pastShows, setPastShows] = useState([]);
+  const [filteredUpcomingShows, setFilteredUpcomingShows] = useState([]);
+  const [filteredPastShows, setFilteredPastShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentShow, setCurrentShow] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const GetAllShows = async () => {
     try {
@@ -18,7 +21,6 @@ const AdminShows = () => {
       const shows = response.data;
       const currentDate = new Date();
 
-      // Separate shows into upcoming and past
       const upcoming = [];
       const past = [];
 
@@ -35,14 +37,13 @@ const AdminShows = () => {
         }
       });
 
-      // Sort upcoming shows in descending order (closest date last)
-      upcoming.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-      // Sort past shows in ascending order (closest date first)
-      past.sort((a, b) => new Date(a.date) - new Date(b.date));
+      upcoming.sort((a, b) => new Date(a.date) - new Date(b.date));
+      past.sort((a, b) => new Date(b.date) - new Date(a.date));
 
       setUpcomingShows(upcoming);
       setPastShows(past);
+      setFilteredUpcomingShows(upcoming);
+      setFilteredPastShows(past);
     } catch (error) {
       console.error(error);
     } finally {
@@ -53,6 +54,31 @@ const AdminShows = () => {
   useEffect(() => {
     GetAllShows();
   }, []);
+
+  useEffect(() => {
+    filterShows();
+  }, [searchQuery, upcomingShows, pastShows]);
+
+  const filterShows = () => {
+    if (!searchQuery) {
+      setFilteredUpcomingShows(upcomingShows);
+      setFilteredPastShows(pastShows);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+
+    const filteredUpcoming = upcomingShows.filter((show) =>
+      show.title.toLowerCase().includes(query)
+    );
+
+    const filteredPast = pastShows.filter((show) =>
+      show.title.toLowerCase().includes(query)
+    );
+
+    setFilteredUpcomingShows(filteredUpcoming);
+    setFilteredPastShows(filteredPast);
+  };
 
   const handleAddClick = () => {
     setCurrentShow(null);
@@ -99,7 +125,7 @@ const AdminShows = () => {
       </h1>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 mb-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold sm:text-xl  py-2 px-4 rounded "
+          className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold sm:text-xl py-2 px-4 rounded"
           onClick={handleAddClick}
         >
           Add New Show
@@ -109,9 +135,9 @@ const AdminShows = () => {
           <input
             type="text"
             placeholder="Search for shows..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight px-4 py-2 text-xs sm:text-base pl-10 sm:pl-10  sm:px-4 "
-            // value={searchQuery}
-            // onChange={(e) => setSearchQuery(e.target.value)}
+            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight px-4 py-2 text-xs sm:text-base pl-10 sm:pl-10 sm:px-4"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
         </div>
@@ -119,27 +145,34 @@ const AdminShows = () => {
       <h3 className="text-lg sm:text-3xl font-lato font-bold my-4 text-primary_text">
         Upcoming Shows
       </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {upcomingShows.map((show) => (
-          <ShowAdminCard
-            key={show._id}
-            show={show}
-            onEditClick={handleEditClick}
-            onDeleteClick={() => handleDeleteClick(show)} // Pass the show object instead of show._id
-          />
-        ))}
-      </div>
-      <h3 className="text-lg sm:text-3xl font-lato font-bold my-4 text-primary_text">
-        Past Shows
-      </h3>
-      {pastShows.length > 0 ? (
+      {filteredUpcomingShows.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {pastShows.map((show) => (
+          {filteredUpcomingShows.map((show) => (
             <ShowAdminCard
               key={show._id}
               show={show}
               onEditClick={handleEditClick}
-              onDeleteClick={() => handleDeleteClick(show)} // Pass the show object instead of show._id
+              onDeleteClick={() => handleDeleteClick(show)}
+            />
+          ))}
+        </div>
+      ) : (
+        <p className="text-secondary_text font-medium text-lg">
+          No upcoming shows available
+        </p>
+      )}
+      <h3 className="text-lg sm:text-3xl font-lato font-bold my-4 text-primary_text">
+        Past Shows
+      </h3>
+
+      {filteredPastShows.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredPastShows.map((show) => (
+            <ShowAdminCard
+              key={show._id}
+              show={show}
+              onEditClick={handleEditClick}
+              onDeleteClick={() => handleDeleteClick(show)}
             />
           ))}
         </div>
@@ -148,6 +181,7 @@ const AdminShows = () => {
           No past shows available
         </p>
       )}
+
       {modalOpen && <ShowModal show={currentShow} onClose={handleModalClose} />}
     </div>
   );

@@ -80,13 +80,13 @@ const AdminTheatres = () => {
           className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold sm:text-xl  py-2 px-4 rounded "
           onClick={handleAddClick}
         >
-          Add New Cineast
+          Add New Theatres
         </button>
 
         <div className="relative flex items-center">
           <input
             type="text"
-            placeholder="Search for shows..."
+            placeholder="Search for theatres..."
             className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight px-4 py-2 text-xs sm:text-base pl-10 sm:pl-10  sm:px-4 "
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

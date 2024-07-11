@@ -1,6 +1,7 @@
 // src/components/TheatreAdminCard.jsx
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 
 const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
   return (
@@ -19,10 +20,18 @@ const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
           <strong className="underline text-primary_text">Owner</strong>:{" "}
           {theatre.owner}
         </h2>
-        <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat">
+        <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat flex gap-x-2">
           <strong className="underline text-primary_text">Address</strong>:{" "}
-          {theatre.address}
+          <a
+            href={theatre.address}
+            target="_blank"
+            className="flex items-center gap-x-1"
+          >
+            <FaLocationDot />
+            <p className="underline ">{theatre.name}</p>
+          </a>
         </h2>
+
         <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat">
           <strong className="underline text-primary_text">Contact</strong>:{" "}
           {theatre.phone}
