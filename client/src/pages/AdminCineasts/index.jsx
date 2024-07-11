@@ -40,7 +40,10 @@ const AdminCineasts = () => {
   };
 
   const handleDeleteClick = async (cineast) => {
-    window.confirm("Are you sure you want to delete the cineast ?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete the cineast ?"
+    );
+    if (!confirmDelete) return;
 
     try {
       await axiosInstance.delete(
@@ -100,7 +103,7 @@ const AdminCineasts = () => {
             key={cineast._id}
             cineast={cineast}
             onEditClick={handleEditClick}
-            onDeleteClick={handleDeleteClick}
+            onDeleteClick={() => handleDeleteClick(cineast)}
           />
         ))}
       </div>

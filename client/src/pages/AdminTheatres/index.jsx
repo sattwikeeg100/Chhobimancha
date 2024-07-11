@@ -40,7 +40,10 @@ const AdminTheatres = () => {
   };
 
   const handleDeleteClick = async (theatre) => {
-    window.confirm("Are you sure you want to delete the theatre?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete the theatre?"
+    );
+    if (!confirmDelete) return;
 
     try {
       await axiosInstance.delete(
