@@ -4,7 +4,7 @@ import axiosInstance from "../../config/axiosInstance";
 import { FaSearch } from "react-icons/fa";
 import { MdArrowDownward } from "react-icons/md";
 import { toast } from "sonner";
-import GoToTop from "../../components/goToTopButton/index.jsx"; // Import the GoToTop component
+import GoToTop from "../../components/goToTopButton/index.jsx";
 import SkeletonAllMovies from "../../components/Skeletons/skeletonAllMovies/index.jsx";
 
 const INITIAL_LOAD_COUNT = 8;
@@ -49,7 +49,7 @@ const AllMovies = () => {
         setMovies(response.data);
         setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
         setLocalLoading(false);
-      }, 900);
+      }, 500);
     } catch (error) {
       console.error(error);
       setLocalLoading(false);
