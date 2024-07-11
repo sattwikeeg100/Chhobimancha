@@ -13,6 +13,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
+    "classnames": "^2.5.1",
     "formik": "^2.4.6",
     "i18next": "^23.11.5",
     "jspdf": "^2.5.1",

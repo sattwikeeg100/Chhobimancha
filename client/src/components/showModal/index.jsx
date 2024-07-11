@@ -324,7 +324,9 @@ const ShowModal = ({ show, onClose }) => {
               ))}
             </select>
           </div>
+
           {/* Casts */}
+
           <div className="mb-4">
             <label className="block text-xl font-lato text-primary_text">
               Casts
