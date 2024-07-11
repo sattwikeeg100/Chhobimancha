@@ -109,7 +109,7 @@ const TheatreModal = ({ theatre, onClose }) => {
           {/* Image */}
           <div className="flex flex-row items-center justify-between ">
             <label className="block text-xl font-lato text-primary_text ">
-              Cineast Photo
+              Theatre Photo
             </label>
             <div className="flex items-center gap-x-3">
               {uploadingImage ? (
