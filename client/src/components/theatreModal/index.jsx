@@ -14,6 +14,7 @@ const TheatreModal = ({ theatre, onClose }) => {
   const [image, setImage] = useState("");
   const [owner, setOwner] = useState("");
   const [address, setAddress] = useState("");
+  const [addressName, setAddressName] = useState("");
   const [phone, setPhone] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [deletingImage, setDeletingImage] = useState(false);
@@ -26,6 +27,7 @@ const TheatreModal = ({ theatre, onClose }) => {
       setImage(theatre.image);
       setOwner(theatre.owner);
       setAddress(theatre.address);
+      setAddressName(theatre.addressName);
       setPhone(theatre.phone);
     }
   }, [theatre]);
@@ -48,6 +50,7 @@ const TheatreModal = ({ theatre, onClose }) => {
           owner,
           image,
           address,
+          addressName,
           phone,
         });
         toast.success("Theatre updated successfully!");
@@ -57,6 +60,7 @@ const TheatreModal = ({ theatre, onClose }) => {
           owner,
           image,
           address,
+          addressName,
           phone,
         });
         toast.success("Theatre added successfully! ");
@@ -175,6 +179,19 @@ const TheatreModal = ({ theatre, onClose }) => {
               onChange={handleInputChange(setAddress)}
             />
           </div>
+
+          <div>
+            <label className="block text-xl font-lato text-primary_text">
+              Address Name
+            </label>
+            <input
+              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
+              type="text"
+              value={addressName}
+              onChange={handleInputChange(setAddressName)}
+            />
+          </div>
+
           {/* Owner */}
           <div>
             <label className="block text-xl font-lato text-primary_text">
