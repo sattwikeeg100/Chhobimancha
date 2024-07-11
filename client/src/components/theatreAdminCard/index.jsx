@@ -27,8 +27,8 @@ const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
             target="_blank"
             className="flex items-center gap-x-1"
           >
-            <FaLocationDot />
-            <p className="underline ">{theatre.name}</p>
+            {/* <FaLocationDot /> */}
+            <p className="underline flex flex-wrap">{theatre.addressName}</p>
           </a>
         </h2>
 
