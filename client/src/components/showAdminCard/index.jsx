@@ -27,7 +27,7 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
       <h2 className="text-3xl text-primary_text font-bold font-montserrat">
         {show.title}
       </h2>
-      <p className="text-secondary_text font-medium  text-lg">
+      <p className="text-secondary_text font-medium text-lg">
         <strong className="underline text-primary_text">Description</strong>:{" "}
         {renderDescription()}{" "}
         {show.description.split(" ").length > 40 && (
