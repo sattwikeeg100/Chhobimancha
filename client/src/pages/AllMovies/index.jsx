@@ -49,7 +49,7 @@ const AllMovies = () => {
         setMovies(response.data);
         setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
         setLocalLoading(false);
-      }, 500);
+      }, 700);
     } catch (error) {
       console.error(error);
       setLocalLoading(false);
