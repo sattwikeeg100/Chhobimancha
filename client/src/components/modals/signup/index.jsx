@@ -18,6 +18,7 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
   const [imageUploading, setImageUploading] = useState(false);
   const [imageDeleting, setImageDeleting] = useState(false);
   const [error, setError] = useState(false);
+  const [saveRequire, setSaveRequire] = useState(false); // Added this line
 
   const APIURL = import.meta.env.VITE_API_URL;
 
@@ -68,9 +69,9 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
-      <div className="bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 scale-105">
-        <h2 className="text-2xl font-montserrat font-bold mb-4">Sign Up</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background1 bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
+      <div className=" bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-[22rem] sm:max-w-md transform transition-transform duration-300 scale-105">
+        <h2 className="text-3xl font-montserrat font-bold mb-4">Sign Up</h2>
         <Formik
           initialValues={{
             name: "",
@@ -145,58 +146,56 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
                 <label className="block text-secondary_text">
                   Profile Image
                 </label>
-                <div className="flex flex-row gap-3 items-center">
+
+                <div className="flex items-center gap-x-3">
+                  {imageUploading ? (
+                    <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
+                      Uploading image...
+                    </label>
+                  ) : (
+                    <label
+                      className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
+                      htmlFor="imageUpload"
+                    >
+                      Upload image
+                    </label>
+                  )}
                   <input
+                    id="imageUpload"
                     type="file"
-                    name="image"
+                    className="hidden"
                     onChange={(e) => {
-                      setImageFile(e.target.files[0]);
-                      setFieldValue("image", e.target.files[0]);
+                      setSaveRequire(true);
+                      handleImageFileUpload(
+                        e.target.files[0],
+                        image,
+                        setImage,
+                        setImageUploading
+                      );
                     }}
-                    className="w-full text-primary_text px-3 py-2 border rounded bg-background1"
                   />
                   {image && (
-                    <>
-                      <img className="h-12 w-12 rounded-full" src={image} />
+                    <div className="w-fit flex items-center gap-x-3 ">
+                      <img
+                        src={image}
+                        className="h-14 w-14 rounded-full object-cover"
+                      />
                       {imageDeleting ? (
-                        <AiOutlineLoading3Quarters className="animate-spin" />
+                        <AiOutlineLoading3Quarters className="animate-spin text-primary_text" />
                       ) : (
                         <MdDeleteForever
-                          className="cursor-pointer"
-                          onClick={() =>
+                          className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
+                          onClick={() => {
+                            setSaveRequire(false);
                             handleImageFileDelete(
                               image,
                               setImage,
                               setImageDeleting
-                            )
-                          }
+                            );
+                          }}
                         />
                       )}
-                    </>
-                  )}
-                  {imageUploading ? (
-                    <button
-                      type="button"
-                      className="text-secondary_text cursor-not-allowed"
-                    >
-                      Uploading...
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      className="text-highlight hover:text-highlight_hover"
-                      onClick={() =>
-                        handleImageFileUpload(
-                          image,
-                          setImage,
-                          setImageFile,
-                          setImageUploading,
-                          imageFile
-                        )
-                      }
-                    >
-                      <u>Upload</u>
-                    </button>
+                    </div>
                   )}
                 </div>
               </div>
