@@ -24,6 +24,7 @@ const SingleShow = () => {
   const { slug } = useParams();
   const [show, setShow] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(true);
   const [error, setError] = useState(null);
   const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
@@ -33,23 +34,20 @@ const SingleShow = () => {
   const fetchShow = async () => {
     try {
       const response = await axiosInstance.get(`/shows/${slug}`);
-      setShow(response.data);
+      setTimeout(() => {
+        setShow(response.data);
+        setLocalLoading(false);
+      }, 700);
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "An error occurred");
+      setLocalLoading(false);
     }
   };
 
   useEffect(() => {
     fetchShow();
-
-    // Introduce a delay of 2000ms before setting loading to false
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 700);
-
-    return () => clearTimeout(timer);
-  }, [slug]);
+  }, []);
 
   const handleSeatClick = (row, col) => {
     const seatId = `${String.fromCharCode(64 + row)}${col}`;
@@ -206,7 +204,7 @@ const SingleShow = () => {
     fetchShow();
   };
 
-  if (loading) {
+  if (localLoading) {
     return <SkeletonSingleShow />;
   }
 
@@ -226,6 +224,7 @@ const SingleShow = () => {
             </div>
             <div className="pt-7">
               <TheatreCastCrew casts={show.casts} />
+              {console.log(show.casts)}
             </div>
           </div>
 
