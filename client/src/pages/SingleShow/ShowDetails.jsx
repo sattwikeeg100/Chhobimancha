@@ -1,6 +1,7 @@
 import React from "react";
 import hamlet_poster from "../../assets/theatreImages/hamlet.png";
 import { FaLocationDot, FaClock, FaCalendarDay } from "react-icons/fa6";
+import { MdLanguage } from "react-icons/md";
 
 const ShowDetails = ({ show }) => {
   return (
@@ -24,6 +25,10 @@ const ShowDetails = ({ show }) => {
           <div className="flex items-center justify-center gap-x-2 text-base sm:text-lg font-semibold">
             <FaClock />
             {show.time}
+          </div>
+          <div className="flex items-center justify-center gap-x-2 text-base sm:text-lg font-semibold">
+            <MdLanguage className="w-5 h-5" />
+            {show.language}
           </div>
         </div>
 

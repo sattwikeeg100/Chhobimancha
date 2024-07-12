@@ -31,156 +31,124 @@ import { Toaster } from "sonner";
 import OAuthHandler from "./utils/oauthHandler";
 import { useSelector } from "react-redux";
 
-const UserLayout = ({ children }) => {
-    const [open, setOpen] = useState(true);
+// icons
 
-    return (
-        <>
-            <Navbar open={open} setOpen={setOpen} />
-            {children}
-            <Footer />
-        </>
-    );
+import { RiMenuFold2Line, RiMenuUnfold2Line } from "react-icons/ri";
+import ScrollToTop from "./components/scrollToTop";
+
+const UserLayout = ({ children }) => {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <>
+      <Navbar open={open} setOpen={setOpen} />
+      {children}
+      <Footer />
+    </>
+  );
 };
 
 const AdminLayout = ({ children }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        setOpen(true);
+      } else {
+        setOpen(false);
+      }
     };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-    return (
-        <div className="flex">
-            <AdminNavSidebar
-                isOpen={isSidebarOpen}
-                toggleSidebar={toggleSidebar}
-            />
-            <div
-                className={`flex-1 p-4 transition-all duration-300 ${
-                    isSidebarOpen ? "ml-64" : "ml-0"
-                }`}>
-                <button
-                    onClick={toggleSidebar}
-                    className="mb-4 bg-gray-800 text-white px-4 py-2 rounded">
-                    {isSidebarOpen ? "𐤕" : "☰"}
-                </button>
-                {children}
-            </div>
+  return (
+    <div className="flex">
+      <AdminNavSidebar open={open} setOpen={setOpen} />
+      <div
+        className={`flex-1  transition-all duration-700 ${
+          open ? "lg:ml-[200px]" : "ml-0"
+        }`}
+      >
+        <div
+          className={`lg:hidden fixed z-50 bottom-0 transition-all duration-700 ${
+            open ? "left-[12.5rem] px-2 py-1" : "left-0 p-1"
+          }`}
+        >
+          {" "}
+          <h1
+            className="text-2xl bg-gray-50 p-2 rounded-xl font-semibold transition-transform duration-700"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          >
+            {open ? <RiMenuUnfold2Line /> : <RiMenuFold2Line />}
+          </h1>
         </div>
-    );
+        <div className="p-4 bg-background1">{children}</div>
+      </div>
+    </div>
+  );
 };
 
 function App() {
-    const user = useSelector((state) => state.user.userInfo);
+  const user = useSelector((state) => state.user.userInfo);
 
-    return (
-        <BrowserRouter>
-            {user?.isAdmin ? (
-                <>
-                    <Toaster
-                        richColors
-                        position="top-right"
-                        closeButton="true"
-                    />
-                    <AdminLayout>
-                        <Routes>
-                            <Route
-                                exact
-                                path="/"
-                                element={<AdminDashboard />}
-                            />
-                            <Route
-                                exact
-                                path="/users"
-                                element={<AdminUsers />}
-                            />
-                            <Route
-                                exact
-                                path="/movies"
-                                element={<AdminMovies />}
-                            />
-                            <Route
-                                exact
-                                path="/cineasts"
-                                element={<AdminCineasts />}
-                            />
-                            <Route
-                                exact
-                                path="/shows"
-                                element={<AdminShows />}
-                            />
-                            <Route
-                                exact
-                                path="/theatres"
-                                element={<AdminTheatres />}
-                            />
-                            <Route
-                                exact
-                                path="/settings"
-                                element={<AdminProfileSettings />}
-                            />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </AdminLayout>
-                </>
-            ) : (
-                <>
-                    <Toaster
-                        richColors
-                        position="top-right"
-                        className="mt-10"
-                        closeButton="true"
-                    />
-                    <UserLayout>
-                        <Routes>
-                            <Route exact path="/" element={<Home />} />
-                            <Route
-                                path="explore/movies"
-                                element={<AllMovies />}
-                            />
-                            <Route
-                                path="explore/shows"
-                                element={<AllShows />}
-                            />
-                            <Route
-                                path="explore/movies/:slug"
-                                element={<SingleMovie />}
-                            />
-                            <Route
-                                path="explore/shows/:slug"
-                                element={<SingleShow />}
-                            />
-                            <Route
-                                path="/subscribe"
-                                element={<SubscriptionPage />}
-                            />
-                            {user && (
-                                <Route
-                                    path="/myfavourites"
-                                    element={<MyFavourites />}
-                                />
-                            )}
-                            {user && (
-                                <Route
-                                    path="/mybookings"
-                                    element={<MyBookings />}
-                                />
-                            )}
-                            {user && (
-                                <Route
-                                    path="/myprofile"
-                                    element={<MyProfile />}
-                                />
-                            )}
-                            <Route path="/oauth" element={<OAuthHandler />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </UserLayout>
-                </>
-            )}
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      {user?.isAdmin ? (
+        <>
+          <Toaster richColors position="top-right" closeButton="true" />
+          <AdminLayout>
+            <ScrollToTop />
+            <Routes>
+              <Route exact path="/" element={<AdminDashboard />} />
+              <Route exact path="/users" element={<AdminUsers />} />
+              <Route exact path="/movies" element={<AdminMovies />} />
+              <Route exact path="/cineasts" element={<AdminCineasts />} />
+              <Route exact path="/shows" element={<AdminShows />} />
+              <Route exact path="/theatres" element={<AdminTheatres />} />
+              <Route
+                exact
+                path="/settings"
+                element={<AdminProfileSettings />}
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AdminLayout>
+        </>
+      ) : (
+        <>
+          <Toaster
+            richColors
+            position="top-right"
+            className="mt-10"
+            closeButton="true"
+          />
+          <UserLayout>
+            <ScrollToTop />
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route path="explore/movies" element={<AllMovies />} />
+              <Route path="explore/shows" element={<AllShows />} />
+              <Route path="explore/movies/:slug" element={<SingleMovie />} />
+              <Route path="explore/shows/:slug" element={<SingleShow />} />
+              <Route path="/subscribe" element={<SubscriptionPage />} />
+              {user && (
+                <Route path="/myfavourites" element={<MyFavourites />} />
+              )}
+              {user && <Route path="/mybookings" element={<MyBookings />} />}
+              {user && <Route path="/myprofile" element={<MyProfile />} />}
+              <Route path="/oauth" element={<OAuthHandler />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </UserLayout>
+        </>
+      )}
+    </BrowserRouter>
+  );
 }
 
 export default App;

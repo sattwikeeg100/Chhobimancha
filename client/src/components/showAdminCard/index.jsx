@@ -1,36 +1,73 @@
-// src/components/ShowAdminCard.jsx
-import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaEdit, FaTrash, FaClock } from "react-icons/fa";
 
 const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
-    return (
-        <div className="bg-white rounded shadow p-4 flex flex-col items-center">
-            <img
-                src={show.poster}
-                alt={show.title}
-                className="w-full h-64 object-cover mb-4 rounded"
-            />
-            <h2 className="text-xl font-bold mb-2 text-center">{show.title}</h2>
-            <p className="text-gray-700 mb-2 text-center">
-                Description: {show.description}
-            </p>
-            <p className="text-gray-700 mb-2 text-center">
-                Date: {new Date(show.date).toLocaleDateString("en-GB")}
-            </p>
-            <div className="flex justify-end space-x-2 mt-4">
-                <button
-                    className="bg-yellow-500 text-white p-2 rounded"
-                    onClick={() => onEditClick(show)}>
-                    <FaEdit />
-                </button>
-                <button
-                    className="bg-red-500 text-white p-2 rounded"
-                    onClick={() => onDeleteClick(show)}>
-                    <FaTrash />
-                </button>
-            </div>
-        </div>
-    );
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  const toggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
+
+  const renderDescription = () => {
+    const words = show.description.split(" ");
+    if (words.length <= 40 || showFullDescription) {
+      return show.description;
+    }
+    const truncated = words.slice(0, 40).join(" ");
+    return `${truncated}...`;
+  };
+
+  return (
+    <div className="bg-shadow rounded shadow p-4 flex flex-col items-center gap-y-3">
+      <img
+        src={show.poster}
+        alt={show.title}
+        className="w-96 h-96 mb-4 rounded-md object-cover"
+      />
+      <h2 className="text-3xl text-primary_text font-bold font-montserrat">
+        {show.title}
+      </h2>
+      <p className="text-secondary_text font-medium text-lg">
+        <strong className="underline text-primary_text">Description</strong>:{" "}
+        {renderDescription()}{" "}
+        {show.description.split(" ").length > 40 && (
+          <span
+            className="text-primary_text cursor-pointer"
+            onClick={toggleDescription}
+          >
+            {showFullDescription ? "Show less" : "Read more..."}
+          </span>
+        )}
+      </p>
+
+      <p className="text-secondary_text font-medium text-center text-2xl">
+        <strong className="underline text-primary_text">Date</strong>:{" "}
+        {new Date(show.date).toLocaleDateString()}
+      </p>
+
+      <p className="text-primary_text font-medium text-center text-2xl flex flex-row space-x-2">
+        <strong className="mt-1">
+          <FaClock className="w-7 h-7" />
+        </strong>
+        <div>{show.time}</div>
+      </p>
+
+      <div className="flex justify-end space-x-2 mt-4">
+        <button
+          className="bg-highlight hover:bg-highlight_hover text-white p-2 rounded"
+          onClick={() => onEditClick(show)}
+        >
+          <FaEdit />
+        </button>
+        <button
+          className="bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text p-2 rounded"
+          onClick={() => onDeleteClick(show._id)}
+        >
+          <FaTrash />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default ShowAdminCard;

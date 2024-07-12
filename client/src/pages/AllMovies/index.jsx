@@ -4,29 +4,31 @@ import axiosInstance from "../../config/axiosInstance";
 import { FaSearch } from "react-icons/fa";
 import { MdArrowDownward } from "react-icons/md";
 import { toast } from "sonner";
-import GoToTop from "../../components/goToTopButton/index.jsx"; // Import the GoToTop component
+import GoToTop from "../../components/goToTopButton/index.jsx";
+import SkeletonAllMovies from "../../components/Skeletons/skeletonAllMovies/index.jsx";
 
 const INITIAL_LOAD_COUNT = 8;
 const LOAD_MORE_COUNT = 8;
 
 const genreOptions = [
-    { value: "Drama", label: "Drama" },
-    { value: "Thriller", label: "Thriller" },
-    { value: "Romance", label: "Romance" },
-    { value: "Comedy", label: "Comedy" },
-    { value: "Action", label: "Action" },
-    { value: "Crime", label: "Crime" },
-    { value: "Horror", label: "Horror" },
-    { value: "History", label: "History" },
-    { value: "Documentary", label: "Documentary" },
-    { value: "Science-Fiction", label: "Science Fiction" },
-    { value: "Other", label: "Other" },
+  { value: "Drama", label: "Drama" },
+  { value: "Thriller", label: "Thriller" },
+  { value: "Romance", label: "Romance" },
+  { value: "Comedy", label: "Comedy" },
+  { value: "Action", label: "Action" },
+  { value: "Crime", label: "Crime" },
+  { value: "Horror", label: "Horror" },
+  { value: "History", label: "History" },
+  { value: "Documentary", label: "Documentary" },
+  { value: "Science-Fiction", label: "Science Fiction" },
+  { value: "Other", label: "Other" },
 ];
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [localLoading, setLocalLoading] = useState(true);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -41,13 +43,20 @@ const AllMovies = () => {
   const GetAllMovies = async () => {
     try {
       const response = await axiosInstance.get("/movies");
-      setMovies(response.data);
-      setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
+      //setMovies(response.data);
+      //setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
+      setTimeout(() => {
+        setMovies(response.data);
+        setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
+        setLocalLoading(false);
+      }, 700);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
+      setLocalLoading(false);
     }
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
@@ -61,11 +70,11 @@ const AllMovies = () => {
   const filterAndSortMovies = () => {
     let tempMovies = [...movies];
 
-        if (selectedGenre) {
-            tempMovies = tempMovies.filter(
-                (movie) => movie.genres.includes(selectedGenre)
-            );
-        }
+    if (selectedGenre) {
+      tempMovies = tempMovies.filter((movie) =>
+        movie.genres.includes(selectedGenre)
+      );
+    }
 
     if (searchQuery) {
       tempMovies = tempMovies.filter((movie) =>
@@ -120,99 +129,115 @@ const AllMovies = () => {
     );
   };
 
-  if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+  if (localLoading) {
+    return <SkeletonAllMovies />;
   }
+  // console.log(filteredMovies);
 
   return (
-      <div className="justify-center items-center px-10 py-5 bg-background1">
-          <h1 className="text-5xl font-semibold py-8 text-primary_text font-montserrat">
-              Movies
-          </h1>
-          <div className="absolute right-20 top-32 flex flex-row ">
-              <FaSearch className="text-primary_text mr-3 mt-2 w-6 h-6 " />
-              <input
-                  type="text"
-                  placeholder="Search for movies....."
-                  className="text-primary_text bg-background2 px-4 py-2 rounded font-open_sans"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-              />
+    <div className="justify-center items-center px-10 bg-background1">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
+          Movies
+        </h1>
+        <div className="flex items-center justify-center gap-x-4">
+          <div className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search for movies..."
+              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4 "
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
           </div>
-          <div className="flex justify-between items-center mb-10 gap-4">
-              <div>
-                  <label
-                      htmlFor="genre"
-                      className="mr-2 text-primary_text font-semibold font-roboto">
-                      Genre :
-                  </label>
-                  <select
-                      className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
-                      id="genre"
-                      value={selectedGenre}
-                      onChange={(e) => setSelectedGenre(e.target.value)}>
-                      <option value="">All</option>
-                      {genreOptions.map((genreOption, key) => (
-                          <option key={key} value={genreOption.value}>
-                              {genreOption.label}
-                          </option>
-                      ))}
-                      {/* Add more genres as needed */}
-                  </select>
-
-                  <label
-                      htmlFor="sort"
-                      className="ml-4 mr-2 text-primary_text font-semibold font-roboto">
-                      Sort By:
-                  </label>
-                  <select
-                      className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
-                      id="sort"
-                      value={sortOption}
-                      onChange={(e) => setSortOption(e.target.value)}>
-                      <option value="">None</option>
-                      <option value="rating">Rating</option>
-                      <option value="popularity">Popularity</option>
-                      <option value="releaseDate">Release Date</option>
-                  </select>
-
-                  <label
-                      htmlFor="order"
-                      className="ml-4 mr-2 text-primary_text font-semibold font-roboto">
-                      Order:
-                  </label>
-                  <select
-                      className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
-                      id="order"
-                      value={sortOrder}
-                      onChange={(e) => setSortOrder(e.target.value)}>
-                      <option value="asc">Ascending</option>
-                      <option value="desc">Descending</option>
-                  </select>
-              </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10 bg-background1">
-              {filteredMovies.map((movie, index) => (
-                  <MovieCard
-                      key={index}
-                      movie={movie}
-                      onAddToFavorites={() => handleAddToFavorites(movie._id)}
-                  />
-              ))}
-          </div>
-          {filteredMovies.length < movies.length && (
-              <div className="flex justify-center mt-8 flex-row">
-                  <button
-                      onClick={handleLoadMore}
-                      className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row">
-                      Load More
-                      <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
-                  </button>
-              </div>
-          )}
-          <GoToTop />{" "}
-          {/* Render the GoToTop component at the end of the movies list */}
+        </div>
       </div>
+      <div className="flex md:flex-row mb-10 gap-4 flex-col ">
+        <div>
+          <label
+            htmlFor="genre"
+            className="mr-2 text-primary_text font-semibold font-roboto"
+          >
+            Genre :
+          </label>
+          <select
+            className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
+            id="genre"
+            value={selectedGenre}
+            onChange={(e) => setSelectedGenre(e.target.value)}
+          >
+            <option value="">All</option>
+            {genreOptions.map((genreOption, key) => (
+              <option key={key} value={genreOption.value}>
+                {genreOption.label}
+              </option>
+            ))}
+            {/* Add more genres as needed */}
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="sort"
+            className="md:ml-4 mr-2 text-primary_text font-semibold font-roboto"
+          >
+            Sort By:
+          </label>
+          <select
+            className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
+            id="sort"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value)}
+          >
+            <option value="">None</option>
+            <option value="rating">Rating</option>
+            <option value="popularity">Popularity</option>
+            <option value="releaseDate">Release Date</option>
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="order"
+            className="md:ml-4 md:mr-2 mr-4 text-primary_text font-semibold font-roboto"
+          >
+            Order:
+          </label>
+          <select
+            className="text-primary_text bg-background2 md:p-1 px-3 py-1 rounded-md mr-4 font-ubuntu"
+            id="order"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
+        {filteredMovies.map((movie, index) => (
+          <MovieCard
+            key={index}
+            movie={movie}
+            onAddToFavorites={() => handleAddToFavorites(movie._id)}
+          />
+        ))}
+      </div>
+      {filteredMovies.length < movies.length && (
+        <div className="flex justify-center mt-8 flex-row">
+          <button
+            onClick={handleLoadMore}
+            className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
+          >
+            Load More
+            <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
+          </button>
+        </div>
+      )}
+      <GoToTop />{" "}
+      {/* Render the GoToTop component at the end of the movies list */}
+    </div>
   );
 };
 

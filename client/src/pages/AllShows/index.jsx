@@ -33,7 +33,7 @@ const AllShows = () => {
       setTimeout(() => {
         setShows(upcomingShows);
         setLocalLoading(false);
-      }, 900); // 900ms timeout
+      }, 700); // 500ms timeout
     } catch (error) {
       console.error(error);
       setLocalLoading(false); // Ensure loading state is updated on error
