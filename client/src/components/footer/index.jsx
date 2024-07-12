@@ -7,7 +7,7 @@ import { IoCall, IoMail } from "react-icons/io5";
 
 import { Link } from "react-router-dom";
 
-import logo from "../../assets/logo/chobimancha_logo.png";
+import logo from "../../assets/logo/chobimancha_logo3.png";
 
 export const socialHandles = [
   {
@@ -42,7 +42,7 @@ const Footer = () => {
               className="rounded-full w-16"
             />
             <h2 className=" text-3xl sm:text-xl md:text-2xl lg:text-3xl font-logo_text font-bold">
-              Chobimancha
+              Chhobimancha
             </h2>
           </Link>
           <div className="flex items-center justify-center gap-x-2 font-bold  text-base sm:text-xs md:text-base lg:text-lg font-lato">
@@ -68,7 +68,7 @@ const Footer = () => {
             </Link>
           </div>
           <div className=" text-base sm:text-sm lg:text-base text-primary-text font-semibold font-open_sans text-center">
-            <p>© 2024 Chobimancha. All rights reserved.</p>
+            <p>© 2024 Chhobimancha. All rights reserved.</p>
           </div>
         </div>
 

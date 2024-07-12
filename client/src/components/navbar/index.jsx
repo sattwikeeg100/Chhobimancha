@@ -8,7 +8,7 @@ import { setLanguage } from "../../store/slices/languageSlice";
 import { toast } from "sonner";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
 
-import logo from "../../assets/logo/chobimancha_logo.png";
+import logo from "../../assets/logo/chobimancha_logo3.png";
 import LoginModal from "../modals/login";
 import SignUpModal from "../modals/signup";
 import ForgotPasswordModal from "../modals/forgotpassword";
@@ -107,7 +107,7 @@ const Navbar = ({ open, setOpen }) => {
             className="rounded-full w-12"
           />
           <h2 className="text-3xl sm:text-xl md:text-2xl lg:text-3xl font-logo_text font-bold">
-            Chobimancha
+            Chhobimancha
           </h2>
         </NavLink>
       </div>
