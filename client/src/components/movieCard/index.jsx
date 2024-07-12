@@ -80,18 +80,18 @@ const MovieCard = ({ movie }) => {
               {movie.averageRating}/5
             </div>
           </div>
-          <div className="text-primary_text font-semibold font-lato flex flex-row  justify-start self-stretch gap-x-16">
-            <div className="flex flex-row gap-x-2">
-              {/* <BsDot className="font-semibold w-5 h-5 mt-1"/> */}
+          <div className="flex flex-wrap items-center justify-between self-stretch gap-x-10 gap-y-2 md:gap-x-7 xl:gap-x-5 sm:gap-x-2 ">
+            <div className="flex items-center justify-center gap-x-0 text-sm md:text-base font-semibold">
+              <BsDot className="font-semibold w-5 h-5 mt-1" />
               {moment(movie.releaseDate).year()}
             </div>
 
-            <div className="flex flex-row gap-x-1">
+            <div className="flex items-center justify-center gap-x-1 text-sm md:text-base font-semibold">
               <BsDot className="font-semibold w-5 h-5 mt-1" />
               {movie.genres.join(", ")}
             </div>
 
-            <div className="flex flex-row gap-x-1">
+            <div className="flex items-center justify-center gap-x-1 text-sm md:text-base font-semibold">
               <BsDot className="font-semibold w-5 h-5 mt-1" />
               {movie.duration} hr
             </div>
