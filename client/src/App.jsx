@@ -34,6 +34,7 @@ import { useSelector } from "react-redux";
 // icons
 
 import { RiMenuFold2Line, RiMenuUnfold2Line } from "react-icons/ri";
+import ScrollToTop from "./components/scrollToTop";
 
 const UserLayout = ({ children }) => {
   const [open, setOpen] = useState(true);
@@ -101,6 +102,7 @@ function App() {
         <>
           <Toaster richColors position="top-right" closeButton="true" />
           <AdminLayout>
+            <ScrollToTop />
             <Routes>
               <Route exact path="/" element={<AdminDashboard />} />
               <Route exact path="/users" element={<AdminUsers />} />
@@ -126,6 +128,7 @@ function App() {
             closeButton="true"
           />
           <UserLayout>
+            <ScrollToTop />
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route path="explore/movies" element={<AllMovies />} />
