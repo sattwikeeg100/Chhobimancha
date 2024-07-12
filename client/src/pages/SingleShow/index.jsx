@@ -207,7 +207,8 @@ const SingleShow = () => {
   };
 
   if (loading) {
-    return <SkeletonSingleShow />;
+    // return <SkeletonSingleShow />;
+    return "Loading..";
   }
 
   return (
