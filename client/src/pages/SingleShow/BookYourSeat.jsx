@@ -60,8 +60,12 @@ const BookYourSeat = ({
       <form className="flex flex-col items-center justify-center  ">
         <div className=" px-4 pt-4 flex flex-col  rounded-xl items-center relative">
           {/* stage */}
-          <div className="w-full lg:w-[85%] mt-4">
-            <img src={theatreImage} alt="Stage"/>
+          <div className="w-full  lg:w-[85%] my-4">
+            <img
+              src={theatreImage}
+              alt="Stage"
+              className=" object-cover min-w-full  lg:w-[85%] max-h-60"
+            />
           </div>
           <div className="flex flex-row items-center justify-center gap-x-6 lg:gap-x-10 w-full py-5">
             {/* left section */}
