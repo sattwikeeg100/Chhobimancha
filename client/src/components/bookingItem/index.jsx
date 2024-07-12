@@ -69,7 +69,7 @@ const BookingItem = ({ booking }) => {
           </span>{" "}
           |
           <span>
-            <b>Theatre: </b> {booking.show.theatre.name}
+            <b>Theatre: </b> {booking.show.name}
           </span>{" "}
           |
           <span>
