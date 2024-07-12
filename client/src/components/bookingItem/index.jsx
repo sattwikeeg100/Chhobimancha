@@ -2,7 +2,7 @@ import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { FaDownload } from "react-icons/fa";
-import logo from "/chobimancha_logo3.png";
+import logo from "../../assets/logo/chobimancha_logo3.png";
 
 const BookingItem = ({ booking }) => {
   const currentDate = new Date();
