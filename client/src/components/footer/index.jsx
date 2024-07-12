@@ -34,7 +34,7 @@ const Footer = () => {
       <div className="flex flex-col  sm:flex-row items-center gap-y-10 sm:gap-x-5 md:gap-x-10 sm:gap-y-0 justify-between ">
         {/* left side */}
 
-        <div className="flex flex-col  items-center sm:items-start justify-center">
+        <div className="flex flex-col  items-center lg:items-start justify-center">
           <Link to="/" className="mb-2 gap-x-2 flex items-center">
             <img
               src={logo}
@@ -45,7 +45,7 @@ const Footer = () => {
               Chhobimancha
             </h2>
           </Link>
-          <div className="flex items-center justify-center gap-x-2 font-bold  text-base sm:text-xs md:text-base lg:text-lg font-lato">
+          <div className="flex items-center justify-center gap-x-2 font-bold  text-sm sm:text-xs  lg:text-sm font-lato">
             <Link
               className="text-highlight hover:text-highlight_hover"
               to="/privacy"
@@ -86,20 +86,22 @@ const Footer = () => {
           {/* social media */}
           <div className="flex items-center justify-center gap-x-7 sm:gap-x-2 lg:gap-x-7">
             {socialHandles.map((social, i) => (
-              <Link
+              <a
                 key={i}
-                to={social.path}
+                target="_blank"
+                rel="noopener noreferrer"
+                href={social.path}
                 className="p-1 text-xl sm:text-sm lg:text-xl rounded-full bg-shadow text-highlight hover:text-highlight_hover "
               >
                 {social.icon}
-              </Link>
+              </a>
             ))}
           </div>
         </div>
 
         {/* right side */}
         <div className="flex flex-col items-center sm:items-start justify-center ">
-          <div className="mb-4 grid grid-cols-2 items-center justify-center gap-y-2 font-bold font-montserrat text-base sm:text-xs md:text-base lg:text-base">
+          <div className="mb-4 grid grid-cols-2 items-center justify-center gap-2 w-full font-bold font-montserrat text-sm sm:text-xs  lg:text-sm">
             <Link className="text-highlight hover:text-highlight_hover " to="/">
               Home
             </Link>
@@ -129,13 +131,13 @@ const Footer = () => {
           {/* control room */}
           <div className="flex items-center justify-center gap-x-3 font-lato ">
             <IoCall className=" text-highlight  p-1 text-2xl sm:text-xl lg:text-2xl bg-shadow rounded-full" />
-            <h1 className="text-base sm:text-xs md:text-base lg:text-base font-semibold">
+            <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-semibold">
               +91 74393 22718
             </h1>
           </div>
           <div className="flex items-center justify-center gap-x-3 font-lato ">
             <IoMail className=" text-highlight  p-1 text-2xl sm:text-xl lg:text-2xl bg-shadow rounded-full" />
-            <h1 className="text-base sm:text-xs md:text-base lg:text-base font-semibold">
+            <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-semibold">
               chobimanchahelpline@gmail.com
             </h1>
           </div>
