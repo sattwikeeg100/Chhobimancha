@@ -132,7 +132,7 @@ const AllMovies = () => {
   if (localLoading) {
     return <SkeletonAllMovies />;
   }
-  console.log(filteredMovies);
+  // console.log(filteredMovies);
 
   return (
     <div className="justify-center items-center px-10 bg-background1">
