@@ -8,7 +8,72 @@
 .slick-arrow {
     height: 30px !important;
     width: 30px !important;
+}.slick-prev, .slick-next {
+    z-index: 1;
+    top: 50%;
+    transform: translateY(-50%);
+    
 }
+
+.slick-arrow {
+    height: 30px !important;
+    width: 30px !important;
+}
+
+.slick-prev {
+    left: -42px;
+    margin-right: 50px;
+}
+
+.slick-next {
+    right: -35px; 
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 30px; /* arrow icon size */
+    color: gray;    /* color of the arrow icon */
+}
+
+@media (max-width : 1024px) {
+    #AdminDashboardSlider {
+        width: full;
+    }
+    .slick-prev:before, .slick-next:before {
+        font-size: 20px; /* arrow icon size */
+        color: gray;    /* color of the arrow icon */
+    }
+    .slick-arrow {
+        height: 20px !important;
+        width: 20px !important;
+    }
+    .slick-prev {
+        left: -20px;
+    }
+    
+    .slick-next {
+        right: -30px; 
+    }
+}
+
+@media (max-width : 480px) {
+    .slick-prev:before, .slick-next:before {
+        font-size: 20px; /* arrow icon size */
+        color: gray;    /* color of the arrow icon */
+    }
+    .slick-arrow {
+        height: 20px !important;
+        width: 20px !important;
+    }
+    .slick-prev {
+        left: -20px;
+    }
+    
+    .slick-next {
+        right: -20px; 
+    }
+}
+
+
 
 .slick-prev {
     left: -42px;
