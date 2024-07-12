@@ -21,9 +21,12 @@ const MyFavourites = () => {
     GetAllFavouriteMovies();
   }, []);
 
-  if (loading) {
-    return <div className="text-5xl">Loading...</div>;
-  }
+  if (loading)
+    return (
+      <p className="text-center pt-5 bg-background1  text-primary_text min-h-screen">
+        Loading...
+      </p>
+    );
 
   return (
     <div className="justify-center items-center px-12 bg-background1 min-h-screen">
