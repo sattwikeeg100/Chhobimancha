@@ -72,6 +72,10 @@ const Navbar = ({ open, setOpen }) => {
     toast.success("Please visit again!");
   };
 
+  useEffect(() => {
+    setOpen(false);
+  }, []);
+
   const handleNavLinkClick = () => {
     setOpen(false);
   };
@@ -179,30 +183,30 @@ const Navbar = ({ open, setOpen }) => {
                 </div>
               )}
               {isDropdownOpen && (
-                <div className="z-30 absolute right-0 mt-56 w-48 bg-background2 rounded-md shadow-lg py-2 text-primary-text">
+                <div className="z-30 absolute right-0 mt-56 w-48 bg-shadow rounded-md shadow-lg font-ubuntu text-primary-text">
                   <NavLink
                     to="/myfavourites"
-                    className="block px-4 py-2 hover:bg-shadow"
+                    className="block px-4 py-2 hover:rounded-t-md hover:bg-secondary_text"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     My Favorites
                   </NavLink>
                   <NavLink
                     to="/mybookings"
-                    className="block px-4 py-2 hover:bg-shadow"
+                    className="block px-4 py-2 hover:bg-secondary_text"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     My Bookings
                   </NavLink>
                   <NavLink
                     to="/myprofile"
-                    className="block px-4 py-2 hover:bg-shadow"
+                    className="block px-4 py-2 hover:bg-secondary_text"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     My Profile
                   </NavLink>
                   <button
-                    className="block px-4 py-2 hover:bg-shadow w-full text-left"
+                    className="block px-4 py-2 hover:bg-secondary_text hover:rounded-b-md w-full text-left"
                     onClick={handleLogout}
                   >
                     Logout
@@ -213,7 +217,7 @@ const Navbar = ({ open, setOpen }) => {
           ) : (
             <button
               onClick={openLoginModal}
-              className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded"
+              className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-ubuntu"
             >
               Login
             </button>
@@ -233,10 +237,10 @@ const Navbar = ({ open, setOpen }) => {
       {open && (
         <div
           ref={navbarRef}
-          className="lg:hidden fixed top-0 right-0 h-screen duration-700 bg-background1 bg-opacity-90 z-40 flex flex-col items-end space-y-4 p-8 gap-y-3"
+          className="lg:hidden fixed top-0 right-0 h-screen duration-700 bg-background1 bg-opacity-90 z-40 flex flex-col items-end space-y-4 p-7 gap-y-3"
         >
           <button
-            className="self-end text-white focus:outline-none"
+            className="self-end text-white focus:outline-none "
             onClick={() => setOpen(!open)}
           >
             <RxCross2 size={24} />
@@ -260,48 +264,18 @@ const Navbar = ({ open, setOpen }) => {
                     {getInitials(user.name)}
                   </div>
                 )}
-                {isDropdownOpen && (
-                  <div className="z-30 absolute right-0 mt-56 w-48 bg-white rounded-md shadow-lg py-2 text-gray-800">
-                    <NavLink
-                      to="/myfavourites"
-                      className="block px-4 py-2 hover:bg-gray-200"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      My Favorites
-                    </NavLink>
-                    <NavLink
-                      to="/mybookings"
-                      className="block px-4 py-2 hover:bg-gray-200"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      My Bookings
-                    </NavLink>
-                    <NavLink
-                      to="/myprofile"
-                      className="block px-4 py-2 hover:bg-gray-200"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      My Profile
-                    </NavLink>
-                    <button
-                      className="block px-4 py-2 hover:bg-gray-200 w-full text-left"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
               </>
             ) : (
               <button
                 onClick={openLoginModal}
-                className="bg-yellow-400 text-gray-900 px-4 py-2 rounded"
+                className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-ubuntu"
               >
                 Login
               </button>
             )}
           </div>
-          <div className="flex flex-col items-end gap-y-5 text-xl  font-ubuntu">
+
+          <div className="flex flex-col items-end gap-y-5 text-lg font-ubuntu">
             <NavLink
               to="/"
               className={({ isActive }) =>
@@ -334,7 +308,7 @@ const Navbar = ({ open, setOpen }) => {
               }
               onClick={handleNavLinkClick}
             >
-              Book a show
+              Book a Show
             </NavLink>
             <NavLink
               to="/subscribe"
@@ -347,6 +321,49 @@ const Navbar = ({ open, setOpen }) => {
             >
               Buy Subscription
             </NavLink>
+            {user && (
+              <>
+                <NavLink
+                  to="/myfavourites"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-primary_text"
+                      : "text-highlight hover:text-highlight_hover"
+                  }
+                  onClick={handleNavLinkClick}
+                >
+                  My Favorites
+                </NavLink>
+                <NavLink
+                  to="/mybookings"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-primary_text"
+                      : "text-highlight hover:text-highlight_hover"
+                  }
+                  onClick={handleNavLinkClick}
+                >
+                  My Bookings
+                </NavLink>
+                <NavLink
+                  to="/myprofile"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-primary_text"
+                      : "text-highlight hover:text-highlight_hover"
+                  }
+                  onClick={handleNavLinkClick}
+                >
+                  My Profile
+                </NavLink>
+                <button
+                  className="text-highlight hover:text-highlight_hover"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

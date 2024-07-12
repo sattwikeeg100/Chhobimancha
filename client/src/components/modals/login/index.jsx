@@ -50,25 +50,25 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
-      <div className="bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-md transform transition-transform duration-300 scale-105">
-        <h2 className="text-2xl font-montserrat font-bold mb-4">Login</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background1 bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
+      <div className=" bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-[22rem] sm:max-w-md transform transition-transform duration-300 scale-105">
+        <h2 className="text-3xl font-montserrat font-bold mb-4">Login</h2>
         <div className="flex mb-4">
           <button
-            className={`w-1/2 py-2 ${
+            className={`w-1/2 py-2 border border-highlight mr-2 rounded-lg ${
               tab === "user"
-                ? "bg-highlight text-primary_text"
-                : "bg-gray-300 text-black"
+                ? "bg-highlight hover:bg-highlight_hover text-primary_text"
+                : "bg-shadow hover:bg-background1 text-secondary_text"
             }`}
             onClick={() => setTab("user")}
           >
             User Login
           </button>
           <button
-            className={`w-1/2 py-2 ${
+            className={`w-1/2 py-2 border border-highlight ml-2 rounded-lg ${
               tab === "admin"
-                ? "bg-highlight text-primary_text"
-                : "bg-gray-300 text-black"
+                ? "bg-highlight hover:bg-highlight_hover text-primary_text"
+                : "bg-shadow hover:bg-background1 text-secondary_text"
             }`}
             onClick={() => setTab("admin")}
           >
@@ -87,7 +87,7 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
               autoComplete="email"
             />
           </div>
-          <div className="mb-2">
+          <div className="mb-4">
             <label className="block text-secondary_text">Password</label>
             <input
               type="password"
@@ -101,14 +101,14 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
           <button
             type="button"
             onClick={onForgotPassClick}
-            className="text-highlight hover:text-highlight_hover underline mt-0 ml-1"
+            className="text-highlight hover:text-highlight_hover underline"
           >
             Forgot Password?
           </button>
           <div className="flex justify-end mb-4">
             <button
               type="button"
-              className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300"
+              className="bg-gray-500 hover:bg-gray-700 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300"
               onClick={() => dispatch(switchLoginModalOpen(false))}
             >
               Cancel
@@ -144,22 +144,24 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
             </div>
           )}
         </form>
-        <hr />
-        <div className="flex justify-around">
-          <button
-            type="button"
-            className="px-4 py-2 mt-4  border flex gap-2 border-secondary_text rounded-lg transition duration-150"
-            onClick={() => handleGoogleLogin()}
-          >
-            <img
-              className="w-6 h-6"
-              src={googleicon}
-              loading="lazy"
-              alt="google logo"
-            />
-            <span>Continue with Google</span>
-          </button>
-        </div>
+        {tab === "user" && (
+          <div className="flex flex-col items-center">
+            <h2 className="font-lato text-secondary_text">Or</h2>
+            <button
+              type="button"
+              className="px-4 py-2 mt-4 border flex gap-2 border-secondary_text rounded-lg transition duration-150 hover:bg-shadow"
+              onClick={handleGoogleLogin}
+            >
+              <img
+                className="w-6 h-6"
+                src={googleicon}
+                loading="lazy"
+                alt="google logo"
+              />
+              <span className="font-lato ">Continue with Google</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
