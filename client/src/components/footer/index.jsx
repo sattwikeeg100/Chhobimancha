@@ -101,7 +101,7 @@ const Footer = () => {
 
         {/* right side */}
         <div className="flex flex-col items-center sm:items-start justify-center ">
-          <div className="mb-4 grid grid-cols-2 items-center justify-center gap-2 w-full font-bold font-montserrat text-sm sm:text-xs  lg:text-sm">
+          <div className="mb-4 grid grid-cols-2 items-center justify-center gap-2 w-full font-bold font-montserrat text-sm sm:text-xs text-center  sm:text-left  lg:text-sm">
             <Link className="text-highlight hover:text-highlight_hover " to="/">
               Home
             </Link>
