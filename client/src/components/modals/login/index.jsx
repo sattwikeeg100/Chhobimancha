@@ -34,7 +34,7 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
       if (result) {
         setEmail("");
         setPassword("");
-        toast.success(`Welcome Back to Showtime360! (${tab})`);
+        toast.success(`Welcome Back to Chhobimancha! (${tab})`);
         navigate("/");
         window.location.reload();
       }

@@ -134,7 +134,7 @@ const SingleShow = () => {
           amount: orderInfo.data.order.amount,
           currency: "INR",
           name: "Chhobimancha",
-          description: "Booking show seats at Showtime360",
+          description: "Booking show seats at Chhobimancha",
           image: "https://i.ibb.co/B62hf01/chobimancha-logo.jpg", // TODO: Our logo url
           order_id: orderInfo.data.order.id,
           handler: async function (response) {
