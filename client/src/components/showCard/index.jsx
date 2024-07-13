@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaLocationDot, FaClock, FaCalendarDay } from "react-icons/fa6";
+import { IoLanguage } from "react-icons/io5";
+import { MdLanguage } from "react-icons/md";
+
 import { BsDot } from "react-icons/bs";
 
 const ShowCard = ({ show }) => {
@@ -24,8 +27,8 @@ const ShowCard = ({ show }) => {
             <FaClock />
             {show.time}
           </div>
-          <div className="flex items-center justify-center text-sm md:text-base font-semibold">
-            <BsDot className="w-5 h-5" />
+          <div className="flex items-center justify-center gap-x-2 text-sm md:text-base font-semibold">
+            <MdLanguage className="w-5 h-5" />
             {show.language}
           </div>
         </div>
