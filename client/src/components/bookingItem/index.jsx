@@ -29,7 +29,7 @@ const BookingItem = ({ booking }) => {
         ["Show Time", booking.show.time],
         ["Theatre Name", booking.show.theatre.name],
         ["Booked Seats", booking.seats.join(", ")],
-        ["Total Amount", `Rs. ${(booking.totalAmount / 100).toFixed(2)}`],
+        ["Total Amount", `Rs. ${booking.totalAmount.toFixed(2)}`],
       ];
 
       // Use autoTable to add the details in a table format
@@ -50,7 +50,7 @@ const BookingItem = ({ booking }) => {
     <div
       className={
         isUpcoming
-          ? "bg-shadow shadow-md rounded-lg p-4 flex justify-between items-center text-primary_text"
+          ? "bg-shadow shadow-md rounded-lg p-4 flex flex-col md:flex-row gap-x-3 gap-y-3 justify-between items-center text-primary_text"
           : "bg-background2 shadow-md rounded-lg p-4 flex justify-between items-center text-secondary_text"
       }
     >
@@ -58,7 +58,7 @@ const BookingItem = ({ booking }) => {
         <h2 className="text-xl font-lato font-bold mb-1">
           {booking.show.title}
         </h2>
-        <div>
+        <div className="flex flex-wrap gap-x-1">
           <span>
             <b>Date: </b>
             {new Date(booking.show.date).toLocaleDateString()}
@@ -80,14 +80,14 @@ const BookingItem = ({ booking }) => {
           |
           <span>
             {" "}
-            <b>Amount: </b>${booking.totalAmount / 100}
+            <b>Amount: </b> Rs.{booking.totalAmount}
           </span>
         </div>
       </div>
       {isUpcoming && (
         <button
           onClick={handleDownloadTicket}
-          className="bg-highlight text-primary_text py-2 px-4 rounded-lg hover:bg-highlight_hover flex items-center"
+          className="bg-highlight text-primary_text font-bold md:text-[0.8rem] lg:text-base py-2 px-4 rounded-lg hover:bg-highlight_hover flex items-center"
         >
           <FaDownload className="mr-2" /> Download Ticket
         </button>
