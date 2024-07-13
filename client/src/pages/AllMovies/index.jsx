@@ -49,7 +49,7 @@ const AllMovies = () => {
         setMovies(response.data);
         setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
         setLocalLoading(false);
-      }, 500);
+      }, 700);
     } catch (error) {
       console.error(error);
       setLocalLoading(false);
@@ -132,7 +132,7 @@ const AllMovies = () => {
   if (localLoading) {
     return <SkeletonAllMovies />;
   }
-  console.log(filteredMovies);
+  // console.log(filteredMovies);
 
   return (
     <div className="justify-center items-center px-10 bg-background1">

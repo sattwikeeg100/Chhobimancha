@@ -10,23 +10,39 @@ import 'slick-carousel/slick/slick-theme.css';
 import './custom-slick.css';
 
 const NextArrow = ({ className, style, onClick }) => {
-    return (
-        <div
-            className={className}
-            style={{ ...style, display: "block", background: "black", width: "60px", height: "60px", borderRadius: "50%", fontSize: "30px" }}
-            onClick={onClick}
-        />
-    );
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "black",
+        width: "60px",
+        height: "60px",
+        borderRadius: "50%",
+        fontSize: "30px",
+      }}
+      onClick={onClick}
+    />
+  );
 };
 
 const PrevArrow = ({ className, style, onClick }) => {
-    return (
-        <div
-            className={className}
-            style={{ ...style, display: "block", background: "black", width: "60px", height: "60px", borderRadius: "50%", fontSize: "30px" }}
-            onClick={onClick}
-        />
-    );
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "black",
+        width: "60px",
+        height: "60px",
+        borderRadius: "50%",
+        fontSize: "30px",
+      }}
+      onClick={onClick}
+    />
+  );
 };
 
 const Home = () => {
@@ -41,84 +57,74 @@ const Home = () => {
     const [moviesLoading, setMoviesLoading] = useState(true);
     const [showsLoading, setShowsLoading] = useState(true);
 
-    const GetAllMovies = async () => {
-        try {
-            const response = await axiosInstance.get("/movies");
-            const movies = response.data;
-            const recent = movies.slice(Math.max(movies.length - 4, 0));
-            const latest = movies
-                .sort(
-                    (a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)
-                )
-                .slice(0, 8);
-            const popular = movies
-                .sort((a, b) => b.numberOfReviews - a.numberOfReviews)
-                .slice(0, 8);
-            setRecentMovies(recent);
-            setLatestMovies(latest);
-            setPopularMovies(popular);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setMoviesLoading(false);
-        }
-    };
+  const GetAllMovies = async () => {
+    try {
+      const response = await axiosInstance.get("/movies");
+      const movies = response.data;
+      const recent = movies.slice(Math.max(movies.length - 4, 0));
+      const latest = movies
+        .sort((a, b) => new Date(b.releaseDate) - new Date(a.releaseDate))
+        .slice(0, 8);
+      const popular = movies
+        .sort((a, b) => b.numberOfReviews - a.numberOfReviews)
+        .slice(0, 8);
+      setRecentMovies(recent);
+      setLatestMovies(latest);
+      setPopularMovies(popular);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setMoviesLoading(false);
+    }
+  };
 
-    const GetAllShows = async () => {
-        try {
-            const response = await axiosInstance.get("/shows");
-            const shows = response.data;
+  const GetAllShows = async () => {
+    try {
+      const response = await axiosInstance.get("/shows");
+      const shows = response.data;
 
-            const currentDate = new Date();
+      const currentDate = new Date();
 
-            const upcomingShows = shows
-                .map((show) => {
-                    const [hours, minutes] = show.time.split(":");
-                    const [year, month, day] = show.date
-                        .split("T")[0]
-                        .split("-");
-                    const showDateTime = new Date(
-                        year,
-                        month - 1,
-                        day,
-                        hours,
-                        minutes
-                    );
-                    return { ...show, showDateTime };
-                })
-                .filter((show) => show.showDateTime >= currentDate);
+      const upcomingShows = shows
+        .map((show) => {
+          const [hours, minutes] = show.time.split(":");
+          const [year, month, day] = show.date.split("T")[0].split("-");
+          const showDateTime = new Date(year, month - 1, day, hours, minutes);
+          return { ...show, showDateTime };
+        })
+        .filter((show) => show.showDateTime >= currentDate);
 
-            const sortedUpcomingShows = upcomingShows.sort(
-                (a, b) => a.showDateTime - b.showDateTime
-            );
+      const sortedUpcomingShows = upcomingShows.sort(
+        (a, b) => a.showDateTime - b.showDateTime
+      );
 
-            const nearestFourShows = sortedUpcomingShows.slice(0, 4);
+      const nearestFourShows = sortedUpcomingShows.slice(0, 4);
 
-            setShows(nearestFourShows);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setShowsLoading(false);
-        }
-    };
+      setShows(nearestFourShows);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setShowsLoading(false);
+    }
+  };
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        autoplay: true,
-        speed: 1000,
-        autoplaySpeed: 2000,
-        cssEase: "linear",
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
-        beforeChange: (current, next) => {
-            setOldSlide(current);
-            setActiveSlide(next);
-        },
-        afterChange: (current) => setActiveSlide2(current),
-    };
+  const settings = {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed: 2000,
+    cssEase: "linear",
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    beforeChange: (current, next) => {
+      setOldSlide(current);
+      setActiveSlide(next);
+    },
+    afterChange: (current) => setActiveSlide2(current),
+  };
 
     useEffect(() => {
         GetAllMovies();
