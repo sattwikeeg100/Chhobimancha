@@ -83,7 +83,7 @@ const SingleShow = () => {
           ["Theatre Name", booking.show.theatre.name],
           ["Theatre Address", booking.show.theatre.address],
           ["Booked Seats", booking.seats.join(", ")],
-          ["Total Amount", `$${(booking.totalAmount / 100).toFixed(2)}`],
+          ["Total Amount", `$${booking.totalAmount.toFixed(2)}`],
         ];
 
         doc.autoTable({

@@ -29,7 +29,7 @@ const BookingItem = ({ booking }) => {
         ["Show Time", booking.show.time],
         ["Theatre Name", booking.show.theatre.name],
         ["Booked Seats", booking.seats.join(", ")],
-        ["Total Amount", `Rs. ${(booking.totalAmount / 100).toFixed(2)}`],
+        ["Total Amount", `Rs. ${booking.totalAmount.toFixed(2)}`],
       ];
 
       // Use autoTable to add the details in a table format
@@ -80,7 +80,7 @@ const BookingItem = ({ booking }) => {
           |
           <span>
             {" "}
-            <b>Amount: </b> {booking.totalAmount}
+            <b>Amount: </b> Rs.{booking.totalAmount}
           </span>
         </div>
       </div>
