@@ -136,7 +136,7 @@ const SubscriptionPage = () => {
     // Simulating a delay for demonstration (remove in production)
     const delay = setTimeout(() => {
       setLocalLoading(false);
-    }, 2000);
+    }, 700);
 
     return () => clearTimeout(delay); // Cleanup on component unmount
   }, []);
