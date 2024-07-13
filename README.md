@@ -1,4 +1,4 @@
-# Welcome to Chhobimancha - Your one stop source of entertainment !
+# Welcome to Chhobimancha - Your one stop source of entertainment !!
 
 ## About
 Chhobimancha is your one-stop solution for all your entertainment needs, built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. Whether you're a movie enthusiast, a theatre buff, or simply looking for a fun way to spend your time, we've got you covered. With Chhobimancha, you can stream movies, read and write reviews, and even book theatre shows—all in one convenient platform.
