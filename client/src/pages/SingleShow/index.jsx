@@ -135,7 +135,8 @@ const SingleShow = () => {
           currency: "INR",
           name: "Chhobimancha",
           description: "Booking show seats at Chhobimancha",
-          image: "https://i.ibb.co/B62hf01/chobimancha-logo.jpg", // TODO: Our logo url
+          image:
+            "https://chhobimancha.vercel.app/assets/chobimancha_logo3-Cb85A07e.png", // TODO: Our logo url
           order_id: orderInfo.data.order.id,
           handler: async function (response) {
             try {
