@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axiosInstance from "../../config/axiosInstance.js";
 import { updateUser } from "../../store/slices/userSlice.js";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice.js";
 import { MdOutlineCancel } from "react-icons/md";
 import { toast } from "sonner";
+import SkeletonBuySubscription from "../../components/Skeletons/skeletonBuySubscription/index.jsx";
 
 const SubscriptionPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [localLoading, setLocalLoading] = useState(true);
 
   const dispatch = useDispatch();
   const FEEDBACK_URL = import.meta.env.VITE_GOOGLE_WEB_APP_URL;
@@ -129,6 +131,19 @@ const SubscriptionPage = () => {
     }
   };
   console.log(formData);
+
+  useEffect(() => {
+    // Simulating a delay for demonstration (remove in production)
+    const delay = setTimeout(() => {
+      setLocalLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(delay); // Cleanup on component unmount
+  }, []);
+
+  if (localLoading) {
+    return <SkeletonBuySubscription />;
+  }
 
   return (
     <div className="min-h-screen py-12 bg-background1">
