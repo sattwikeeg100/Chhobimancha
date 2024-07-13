@@ -33,17 +33,15 @@ const ShowCard = ({ show }) => {
           </div>
         </div>
 
-        <div className=" text-base hover:text-secondary_text font-semibold">
+        <div className=" flex items-center gap-x-2  text-base  font-semibold">
           {/* connect new link */}
 
-          <a
-            href={show.theatre.address}
-            target="_blank"
-            className="flex items-center gap-x-2"
-          >
-            <FaLocationDot />
-            <p className="underline ">{show.theatre.name}</p>
-          </a>
+          <FaLocationDot />
+          <p className="underline hover:text-secondary_text">
+            <a href={show.theatre.address} target="_blank" className="">
+              {show.theatre.name}
+            </a>
+          </p>
         </div>
       </div>
       <button
