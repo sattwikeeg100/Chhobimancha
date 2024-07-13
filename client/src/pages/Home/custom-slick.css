@@ -48,11 +48,17 @@ header>div>.slick-initialized {
         width: 20px !important;
     }
     .slick-prev {
-        left: -20px;
+        left: -10px;
+    }
+    .slick-next {
+        right: -10px; 
+    }
+    #headerMovies >.slick-slider>.slick-prev {
+        left: -20px !important;
     }
     
-    .slick-next {
-        right: -20px; 
+    #headerMovies>.slick-slider>.slick-next {
+        right: -20px !important; 
     }
     .react-loading-skeleton {
         height: 200px !important;

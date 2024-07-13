@@ -176,19 +176,19 @@ const AdminDashboard = () => {
 
     return (
         <div className=" mr-3">
-            <div className="container max-w-screen md:max-w-[900px] mx-auto overflow-x-hidden h-fit">
+            <div className="container max-w-screen p-5 mx-auto overflow-x-hidden h-fit">
                 <h1 className="text-2xl font-bold mb-4 text-white ">Admin Dashboard</h1>
                 <div className=" w-full">
-                    <div className=" w-full flex flex-wrap h-max justify-around items-stretch gap-5 " >
-                        <div className="bg-white p-4 rounded-lg shadow-md !w-60 lg:!mr-7 md:!mr-11 ">
-                            <h2 className="text-lg font-semibold mb-2">Users</h2>
+                    <div className=" w-full flex flex-wrap h-max  justify-start items-start gap-5 " >
+                        <div className="bg-shadow text-white p-4 rounded-lg shadow-md !w-60 lg:!mr-7 md:!mr-11 ">
+                            <h2 className="text-lg font-montserrat font-semibold mb-2">Users</h2>
                             {loading ? (
                                 <p>Loading...</p>
                             ) : (
-                                <p>Total Users: {allInfos.totalUsers}</p>
+                                <p className="font-open_sans" >Total Users: {allInfos.totalUsers}</p>
                             )}
                         </div>
-                        <div className="bg-white p-4 rounded-lg shadow-md !w-60">
+                        <div className="bg-shadow text-white p-4 rounded-lg shadow-md !w-60">
                             <h2 className="text-lg font-semibold mb-2">
                                 Subscribers
                             </h2>
@@ -200,7 +200,7 @@ const AdminDashboard = () => {
                                 </p>
                             )}
                         </div>
-                        <div className="bg-white p-4 rounded-lg shadow-md !w-60">
+                        <div className="bg-shadow text-white p-4 rounded-lg shadow-md !w-60">
                             <h2 className="text-lg font-semibold mb-2">Movies</h2>
                             {loading ? (
                                 <p>Loading...</p>
@@ -208,7 +208,7 @@ const AdminDashboard = () => {
                                 <p>Total Movies: {allInfos.totalMovies}</p>
                             )}
                         </div>
-                        <div className="bg-white p-4 rounded-lg shadow-md !w-60">
+                        <div className="bg-shadow text-white p-4 rounded-lg shadow-md !w-60">
                             <h2 className="text-lg font-semibold mb-2">Shows</h2>
                             {loading ? (
                                 <p>Loading...</p>
@@ -216,7 +216,7 @@ const AdminDashboard = () => {
                                 <p>Total Shows: {allInfos.totalShows}</p>
                             )}
                         </div>
-                        <div className="bg-white p-4 rounded-lg shadow-md !w-60">
+                        <div className="bg-shadow text-white p-4 rounded-lg shadow-md !w-60">
                             <h2 className="text-lg font-semibold mb-2">
                                 Show Bookings
                             </h2>
@@ -229,31 +229,31 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
-            <div className=" w-[90%]  flex flex-col my-20 justify-around items-stretch flex-wrap">
+            <div className=" w-full  flex flex-col justify-around items-stretch flex-wrap">
                 <div className="flex flex-row  flex-wrap justify-around items-stretch">
-                    <div className=" my-10 p-5">
-                        <h2 className="text-white text-xl md:text-3xl font-montserrat my-5">Total Revenue</h2>
-                        <div className="bg-gray-950 p-10 rounded-lg h-[350px] w-[350px] md:h-[450px] md:w-[450px] ">
-                            <Pie data={pieData} className=" bg-shadow p-1" />
+                    <div className=" my-10">
+                        <h2 className="text-white text-xl md:text-3xl font-montserrat">Total Revenue</h2>
+                        <div className=" rounded-lg h-[300px] w-[300px] md:h-[450px] md:w-[450px] ">
+                            <Pie data={pieData} className=" bg-shadow mt-10 " />
                         </div>
                     </div>
-                    <div className="my-10 p-5">
-                        <h2 className="text-white text-xl md:text-3xl font-montserrat my-5">Overall Statistics</h2>
-                        <div className="bg-gray-950 p-5 rounded-lg h-[200px] w-[300px] md:h-[250px] md:w-[450px] ">
-                            <Bar data={consolidatedData} className="bg-shadow p-1 " />
+                    <div className="my-5 md:my-10">
+                        <h2 className="text-white text-xl md:text-3xl font-montserrat">Overall Statistics</h2>
+                        <div className=" mt-5 md:my-10 rounded-lg h-[200px] w-[300px] md:h-[250px] md:w-[450px] ">
+                            <Bar data={consolidatedData} className="bg-shadow " />
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row gap-10 my-10 flex-wrap justify-around items-stretch">
-                    <div className="my-10 p-5">
-                        <h2 className="text-white text-xl md:text-3xl font-montserrat my-5">Booking Revenue (Last 6 Months)</h2>
-                        <div className="bg-gray-950 p-5 rounded-lg h-[200px] w-[350px] md:h-[250px] md:w-[450px] ">
+                <div className="flex flex-row gap-10 flex-wrap justify-around items-stretch">
+                    <div className="my-10">
+                        <h2 className="text-white text-lg md:text-2xl font-montserrat">Booking Revenue (Last 6 Months)</h2>
+                        <div className=" rounded-lg h-[200px] w-[350px] md:h-[250px] md:w-[450px] ">
                             <Bar data={bookingData} className="bg-shadow w-full " />
                         </div>
                     </div>
-                    <div className=" p-5 rounded-lg my-10" >
-                        <h2 className="text-white text-xl md:text-3xl font-montserrat my-5">Subscription Revenue (Last 6 Months)</h2>
-                        <div className="bg-gray-950 p-5 rounded-lgh-[300px] w-[300px] md:h-[250px] md:w-[450px] ">
+                    <div className=" rounded-lg md:my-10" >
+                        <h2 className="text-white text-lg md:text-2xl font-montserrat">Subscription Revenue (Last 6 Months)</h2>
+                        <div className=" rounded-lgh-[300px] w-[300px] md:h-[250px] md:w-[450px] ">
                             <Bar data={subscriptionData} className="bg-shadow " />
                         </div>
                     </div>

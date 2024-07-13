@@ -138,21 +138,21 @@ const Home = () => {
     return (
         <div
             id="Home"
-            className=" w-screen h-fit flex flex-col items-center bg-black text-white font-semibold font-montserrat">
+            className=" w-screen h-fit flex flex-col items-center bg-background1 text-white font-semibold font-montserrat">
             {loading ?
                 <SkeletonLoaderHeader /> :
                 <header className="h-full w-full my-8 min-h-9">
-                    <div className="w-full h-full">
+                    <div id='headerMovies' className="w-full h-full">
                         <Slider {...settings} className=" bg-background2 mx-9 object-center">
                             {recentMovies.map((movie) => (
                                 <Link key={movie.slug} to={`explore/movies/${movie.slug}`}>
-                                    <div className=" min-w-[70%] min-h-[50vw] md:min-h-[30vw]">
+                                    <div className=" min-w-[70%] min-h-[35vw] md:min-h-[30vw]">
                                         {
                                             <div className="w-[95%] h-[50vw] md:h-[30vw]" /> &&
                                             <img
                                                 src={`${movie.coverImage}`}
                                                 alt=""
-                                                className="w-[98%] h-[50vw] md:h-[30vw] object-center"
+                                                className="w-full h-full md:h-[30vw] object-center"
                                             />
                                         }
                                     </div>

@@ -57,7 +57,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
     };
 
     const visibleElements = elements.slice(0, 7);
-    console.log(loading);
+    console.log(elements.length);
 
     return (
         <div id="" className="m-auto w-[90%]">
@@ -79,36 +79,40 @@ const HomeCardSlider = ({ elements, title, what }) => {
                                         : `explore/shows/${element.slug}`
                                 }
                             >
-                                <div className="font-normal min-h-[400px] min-w-[400px]">
+                                <div className="font-normal min-h-[250px] md:min-h-[400px]  ">
                                     <div className="p-2 flex justify-center items-center flex-wrap ">
                                         <div
                                             id="moviePoster"
-                                            className="w-full text-center bg-cover ">
-                                            {!elements && <SkeletonMoviecard />}
-                                            <div>
-                                                <img
-                                                    src={element.poster}
-                                                    alt={element.title}
-                                                    onLoad={() => handleImageLoad(key)}
-                                                    className={`h-[250px] w-[250px] md:h-[400px] md:w-[400px] bg-contain `}
-                                                />
-                                                <div className="my-3 text-xl font-open_sans">
-                                                    <h3>{element.title}</h3>
+                                            className="w-full text-center bg-contain ">
+                                            {elements.length == 0 ? <SkeletonMoviecard /> :
+                                                <div>
+                                                    <img
+                                                        src={element.poster}
+                                                        alt={element.title}
+                                                        onLoad={() => handleImageLoad(key)}
+                                                        className={`
+                                                            ${what === 'movies' ? 'h-[250px] w-[200px] md:h-[400px] md:w-[280px]' : 
+                                                                'h-[250px] w-[200px] md:h-[400px] md:w-[300px]'
+                                                            } `}
+                                                    />
+                                                    <div className="my-3 font-medium text-xl font-open_sans">
+                                                        <h3>{element.title}</h3>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
 
                                         </div>
                                     </div>
                                 </div>
                             </Link>
                         ))}
-                        <div className={` mt-2 rounded-md bg-shadow h-[250px] w-[300px] md:h-[400px] md:w-[400px] !flex !justify-center !items-center !bg-no-repeat relative right-0 ${!elements ? '!block' : '!hidden'} `}>
-                            <Link to={`explore/${what === "movies" ? "movies" : "shows"}`} className={`flex-1 flex justify-center items-center  `}>
-                                <div className={`bg-background2 h-28 w-[50%] rounded-[30px] flex justify-center items-center flex-wrap text-center ${!elements ? 'block' : 'hidden'}`}>
-                                    <span className="text-white font-light font-montserrat text-sm md:text-base ">Explore more {what === "movies" ? "movies" : "shows"}</span>
-                                </div>
-                            </Link>
-                        </div>
+                    <div className={` mt-2 rounded-md bg-shadow h-[250px] w-[300px] md:h-[400px] md:w-[400px] !flex !justify-center !items-center !bg-no-repeat relative right-0 ${elements.length != 0 && !loading ? '!block' : '!hidden'} `}>
+                        <Link to={`explore/${what === "movies" ? "movies" : "shows"}`} className={`flex-1 flex justify-center items-center  `}>
+                            <div className={`bg-background2 h-28 w-[50%] rounded-[30px] flex justify-center items-center flex-wrap text-center ${elements.length != 0 && !loading ? 'block' : 'hidden'}`}>
+                                <span className="text-white font-light font-montserrat text-sm md:text-base ">Explore more {what === "movies" ? "movies" : "shows"}</span>
+                            </div>
+                        </Link>
+                    </div>
                 </Slider>
             </div>
         </div>
