@@ -19,7 +19,6 @@ Welcome to Chhobimancha, the ultimate destination for Bengali entertainment! Imm
 - **Theatre Show Booking:** Book tickets for upcoming theatre shows and events effortlessly.
 - **Email Notifications:** Receive booking confirmations and updates via email.
 - **Secure Payments:** Integrated secure payment processing for show bookings and subscriptions.
-- **Personalized Recommendations:** Receive movie recommendations based on your likings and preferences (powered by an ML model).
 - **Assistant Chatbot:** Assistance or help regarding any query on our platform and more.
 
 ### User Experience
@@ -29,7 +28,6 @@ Welcome to Chhobimancha, the ultimate destination for Bengali entertainment! Imm
 - **Profile Management:** Edit or delete your profile information as needed.
 - **Search Functionality:** Search for movies and shows seamlessly within our extensive library.
 - **User Feedback System:** Help us improve by submitting your feedback directly through the platform. Your suggestions are logged and reviewed to enhance your experience continuously.
-- **Abusive Language Filter:** Prevents users from posting reviews with abusive language and issues a warning notification (powered by an ML model).
 - **Toast Notifications:** Real-time notifications throughout the platform using Sonner.
 
 ### Admin and Owner Capabilities
@@ -50,7 +48,6 @@ Welcome to Chhobimancha, the ultimate destination for Bengali entertainment! Imm
 3. **Watch and Review:** Stream movies, leave reviews, and rate them based on your experience.
 4. **Book Theatre Shows:** Check out upcoming theatre shows and events, and book tickets with ease.
 5. **Manage Your Watchlist and Bookings:** Curate your favorite movie list and access all your booked show tickets for easy reference and download.
-6. **Personalize Your Experience:** Receive personalized recommendations based on your viewing history and preferences.
 7. **Chatbot Support:** Get answers about the platform, Bengali cinemas, and performing arts with our Chatbase assistant.
 
 ## Support
