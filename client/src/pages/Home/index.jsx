@@ -20,7 +20,8 @@ const NextArrow = ({ className, style, onClick }) => {
         width: "60px",
         height: "60px",
         borderRadius: "50%",
-        fontSize: "30px",
+        fontSize: "50px",
+        marginRight: "-1px", // Add margin to the right
       }}
       onClick={onClick}
     />
@@ -38,7 +39,8 @@ const PrevArrow = ({ className, style, onClick }) => {
         width: "60px",
         height: "60px",
         borderRadius: "50%",
-        fontSize: "30px",
+        fontSize: "50px",
+        marginLeft: "-3px", // Add margin to the left
       }}
       onClick={onClick}
     />
@@ -133,6 +135,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(false);
   }, []);
+
   if (loading) {
     return (
       <>
@@ -144,25 +147,24 @@ const Home = () => {
   return (
     <div
       id="Home"
-      className=" w-screen h-fit flex flex-col items-center bg-background1 text-white font-semibold font-montserrat"
+      className=" w-screen h-fit flex flex-col items-center bg-background1 text-primary_text font-semibold font-montserrat"
     >
       {loading ? (
         <SkeletonLoaderHeader />
       ) : (
         <header className="h-full w-full my-8 min-h-9">
           <div id="headerMovies" className="w-full h-full">
-            <Slider
-              {...settings}
-              className=" bg-background2 mx-9 object-center"
-            >
+            <Slider {...settings} className="  mx-10 object-center">
               {recentMovies.map((movie) => (
                 <Link key={movie.slug} to={`explore/movies/${movie.slug}`}>
-                  <div className=" min-w-[70%] min-h-[35vw] md:min-h-[30vw]">
-                    {<div className="w-[95%] h-[50vw] md:h-[30vw]" /> && (
+                  <div className=" w-[100%] min-h-[35vw] md:min-h-[30vw] ">
+                    {(
+                      <div className="w-[85%] sm:w-[100%] h-[50vw] md:h-[30vw]" />
+                    ) && (
                       <img
                         src={`${movie.coverImage}`}
                         alt=""
-                        className="w-full h-full md:h-[30vw] object-center"
+                        className="w-full h-full md:h-[30vw] object-center rounded-lg"
                       />
                     )}
                   </div>

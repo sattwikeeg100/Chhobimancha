@@ -32,16 +32,15 @@ const HomeCardSlider = ({ elements, title, what }) => {
     initialSlide: 0,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1280,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 1023,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -51,8 +50,8 @@ const HomeCardSlider = ({ elements, title, what }) => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
     ],
@@ -62,12 +61,15 @@ const HomeCardSlider = ({ elements, title, what }) => {
   console.log(elements.length);
 
   return (
-    <div id="" className="m-auto w-[90%]">
-      <h3 id="" className="text-2xl text-white font-normal">
+    <div id="" className="m-auto w-[85%] sm:w-[90%]">
+      <h3
+        id=""
+        className="text-2xl sm:text-5xl text-primary_text font-normal py-7"
+      >
         {title}
       </h3>
-      <div id="movieCards" className="my-5">
-        <Slider {...settings} className="object-center">
+      <div id="movieCards ">
+        <Slider {...settings} className="object-center ">
           {loading
             ? Array.from({ length: 7 }).map((_, key) => (
                 <SkeletonMoviecard key={key} />
@@ -81,8 +83,8 @@ const HomeCardSlider = ({ elements, title, what }) => {
                       : `explore/shows/${element.slug}`
                   }
                 >
-                  <div className="font-normal min-h-[250px] md:min-h-[400px]  ">
-                    <div className="p-2 flex justify-center items-center flex-wrap ">
+                  <div className="font-normal ">
+                    <div className="px-1 flex justify-center items-center flex-wrap ">
                       <div
                         id="moviePoster"
                         className="w-full text-center bg-contain "
@@ -90,19 +92,24 @@ const HomeCardSlider = ({ elements, title, what }) => {
                         {elements.length == 0 ? (
                           <SkeletonMoviecard />
                         ) : (
-                          <div>
+                          <div className="flex flex-col items-center justify-center">
                             <img
                               src={element.poster}
                               alt={element.title}
                               onLoad={() => handleImageLoad(key)}
-                              className={`
-                                                            ${
-                                                              what === "movies"
-                                                                ? "h-[250px] w-[200px] md:h-[400px] md:w-[280px]"
-                                                                : "h-[250px] w-[200px] md:h-[400px] md:w-[300px]"
-                                                            } `}
+                              className={`${
+                                what === "movies"
+                                  ? `h-[400px] 2xl:h-[450px] 
+                                     w-[300px]  2xl:w-[320px] 
+                                  
+                                  rounded-lg`
+                                  : `h-[400px] 
+                                     w-[300px] 
+                                     
+                                     rounded-lg`
+                              } `}
                             />
-                            <div className="my-3 font-medium text-xl font-open_sans">
+                            <div className="mt-3  font-bold text-2xl font-lato">
                               <h3>{element.title}</h3>
                             </div>
                           </div>
