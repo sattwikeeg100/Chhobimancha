@@ -34,6 +34,7 @@ const AllMovies = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [searchQuery, setSearchQuery] = useState("");
   const [isZoomed, setIsZoomed] = useState(false);
+  const [totalMovies, setTotalMovies] = useState("");
   const [visibleMovies, setVisibleMovies] = useState(INITIAL_LOAD_COUNT);
 
   const toggleZoom = () => {
@@ -65,7 +66,14 @@ const AllMovies = () => {
 
   useEffect(() => {
     filterAndSortMovies();
-  }, [selectedGenre, sortOption, sortOrder, searchQuery, visibleMovies]);
+  }, [
+    selectedGenre,
+    sortOption,
+    sortOrder,
+    searchQuery,
+    visibleMovies,
+    totalMovies,
+  ]);
 
   const filterAndSortMovies = () => {
     let tempMovies = [...movies];
@@ -107,8 +115,9 @@ const AllMovies = () => {
       default:
         break;
     }
-
+    setTotalMovies(tempMovies);
     setFilteredMovies(tempMovies.slice(0, visibleMovies));
+    //setFilteredMovies(tempMovies);
   };
 
   const handleAddToFavorites = async (movieId) => {
@@ -125,7 +134,7 @@ const AllMovies = () => {
 
   const handleLoadMore = () => {
     setVisibleMovies((prevVisibleMovies) =>
-      Math.min(prevVisibleMovies + LOAD_MORE_COUNT, movies.length)
+      Math.min(prevVisibleMovies + LOAD_MORE_COUNT, totalMovies.length)
     );
   };
 
@@ -135,7 +144,7 @@ const AllMovies = () => {
   // console.log(filteredMovies);
 
   return (
-    <div className="justify-center items-center px-10 bg-background1">
+    <div className="justify-center items-center px-10 py-10 bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
           Movies
@@ -173,7 +182,6 @@ const AllMovies = () => {
                 {genreOption.label}
               </option>
             ))}
-            {/* Add more genres as needed */}
           </select>
         </div>
 
@@ -215,28 +223,35 @@ const AllMovies = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
-        {filteredMovies.map((movie, index) => (
-          <MovieCard
-            key={index}
-            movie={movie}
-            onAddToFavorites={() => handleAddToFavorites(movie._id)}
-          />
-        ))}
-      </div>
-      {filteredMovies.length < movies.length && (
-        <div className="flex justify-center mt-8 flex-row">
-          <button
-            onClick={handleLoadMore}
-            className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
-          >
-            Load More
-            <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
-          </button>
-        </div>
+      {filteredMovies.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
+            {filteredMovies.slice(0, visibleMovies).map((movie, index) => (
+              <MovieCard
+                key={index}
+                movie={movie}
+                onAddToFavorites={() => handleAddToFavorites(movie._id)}
+              />
+            ))}
+          </div>
+          {filteredMovies.length < totalMovies.length && (
+            <div className="flex justify-center mt-8 flex-row">
+              <button
+                onClick={handleLoadMore}
+                className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
+              >
+                Load More
+                <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        <p className="text-white text-center pt-40">
+          Sorry, we don't have movies matching your criteria right now.
+        </p>
       )}
-      <GoToTop />{" "}
-      {/* Render the GoToTop component at the end of the movies list */}
+      <GoToTop />
     </div>
   );
 };
