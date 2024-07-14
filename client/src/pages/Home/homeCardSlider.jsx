@@ -25,7 +25,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
   }, []);
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
@@ -36,7 +36,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -45,6 +45,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: false,
         },
       },
       {
@@ -52,6 +53,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          infinite: false,
         },
       },
     ],
@@ -120,7 +122,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
                 </Link>
               ))}
           <div
-            className={` mt-2 rounded-md bg-shadow h-[250px] w-[300px] md:h-[400px] md:w-[400px] !flex !justify-center !items-center !bg-no-repeat relative right-0 ${
+            className={`  rounded-md bg-shadow h-[400px] 2xl:h-[450px] w-[300px]  2xl:w-[320px] !flex !justify-center !items-center !bg-no-repeat relative right-0 ${
               elements.length != 0 && !loading ? "!block" : "!hidden"
             } `}
           >
@@ -133,7 +135,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
                   elements.length != 0 && !loading ? "block" : "hidden"
                 }`}
               >
-                <span className="text-white font-light font-montserrat text-sm md:text-base ">
+                <span className="text-primary_text  text-xl font-lato font-bold text-lg p-2 ">
                   Explore more {what === "movies" ? "movies" : "shows"}
                 </span>
               </div>
