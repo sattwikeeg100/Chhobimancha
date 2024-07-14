@@ -43,8 +43,6 @@ const AllMovies = () => {
   const GetAllMovies = async () => {
     try {
       const response = await axiosInstance.get("/movies");
-      //setMovies(response.data);
-      //setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
       setTimeout(() => {
         setMovies(response.data);
         setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
@@ -54,9 +52,6 @@ const AllMovies = () => {
       console.error(error);
       setLocalLoading(false);
     }
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   useEffect(() => {
@@ -108,7 +103,7 @@ const AllMovies = () => {
         break;
     }
 
-    setFilteredMovies(tempMovies.slice(0, visibleMovies));
+    setFilteredMovies(tempMovies);
   };
 
   const handleAddToFavorites = async (movieId) => {
@@ -125,17 +120,16 @@ const AllMovies = () => {
 
   const handleLoadMore = () => {
     setVisibleMovies((prevVisibleMovies) =>
-      Math.min(prevVisibleMovies + LOAD_MORE_COUNT, movies.length)
+      Math.min(prevVisibleMovies + LOAD_MORE_COUNT, filteredMovies.length)
     );
   };
 
   if (localLoading) {
     return <SkeletonAllMovies />;
   }
-  // console.log(filteredMovies);
 
   return (
-    <div className="justify-center items-center px-10 bg-background1">
+    <div className="justify-center items-center px-10 bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
           Movies
@@ -173,7 +167,6 @@ const AllMovies = () => {
                 {genreOption.label}
               </option>
             ))}
-            {/* Add more genres as needed */}
           </select>
         </div>
 
@@ -215,28 +208,35 @@ const AllMovies = () => {
           </select>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
-        {filteredMovies.map((movie, index) => (
-          <MovieCard
-            key={index}
-            movie={movie}
-            onAddToFavorites={() => handleAddToFavorites(movie._id)}
-          />
-        ))}
-      </div>
-      {filteredMovies.length < movies.length && (
-        <div className="flex justify-center mt-8 flex-row">
-          <button
-            onClick={handleLoadMore}
-            className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
-          >
-            Load More
-            <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
-          </button>
-        </div>
+      {filteredMovies.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
+            {filteredMovies.slice(0, visibleMovies).map((movie, index) => (
+              <MovieCard
+                key={index}
+                movie={movie}
+                onAddToFavorites={() => handleAddToFavorites(movie._id)}
+              />
+            ))}
+          </div>
+          {filteredMovies.length > visibleMovies && (
+            <div className="flex justify-center mt-8 flex-row">
+              <button
+                onClick={handleLoadMore}
+                className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
+              >
+                Load More
+                <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        <p className="mt-40 pt-10 text-white text-center my-4 justify-center items-center">
+          Sorry, we don't have movies matching your criteria right now.
+        </p>
       )}
-      <GoToTop />{" "}
-      {/* Render the GoToTop component at the end of the movies list */}
+      <GoToTop />
     </div>
   );
 };

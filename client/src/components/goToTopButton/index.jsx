@@ -21,11 +21,11 @@ const GoToTop = () => {
     }
 
     // Check if footer is visible
-    const footer = document.getElementById("footer");
-    if (footer) {
-      const footerTop = footer.getBoundingClientRect().top;
-      setShowFooterButton(footerTop <= window.innerHeight);
-    }
+    // const footer = document.getElementById("footer");
+    // if (footer) {
+    //   const footerTop = footer.getBoundingClientRect().top;
+    //   setShowFooterButton(footerTop <= window.innerHeight);
+    // }
   };
 
   useEffect(() => {
