@@ -78,7 +78,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2"
+                className="bg-gray-500 hover:bg-gray-700 hover:bg-gray-700 text-primary_text px-4 py-2 rounded mr-2"
                 onClick={onClose}
               >
                 Cancel
@@ -109,7 +109,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2"
+                className="bg-gray-500 hover:bg-gray-700 text-primary_text px-4 py-2 rounded mr-2"
                 onClick={onClose}
               >
                 Cancel
@@ -138,7 +138,7 @@ const ForgotPasswordModal = ({ isOpen, onClose, onLoginClick }) => {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="bg-gray-500 text-primary_text px-4 py-2 rounded mr-2"
+                className="bg-gray-500 hover:bg-gray-700 text-primary_text px-4 py-2 rounded mr-2"
                 onClick={onClose}
               >
                 Cancel

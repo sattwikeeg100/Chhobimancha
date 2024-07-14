@@ -3,6 +3,8 @@ import ShowCard from "../../components/showCard";
 import axios from "axios";
 import SkeletonAllShow from "../../components/Skeletons/skeletonAllShow";
 import { FaSearch, FaFilter, FaTimes } from "react-icons/fa";
+import { MdArrowDownward } from "react-icons/md";
+// import GoToTop from "../../components/goToTopButton";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -12,6 +14,7 @@ const AllShows = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterModalOpen, setFilterModalOpen] = useState(false);
   const [filters, setFilters] = useState({ date: "", time: "", address: "" });
+  const [visibleCount, setVisibleCount] = useState(8); // Number of shows to display initially
 
   const GetAllShows = async () => {
     try {
@@ -33,7 +36,7 @@ const AllShows = () => {
       setTimeout(() => {
         setShows(upcomingShows);
         setLocalLoading(false);
-      }, 700); // 500ms timeout
+      }, 700); // 700ms timeout
     } catch (error) {
       console.error(error);
       setLocalLoading(false); // Ensure loading state is updated on error
@@ -67,10 +70,14 @@ const AllShows = () => {
     setFilters({ date: "", time: "", address: "" });
   };
 
+  const handleLoadMore = () => {
+    setVisibleCount((prevCount) => prevCount + 8); // Load 8 more shows
+  };
+
   return (
     <div className="justify-center items-center px-5 sm:px-10 bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className=" text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
+        <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
           Natyo kola
         </h1>
         <div className="flex items-center justify-center gap-x-4">
@@ -78,7 +85,7 @@ const AllShows = () => {
             <input
               type="text"
               placeholder="Search for shows..."
-              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10  px-0 sm:px-4 "
+              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10 px-0 sm:px-4"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -97,7 +104,7 @@ const AllShows = () => {
 
       {filterModalOpen && (
         <div className="fixed inset-0 bg-background1 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-background2 sm:w-[40%] xl:w-[30%]  p-6 rounded-lg relative">
+          <div className="bg-background2 sm:w-[40%] xl:w-[30%] p-6 rounded-lg relative">
             <FaTimes
               className="absolute top-2 right-2 text-highlight hover:text-highlight_hover text-xl sm:text-2xl cursor-pointer"
               onClick={() => setFilterModalOpen(false)}
@@ -112,7 +119,7 @@ const AllShows = () => {
               </label>
               <input
                 type="date"
-                className=" px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
+                className="px-4 gap-x-3 w-full py-2 border border-primary_text text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight"
                 value={filters.date}
                 onChange={(e) =>
                   setFilters({ ...filters, date: e.target.value })
@@ -125,7 +132,7 @@ const AllShows = () => {
               </label>
               <input
                 type="time"
-                className=" px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
+                className="px-4 gap-x-3 w-full py-2 border border-primary_text text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight"
                 value={filters.time}
                 onChange={(e) =>
                   setFilters({ ...filters, time: e.target.value })
@@ -152,12 +159,26 @@ const AllShows = () => {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
-        {filteredShows.map((show, index) => (
+        {filteredShows.slice(0, visibleCount).map((show, index) => (
           <div key={index}>
             <ShowCard show={show} />
           </div>
         ))}
       </div>
+
+      {filteredShows.length > visibleCount && (
+        <div className="flex justify-center mt-8 flex-row">
+          <button
+            onClick={handleLoadMore}
+            className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
+          >
+            Load More
+            <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
+          </button>
+        </div>
+      )}
+
+      {/* <GoToTop /> */}
     </div>
   );
 };

@@ -83,7 +83,7 @@ const SingleShow = () => {
           ["Theatre Name", booking.show.theatre.name],
           ["Theatre Address", booking.show.theatre.address],
           ["Booked Seats", booking.seats.join(", ")],
-          ["Total Amount", `$${(booking.totalAmount / 100).toFixed(2)}`],
+          ["Total Amount", `$${booking.totalAmount.toFixed(2)}`],
         ];
 
         doc.autoTable({
@@ -135,7 +135,8 @@ const SingleShow = () => {
           currency: "INR",
           name: "Chhobimancha",
           description: "Booking show seats at Chhobimancha",
-          image: "https://i.ibb.co/B62hf01/chobimancha-logo.jpg", // TODO: Our logo url
+          image:
+            "https://chhobimancha.vercel.app/assets/chobimancha_logo3-Cb85A07e.png", // TODO: Our logo url
           order_id: orderInfo.data.order.id,
           handler: async function (response) {
             try {

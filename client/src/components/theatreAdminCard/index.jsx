@@ -1,7 +1,8 @@
 // src/components/TheatreAdminCard.jsx
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaUser, FaPhoneAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
+import { AiFillBank } from "react-icons/ai";
 
 const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
   return (
@@ -12,29 +13,28 @@ const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
           alt={theatre.name}
           className="w-full object-cover h-72 mb-4 rounded-md"
         />
-        <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat">
-          <strong className="underline text-primary_text">Name</strong>:{" "}
+        <h2 className="flex gap-x-2 items-center text-[0.8rem] sm:text-lg text-primary_text font-bold font-montserrat">
+          <AiFillBank className="w-7 h-7" />
           {theatre.name}
         </h2>
-        <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat">
-          <strong className="underline text-primary_text">Owner</strong>:{" "}
-          {theatre.owner}
+        <h2 className="flex gap-x-2 items-center text-[0.8rem] sm:text-lg text-primary_text font-bold font-montserrat">
+          <FaUser className="w-6 h-6" /> {theatre.owner}
         </h2>
-        <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat flex gap-x-2">
-          <strong className="underline text-primary_text">Address</strong>:{" "}
-          <a
-            href={theatre.address}
-            target="_blank"
-            className="flex items-center gap-x-1"
-          >
-            {/* <FaLocationDot /> */}
-            <p className="underline flex flex-wrap">{theatre.addressName}</p>
-          </a>
+        <h2 className="flex gap-x-2 items-center text-[0.8rem] sm:text-lg text-primary_text font-bold font-montserrat">
+          <FaLocationDot className="w-6 h-6" /> {/* <FaLocationDot /> */}
+          <p className="underline flex flex-wrap ">
+            <a
+              href={theatre.address}
+              target="_blank"
+              className="flex items-center gap-x-1 hover:text-secondary_text"
+            >
+              {theatre.addressName}
+            </a>
+          </p>
         </h2>
 
-        <h2 className="text-[0.8rem] sm:text-xl text-primary_text font-bold font-montserrat">
-          <strong className="underline text-primary_text">Contact</strong>:{" "}
-          {theatre.phone}
+        <h2 className="flex gap-x-2 items-center text-[0.8rem] sm:text-lg text-primary_text font-bold font-montserrat">
+          <FaPhoneAlt className="w-5 h-5" /> {theatre.phone}
         </h2>
       </div>
       <div className="flex justify-start space-x-2 mt-4">

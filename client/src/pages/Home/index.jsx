@@ -1,11 +1,9 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
-import Skeleton from "react-loading-skeleton";
 import axiosInstance from "../../config/axiosInstance";
-import HomeCardSlider from "./homeCardSlider";
-import SkeletonLoaderHome from "./Skeletons/SkeletonLoaderHome";
+import HomeCardSlider from "./homeCardSlider.jsx";
+import SkeletonLoaderHeader from "./Skeletons/SkeletonLoaderHeader";
 import "react-loading-skeleton/dist/skeleton.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -131,55 +129,68 @@ const Home = () => {
   useEffect(() => {
     GetAllMovies();
     GetAllShows();
-    console.log();
   }, []);
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    setLoading(false);
   }, []);
   if (loading) {
-    return <SkeletonLoaderHome />;
+    return (
+      <>
+        <SkeletonLoaderHeader />
+      </>
+    );
   }
 
   return (
     <div
       id="Home"
-      className=" min-h-screen pb-16 w-screen h-fit flex flex-col items-center bg-background1 text-primary_text font-semibold font-serif "
+      className=" w-screen h-fit flex flex-col items-center bg-background1 text-white font-semibold font-montserrat"
     >
-      <header className="h-full w-[95%] my-8">
-        <div className={` w-full h-full`}>
-          <Slider {...settings} className="mx-9 object-center ">
-            {recentMovies.map((movie) => (
-              <Link to={`explore/movies/${movie.slug}`}>
-                <div className="">
-                  <img
-                    src={`${movie.coverImage}`}
-                    alt=""
-                    className="w-[99%] h-[50vw] md:h-[30vw] object-center"
-                  />
-                </div>
-              </Link>
-            ))}
-          </Slider>
-        </div>
-      </header>
-      <div className="w-screen h-full flex justify-center items-center">
-        <div className=" w-full h-full">
+      {loading ? (
+        <SkeletonLoaderHeader />
+      ) : (
+        <header className="h-full w-full my-8 min-h-9">
+          <div id="headerMovies" className="w-full h-full">
+            <Slider
+              {...settings}
+              className=" bg-background2 mx-9 object-center"
+            >
+              {recentMovies.map((movie) => (
+                <Link key={movie.slug} to={`explore/movies/${movie.slug}`}>
+                  <div className=" min-w-[70%] min-h-[35vw] md:min-h-[30vw]">
+                    {<div className="w-[95%] h-[50vw] md:h-[30vw]" /> && (
+                      <img
+                        src={`${movie.coverImage}`}
+                        alt=""
+                        className="w-full h-full md:h-[30vw] object-center"
+                      />
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </Slider>
+          </div>
+        </header>
+      )}
+      <div className="w-screen h-full flex justify-center items-center min-h-5">
+        <div className="w-full h-full">
           <HomeCardSlider
             elements={latestMovies}
             title="Latest Movies"
             what="movies"
+            isLoading={moviesLoading}
           />
           <HomeCardSlider
             elements={popularMovies}
             title="Popular Movies"
             what="movies"
+            isLoading={moviesLoading}
           />
           <HomeCardSlider
             elements={shows.slice(0, 4)}
             title="Upcoming Shows"
             what="shows"
+            isLoading={showsLoading}
           />
         </div>
       </div>
