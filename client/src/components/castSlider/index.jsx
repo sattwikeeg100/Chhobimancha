@@ -40,9 +40,9 @@ const CastSlider = ({ casts, who }) => {
   };
 
   return (
-    <div className="relative w-full px-10">
-      <h2 className="text-2xl font-bold font-montserrat mb-4 text-left px-10 text-white">
-        {who === "casts" ? "Casts" : "Crews"}
+    <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-10">
+      <h2 className="sm:text-2xl text-md font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 text-white">
+        {who === "casts" ? "Casts:" : "Crews:"}
       </h2>
       <div className="flex items-center">
         {showButtons ? (
@@ -65,7 +65,7 @@ const CastSlider = ({ casts, who }) => {
               <img
                 src={cast.person.image}
                 alt={cast.person.name}
-                className="w-28 h-28 rounded-full mb-2 object-cover"
+                className="sm:w-28 sm:h-28 h-24 w-24 rounded-full mb-2 object-cover"
               />
               <div className="text-center flex flex-col">
                 <div className="font-semibold font-lato text-white">

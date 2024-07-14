@@ -124,12 +124,12 @@ const SingleMovie = () => {
             {/* shadow */}
             <div className="flex flex-row h-full bg-black bg-opacity-75 gap-5">
               {/* left side */}
-              <div className=" h-auto lg:ml-24 md:ml-10 sm:ml-5 flex flex-col justify-center items-center xl:w-1/5 lg:w-1/4 md:w-1/5 sm:w-1/4">
+              <div className=" h-auto lg:ml-24 md:ml-16 sm:ml-5 ml-1 flex flex-col justify-center items-center xl:w-1/5 lg:w-1/4 md:w-1/5 sm:w-1/4 w-2/5">
                 {/* poster image */}
                 <img
                   src={movie.poster}
                   alt={`${movie.title} Poster`}
-                  className="w-auto h-auto mb-2 mt-3 p-2 rounded-xl "
+                  className="sm:w-auto sm:h-auto w-[65%] h-[90%] mb-2 mt-3 sm:p-2 p-1 rounded-xl "
                 />
 
                 <div id="button-div">
@@ -137,64 +137,64 @@ const SingleMovie = () => {
                   <button
                     id="button"
                     onClick={handleClick}
-                    className="group rounded-lg mb-3 flex items-center space-x-0.5 bg-highlight hover:bg-highlight_hover lg:px-[4.5rem] lg:py-2 md:px-6 md:py-2 sm:px-10 sm:py-1"
+                    className="group rounded-lg mb-3 flex items-center space-x-0.5 bg-highlight hover:bg-highlight_hover lg:px-[4.5rem] lg:py-2 md:px-6 md:py-2 sm:px-10 sm:py-1 px-2 py-1"
                   >
-                    <span className="font-semibold font-ubuntu text-white lg:text-lg md:text-md sm:text-sm">
+                    <span className="sm:font-semibold font-normal tracking-tighter sm:tracking-normal font-ubuntu text-white lg:text-lg md:text-md sm:text-sm text-xs">
                       Play Now
                     </span>
 
                     <div className="flex items-center translate-x-1 transition-all duration-300">
-                      <BiRightArrow className=" text-white lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3" />
+                      <BiRightArrow className=" text-white w-3 h-3 lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3" />
                     </div>
                   </button>
                 </div>
               </div>
 
               {/* right side */}
-              <div className="flex flex-col justify-center items-start text-white xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 lg:gap-5 md:gap-2 sm:gap-1">
+              <div className="flex flex-col justify-center items-start text-white xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 w-3/5 lg:gap-5 md:gap-2 sm:gap-1">
                 {/* movie name */}
-                <div className=" tracking-normal text-left lg:text-4xl md:text-xl mb-6 md:mb-1 md:ml-3 sm:ml-1 font-montserrat">
+                <div className=" tracking-normal text-left lg:text-4xl md:text-xl text-md mb-6 md:mb-1 md:ml-3 sm:ml-1 ml-0 font-montserrat">
                   <strong>{movie.title}</strong>
                 </div>
 
                 <div className="flex flex-row items-center">
                   {/* duration */}
                   <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3" />
-                  <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight lg:mr-3 md:mr-2 sm:mr-1 font-roboto">
+                  <div className="lg:text-xl md:text-sm text-xs lg:tracking-normal md:tracking-tight lg:mr-3 md:mr-2 sm:mr-1 font-roboto">
                     {movie.duration} hr
                   </div>
 
                   {/* year of release */}
                   <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3" />
-                  <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight mr-3 font-roboto">
+                  <div className="lg:text-xl md:text-sm text-xs lg:tracking-normal md:tracking-tight mr-3 font-roboto">
                     {moment(movie.releaseDate).year()}
                   </div>
 
                   {/* category */}
                   <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3" />
-                  <div className="lg:text-xl md:text-sm sm:text-xs lg:tracking-normal md:tracking-tight font-roboto">
+                  <div className="lg:text-xl md:text-sm text-xs lg:tracking-normal md:tracking-tight font-roboto">
                     {movie.genres.join(", ")}
                   </div>
                 </div>
 
                 <div className="flex flex-row gap-2 items-center py-3 md:ml-3 sm:ml-0 rounded-[8px]">
                   {/* average rating */}
-                  <FaStar className="h-4 w-4 sm:w-3 sm:h-3  text-white" />
-                  <div className="lg:text-xl md:text-sm sm:text-xs tracking-normal md:tracking-tight font-roboto">
+                  <FaStar className="md:h-4 md:w-4 sm:w-3 sm:h-3 h-2 w-2  text-white" />
+                  <div className="lg:text-xl md:text-sm text-xs lg:tracking-normal md:tracking-tight tracking-tighter font-roboto">
                     {movie.averageRating}/5
                   </div>
 
                   {/* total ratings */}
-                  <div className="lg:text-xl md:text-sm sm:text-xs lg:ml-10 sm:ml-5 tracking-normal md:tracking-tight font-roboto">
+                  <div className="lg:text-xl md:text-sm text-xs lg:ml-10 sm:ml-5 ml-0 tracking-normal md:tracking-tight font-roboto">
                     {movie.reviews.length} votes
                   </div>
 
                   {/* add review button */}
-                  <div className="lg:ml-10 md:ml-5 lg:text-md md:text-sm sm:text-xs sm:ml-3">
+                  <div className="lg:ml-10 md:ml-5 lg:text-md md:text-sm text-xs sm:ml-3 ml-0">
                     <button
                       onClick={() => handleReviewRequest()}
-                      className=" bg-highlight hover:bg-highlight_hover text-white font-semibold font-ubuntu rounded-lg focus:outline-none focus:shadow-outline
-                        sm:py-[.35rem] md:px-6 sm:px-3"
+                      className=" bg-highlight hover:bg-highlight_hover text-white sm:font-semibold font-normal font-ubuntu rounded-lg focus:outline-none focus:shadow-outline
+                        sm:py-[.35rem] md:px-6 sm:px-3 px-[4.5px] py-1 sm:tracking-normal tracking-tighter"
                     >
                       Add Review
                     </button>
@@ -202,7 +202,7 @@ const SingleMovie = () => {
                 </div>
 
                 {/* movie language */}
-                <div className="bg-white text-black md:px-4 sm:py-1 sm:px-3  md:ml-3 sm:ml-0 lg:text-lg md:text-sm sm:text-xs mb-2 tracking-wide font-roboto">
+                <div className="bg-white text-black md:px-4 sm:py-1 sm:px-3 px-2 md:ml-3 sm:ml-0 lg:text-lg md:text-sm text-xs mb-2 tracking-wide font-roboto">
                   <strong>{movie.language}</strong>
                 </div>
               </div>
@@ -210,12 +210,12 @@ const SingleMovie = () => {
           </div>
 
           {/* Movie Description */}
-          <div className="lg:px-10 sm:px-5  mt-10 flex flex-col gap-4">
-            <div className=" text-left text-white flex flex-col gap-5 common-container">
-              <h1 className="lg:text-2xl sm:text-xl font-bold font-montserrat tracking-wider common-heading px-10">
+          <div className="lg:px-10 md:px-2 sm:px-5 sm:mt-10 mt-3 flex flex-col gap-y-10">
+            <div className=" text-left text-white flex flex-col gap-5 common-container md:px-16 sm:px-5">
+              <div className="sm:text-2xl text-md font-bold font-montserrat tracking-wider common-heading">
                 Description:
-              </h1>
-              <p className="lg:text-lg sm:text-md mb-2 font-roboto px-10">
+              </div>
+              <p className="lg:text-lg sm:text-md text-xs mb-2 font-roboto">
                 {movie.description}
               </p>
             </div>
@@ -236,7 +236,7 @@ const SingleMovie = () => {
             </Modal>
 
             {/* Reviews */}
-            <div>
+            <div className="mb-10">
               <Reviews reviews={movie.reviews} />
             </div>
           </div>

@@ -3,8 +3,8 @@ import React from "react";
 const SkeletonAllMovies = () => {
   return (
     <div>
-      <div className="justify-center items-center p-4 sm:px-10 bg-background1">
-        <h2 className="h-[3rem] w-[15%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
+      <div className="justify-center items-center p-4  sm:px-10 bg-background1">
+        <h2 className="h-[3rem] w-[15%] bg-shadow py-4 mt-10 animate-pulse mb-4 rounded-xl"></h2>
         <div className="flex flex-row gap-4 mb-5">
           <h2 className="h-[2.5rem] w-[18%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
           <h2 className="h-[2.5rem] w-[15%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
