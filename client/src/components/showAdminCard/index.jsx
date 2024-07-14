@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FaEdit, FaTrash, FaClock } from "react-icons/fa";
+import { FaCalendar } from "react-icons/fa6";
+import { MdLanguage } from "react-icons/md";
 
 const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -28,7 +30,6 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
         {show.title}
       </h2>
       <p className="text-secondary_text font-medium text-lg">
-        <strong className="underline text-primary_text">Description</strong>:{" "}
         {renderDescription()}{" "}
         {show.description.split(" ").length > 40 && (
           <span
@@ -40,17 +41,22 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
         )}
       </p>
 
-      <p className="text-secondary_text font-medium text-center text-2xl">
-        <strong className="underline text-primary_text">Date</strong>:{" "}
-        {new Date(show.date).toLocaleDateString()}
-      </p>
+      <div className="flex items-center justify-between w-full  text-primary_text">
+        <p className=" font-medium text-center text-xl flex flex-row items-center gap-x-2">
+          <FaCalendar className="w-5 h-5" />
+          {new Date(show.date).toLocaleDateString()}
+        </p>
 
-      <p className="text-primary_text font-medium text-center text-2xl flex flex-row space-x-2">
-        <strong className="mt-1">
-          <FaClock className="w-7 h-7" />
-        </strong>
-        <div>{show.time}</div>
-      </p>
+        <p className="font-medium text-center text-xl flex flex-row items-center gap-x-2">
+          <FaClock className="w-5 h-5" />
+          <div>{show.time}</div>
+        </p>
+
+        <p className="font-medium text-center text-xl flex flex-row items-center gap-x-2">
+          <MdLanguage className="w-6 h-6" />
+          <div>{show.language}</div>
+        </p>
+      </div>
 
       <div className="flex justify-end space-x-2 mt-4">
         <button

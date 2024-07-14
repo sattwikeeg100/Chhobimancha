@@ -25,7 +25,7 @@ const CineastAdminCard = ({ cineast, onEditClick, onDeleteClick }) => {
         alt={cineast.name}
         className="w-96 h-96 mb-4 rounded-md object-cover"
       />
-      <h2 className="text-3xl text-primary_text font-bold font-montserrat">
+      <h2 className="text-3xl text-primary_text font-bold text-center font-montserrat">
         {cineast.name}
       </h2>
       <p className="text-secondary_text font-medium  text-lg">
