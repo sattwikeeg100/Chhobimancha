@@ -174,7 +174,7 @@ const Home = () => {
           </div>
         </header>
       )}
-      <div className="w-screen h-full flex justify-center items-center min-h-5">
+      <div className="w-screen h-full flex justify-center items-center min-h-5 mb-10">
         <div className="w-full h-full">
           <HomeCardSlider
             elements={latestMovies}
