@@ -34,6 +34,7 @@ const AllMovies = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [searchQuery, setSearchQuery] = useState("");
   const [isZoomed, setIsZoomed] = useState(false);
+  const [totalMovies, setTotalMovies] = useState("");
   const [visibleMovies, setVisibleMovies] = useState(INITIAL_LOAD_COUNT);
 
   const toggleZoom = () => {
@@ -43,6 +44,8 @@ const AllMovies = () => {
   const GetAllMovies = async () => {
     try {
       const response = await axiosInstance.get("/movies");
+      //setMovies(response.data);
+      //setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
       setTimeout(() => {
         setMovies(response.data);
         setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
@@ -52,6 +55,9 @@ const AllMovies = () => {
       console.error(error);
       setLocalLoading(false);
     }
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
@@ -60,7 +66,14 @@ const AllMovies = () => {
 
   useEffect(() => {
     filterAndSortMovies();
-  }, [selectedGenre, sortOption, sortOrder, searchQuery, visibleMovies]);
+  }, [
+    selectedGenre,
+    sortOption,
+    sortOrder,
+    searchQuery,
+    visibleMovies,
+    totalMovies,
+  ]);
 
   const filterAndSortMovies = () => {
     let tempMovies = [...movies];
@@ -102,8 +115,9 @@ const AllMovies = () => {
       default:
         break;
     }
-
-    setFilteredMovies(tempMovies);
+    setTotalMovies(tempMovies);
+    setFilteredMovies(tempMovies.slice(0, visibleMovies));
+    //setFilteredMovies(tempMovies);
   };
 
   const handleAddToFavorites = async (movieId) => {
@@ -120,13 +134,14 @@ const AllMovies = () => {
 
   const handleLoadMore = () => {
     setVisibleMovies((prevVisibleMovies) =>
-      Math.min(prevVisibleMovies + LOAD_MORE_COUNT, filteredMovies.length)
+      Math.min(prevVisibleMovies + LOAD_MORE_COUNT, totalMovies.length)
     );
   };
 
   if (localLoading) {
     return <SkeletonAllMovies />;
   }
+  // console.log(filteredMovies);
 
   return (
     <div className="justify-center items-center px-10 bg-background1 min-h-screen">
@@ -219,7 +234,7 @@ const AllMovies = () => {
               />
             ))}
           </div>
-          {filteredMovies.length > visibleMovies && (
+          {filteredMovies.length < totalMovies.length && (
             <div className="flex justify-center mt-8 flex-row">
               <button
                 onClick={handleLoadMore}
@@ -232,7 +247,7 @@ const AllMovies = () => {
           )}
         </>
       ) : (
-        <p className="mt-40 pt-10 text-white text-center my-4 justify-center items-center">
+        <p className="text-white text-center pt-40">
           Sorry, we don't have movies matching your criteria right now.
         </p>
       )}
