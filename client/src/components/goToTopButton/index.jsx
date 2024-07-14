@@ -10,22 +10,23 @@ const GoToTop = () => {
   };
 
   const listenToScroll = () => {
-    const heightToHidden = 800;
+    const heightToHidden = 100;
     const winScroll =
       document.body.scrollTop || document.documentElement.scrollTop;
 
-    if (winScroll > heightToHidden) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
+    const footer = document.getElementById("footer");
+    if (footer) {
+      const footerTop = footer.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
 
-    // Check if footer is visible
-    // const footer = document.getElementById("footer");
-    // if (footer) {
-    //   const footerTop = footer.getBoundingClientRect().top;
-    //   setShowFooterButton(footerTop <= window.innerHeight);
-    // }
+      if (footerTop <= windowHeight) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(winScroll > heightToHidden);
+      }
+    } else {
+      setIsVisible(winScroll > heightToHidden);
+    }
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const GoToTop = () => {
   }, []);
 
   return (
-    <div className="sticky bottom-15 lg:bottom-5 z-40 mr-64 mt-8 flex justify-start items-center">
+    <div className="fixed bottom-10 lg:bottom-10 z-40 mr-64 mt-8 flex justify-start items-center">
       {isVisible && (
         <div
           className={`text-2xl text-white bg-highlight shadow-lg rounded-full flex justify-center items-center cursor-pointer w-9 h-9 lg:w-12 lg:h-12 ${

@@ -144,7 +144,7 @@ const AllMovies = () => {
   // console.log(filteredMovies);
 
   return (
-    <div className="justify-center items-center px-10 bg-background1 min-h-screen">
+    <div className="justify-center items-center px-10 py-10 bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
           Movies

@@ -55,7 +55,7 @@ const MovieCard = ({ movie }) => {
     <div className=" max-w-sm rounded-md overflow-hidden shadow-lg relative bg-shadow text-white h-150 p-4">
       <div className="relative">
         <img
-          className="w-80 h-80 object-cover "
+          className="w-full h-80 object-cover "
           src={movie.poster}
           alt={movie.title}
         />
