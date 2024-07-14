@@ -1,14 +1,14 @@
 /* custom-slick.css */
-.slick-prev, .slick-next {
+.slick-prev,
+.slick-next {
     z-index: 1;
     top: 50%;
     transform: translateY(-50%);
-    
 }
 
 .slick-arrow {
-    height: 20px !important;
-    width: 30px !important;
+    height: 20px;
+    width: 50px;
 }
 
 .slick-prev {
@@ -16,12 +16,15 @@
 }
 
 .slick-next {
-    right: -35px; 
+    right: -35px;
 }
 
-.slick-prev:before, .slick-next:before {
-    font-size: 30px; /* arrow icon size */
-    color: gray;    /* color of the arrow icon */
+.slick-prev:before,
+.slick-next:before {
+    font-size: 30px;
+    /* arrow icon size */
+    color: gray;
+    /* color of the arrow icon */
 }
 
 #movieCards>.slick-slider {
@@ -33,43 +36,64 @@
     height: 100%;
     max-height: 80vh;
 }
+
 header>div>.slick-initialized {
     min-height: 30vw;
     border-radius: 10px;
 }
-#headerMovies >.slick-slider>.slick-prev {
+
+#headerMovies>.slick-slider>.slick-prev {
     left: -30px !important;
 }
 
 @media (max-width : 480px) {
-    .slick-prev:before, .slick-next:before {
-        font-size: 20px; /* arrow icon size */
-        color: gray;    /* color of the arrow icon */
+
+    .slick-prev:before,
+    .slick-next:before {
+        font-size: 50px;
+        /* arrow icon size */
+        color: gray;
+        /* color of the arrow icon */
     }
+
     .slick-arrow {
         height: 20px !important;
         width: 20px !important;
     }
+
     .slick-prev {
         left: -10px;
     }
+
     .slick-next {
-        right: -10px; 
+        right: -10px;
     }
-    #headerMovies >.slick-slider>.slick-prev {
+
+    #headerMovies>.slick-slider>.slick-prev {
         left: -20px !important;
     }
-    
+
     #headerMovies>.slick-slider>.slick-next {
-        right: -20px !important; 
+        right: -20px !important;
     }
+
     .react-loading-skeleton {
         height: 200px !important;
     }
+
     header>div>.slick-initialized {
         min-height: 35vw;
     }
+
     #movieCards>.slick-slider {
         min-height: 200px;
+    }
+}
+
+
+@media (min-width:1040px) {
+    .slick-arrow {
+        height: 50px !important;
+        width: 50px !important;
     }
 }
