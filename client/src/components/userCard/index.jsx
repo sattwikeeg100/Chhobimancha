@@ -26,7 +26,7 @@ const UserCard = ({ user, amOwner, onToggleAuthorizeAdmin, onDeleteClick }) => {
             </button>
           ) : (
             <button
-              className="bg-blue-800 hover:bg-blue-400 text-white p-2 rounded cursor-pointer"
+              className="border border-highlight text-highlight hover:bg-highlight hover:text-primary_text flex items-center font-semibold p-2 rounded gap-2"
               onClick={() => onToggleAuthorizeAdmin(user._id, user.isAdmin)}
             >
               Authorize as admin

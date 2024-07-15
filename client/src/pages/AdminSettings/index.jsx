@@ -39,7 +39,7 @@ const AdminProfileSettings = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 min-h-screen">
+    <div className="container mx-auto p-4 min-h-screen flex flex-col items-center">
       <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
         My Profile
       </h1>

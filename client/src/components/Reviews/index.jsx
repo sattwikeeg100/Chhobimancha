@@ -55,13 +55,10 @@ const Reviews = ({ reviews }) => {
 
         <div
           ref={sliderRef}
-          className="flex overflow-x-auto gap-4 hide-scrollbar"
+          className="flex overflow-x-auto gap-x-8 hide-scrollbar"
         >
           {reviews.map((review, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 xl:w-[33%] lg:w-[45%] md:w-[48%] sm:w-[60%] w-full"
-            >
+            <div key={index} className="flex-shrink-0 w-96">
               <div className="relative p-5 bg-shadow h-60 border border-gray-300 rounded-lg shadow-md flex flex-col">
                 <div className="sticky-top flex items-center gap-2 bg-shadow">
                   <div className="flex-shrink-0 w-10 h-10">

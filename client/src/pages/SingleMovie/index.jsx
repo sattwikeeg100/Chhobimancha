@@ -25,6 +25,7 @@ const SingleMovie = () => {
   const [loading, setLoading] = useState(true);
   const [localLoading, setLocalLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.userInfo);
@@ -62,16 +63,30 @@ const SingleMovie = () => {
   };
 
   //to add reviews and close the review form
+  //console.log(movie.reviews);
   const handleReviewSubmit = async (review) => {
     try {
+      const userHasReviewed = movie.reviews.some(
+        (existingReview) => existingReview.userId === user.id
+      );
+
+      if (userHasReviewed) {
+        // setWarning("You have already reviewed this movie.");
+        toast.error("You have already reviewed this movie.");
+        return;
+      }
+
       await axiosInstance.post(`/movies/reviews/${movie._id}`, review);
       toast.success("Successfully added review");
+
+      // Refresh the reviews after successful submission
+      fetchMovie();
+
+      // Close the modal after submitting the review
+      setShowModal(false);
     } catch (error) {
       console.error(error.message);
       toast.error("Error adding review!");
-    } finally {
-      setShowModal(false); // Close the modal after submitting the review
-      fetchMovie();
     }
   };
 
