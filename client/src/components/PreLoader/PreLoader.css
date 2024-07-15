@@ -33,7 +33,7 @@
   stroke-width: 5;
   stroke-dasharray: 282.743; /* Circumference of the circle (2 * π * r) */
   stroke-dashoffset: 282.743;
-  animation: fill 1.5s linear forwards; /* Complete the circle in 1 second */
+  animation: fill 1.4s linear forwards; /* Complete the circle in 1 second */
 }
 
 .triangle {
