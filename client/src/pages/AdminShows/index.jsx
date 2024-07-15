@@ -4,6 +4,7 @@ import ShowModal from "../../components/showModal";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
 import { FaSearch } from "react-icons/fa";
+import Preloader from "../../components/PreLoader/PreLoader";
 
 const AdminShows = () => {
   const [upcomingShows, setUpcomingShows] = useState([]);
@@ -11,6 +12,7 @@ const AdminShows = () => {
   const [filteredUpcomingShows, setFilteredUpcomingShows] = useState([]);
   const [filteredPastShows, setFilteredPastShows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentShow, setCurrentShow] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,6 +21,7 @@ const AdminShows = () => {
     try {
       const response = await axiosInstance.get(`/shows`);
       const shows = response.data;
+      setLoading(true);
       const currentDate = new Date();
 
       const upcoming = [];
@@ -46,9 +49,12 @@ const AdminShows = () => {
       setFilteredPastShows(past);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
@@ -115,7 +121,7 @@ const AdminShows = () => {
   };
 
   if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+    return <Preloader setLoading={setLoading} />;
   }
 
   return (
