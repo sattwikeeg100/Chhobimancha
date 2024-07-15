@@ -1,8 +1,23 @@
 // src/components/MovieAdminCard.jsx
-import React from "react";
+import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const MovieAdminCard = ({ movie, onEditClick, onDeleteClick }) => {
+  const [showFullDescription, setMovieFullDescription] = useState(false);
+
+  const toggleDescription = () => {
+    setMovieFullDescription(!showFullDescription);
+  };
+
+  const renderDescription = () => {
+    const words = movie.description.split(" ");
+    if (words.length <= 40 || showFullDescription) {
+      return movie.description;
+    }
+    const truncated = words.slice(0, 40).join(" ");
+    return `${truncated}...`;
+  };
+
   return (
     <div className="bg-shadow rounded shadow p-4 flex flex-col items-center gap-y-3">
       <img
@@ -16,7 +31,15 @@ const MovieAdminCard = ({ movie, onEditClick, onDeleteClick }) => {
 
       <div className="flex flex-col items-center justify-center gap-y-2">
         <p className="text-secondary_text font-medium font-ubuntu text-lg text-center">
-          {movie.description}
+          {renderDescription()}{" "}
+          {movie.description.split(" ").length > 40 && (
+            <span
+              className="text-primary_text cursor-pointer"
+              onClick={toggleDescription}
+            >
+              {showFullDescription ? "Show less" : "Read more..."}
+            </span>
+          )}
         </p>
         <p className="text-primary_text font-semibold text-lg font-lato">
           {movie.genres.join(", ")}

@@ -5,16 +5,25 @@ import axiosInstance from "../../config/axiosInstance";
 import ProfileModal from "../../components/profileModal";
 import ProfileCard from "../../components/profileCard";
 import { logoutUser } from "../../store/slices/userSlice";
+import Preloader from "../../components/PreLoader/PreLoader.jsx";
 import { toast } from "sonner";
 
 const AdminProfileSettings = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const user = useSelector((state) => state.user.userInfo);
+  const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const dispatch = useDispatch();
 
   const handleEditClick = () => {
     setModalOpen(true);
   };
+
+  useEffect(() => {
+    if (!loading) {
+      setIsInitialLoad(false);
+    }
+  }, [loading]);
 
   const handleDeleteClick = async () => {
     window.confirm("Are you sure you want to delete your account?");
@@ -38,8 +47,12 @@ const AdminProfileSettings = () => {
     setModalOpen(false);
   };
 
+  if (loading) {
+    return <Preloader setLoading={setLoading} />; // Show preloader while loading is true
+  }
+
   return (
-    <div className="container mx-auto p-4 min-h-screen">
+    <div className="container mx-auto p-4 min-h-screen flex flex-col items-center">
       <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
         My Profile
       </h1>

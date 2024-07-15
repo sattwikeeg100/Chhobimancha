@@ -145,22 +145,24 @@ const LoginModal = ({ onSignUpClick, onForgotPassClick }) => {
           )}
         </form>
 
-        <div className="flex flex-col items-center">
-          <h2 className="font-lato text-secondary_text">Or</h2>
-          <button
-            type="button"
-            className="px-4 py-2 mt-4 border flex gap-2 border-secondary_text rounded-lg transition duration-150 hover:bg-shadow"
-            onClick={handleGoogleLogin}
-          >
-            <img
-              className="w-6 h-6"
-              src={googleicon}
-              loading="lazy"
-              alt="google logo"
-            />
-            <span className="font-lato ">Continue with Google</span>
-          </button>
-        </div>
+        {tab === "user" && (
+          <div className="flex flex-col items-center">
+            <h2 className="font-lato text-secondary_text">Or</h2>
+            <button
+              type="button"
+              className="px-4 py-2 mt-4 border flex gap-2 border-secondary_text rounded-lg transition duration-150 hover:bg-shadow"
+              onClick={handleGoogleLogin}
+            >
+              <img
+                className="w-6 h-6"
+                src={googleicon}
+                loading="lazy"
+                alt="google logo"
+              />
+              <span className="font-lato ">Continue with Google</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
