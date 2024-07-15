@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import CineastAdminCard from "../../components/cineastAdminCard";
 import CineastModal from "../../components/cineastModal";
+import Preloader from "../../components/PreLoader/PreLoader.jsx";
 import { toast } from "sonner";
 
 import { FaSearch } from "react-icons/fa";
@@ -9,20 +10,24 @@ import { FaSearch } from "react-icons/fa";
 const AdminCineasts = () => {
   const [cineasts, setCineasts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentCineast, setCurrentCineast] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const GetAllCineasts = async () => {
-    setLoading(true);
     try {
       const response = await axiosInstance.get("/cineasts");
       setCineasts(response.data);
+      setLoading(true);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+
+    // }
   };
 
   useEffect(() => {
@@ -70,7 +75,7 @@ const AdminCineasts = () => {
   });
 
   if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+    return <Preloader setLoading={setLoading} />;
   }
 
   return (

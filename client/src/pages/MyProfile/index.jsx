@@ -5,11 +5,13 @@ import axiosInstance from "../../config/axiosInstance";
 import ProfileModal from "../../components/profileModal";
 import ProfileCard from "../../components/profileCard";
 import { logoutUser } from "../../store/slices/userSlice";
+import Preloader from "../../components/PreLoader/PreLoader";
 import { toast } from "sonner";
 
 const MyProfile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const user = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
@@ -44,18 +46,16 @@ const MyProfile = () => {
 
   useEffect(() => {
     try {
-      setLoading(false);
+      setLoading(true);
     } catch (error) {
       setLoading(false);
+      setIsInitialLoad(false);
     }
   }, []);
 
-  if (loading)
-    return (
-      <p className="text-center pt-5 bg-background1  text-primary_text min-h-screen">
-        Loading...
-      </p>
-    );
+  if (loading) {
+    return <Preloader setLoading={setLoading} />;
+  }
 
   return (
     <div className="container mx-auto p-6 bg-background1 text-primary_text ">

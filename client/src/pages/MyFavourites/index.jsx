@@ -1,35 +1,38 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import MovieCard from "../../components/movieCard";
+import Preloader from "../../components/PreLoader/PreLoader";
 
 const MyFavourites = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const GetAllFavouriteMovies = async () => {
     try {
       const response = await axiosInstance.get("/users/favourites");
       setMovies(response.data);
+      setLoading(true);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
     GetAllFavouriteMovies();
   }, []);
 
-  if (loading)
-    return (
-      <p className="text-center pt-5 bg-background1 text-primary_text min-h-screen">
-        Loading...
-      </p>
-    );
+  if (loading) {
+    return <Preloader setLoading={setLoading} />;
+  }
 
   return (
-    <div className="justify-center items-center p-6 bg-background1 min-h-screen">
+    <div className="justify-center items-center px-20 bg-background1 min-h-screen">
       <h1 className="text-4xl font-montserrat font-bold mb-8 text-center text-primary_text">
         My Favourite Movies
       </h1>

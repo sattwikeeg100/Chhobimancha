@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from "react";
 import BookingItem from "../../components/bookingItem";
 import axiosInstance from "../../config/axiosInstance";
+import Preloader from "../../components/PreLoader/PreLoader";
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -17,21 +19,19 @@ const MyBookings = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setBookings(sortedBookings);
-        setLoading(false);
+        setLoading(true);
       } catch (error) {
         setError(error.message);
         setLoading(false);
+        setIsInitialLoad(false);
       }
     };
     fetchBookings();
   }, []);
 
-  if (loading)
-    return (
-      <p className="text-center pt-5 bg-background1 text-primary_text min-h-screen">
-        Loading...
-      </p>
-    );
+  if (loading) {
+    return <Preloader setLoading={setLoading} />;
+  }
 
   if (error)
     return (
@@ -39,6 +39,10 @@ const MyBookings = () => {
         Error: {error}
       </p>
     );
+
+  if (loading) {
+    return <Preloader setLoading={setLoading} />;
+  }
 
   return (
     <div className="container mx-auto p-6 bg-background1 min-h-screen min-w-screen">

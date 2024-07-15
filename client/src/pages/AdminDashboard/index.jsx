@@ -3,6 +3,7 @@ import { Bar, Pie } from "react-chartjs-2";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Preloader from "../../components/PreLoader/PreLoader.jsx";
 // import "./CustomSlick.css";
 import {
   Chart as ChartJS,
@@ -31,16 +32,22 @@ const AdminDashboard = () => {
   const [allInfos, setAllInfos] = useState({});
   const [revenueData, setRevenueData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const fetchAllInfos = async () => {
     try {
       const response = await axiosInstance.get("/");
       setAllInfos(response.data);
+      setLoading(true);
     } catch (error) {
       console.error("Error fetching all infos:", error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+    //   setLoading(false);
+    //   setIsInitialLoad(false);
+    // }
   };
 
   const fetchRevenueData = async () => {
@@ -173,6 +180,9 @@ const AdminDashboard = () => {
       },
     ],
   };
+  if (loading) {
+    return <Preloader setLoading={setLoading} />;
+  }
 
   return (
     <div className="container max-w-screen flex flex-col p-5 gap-y-10 mx-auto overflow-x-hidden">

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import TheatreAdminCard from "../../components/theatreAdminCard";
 import TheatreModal from "../../components/theatreModal";
 import axiosInstance from "../../config/axiosInstance";
+import Preloader from "../../components/PreLoader/PreLoader";
 import { toast } from "sonner";
 
 import { FaSearch } from "react-icons/fa";
@@ -10,6 +11,7 @@ import { FaSearch } from "react-icons/fa";
 const AdminTheatres = () => {
   const [theatres, setTheatres] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentTheatre, setCurrentTheatre] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,11 +20,16 @@ const AdminTheatres = () => {
     try {
       const response = await axiosInstance.get(`/theatres`);
       setTheatres(response.data);
+      setLoading(true);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+    //   setLoading(false);
+    //
+    // }
   };
 
   useEffect(() => {
@@ -70,7 +77,7 @@ const AdminTheatres = () => {
   });
 
   if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+    return <Preloader setLoading={setLoading} />;
   }
 
   return (

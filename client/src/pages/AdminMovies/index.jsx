@@ -3,12 +3,14 @@ import MovieAdminCard from "../../components/movieAdminCard";
 import MovieModal from "../../components/movieModal";
 import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
+import Preloader from "../../components/PreLoader/PreLoader";
 import { FaSearch } from "react-icons/fa";
 
 const AdminMovies = () => {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentMovie, setCurrentMovie] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,11 +20,15 @@ const AdminMovies = () => {
       const response = await axiosInstance.get(`/movies`);
       setMovies(response.data);
       setFilteredMovies(response.data);
+      setLoading(true);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+    //   setLoading(false);
+    // }
   };
 
   useEffect(() => {
@@ -85,7 +91,7 @@ const AdminMovies = () => {
   };
 
   if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+    return <Preloader setLoading={setLoading} />;
   }
 
   return (

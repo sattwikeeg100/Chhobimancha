@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import UserCard from "../../components/userCard";
 import axiosInstance from "../../config/axiosInstance";
+import Preloader from "../../components/PreLoader/PreLoader";
 import { toast } from "sonner";
 
 const AdminUsers = () => {
@@ -10,6 +11,7 @@ const AdminUsers = () => {
   const [NonAdminUsers, setNonAdminUsers] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const CurrUser = useSelector((state) => state.user.userInfo);
   const amOwner = CurrUser.isOwner;
@@ -17,9 +19,9 @@ const AdminUsers = () => {
 
   const GetAllUsers = async () => {
     try {
-      setLoading(true);
       const response = await axiosInstance.get(`/users`);
       const tempUserData = response.data;
+      setLoading(true);
 
       const admins = tempUserData.filter((user) => {
         return user.isAdmin && !user.isOwner;
@@ -32,9 +34,13 @@ const AdminUsers = () => {
       setNonAdminUsers(non_admins);
     } catch (error) {
       console.error(error);
-    } finally {
       setLoading(false);
+      setIsInitialLoad(false);
     }
+    // finally {
+    //   setLoading(false);
+    //   setIsInitialLoad(false);
+    // }
   };
 
   useEffect(() => {
@@ -68,9 +74,8 @@ const AdminUsers = () => {
   };
 
   if (loading) {
-    return <div className="text-5xl">Loading...</div>;
+    return <Preloader setLoading={setLoading} />;
   }
-
   return (
     <div className="container mx-auto p-4 min-h-screen">
       {/* Admin Users */}
