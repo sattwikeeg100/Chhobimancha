@@ -58,11 +58,11 @@ const AdminDashboard = () => {
         },
       });
       setRevenueData(response.data);
-      setLoading(true);
+      // setLoading(true);
     } catch (error) {
       console.error("Error fetching revenue data:", error);
-      setLoading(false);
-      setIsInitialLoad(false);
+      // setLoading(false);
+      // setIsInitialLoad(false);
     }
   };
 
