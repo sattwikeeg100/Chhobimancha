@@ -210,12 +210,12 @@ const SingleMovie = () => {
           </div>
 
           {/* Movie Description */}
-          <div className="lg:px-10 md:px-2 sm:px-5 sm:mt-10 mt-3 flex flex-col gap-y-10">
-            <div className=" text-left text-white flex flex-col gap-5 common-container md:px-16 sm:px-5">
-              <div className="sm:text-2xl text-md font-bold font-montserrat tracking-wider common-heading">
+          <div className="lg:px-10 md:px-2 sm:px-5 px-1 sm:mt-10 mt-3 flex flex-col gap-y-10">
+            <div className=" text-left text-white flex flex-col gap-5 common-container md:px-16 sm:px-5 px-5">
+              <div className="sm:text-2xl text-base font-bold font-montserrat tracking-wider common-heading">
                 Description:
               </div>
-              <p className="lg:text-lg sm:text-md text-xs mb-2 font-roboto">
+              <p className="lg:text-lg sm:text-base text-xs mb-2 font-roboto">
                 {movie.description}
               </p>
             </div>

@@ -37,15 +37,15 @@ const Reviews = ({ reviews }) => {
   };
 
   return reviews.length > 0 ? (
-    <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-10">
-      <div className="sm:text-2xl text-md common-heading font-montserrat lg:px-10 md:px-8 sm:px-5">
+    <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-0">
+      <div className="sm:text-2xl text-base common-heading font-montserrat lg:px-10 md:px-8 sm:px-5 px-10">
         Reviews:
       </div>
       <div className="flex items-center">
         {showButtons ? (
           <button
             onClick={scrollLeft}
-            className="sm:p-2  mr-2 rounded-full bg-gray-300 hover:bg-gray-400"
+            className="p-2 mr-2 rounded-full bg-gray-300 hover:bg-gray-400"
           >
             &lt;
           </button>
@@ -55,7 +55,7 @@ const Reviews = ({ reviews }) => {
 
         <div
           ref={sliderRef}
-          className="flex overflow-x-auto gap-[3rem] hide-scrollbar"
+          className="flex overflow-x-auto gap-4 hide-scrollbar"
         >
           {reviews.map((review, index) => (
             <div
@@ -71,14 +71,14 @@ const Reviews = ({ reviews }) => {
                           ? review.user.image
                           : "/avatar.jpg"
                       }
-                      className="sm:w-full sm:h-full h-8 w-8 rounded-full object-cover"
+                      className="w-full h-full rounded-full object-cover"
                       alt="User"
                     />
                   </div>
                   <div className="text-white font-semibold font-roboto bg-shadow ">
                     {review.userName}
                   </div>
-                  <div className="absolute sm:top-2 sm:right-2 top-4 right-2 text-highlight font-bold font-lato bg-shadow sm:text-md text-xs flex items-center gap-1 ">
+                  <div className="absolute top-2 right-2 text-highlight font-bold font-lato bg-shadow text-base flex items-center gap-1 ">
                     <FaStar />
                     {review.rating}/5
                   </div>

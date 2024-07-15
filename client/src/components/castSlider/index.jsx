@@ -40,8 +40,8 @@ const CastSlider = ({ casts, who }) => {
   };
 
   return (
-    <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-10">
-      <h2 className="sm:text-2xl text-md font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 text-white">
+    <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-0">
+      <h2 className="sm:text-2xl text-md font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 px-10 text-white">
         {who === "casts" ? "Casts:" : "Crews:"}
       </h2>
       <div className="flex items-center">
@@ -56,22 +56,21 @@ const CastSlider = ({ casts, who }) => {
           <div className="w-[2%] p-2 mr-2" /> // Placeholder for left side gap
         )}
 
-        <div
-          ref={sliderRef}
-          className="flex overflow-x-auto gap-[3rem] hide-scrollbar"
-        >
+        <div ref={sliderRef} className="flex overflow-x-auto gap-x-[2rem] px-1">
           {casts.map((cast, index) => (
-            <div key={index} className="flex-shrink-0 w-32">
-              <img
-                src={cast.person.image}
-                alt={cast.person.name}
-                className="sm:w-28 sm:h-28 h-24 w-24 rounded-full mb-2 object-cover"
-              />
-              <div className="text-center flex flex-col">
-                <div className="font-semibold font-lato text-white">
+            <div key={index} className="flex-shrink-0 w-36">
+              <div className="w-36 h-36 rounded-full overflow-hidden mb-2">
+                <img
+                  src={cast.person.image}
+                  alt={cast.person.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="text-center flex flex-col items-center justify-center">
+                <div className="font-semibold text-white">
                   {cast.person.name}
                 </div>
-                <div className="text-white font-roboto">{cast.role}</div>
+                <div className="font-bold text-white">{cast.role}</div>
               </div>
             </div>
           ))}
