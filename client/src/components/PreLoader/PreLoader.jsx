@@ -6,7 +6,7 @@ const Preloader = ({ setLoading }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000); // Preloader will disappear after 1.5 seconds
+    }, 1500); // Preloader will disappear after 1.5 seconds
 
     return () => clearTimeout(timer);
   }, [setLoading]);
