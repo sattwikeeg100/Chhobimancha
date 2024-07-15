@@ -1,18 +1,18 @@
-/* custom-slick.css */
 .slick-prev,
 .slick-next {
     z-index: 1;
     top: 50%;
     transform: translateY(-50%);
+
 }
 
 .slick-arrow {
-    height: 20px;
-    width: 50px;
+    height: 30px !important;
+    width: 30px !important;
 }
 
 .slick-prev {
-    left: -35px;
+    left: -42px;
 }
 
 .slick-next {
@@ -22,38 +22,18 @@
 .slick-prev:before,
 .slick-next:before {
     font-size: 30px;
-    /* arrow icon size */
     color: gray;
-    /* color of the arrow icon */
 }
 
-#movieCards>.slick-slider {
-    min-height: 300px;
-}
-
-.skeleton-slider-image {
-    width: 100%;
-    height: 100%;
-    max-height: 80vh;
-}
-
-header>div>.slick-initialized {
-    min-height: 30vw;
-    border-radius: 10px;
-}
-
-#headerMovies>.slick-slider>.slick-prev {
-    left: -30px !important;
-}
-
-@media (max-width : 480px) {
+@media (max-width : 1024px) {
+    #AdminDashboardSlider {
+        width: full;
+    }
 
     .slick-prev:before,
     .slick-next:before {
-        font-size: 50px;
-        /* arrow icon size */
+        font-size: 20px;
         color: gray;
-        /* color of the arrow icon */
     }
 
     .slick-arrow {
@@ -62,38 +42,32 @@ header>div>.slick-initialized {
     }
 
     .slick-prev {
-        left: -10px;
+        left: -20px;
     }
 
     .slick-next {
-        right: -10px;
-    }
-
-    #headerMovies>.slick-slider>.slick-prev {
-        left: -20px !important;
-    }
-
-    #headerMovies>.slick-slider>.slick-next {
-        right: -20px !important;
-    }
-
-    .react-loading-skeleton {
-        height: 200px !important;
-    }
-
-    header>div>.slick-initialized {
-        min-height: 35vw;
-    }
-
-    #movieCards>.slick-slider {
-        min-height: 200px;
+        right: -30px;
     }
 }
 
+@media (max-width : 480px) {
 
-@media (min-width:1040px) {
+    .slick-prev:before,
+    .slick-next:before {
+        font-size: 20px;
+        color: gray;
+    }
+
     .slick-arrow {
-        height: 50px !important;
-        width: 50px !important;
+        height: 20px !important;
+        width: 20px !important;
+    }
+
+    .slick-prev {
+        left: -20px;
+    }
+
+    .slick-next {
+        right: -20px;
     }
 }

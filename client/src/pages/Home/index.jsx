@@ -21,7 +21,6 @@ const NextArrow = ({ className, style, onClick }) => {
         height: "60px",
         borderRadius: "50%",
         fontSize: "50px",
-        marginRight: "-1px", // Add margin to the right
       }}
       onClick={onClick}
     />
@@ -40,7 +39,6 @@ const PrevArrow = ({ className, style, onClick }) => {
         height: "60px",
         borderRadius: "50%",
         fontSize: "50px",
-        marginLeft: "-3px", // Add margin to the left
       }}
       onClick={onClick}
     />
@@ -154,12 +152,12 @@ const Home = () => {
       ) : (
         <header className="h-full w-full my-8 min-h-9">
           <div id="headerMovies" className="w-full h-full">
-            <Slider {...settings} className="  mx-10 object-center">
+            <Slider {...settings} className="  mx-14 object-center">
               {recentMovies.map((movie) => (
                 <Link key={movie.slug} to={`explore/movies/${movie.slug}`}>
                   <div className=" w-[100%] min-h-[35vw] md:min-h-[30vw] ">
                     {(
-                      <div className="w-[85%] sm:w-[100%] h-[50vw] md:h-[30vw]" />
+                      <div className="w-[85%] sm:w-[90%] h-[50vw] md:h-[30vw]" />
                     ) && (
                       <img
                         src={`${movie.coverImage}`}
