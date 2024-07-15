@@ -3,7 +3,7 @@ import { Bar, Pie } from "react-chartjs-2";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./CustomSlick.css";
+// import "./CustomSlick.css";
 import {
   Chart as ChartJS,
   CategoryScale,
