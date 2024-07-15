@@ -98,9 +98,9 @@ const Home = () => {
         (a, b) => a.showDateTime - b.showDateTime
       );
 
-      const nearestFourShows = sortedUpcomingShows.slice(0, 4);
+      const nearestsevenShows = sortedUpcomingShows.slice(0, 7);
 
-      setShows(nearestFourShows);
+      setShows(nearestsevenShows);
     } catch (error) {
       console.error(error);
     } finally {
@@ -131,16 +131,11 @@ const Home = () => {
     GetAllShows();
   }, []);
   useEffect(() => {
-    setLoading(false);
+    setTimeout(()=>{
+      setLoading(false);
+    },2000);
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <SkeletonLoaderHeader />
-      </>
-    );
-  }
 
   return (
     <div
@@ -150,21 +145,21 @@ const Home = () => {
       {loading ? (
         <SkeletonLoaderHeader />
       ) : (
-        <header className="h-full w-full my-8 min-h-9">
+        <header className="h-full w-full my-8 min-h-[25vw]">
           <div id="headerMovies" className="w-full h-full">
-            <Slider {...settings} className="  mx-14 object-center">
+            <Slider {...settings} className="  mx-5 md:mx-14 object-center">
               {recentMovies.map((movie) => (
                 <Link key={movie.slug} to={`explore/movies/${movie.slug}`}>
-                  <div className=" w-[100%] min-h-[35vw] md:min-h-[30vw] ">
+                  <div className=" w-[100%] min-w-[60%] min-h-[35vw] md:min-h-[30vw] ">
                     {(
-                      <div className="w-[85%] sm:w-[90%] h-[50vw] md:h-[30vw]" />
+                      <div className="w-[85%] sm:w-full h-[50vw] md:h-[30vw]" />
                     ) && (
-                      <img
-                        src={`${movie.coverImage}`}
-                        alt=""
-                        className="w-full h-full md:h-[30vw] object-center rounded-lg"
-                      />
-                    )}
+                        <img
+                          src={`${movie.coverImage}`}
+                          alt=""
+                          className="w-full h-full md:h-[30vw] object-center rounded-lg"
+                        />
+                      )}
                   </div>
                 </Link>
               ))}
@@ -187,7 +182,7 @@ const Home = () => {
             isLoading={moviesLoading}
           />
           <HomeCardSlider
-            elements={shows.slice(0, 4)}
+            elements={shows.slice(0, 7)}
             title="Upcoming Shows"
             what="shows"
             isLoading={showsLoading}

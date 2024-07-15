@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SkeletonMoviecard from "../../components/Skeletons/SkeletonMovieCard/SkeletonMoviecard";
+import './custom-slick.css'
 
 const HomeCardSlider = ({ elements, title, what }) => {
   const [loading, setLoading] = useState(true);
@@ -85,7 +86,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
                       : `explore/shows/${element.slug}`
                   }
                 >
-                  <div className="font-normal ">
+                  <div className="font-normal min-h-[400px] 2xl:min-h-[450px]">
                     <div className="px-1 flex justify-center items-center flex-wrap ">
                       <div
                         id="moviePoster"
@@ -135,7 +136,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
                   elements.length != 0 && !loading ? "block" : "hidden"
                 }`}
               >
-                <span className="text-primary_text  text-xl font-lato font-bold text-lg p-2 ">
+                <span className="text-primary_text  md:text-xl font-lato font-bold text-lg p-2 ">
                   Explore more {what === "movies" ? "movies" : "shows"}
                 </span>
               </div>
