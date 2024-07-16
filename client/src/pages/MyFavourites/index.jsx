@@ -37,13 +37,13 @@ const MyFavourites = () => {
   }
 
   return (
-    <div className="justify-center items-center px-20 bg-background1 min-h-screen">
-      <h1 className="text-4xl font-montserrat font-bold mb-8 text-center text-primary_text">
+    <div className="justify-center items-center px-5 sm:px-10 py-5 bg-background1 min-h-screen">
+      <h1 className="text-4xl font-montserrat font-bold pb-5 text-center text-primary_text">
         My Favourite Movies
       </h1>
 
       {movies.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-5 bg-background1">
           {movies.map((movie, index) => (
             <MovieCard key={index} movie={movie} />
           ))}

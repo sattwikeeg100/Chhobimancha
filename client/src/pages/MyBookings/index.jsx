@@ -45,8 +45,8 @@ const MyBookings = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 bg-background1 min-h-screen min-w-screen">
-      <h1 className="text-4xl font-montserrat font-bold mb-8 text-center text-primary_text">
+    <div className="container mx-auto px-5 sm:px-10 py-5 bg-background1 min-h-screen min-w-screen">
+      <h1 className="text-4xl font-montserrat font-bold  pb-5 text-center text-primary_text">
         My Bookings
       </h1>
       {bookings.length > 0 ? (
