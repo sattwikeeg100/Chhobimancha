@@ -35,7 +35,7 @@ const GoToTop = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-5 z-40 mr-64 mt-8 flex justify-start items-center">
+    <div className="fixed bottom-5 left-5 z-40 mr-64 mt-8 flex justify-start items-center">
       {isVisible && (
         <div
           className={`text-2xl text-primary_text bg-highlight shadow-lg rounded-full flex justify-center items-center cursor-pointer w-11 h-11 lg:w-12 lg:h-12 ${
