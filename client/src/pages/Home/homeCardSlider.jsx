@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SkeletonMoviecard from "../../components/Skeletons/SkeletonMovieCard/SkeletonMoviecard";
-import './custom-slick.css'
+import "./custom-slick.css";
 
 const HomeCardSlider = ({ elements, title, what }) => {
   const [loading, setLoading] = useState(true);
@@ -65,12 +65,17 @@ const HomeCardSlider = ({ elements, title, what }) => {
 
   return (
     <div id="" className="m-auto w-[85%] sm:w-[90%]">
-      <h3
-        id=""
-        className="text-2xl sm:text-5xl text-primary_text font-normal py-7"
-      >
-        {title}
-      </h3>
+      {loading ? (
+        <div className=" shadow-lg bg-shadow w-[70%] sm:w-[50%] h-10 my-7 rounded-md  "></div>
+      ) : (
+        <h3
+          id=""
+          className="text-2xl sm:text-5xl text-primary_text font-normal py-7"
+        >
+          {title}
+        </h3>
+      )}
+
       <div id="movieCards ">
         <Slider {...settings} className="object-center ">
           {loading
@@ -102,7 +107,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
                               onLoad={() => handleImageLoad(key)}
                               className={`${
                                 what === "movies"
-                                  ? `h-[400px] 2xl:h-[450px] 
+                                  ? `h-[400px]  2xl:h-[450px] 
                                      w-[300px]  2xl:w-[320px] 
                                   
                                   rounded-lg`

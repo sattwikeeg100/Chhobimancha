@@ -152,7 +152,7 @@ const SingleMovie = () => {
                   <button
                     id="button"
                     onClick={handleClick}
-                    className="group rounded-lg mb-3 flex items-center space-x-0.5 bg-highlight hover:bg-highlight_hover lg:px-[4.5rem] lg:py-2 md:px-6 md:py-2 sm:px-10 sm:py-1 px-0 py-0 hidden sm:flex"
+                    className="group rounded-lg mb-3  items-center space-x-0.5 bg-highlight hover:bg-highlight_hover lg:px-[4.5rem] lg:py-2 md:px-6 md:py-2 sm:px-10 sm:py-1 px-0 py-0 hidden sm:flex"
                   >
                     <span className="sm:font-semibold font-normal tracking-tighter sm:tracking-normal font-ubuntu text-primary_text lg:text-lg md:text-md sm:text-sm text-sm">
                       Play Now

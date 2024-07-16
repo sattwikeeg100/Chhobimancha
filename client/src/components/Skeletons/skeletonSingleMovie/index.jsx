@@ -25,7 +25,7 @@ const SkeletonSingleMovie = () => {
         </div>
       </div>
 
-      <div className="px-8 flex flex-row justify-between sm:hidden mb-2">
+      <div className="px-8 gap-x-4 flex flex-row justify-between sm:hidden mb-2">
         <div className="w-32 h-10 rounded-lg bg-shadow animate-pulse"></div>
         <div className="w-32 h-10 rounded-lg bg-shadow animate-pulse"></div>
       </div>
