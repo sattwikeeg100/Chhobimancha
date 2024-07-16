@@ -1,41 +1,41 @@
 .hide-scrollbar {
-  -ms-overflow-style: none;  
-  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 .review-text-container {
   overflow-y: auto;
-  scrollbar-width: none; 
+  scrollbar-width: none;
   height: 100%;
 }
 
 .review-text-container::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 .sticky-top {
   position: sticky;
   top: 0;
-  background-color: #010b14; 
+  background-color: #010b14;
   z-index: 10;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
 .common-container {
-  padding-left: 2.5rem; 
-  padding-right: 2.5rem; 
-  margin-top: 2.5rem; 
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  /* margin-top: 2.5rem;  */
 }
 
 .common-heading {
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
   color: white;
   text-align: left;
 }
