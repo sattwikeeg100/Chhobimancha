@@ -4,7 +4,7 @@ import axios from "axios";
 import SkeletonAllShow from "../../components/Skeletons/skeletonAllShow";
 import { FaSearch, FaFilter, FaTimes } from "react-icons/fa";
 import { MdArrowDownward } from "react-icons/md";
-// import GoToTop from "../../components/goToTopButton";
+import GoToTop from "../../components/goToTopButton";
 
 const APIURL = import.meta.env.VITE_API_URL;
 
@@ -158,7 +158,7 @@ const AllShows = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-5">
         {filteredShows.slice(0, visibleCount).map((show, index) => (
           <div key={index}>
             <ShowCard show={show} />
