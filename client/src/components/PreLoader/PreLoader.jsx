@@ -34,7 +34,7 @@ const PreLoader = ({ setLoading }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen min-w-2xl bg-background1">
+    <div className="flex items-center justify-center min-h-screen bg-background1">
       <div className="flex items-center justify-center w-full h-full">
         <Lottie options={defaultOptions} height={200} width={200} />
       </div>
