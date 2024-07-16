@@ -145,19 +145,19 @@ const Home = () => {
       {loading ? (
         <SkeletonLoaderHeader />
       ) : (
-        <header className="h-full w-full my-8 min-h-[25vw]">
+        <header className="h-full w-full my-5 min-h-[60vw] md:min-h-[30vw]">
           <div id="headerMovies" className="w-full h-full">
-            <Slider {...settings} className="  mx-5 md:mx-14 object-center">
+            <Slider {...settings} className="  mx-6 md:mx-14 object-center">
               {recentMovies.map((movie) => (
                 <Link key={movie.slug} to={`explore/movies/${movie.slug}`}>
                   <div className=" w-[100%] min-w-[60%] min-h-[35vw] md:min-h-[30vw] ">
                     {(
-                      <div className="w-[85%] sm:w-full h-[50vw] md:h-[30vw]" />
+                      <div className="w-[95%] sm:w-full h-[50vw] md:h-[30vw]" />
                     ) && (
                         <img
                           src={`${movie.coverImage}`}
                           alt=""
-                          className="w-full h-full md:h-[30vw] object-center rounded-lg"
+                          className="w-full h-[60vw] md:h-[30vw] object-center rounded-lg"
                         />
                       )}
                   </div>
@@ -167,7 +167,7 @@ const Home = () => {
           </div>
         </header>
       )}
-      <div className="w-screen h-full flex justify-center items-center min-h-5 mb-10">
+      <div className="w-screen h-full flex justify-center items-center min-h-5 mb-10 mt-5">
         <div className="w-full h-full">
           <HomeCardSlider
             elements={latestMovies}
