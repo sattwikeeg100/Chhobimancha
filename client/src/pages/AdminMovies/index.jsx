@@ -24,7 +24,6 @@ const AdminMovies = () => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      setIsInitialLoad(false);
     }
     // finally {
     //   setLoading(false);
@@ -32,7 +31,14 @@ const AdminMovies = () => {
   };
 
   useEffect(() => {
-    GetAllMovies();
+    const fetchData = async () => {
+      await GetAllMovies();
+      setTimeout(() => {
+        setIsInitialLoad(false); // Set isInitialLoad to false after a minimum duration
+      }, 1000); // Adjust the timeout duration as needed (e.g., 1000ms = 1 second)
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -90,7 +96,7 @@ const AdminMovies = () => {
     GetAllMovies();
   };
 
-  if (loading) {
+  if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
   }
 

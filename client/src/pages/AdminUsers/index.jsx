@@ -1,4 +1,3 @@
-// src/components/AdminUsers.jsx
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import UserCard from "../../components/userCard";
@@ -7,89 +6,95 @@ import Preloader from "../../components/PreLoader/PreLoader";
 import { toast } from "sonner";
 
 const AdminUsers = () => {
-  const [AdminUsers, setAdminUsers] = useState([]);
-  const [NonAdminUsers, setNonAdminUsers] = useState([]);
+  const [adminUsers, setAdminUsers] = useState([]);
+  const [nonAdminUsers, setNonAdminUsers] = useState([]);
+  const [loading, setLoading] = useState(true); // Initialize loading state
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // Track initial load
 
-  const [loading, setLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const currentUser = useSelector((state) => state.user.userInfo);
+  const isOwner = currentUser.isOwner;
 
-  const CurrUser = useSelector((state) => state.user.userInfo);
-  const amOwner = CurrUser.isOwner;
-  console.log(amOwner);
-
-  const GetAllUsers = async () => {
+  const getAllUsers = async () => {
     try {
-      const response = await axiosInstance.get(`/users`);
+      const response = await axiosInstance.get("/users");
       const tempUserData = response.data;
-      setLoading(true);
 
-      const admins = tempUserData.filter((user) => {
-        return user.isAdmin && !user.isOwner;
-      });
-      const non_admins = tempUserData.filter((user) => {
-        return !user.isAdmin;
-      });
+      const admins = tempUserData.filter(
+        (user) => user.isAdmin && !user.isOwner
+      );
+      const nonAdmins = tempUserData.filter((user) => !user.isAdmin);
 
       setAdminUsers(admins);
-      setNonAdminUsers(non_admins);
+      setNonAdminUsers(nonAdmins);
+      setLoading(true);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching users:", error);
+      toast.error("Error fetching users");
       setLoading(false);
-      setIsInitialLoad(false);
     }
     // finally {
-    //   setLoading(false);
-    //   setIsInitialLoad(false);
+    //    // Set loading to false after data fetch completes
     // }
   };
 
   useEffect(() => {
-    GetAllUsers();
-  }, []);
+    const fetchData = async () => {
+      await getAllUsers();
+      setTimeout(() => {
+        setIsInitialLoad(false); // Set isInitialLoad to false after a minimum duration
+      }, 1000); // Adjust the timeout duration as needed (e.g., 1000ms = 1 second)
+    };
+
+    fetchData();
+  }, []); // Run once on component mount
 
   const handleAdminAuthorize = async (userId, userAdminStatus) => {
-    if (!amOwner) return;
+    if (!isOwner) return;
+
     try {
-      const response = await axiosInstance.put(`/users/${userId}`, {
+      await axiosInstance.put(`/users/${userId}`, {
         isAdmin: !userAdminStatus,
       });
       toast.success("Admin authorization updated successfully");
-      GetAllUsers();
+      getAllUsers(); // Refresh user data after update
     } catch (error) {
-      console.error(error);
+      console.error("Error updating admin authorization:", error);
       toast.error("Error updating admin authorization");
     }
   };
 
   const handleDeleteClick = async (userId) => {
-    if (!amOwner) return;
+    if (!isOwner) return;
+
     try {
-      const response = await axiosInstance.delete(`/users/${userId}`);
+      await axiosInstance.delete(`/users/${userId}`);
       toast.success("User deleted successfully");
-      GetAllUsers();
+      getAllUsers(); // Refresh user data after deletion
     } catch (error) {
-      console.error(error);
+      console.error("Error deleting user:", error);
       toast.error("Error deleting user");
     }
   };
 
-  if (loading) {
+  // Show loading indicator for a minimum duration (e.g., 1 second)
+  if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
   }
+
   return (
     <div className="container mx-auto p-4 min-h-screen">
       {/* Admin Users */}
-      {amOwner && (
+      {isOwner && (
         <>
           <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
             All Admins
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {AdminUsers.map((user) => (
+            {adminUsers.map((user) => (
               <UserCard
                 key={user._id}
                 user={user}
-                amOwner={amOwner}
+                amOwner={isOwner}
                 onToggleAuthorizeAdmin={handleAdminAuthorize}
                 onDeleteClick={handleDeleteClick}
               />
@@ -102,11 +107,11 @@ const AdminUsers = () => {
         All Users
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-        {NonAdminUsers.map((user) => (
+        {nonAdminUsers.map((user) => (
           <UserCard
             key={user._id}
             user={user}
-            amOwner={amOwner}
+            amOwner={isOwner}
             onToggleAuthorizeAdmin={handleAdminAuthorize}
             onDeleteClick={handleDeleteClick}
           />

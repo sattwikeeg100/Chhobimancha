@@ -23,7 +23,6 @@ const AdminCineasts = () => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      setIsInitialLoad(false);
     }
     // finally {
 
@@ -31,7 +30,14 @@ const AdminCineasts = () => {
   };
 
   useEffect(() => {
-    GetAllCineasts();
+    const fetchData = async () => {
+      await GetAllCineasts();
+      setTimeout(() => {
+        setIsInitialLoad(false); // Set isInitialLoad to false after a minimum duration
+      }, 1000); // Adjust the timeout duration as needed (e.g., 1000ms = 1 second)
+    };
+
+    fetchData();
   }, []);
 
   const handleAddClick = () => {
@@ -74,7 +80,7 @@ const AdminCineasts = () => {
     return cineastName.includes(searchQueryLowercase);
   });
 
-  if (loading) {
+  if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
   }
 

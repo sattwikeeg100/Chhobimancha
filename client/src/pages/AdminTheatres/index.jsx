@@ -24,7 +24,6 @@ const AdminTheatres = () => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      setIsInitialLoad(false);
     }
     // finally {
     //   setLoading(false);
@@ -33,7 +32,13 @@ const AdminTheatres = () => {
   };
 
   useEffect(() => {
-    GetAllTheatres();
+    const fetchData = async () => {
+      await GetAllTheatres();
+      setTimeout(() => {
+        setIsInitialLoad(false); // Set isInitialLoad to false after a minimum duration
+      }, 1000);
+    };
+    fetchData();
   }, []);
 
   const handleAddClick = () => {
@@ -76,7 +81,7 @@ const AdminTheatres = () => {
     return theatreName.includes(searchQueryLowercase);
   });
 
-  if (loading) {
+  if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
   }
 
