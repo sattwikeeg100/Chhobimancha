@@ -45,7 +45,7 @@ const ShowCard = ({ show }) => {
         </div>
       </div>
       <button
-        className="bg-highlight hover:bg-highlight_hover text-white font-bold font-ubuntu my-4 py-2 px-4 rounded w-full"
+        className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold font-ubuntu my-4 py-2 px-4 rounded w-full"
         onClick={() => navigate(`/explore/shows/${show.slug}`)}
       >
         Book Now

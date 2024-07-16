@@ -191,7 +191,9 @@ const AdminDashboard = () => {
   return (
     <div className="container max-w-screen flex flex-col p-5 gap-y-10 mx-auto overflow-x-hidden">
       <div className="flex flex-col">
-        <h1 className="text-2xl font-bold mb-4 text-white">Admin Dashboard</h1>
+        <h1 className="text-2xl font-bold mb-4 text-primary_text">
+          Admin Dashboard
+        </h1>
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 h-max gap-5">
             <InfoCard
@@ -253,7 +255,7 @@ const AdminDashboard = () => {
 };
 
 const InfoCard = ({ title, value, loading }) => (
-  <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
+  <div className="bg-shadow text-primary_text p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
     <h2 className="text-lg font-semibold mb-2">{title}</h2>
     {loading ? <p>Loading...</p> : <p>{`${title}: ${value}`}</p>}
   </div>
@@ -261,7 +263,9 @@ const InfoCard = ({ title, value, loading }) => (
 
 const DashboardChart = ({ title, data, className }) => (
   <div className="flex flex-col items-start gap-y-5">
-    <h2 className="text-xl md:text-3xl text-white font-montserrat">{title}</h2>
+    <h2 className="text-xl md:text-3xl text-primary_text font-montserrat">
+      {title}
+    </h2>
     <div className={className}>
       <Bar data={data} className="rounded-xl bg-shadow p-2" />
     </div>

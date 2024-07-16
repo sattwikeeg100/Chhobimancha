@@ -63,10 +63,10 @@ const TheatreCastCrew = ({ casts }) => {
                 />
               </div>
               <div className="text-center flex flex-col items-center justify-center">
-                <div className="font-semibold text-white">
+                <div className="font-semibold text-primary_text">
                   {member.person.name}
                 </div>
-                <div className="font-bold text-white">{member.role}</div>
+                <div className="font-bold text-primary_text">{member.role}</div>
               </div>
             </div>
           ))}

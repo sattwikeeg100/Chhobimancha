@@ -77,7 +77,7 @@ const AllShows = () => {
   return (
     <div className="justify-center items-center px-5 sm:px-10 bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
+        <h1 className="text-xl sm:text-5xl font-bold text-primary_text py-4 font-montserrat">
           Natyo kola
         </h1>
         <div className="flex items-center justify-center gap-x-4">
@@ -142,13 +142,13 @@ const AllShows = () => {
 
             <div className="flex justify-end gap-x-4">
               <button
-                className="bg-highlight_hover hover:bg-highlight text-white font-bold py-2 px-4 rounded-lg"
+                className="bg-highlight_hover hover:bg-highlight text-primary_text font-bold py-2 px-4 rounded-lg"
                 onClick={handleResetFilters}
               >
                 Reset
               </button>
               <button
-                className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-lg"
+                className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold py-2 px-4 rounded-lg"
                 onClick={handleApplyFilters}
               >
                 Apply
@@ -170,10 +170,10 @@ const AllShows = () => {
         <div className="flex justify-center mt-8 flex-row">
           <button
             onClick={handleLoadMore}
-            className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
+            className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold py-2 px-4 rounded-md flex flex-row"
           >
             Load More
-            <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
+            <MdArrowDownward className="w-6 h-6 text-primary_text ml-1 font-semibold" />
           </button>
         </div>
       )}

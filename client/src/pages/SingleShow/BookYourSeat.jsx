@@ -111,7 +111,7 @@ const BookYourSeat = ({
               {rowLabels.slice(0, 3).map((label, index) => (
                 <div
                   key={label}
-                  className="hidden lg:flex absolute -left-5 text-white"
+                  className="hidden lg:flex absolute -left-5 text-primary_text"
                   style={{ top: rowHeights[index] }}
                 >
                   {label}
@@ -160,7 +160,7 @@ const BookYourSeat = ({
               {rowLabels.slice(3, 9).map((label, index) => (
                 <div
                   key={label}
-                  className="hidden lg:flex absolute  -left-5 text-white "
+                  className="hidden lg:flex absolute  -left-5 text-primary_text "
                   style={{ top: rowHeights[index + 3] }}
                 >
                   {label}
@@ -209,7 +209,7 @@ const BookYourSeat = ({
               {rowLabels.slice(9).map((label, index) => (
                 <div
                   key={label}
-                  className="hidden lg:flex absolute  -left-5 text-white"
+                  className="hidden lg:flex absolute  -left-5 text-primary_text"
                   style={{ top: rowHeights[index + 9] }}
                 >
                   {label}
@@ -365,7 +365,7 @@ const BookYourSeat = ({
               {rowLabels.slice(0, 3).map((label, index) => (
                 <div
                   key={label}
-                  className="hidden lg:flex absolute -right-5 text-white"
+                  className="hidden lg:flex absolute -right-5 text-primary_text"
                   style={{ top: rowHeights[index] }}
                 >
                   {label}
@@ -409,7 +409,7 @@ const BookYourSeat = ({
               {rowLabels.slice(3, 9).map((label, index) => (
                 <div
                   key={label}
-                  className="hidden lg:flex absolute -right-5 text-white"
+                  className="hidden lg:flex absolute -right-5 text-primary_text"
                   style={{ top: rowHeights[index + 3] }}
                 >
                   {label}

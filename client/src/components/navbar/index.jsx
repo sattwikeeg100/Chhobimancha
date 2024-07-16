@@ -98,7 +98,7 @@ const Navbar = ({ open, setOpen }) => {
   }, [open]);
 
   return (
-    <div className="bg-background2 text-white font-semibold py-4 px-5 md:px-10 flex justify-between items-center">
+    <div className="bg-background2 text-primary_text font-semibold py-4 px-5 md:px-10 flex justify-between items-center">
       <div className="text-xl font-bold">
         <NavLink
           to="/"
@@ -227,7 +227,7 @@ const Navbar = ({ open, setOpen }) => {
 
       <div className="lg:hidden flex items-center">
         <button
-          className="text-white focus:outline-none"
+          className="text-primary_text focus:outline-none"
           onClick={() => setOpen(!open)}
         >
           {open ? null : <CiMenuFries size={26} />}
@@ -240,7 +240,7 @@ const Navbar = ({ open, setOpen }) => {
           className="lg:hidden fixed top-0 right-0 h-screen duration-700 bg-background1 bg-opacity-90 z-40 flex flex-col items-end space-y-4 p-7 gap-y-3"
         >
           <button
-            className="self-end text-white focus:outline-none "
+            className="self-end text-primary_text focus:outline-none "
             onClick={() => setOpen(!open)}
           >
             <RxCross2 size={24} />

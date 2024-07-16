@@ -19,7 +19,7 @@ const UserCard = ({ user, amOwner, onToggleAuthorizeAdmin, onDeleteClick }) => {
         <div className="flex flex-row w-full justify-center mt-4 space-x-4">
           {user.isAdmin ? (
             <button
-              className="bg-highlight hover:bg-highlight_hover text-white p-2 rounded cursor-pointer text-md font-roboto"
+              className="bg-highlight hover:bg-highlight_hover text-primary_text p-2 rounded cursor-pointer text-md font-roboto"
               onClick={() => onToggleAuthorizeAdmin(user._id, user.isAdmin)}
             >
               Remove admin authorization

@@ -4,14 +4,14 @@ const SkeletonAllMovies = () => {
   return (
     <div>
       <div className="justify-center items-center p-4  sm:px-10 bg-background1">
-        <h2 className="h-[3rem] w-[15%] bg-shadow py-4 mt-10 animate-pulse mb-4 rounded-xl"></h2>
-        <div className="flex flex-row gap-4 mb-5">
-          <h2 className="h-[2.5rem] w-[18%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
-          <h2 className="h-[2.5rem] w-[15%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
-          <h2 className="h-[2.5rem] w-[16%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
+        <h2 className=" h-[2rem] sm:h-[3rem] w-full sm:w-[15%] bg-shadow  animate-pulse mb-4 rounded-xl"></h2>
+        <div className="flex flex-col sm:flex-row gap-4 mb-5">
+          <h2 className="h-[2.5rem] w-[50%] sm:w-[20%] bg-shadow  animate-pulse rounded-xl"></h2>
+          <h2 className="h-[2.5rem] w-[50%] sm:w-[20%] bg-shadow  animate-pulse rounded-xl"></h2>
+          <h2 className="h-[2.5rem] w-[50%] sm:w-[20%] bg-shadow  animate-pulse rounded-xl"></h2>
         </div>
 
-        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
+        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
           {Array.from({ length: 8 }).map((_, index) => (
             <div
               key={index}

@@ -41,7 +41,7 @@ const CineastAdminCard = ({ cineast, onEditClick, onDeleteClick }) => {
       </p>
       <div className="flex justify-end space-x-2 mt-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-white p-2 rounded"
+          className="bg-highlight hover:bg-highlight_hover text-primary_text p-2 rounded"
           onClick={() => onEditClick(cineast)}
         >
           <FaEdit />

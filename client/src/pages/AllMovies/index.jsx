@@ -144,9 +144,9 @@ const AllMovies = () => {
   // console.log(filteredMovies);
 
   return (
-    <div className="justify-center items-center px-10 py-10 bg-background1 min-h-screen">
+    <div className="justify-center items-center px-5 sm:px-10  bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-5xl font-bold text-white py-4 font-montserrat">
+        <h1 className="text-xl sm:text-5xl font-bold text-primary_text py-4 font-montserrat">
           Movies
         </h1>
         <div className="flex items-center justify-center gap-x-4">
@@ -225,7 +225,7 @@ const AllMovies = () => {
       </div>
       {filteredMovies.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 bg-background1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-5 bg-background1">
             {filteredMovies.slice(0, visibleMovies).map((movie, index) => (
               <MovieCard
                 key={index}
@@ -235,19 +235,19 @@ const AllMovies = () => {
             ))}
           </div>
           {filteredMovies.length < totalMovies.length && (
-            <div className="flex justify-center mt-8 flex-row">
+            <div className="flex justify-center pb-5 flex-row">
               <button
                 onClick={handleLoadMore}
-                className="bg-highlight hover:bg-highlight_hover text-white font-bold py-2 px-4 rounded-md flex flex-row"
+                className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold py-2 px-4 rounded-md flex flex-row"
               >
                 Load More
-                <MdArrowDownward className="w-6 h-6 text-white ml-1 font-semibold" />
+                <MdArrowDownward className="w-6 h-6 text-primary_text ml-1 font-semibold" />
               </button>
             </div>
           )}
         </>
       ) : (
-        <p className="text-white text-center pt-40">
+        <p className="text-primary_text text-center pt-40">
           Sorry, we don't have movies matching your criteria right now.
         </p>
       )}

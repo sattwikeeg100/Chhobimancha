@@ -220,7 +220,7 @@ const SingleShow = () => {
         <div className="flex flex-col gap-y-4 lg:w-[56%] xl:w-[64%] lg:pr-10">
           {/* cast */}
           <div className=" flex flex-col ">
-            <div className="text-3xl sm:text-4xl text-white pl-10  font-bold">
+            <div className="text-3xl sm:text-4xl text-primary_text pl-10  font-bold">
               Artist
             </div>
             <div className="pt-7">
@@ -231,7 +231,7 @@ const SingleShow = () => {
 
           {/* crew */}
           <div className=" flex flex-col ">
-            <div className="text-3xl sm:text-4xl text-white pl-10  font-bold">
+            <div className="text-3xl sm:text-4xl text-primary_text pl-10  font-bold">
               Crew
             </div>
             <div className="pt-7">
@@ -252,7 +252,7 @@ const SingleShow = () => {
       {/* about section */}
 
       <div className="px-10 flex flex-col gap-y-3">
-        <div className=" text-3xl sm:text-4xl text-white  font-bold">
+        <div className=" text-3xl sm:text-4xl text-primary_text  font-bold">
           About The Play
         </div>
         <p className=" text-secondary_text sm:text-lg leading-8">
@@ -265,7 +265,7 @@ const SingleShow = () => {
       {/* booking */}
 
       <div className="flex flex-col gap-y-5">
-        <div className="px-10 text-3xl sm:text-4xl text-white  font-bold">
+        <div className="px-10 text-3xl sm:text-4xl text-primary_text  font-bold">
           Grab Your Seats
         </div>
         <BookYourSeat

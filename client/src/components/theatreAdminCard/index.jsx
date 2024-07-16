@@ -39,7 +39,7 @@ const TheatreAdminCard = ({ theatre, onEditClick, onDeleteClick }) => {
       </div>
       <div className="flex justify-start space-x-2 mt-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-white p-2 rounded"
+          className="bg-highlight hover:bg-highlight_hover text-primary_text p-2 rounded"
           onClick={() => onEditClick(theatre)}
         >
           <FaEdit />

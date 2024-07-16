@@ -72,7 +72,7 @@ const Reviews = ({ reviews }) => {
                       alt="User"
                     />
                   </div>
-                  <div className="text-white font-semibold font-roboto bg-shadow ">
+                  <div className="text-primary_text font-semibold font-roboto bg-shadow ">
                     {review.userName}
                   </div>
                   <div className="absolute top-2 right-2 text-highlight font-bold font-lato bg-shadow text-base flex items-center gap-1 ">
@@ -81,7 +81,7 @@ const Reviews = ({ reviews }) => {
                   </div>
                 </div>
                 <div className="mt-4 text-left flex-grow review-text-container items-center">
-                  <p className="text-white text-sm review-text">
+                  <p className="text-primary_text text-sm review-text">
                     {review.comment}
                   </p>
                 </div>

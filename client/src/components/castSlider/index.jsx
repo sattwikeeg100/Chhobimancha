@@ -41,7 +41,7 @@ const CastSlider = ({ casts, who }) => {
 
   return (
     <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-0">
-      <h2 className="sm:text-2xl text-md font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 px-10 text-white">
+      <h2 className="sm:text-2xl text-md font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
         {who === "casts" ? "Casts:" : "Crews:"}
       </h2>
       <div className="flex items-center">
@@ -67,10 +67,10 @@ const CastSlider = ({ casts, who }) => {
                 />
               </div>
               <div className="text-center flex flex-col items-center justify-center">
-                <div className="font-semibold text-white">
+                <div className="font-semibold text-primary_text">
                   {cast.person.name}
                 </div>
-                <div className="font-bold text-white">{cast.role}</div>
+                <div className="font-bold text-primary_text">{cast.role}</div>
               </div>
             </div>
           ))}
