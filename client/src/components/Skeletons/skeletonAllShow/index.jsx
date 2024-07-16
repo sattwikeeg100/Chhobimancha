@@ -4,7 +4,7 @@ const SkeletonAllShow = () => {
   return (
     <div>
       <div className="justify-center items-center p-4 sm:px-10 bg-background1">
-        <h2 className="h-[3rem] w-[20%] bg-shadow py-4 animate-pulse mb-4 rounded-xl"></h2>
+        <h2 className="h-[2rem] w-full md:h-[3rem] md:w-[30%] bg-shadow py-4 animate-pulse mb-4 rounded"></h2>
         <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 py-4">
           {Array.from({ length: 8 }).map((_, index) => (
             <div
