@@ -154,18 +154,18 @@ const SingleMovie = () => {
                     onClick={handleClick}
                     className="group rounded-lg mb-3 flex items-center space-x-0.5 bg-highlight hover:bg-highlight_hover lg:px-[4.5rem] lg:py-2 md:px-6 md:py-2 sm:px-10 sm:py-1 px-0 py-0 hidden sm:flex"
                   >
-                    <span className="sm:font-semibold font-normal tracking-tighter sm:tracking-normal font-ubuntu text-white lg:text-lg md:text-md sm:text-sm text-sm">
+                    <span className="sm:font-semibold font-normal tracking-tighter sm:tracking-normal font-ubuntu text-primary_text lg:text-lg md:text-md sm:text-sm text-sm">
                       Play Now
                     </span>
                     <div className="flex items-center translate-x-1 transition-all duration-300">
-                      <BiRightArrow className="text-white w-3 h-3 lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3" />
+                      <BiRightArrow className="text-primary_text w-3 h-3 lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3" />
                     </div>
                   </button>
                 </div>
               </div>
 
               {/* right side */}
-              <div className="flex flex-col justify-center items-start text-white xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 w-3/5 lg:gap-5 md:gap-2 sm:gap-1">
+              <div className="flex flex-col justify-center items-start text-primary_text xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 w-3/5 lg:gap-5 md:gap-2 sm:gap-1">
                 {/* movie name */}
                 <div className=" tracking-normal mt-5 sm:mt-0 text-left lg:text-4xl md:text-xl text-base mb-2 md:mb-1 md:ml-3 sm:ml-1 ml-0 font-montserrat">
                   <strong>{movie.title}</strong>
@@ -193,7 +193,7 @@ const SingleMovie = () => {
 
                 <div className="flex flex-wrap sm:gap-2 gap-x-3 gap-y-1 items-center py-3 md:ml-3 sm:ml-0 rounded-[8px]">
                   {/* average rating */}
-                  <FaStar className="md:h-4 md:w-4 sm:w-3 sm:h-3 h-4 w-4 text-white" />
+                  <FaStar className="md:h-4 md:w-4 sm:w-3 sm:h-3 h-4 w-4 text-primary_text" />
                   <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight tracking-tighter font-roboto">
                     {movie.averageRating}/5
                   </div>
@@ -207,7 +207,7 @@ const SingleMovie = () => {
                   <div className="lg:ml-10 md:ml-5 lg:text-md md:text-sm text-sm sm:ml-3 ml-0 hidden sm:flex">
                     <button
                       onClick={() => handleReviewRequest()}
-                      className="bg-highlight hover:bg-highlight_hover text-white sm:font-semibold font-normal font-ubuntu rounded-lg focus:outline-none focus:shadow-outline sm:py-[.35rem] md:px-6 sm:px-3 px-3 py-1 tracking-normal"
+                      className="bg-highlight hover:bg-highlight_hover text-primary_text sm:font-semibold font-normal font-ubuntu rounded-lg focus:outline-none focus:shadow-outline sm:py-[.35rem] md:px-6 sm:px-3 px-3 py-1 tracking-normal"
                     >
                       Add Review
                     </button>
@@ -230,18 +230,18 @@ const SingleMovie = () => {
                 onClick={handleClick}
                 className="group rounded-lg mb-3 flex items-center space-x-0.5 bg-highlight hover:bg-highlight_hover px-6 py-2"
               >
-                <span className="font-semibold tracking-normal font-ubuntu text-white text-sm">
+                <span className="font-semibold tracking-normal font-ubuntu text-primary_text text-sm">
                   Play Now
                 </span>
                 <div className="flex items-center translate-x-1 transition-all duration-300">
-                  <BiRightArrow className="text-white w-3 h-3 lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3" />
+                  <BiRightArrow className="text-primary_text w-3 h-3 lg:w-6 lg:h-5 md:w-4 md:h-4 sm:w-3 sm:h-3" />
                 </div>
               </button>
             </div>
             <div className=" text-sm">
               <button
                 onClick={() => handleReviewRequest()}
-                className="bg-highlight hover:bg-highlight_hover text-white font-semibold font-ubuntu rounded-lg focus:outline-none focus:shadow-outline px-6 py-2 tracking-normal"
+                className="bg-highlight hover:bg-highlight_hover text-primary_text font-semibold font-ubuntu rounded-lg focus:outline-none focus:shadow-outline px-6 py-2 tracking-normal"
               >
                 Add Review
               </button>
@@ -250,7 +250,7 @@ const SingleMovie = () => {
 
           {/* Movie Description */}
           <div className="lg:px-10 md:px-2 sm:px-5 px-1 sm:mt-10 mt-0 flex flex-col gap-y-8">
-            <div className=" text-left text-white flex flex-col gap-5 common-container md:px-16 sm:px-5 px-10">
+            <div className=" text-left text-primary_text flex flex-col gap-5 common-container md:px-16 sm:px-5 px-10">
               <div className="sm:text-2xl text-base font-bold font-montserrat tracking-wider common-heading">
                 Description:
               </div>

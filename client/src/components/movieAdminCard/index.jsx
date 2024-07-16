@@ -47,7 +47,7 @@ const MovieAdminCard = ({ movie, onEditClick, onDeleteClick }) => {
       </div>
       <div className="flex justify-end space-x-4 mt-2">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-white p-2 rounded"
+          className="bg-highlight hover:bg-highlight_hover text-primary_text p-2 rounded"
           onClick={() => onEditClick(movie)}
         >
           <FaEdit />

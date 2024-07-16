@@ -98,7 +98,7 @@ const Navbar = ({ open, setOpen }) => {
 
   return (
     <div
-      className={` bg-background2 text-white font-semibold py-4 px-8 flex justify-between items-center `}
+      className={` bg-background2 text-primary_text font-semibold py-4 px-8 flex justify-between items-center `}
     >
       <div className="text-xl font-bold">
         <Link to="/" className="gap-x-2 flex items-center">

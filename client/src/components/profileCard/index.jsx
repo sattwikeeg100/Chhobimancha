@@ -19,7 +19,7 @@ const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
           className="w-60 h-60 sm:w-64 sm:h-64 object-cover mb-4 rounded-full"
         />
       ) : (
-        <h2 className="w-64 h-64 flex items-center justify-center bg-gray-700 rounded-full text-4xl text-white font-montserrat font-semibold mb-4">
+        <h2 className="w-64 h-64 flex items-center justify-center bg-gray-700 rounded-full text-4xl text-primary_text font-montserrat font-semibold mb-4">
           {getInitials(profile.name)}
         </h2>
       )}

@@ -30,7 +30,10 @@ export const socialHandles = [
 
 const Footer = () => {
   return (
-    <footer className="px-10  bg-background2 text-white py-8 mt-0" id="footer">
+    <footer
+      className="px-10  bg-background2 text-primary_text py-8 mt-0"
+      id="footer"
+    >
       <div className="flex flex-col  sm:flex-row items-center gap-y-10 sm:gap-x-5 md:gap-x-10 sm:gap-y-0 justify-between ">
         {/* left side */}
 
