@@ -131,11 +131,10 @@ const Home = () => {
     GetAllShows();
   }, []);
   useEffect(() => {
-    setTimeout(()=>{
+    setTimeout(() => {
       setLoading(false);
-    },2000);
+    }, 2000);
   }, []);
-
 
   return (
     <div
@@ -154,12 +153,12 @@ const Home = () => {
                     {(
                       <div className="w-[95%] sm:w-full h-[50vw] md:h-[30vw]" />
                     ) && (
-                        <img
-                          src={`${movie.coverImage}`}
-                          alt=""
-                          className="w-full h-[60vw] md:h-[30vw] object-center rounded-lg"
-                        />
-                      )}
+                      <img
+                        src={`${movie.coverImage}`}
+                        alt=""
+                        className="w-full h-[60vw] md:h-[30vw] object-center rounded-lg"
+                      />
+                    )}
                   </div>
                 </Link>
               ))}
@@ -167,7 +166,7 @@ const Home = () => {
           </div>
         </header>
       )}
-      <div className="w-screen h-full flex justify-center items-center min-h-5 mb-10 mt-5">
+      <div className="w-screen h-full flex justify-center items-center min-h-5 pb-10 ">
         <div className="w-full h-full">
           <HomeCardSlider
             elements={latestMovies}
