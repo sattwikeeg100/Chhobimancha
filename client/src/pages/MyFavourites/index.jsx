@@ -16,7 +16,6 @@ const MyFavourites = () => {
     } catch (error) {
       console.error(error);
       setLoading(false);
-      setIsInitialLoad(false);
     }
     // finally {
     //   setLoading(false);
@@ -24,10 +23,16 @@ const MyFavourites = () => {
   };
 
   useEffect(() => {
-    GetAllFavouriteMovies();
+    const fetchData = async () => {
+      await GetAllFavouriteMovies();
+      setTimeout(() => {
+        setIsInitialLoad(false); // Set isInitialLoad to false after a minimum duration
+      }, 1000);
+    };
+    fetchData();
   }, []);
 
-  if (loading) {
+  if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
   }
 

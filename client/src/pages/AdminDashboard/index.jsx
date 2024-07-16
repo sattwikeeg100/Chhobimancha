@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Preloader from "../../components/PreLoader/PreLoader.jsx";
-// import "./CustomSlick.css";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -38,16 +37,14 @@ const AdminDashboard = () => {
     try {
       const response = await axiosInstance.get("/");
       setAllInfos(response.data);
-      setLoading(true);
     } catch (error) {
       console.error("Error fetching all infos:", error);
+    } finally {
       setLoading(false);
-      setIsInitialLoad(false);
+      setTimeout(() => {
+        setIsInitialLoad(false);
+      }, 1500); // Minimum loading duration of 1 second
     }
-    // finally {
-    //   setLoading(false);
-    //   setIsInitialLoad(false);
-    // }
   };
 
   const fetchRevenueData = async () => {
@@ -58,17 +55,19 @@ const AdminDashboard = () => {
         },
       });
       setRevenueData(response.data);
-      // setLoading(true);
     } catch (error) {
       console.error("Error fetching revenue data:", error);
-      // setLoading(false);
-      // setIsInitialLoad(false);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAllInfos();
-    fetchRevenueData();
+    const fetchData = async () => {
+      await fetchAllInfos();
+      await fetchRevenueData();
+    };
+
+    fetchData();
   }, []);
 
   const bookingLabels = revenueData.map((item) => `Month ${item.month}`);
@@ -145,6 +144,7 @@ const AdminDashboard = () => {
       },
     ],
   };
+
   const settings = {
     dots: true,
     infinite: true,
@@ -183,110 +183,89 @@ const AdminDashboard = () => {
       },
     ],
   };
-  if (loading) {
+
+  if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
   }
 
   return (
     <div className="container max-w-screen flex flex-col p-5 gap-y-10 mx-auto overflow-x-hidden">
       <div className="flex flex-col">
-        <h1 className="text-2xl font-bold mb-4 text-white ">Admin Dashboard</h1>
-        <div className=" w-full ">
-          <div className="  grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 h-max   gap-5 ">
-            <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56 ">
-              <h2 className="text-lg font-montserrat font-semibold mb-2">
-                Users
-              </h2>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <p className="font-open_sans">
-                  Total Users: {allInfos.totalUsers}
-                </p>
-              )}
-            </div>
-            <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
-              <h2 className="text-lg font-semibold mb-2">Subscribers</h2>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <p>Total Subscribers: {allInfos.totalSubscribers}</p>
-              )}
-            </div>
-            <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
-              <h2 className="text-lg font-semibold mb-2">Movies</h2>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <p>Total Movies: {allInfos.totalMovies}</p>
-              )}
-            </div>
-            <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
-              <h2 className="text-lg font-semibold mb-2">Shows</h2>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <p>Total Shows: {allInfos.totalShows}</p>
-              )}
-            </div>
-            <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
-              <h2 className="text-lg font-semibold mb-2">Show Bookings</h2>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <p>Total Bookings: {allInfos.totalBookings}</p>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col lg:flex-row gap-10 justify-around items-stretch">
-        <div className="flex flex-col items-start  gap-y-5">
-          <h2 className="text-white text-xl md:text-3xl font-montserrat">
-            Total Revenue
-          </h2>
-          <div className="  w-[300px]  md:w-[450px] ">
-            <Pie data={pieData} className=" rounded-xl bg-shadow p-2  " />
-          </div>
-        </div>
-        <div className="flex flex-col items-start  gap-y-5">
-          <h2 className="text-white text-xl md:text-3xl font-montserrat">
-            Overall Statistics
-          </h2>
-          <div className="  w-[300px]  md:w-[450px] ">
-            <Bar
-              data={consolidatedData}
-              className=" rounded-xl bg-shadow p-2 "
+        <h1 className="text-2xl font-bold mb-4 text-white">Admin Dashboard</h1>
+        <div className="w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 h-max gap-5">
+            <InfoCard
+              title="Users"
+              value={allInfos.totalUsers}
+              loading={loading}
+            />
+            <InfoCard
+              title="Subscribers"
+              value={allInfos.totalSubscribers}
+              loading={loading}
+            />
+            <InfoCard
+              title="Movies"
+              value={allInfos.totalMovies}
+              loading={loading}
+            />
+            <InfoCard
+              title="Shows"
+              value={allInfos.totalShows}
+              loading={loading}
+            />
+            <InfoCard
+              title="Show Bookings"
+              value={allInfos.totalBookings}
+              loading={loading}
             />
           </div>
         </div>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10 justify-around items-stretch">
-        <div className="flex flex-col items-start  gap-y-5">
-          <h2 className="text-primary_text text-xl md:text-3xl font-montserrat">
-            Booking Revenue
-            <br /> (Last 6 Months)
-          </h2>
-          <div className=" rounded-lg  w-[300px]  md:w-[450px] ">
-            <Bar data={bookingData} className="bg-shadow rounded-xl p-2  " />
-          </div>
-        </div>
-        <div className="flex flex-col items-start  gap-y-5">
-          <h2 className="text-primary_text text-xl md:text-3xl font-montserrat">
-            Subscription Revenue <br /> (Last 6 Months)
-          </h2>
-          <div className=" rounded-lgh-[300px] w-[300px] md:h-[250px] md:w-[450px] ">
-            <Bar
-              data={subscriptionData}
-              className="rounded-xl p-2  bg-shadow "
-            />
-          </div>
-        </div>
+        <DashboardChart
+          title="Total Revenue"
+          data={pieData}
+          className="w-[300px] md:w-[450px]"
+        />
+        <DashboardChart
+          title="Overall Statistics"
+          data={consolidatedData}
+          className="w-[300px] md:w-[450px]"
+        />
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-10 justify-around items-stretch">
+        <DashboardChart
+          title="Booking Revenue (Last 6 Months)"
+          data={bookingData}
+          className="w-[300px] md:w-[450px]"
+        />
+        <DashboardChart
+          title="Subscription Revenue (Last 6 Months)"
+          data={subscriptionData}
+          className="w-[300px] md:w-[450px]"
+        />
       </div>
     </div>
   );
 };
+
+const InfoCard = ({ title, value, loading }) => (
+  <div className="bg-shadow text-white p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
+    <h2 className="text-lg font-semibold mb-2">{title}</h2>
+    {loading ? <p>Loading...</p> : <p>{`${title}: ${value}`}</p>}
+  </div>
+);
+
+const DashboardChart = ({ title, data, className }) => (
+  <div className="flex flex-col items-start gap-y-5">
+    <h2 className="text-xl md:text-3xl text-white font-montserrat">{title}</h2>
+    <div className={className}>
+      <Bar data={data} className="rounded-xl bg-shadow p-2" />
+    </div>
+  </div>
+);
 
 export default AdminDashboard;

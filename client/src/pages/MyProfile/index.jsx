@@ -1,4 +1,3 @@
-// src/components/MyProfile.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../config/axiosInstance";
@@ -10,8 +9,8 @@ import { toast } from "sonner";
 
 const MyProfile = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [loading, setLoading] = useState(true); // Initial loading state
+  const [isInitialLoad, setIsInitialLoad] = useState(true); // Flag to track initial load
 
   const user = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
@@ -21,8 +20,10 @@ const MyProfile = () => {
   };
 
   const handleDeleteClick = async () => {
-    window.confirm("Are you sure you want to delete your account?");
-    alert("Account once deleted cannot be recovered! Continue ?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete your account?"
+    );
+    if (!confirmed) return;
 
     try {
       if (user.image) {
@@ -45,20 +46,26 @@ const MyProfile = () => {
   };
 
   useEffect(() => {
-    try {
-      setLoading(true);
-    } catch (error) {
-      setLoading(false);
-      setIsInitialLoad(false);
-    }
+    const fetchUserProfile = async () => {
+      try {
+        // Simulate a delay of 1 second (adjust as needed)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setLoading(false); // Set loading to false after the delay
+      } catch (error) {
+        setLoading(false);
+        // Handle error or set isInitialLoad to false if needed
+      }
+    };
+
+    fetchUserProfile();
   }, []);
 
-  if (loading) {
-    return <Preloader setLoading={setLoading} />;
+  if (loading && isInitialLoad) {
+    return <Preloader setLoading={setLoading} timeout={1000} />; // Display preloader for 1 second
   }
 
   return (
-    <div className="container mx-auto p-6 bg-background1 text-primary_text ">
+    <div className="container mx-auto p-6 bg-background1 text-primary_text">
       <h1 className="text-4xl font-montserrat font-bold mb-8 text-center">
         My Profile
       </h1>

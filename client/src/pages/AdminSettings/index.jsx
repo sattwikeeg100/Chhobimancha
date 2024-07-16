@@ -1,45 +1,71 @@
-// src/components/MyProfile.jsx
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "../../config/axiosInstance";
 import ProfileModal from "../../components/profileModal";
 import ProfileCard from "../../components/profileCard";
 import { logoutUser } from "../../store/slices/userSlice";
-import Preloader from "../../components/PreLoader/PreLoader.jsx";
+import Preloader from "../../components/PreLoader/PreLoader"; // Adjust path as needed
 import { toast } from "sonner";
 
 const AdminProfileSettings = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const user = useSelector((state) => state.user.userInfo);
   const [loading, setLoading] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Simulating loading delay (replace with actual API calls)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Example: Fetch user profile data from API
+        // Replace with your actual API call to fetch user data
+        // const response = await axiosInstance.get('/user/profile');
+
+        // Assuming API fetch is successful, update loading state
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast.error("Error fetching profile!");
+        setLoading(false); // Ensure loading state is set to false on error
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleEditClick = () => {
     setModalOpen(true);
   };
 
-  useEffect(() => {
-    if (!loading) {
-      setIsInitialLoad(false);
-    }
-  }, [loading]);
-
   const handleDeleteClick = async () => {
-    window.confirm("Are you sure you want to delete your account?");
-    alert("Account once deleted cannot be recovered! Continue ?");
+    if (window.confirm("Are you sure you want to delete your account?")) {
+      if (
+        window.confirm("Account once deleted cannot be recovered! Continue ?")
+      ) {
+        try {
+          // Example: Delete user's profile image
+          await axiosInstance.delete(
+            `/upload/image/${user.image.split("/").pop()}`
+          );
 
-    try {
-      await axiosInstance.delete(
-        `/upload/image/${user.image.split("/").pop()}`
-      );
-      await axiosInstance.delete(`/users`);
-      dispatch(logoutUser());
-      toast.success("Profile deleted successfully");
-      window.location.replace("/");
-    } catch (error) {
-      console.error("Error deleting profile:", error);
-      toast.error("Error deleting profile!");
+          // Example: Delete user account
+          await axiosInstance.delete(`/users`);
+
+          // Example: Logout user (redux action)
+          dispatch(logoutUser());
+
+          // Example: Show success toast message
+          toast.success("Profile deleted successfully");
+
+          // Example: Redirect user to home page
+          window.location.replace("/");
+        } catch (error) {
+          console.error("Error deleting profile:", error);
+          toast.error("Error deleting profile!");
+        }
+      }
     }
   };
 
