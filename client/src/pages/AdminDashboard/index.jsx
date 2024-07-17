@@ -225,7 +225,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-evenly items-center">
+      <div className="flex flex-col lg:flex-row justify-evenly gap-y-8 items-center">
         <DashboardChart
           title="Total Revenue"
           data={pieData}
@@ -238,7 +238,7 @@ const AdminDashboard = () => {
         />
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-evenly items-center">
+      <div className="flex flex-col lg:flex-row justify-evenly gap-y-8 items-center">
         <DashboardChart
           title="Booking Revenue<br/>(Last 6 Months)"
           data={bookingData}
