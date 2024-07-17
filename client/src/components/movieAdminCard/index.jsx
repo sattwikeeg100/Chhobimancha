@@ -23,7 +23,7 @@ const MovieAdminCard = ({ movie, onEditClick, onDeleteClick }) => {
       <img
         src={movie.poster}
         alt={movie.title}
-        className="w-96 h-96 mb-4 rounded-md object-cover"
+        className="w-auto h-auto mb-4 rounded-md object-cover"
       />
       <h2 className="text-2xl text-primary_text font-bold font-montserrat text-center">
         {movie.title}
