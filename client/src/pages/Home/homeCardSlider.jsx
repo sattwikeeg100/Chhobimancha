@@ -6,8 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import SkeletonMoviecard from "../../components/Skeletons/SkeletonMovieCard/SkeletonMoviecard";
 import "./custom-slick.css";
 
-const HomeCardSlider = ({ elements, title, what }) => {
-  const [loading, setLoading] = useState(true);
+const HomeCardSlider = ({ elements, title, what, isLoading }) => {
+  //const [loading, setLoading] = useState(true);
   const [imageLoaded, setImageLoaded] = useState(
     Array(elements.length).fill(false)
   );
@@ -19,11 +19,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
       return newLoadedState;
     });
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+
   const settings = {
     dots: false,
     infinite: false,
@@ -65,7 +61,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
 
   return (
     <div id="" className="m-auto w-[85%] sm:w-[90%]">
-      {loading ? (
+      {isLoading ? (
         <div className=" shadow-lg bg-shadow w-[70%] sm:w-[50%] h-10 my-7 rounded-md  "></div>
       ) : (
         <h3
@@ -78,7 +74,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
 
       <div id="movieCards ">
         <Slider {...settings} className="object-center ">
-          {loading
+          {isLoading
             ? Array.from({ length: 7 }).map((_, key) => (
                 <SkeletonMoviecard key={key} />
               ))
@@ -129,7 +125,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
               ))}
           <div
             className={`  rounded-md bg-shadow h-[400px] 2xl:h-[450px] w-[300px]  2xl:w-[320px] !flex !justify-center !items-center !bg-no-repeat relative right-0 ${
-              elements.length != 0 && !loading ? "!block" : "!hidden"
+              elements.length != 0 && !isLoading ? "!block" : "!hidden"
             } `}
           >
             <Link
@@ -138,7 +134,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
             >
               <div
                 className={`bg-background1 hover:bg-background2 h-28 w-[50%] rounded-[30px] flex justify-center items-center flex-wrap text-center ${
-                  elements.length != 0 && !loading ? "block" : "hidden"
+                  elements.length != 0 && !isLoading ? "block" : "hidden"
                 }`}
               >
                 <span className="text-primary_text  md:text-xl font-lato font-medium  text-lg p-2 ">

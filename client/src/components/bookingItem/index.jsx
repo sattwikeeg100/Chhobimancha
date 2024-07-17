@@ -39,8 +39,6 @@ const BookingItem = ({ booking }) => {
         body: details,
         theme: "striped",
       });
-      const pdfBase64 = doc.output("datauristring");
-      console.log(pdfBase64);
 
       doc.save(`${booking.show.title}-ticket.pdf`);
     };
