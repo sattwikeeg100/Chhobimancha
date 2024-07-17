@@ -78,16 +78,20 @@ const AdminProfileSettings = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 min-h-screen flex flex-col items-center">
-      <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
-        My Profile
-      </h1>
-      <ProfileCard
-        profile={user}
-        onEditClick={handleEditClick}
-        onDeleteClick={handleDeleteClick}
-      />
-      {modalOpen && <ProfileModal profile={user} onClose={handleModalClose} />}
+    <div className="container mx-auto p-4  ">
+      <div className="flex flex-col items-center min-h-screen">
+        <h1 className="text-5xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
+          My Profile
+        </h1>
+        <ProfileCard
+          profile={user}
+          onEditClick={handleEditClick}
+          onDeleteClick={handleDeleteClick}
+        />
+        {modalOpen && (
+          <ProfileModal profile={user} onClose={handleModalClose} />
+        )}
+      </div>
     </div>
   );
 };

@@ -132,12 +132,12 @@ const AdminShows = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-xl sm:text-5xl font-bold text-primary_text py-4 font-montserrat">
+      <h1 className="text-4xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
         Admin Show Management
       </h1>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 mb-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold sm:text-xl py-2 px-4 rounded"
+          className="bg-highlight hover:bg-highlight_hover text-primary_text font-medium font-ubuntu sm:text-base py-1 px-3 rounded"
           onClick={handleAddClick}
         >
           Add New Show
@@ -147,14 +147,14 @@ const AdminShows = () => {
           <input
             type="text"
             placeholder="Search for shows..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight px-4 py-2 text-xs sm:text-base pl-10 sm:pl-10 sm:px-4"
+            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
         </div>
       </div>
-      <h3 className="text-lg sm:text-3xl font-lato font-bold my-4 text-primary_text">
+      <h3 className="text-lg sm:text-3xl font-montserrat  my-4 text-primary_text">
         Upcoming Shows
       </h3>
       {filteredUpcomingShows.length > 0 ? (
@@ -173,7 +173,7 @@ const AdminShows = () => {
           No upcoming shows available
         </p>
       )}
-      <h3 className="text-lg sm:text-3xl font-lato font-bold my-4 text-primary_text">
+      <h3 className="text-lg sm:text-3xl font-montserrat  my-4 text-primary_text">
         Past Shows
       </h3>
 

@@ -25,12 +25,12 @@ const MovieAdminCard = ({ movie, onEditClick, onDeleteClick }) => {
         alt={movie.title}
         className="w-96 h-96 mb-4 rounded-md object-cover"
       />
-      <h2 className="text-3xl text-primary_text font-bold font-montserrat text-center">
+      <h2 className="text-2xl text-primary_text font-bold font-montserrat text-center">
         {movie.title}
       </h2>
 
       <div className="flex flex-col items-center justify-center gap-y-2">
-        <p className="text-secondary_text font-medium font-ubuntu text-lg text-center">
+        <p className="text-secondary_text font-medium font-lato text-lg ">
           {renderDescription()}{" "}
           {movie.description.split(" ").length > 40 && (
             <span

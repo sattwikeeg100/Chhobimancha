@@ -44,11 +44,11 @@ const Footer = () => {
               alt="chobimancha_logo"
               className="rounded-full w-16"
             />
-            <h2 className=" text-3xl sm:text-xl md:text-2xl lg:text-3xl font-logo_text font-bold">
+            <h2 className=" text-3xl sm:text-xl md:text-2xl lg:text-3xl font-logo_text font-medium">
               Chhobimancha
             </h2>
           </Link>
-          <div className="flex items-center justify-center gap-x-2 font-bold  text-sm sm:text-xs  lg:text-sm font-lato">
+          <div className="flex items-center justify-center gap-x-2 font-medium  text-sm sm:text-xs  lg:text-sm font-ubuntu">
             <Link
               className="text-highlight hover:text-highlight_hover"
               to="/privacy"
@@ -70,7 +70,7 @@ const Footer = () => {
               Sitemap
             </Link>
           </div>
-          <div className=" text-base sm:text-sm lg:text-base text-primary-text font-semibold font-open_sans text-center">
+          <div className=" text-base sm:text-sm lg:text-base text-primary-text font-medium font-open_sans text-center">
             <p>© 2024 Chhobimancha. All rights reserved.</p>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Footer = () => {
         <div className="flex flex-col items-center justify-center gap-y-3">
           <div className="flex flex-col xl:flex-row items-center sm:items-start xl:items-center justify-center gap-y-3 xl:gap-y-0 gap-x-3">
             <div className="flex flex-col items-start justify-center">
-              <h1 className="text-[1.2rem] sm:text-[1rem] lg:text-[1.35rem] font-bold text-center  text-primary-text font-montserrat">
+              <h1 className="text-[1.2rem] sm:text-[1rem] lg:text-[1.35rem] font-semibold text-center  text-primary-text font-playfair">
                 মঞ্চ যখন উঠবে সেজে, <br />
                 দেখবো ছবি খোশমেজাজে
               </h1>
@@ -104,7 +104,7 @@ const Footer = () => {
 
         {/* right side */}
         <div className="flex flex-col items-center sm:items-start justify-center ">
-          <div className="mb-4 grid grid-cols-2 items-center justify-center gap-2 w-full font-bold font-montserrat text-sm sm:text-xs text-center  sm:text-left  lg:text-sm">
+          <div className="mb-4 grid grid-cols-2 items-center justify-center gap-2 w-full font-medium font-montserrat text-sm sm:text-xs text-center  sm:text-left  lg:text-sm">
             <Link className="text-highlight hover:text-highlight_hover " to="/">
               Home
             </Link>
@@ -134,13 +134,13 @@ const Footer = () => {
           {/* control room */}
           <div className="flex items-center justify-center gap-x-3 font-lato ">
             <IoCall className=" text-highlight  p-1 text-2xl sm:text-xl lg:text-2xl bg-shadow rounded-full" />
-            <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-semibold">
+            <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-medium">
               +91 74393 22718
             </h1>
           </div>
           <div className="flex items-center justify-center gap-x-3 font-lato ">
             <IoMail className=" text-highlight  p-1 text-2xl sm:text-xl lg:text-2xl bg-shadow rounded-full" />
-            <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-semibold">
+            <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-medium">
               chobimanchahelpline@gmail.com
             </h1>
           </div>

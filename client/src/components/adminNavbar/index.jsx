@@ -101,7 +101,7 @@ const AdminNavSidebar = ({ open }) => {
               />
             )}
           </div>
-          <p className="text-lg font-semibold font-montserrat">{user?.name}</p>
+          <p className="text-2xl font-semibold font-logo_text">{user?.name}</p>
         </div>
 
         {/* Links */}

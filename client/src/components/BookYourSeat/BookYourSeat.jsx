@@ -472,20 +472,20 @@ const BookYourSeat = ({
 
         <div className="pb-4 px-4 flex flex-row gap-x-3 items-center justify-evenly w-full ">
           <div className="flex text-primary_text py-2 gap-x-2">
-            <div className="border-highlight border-2 border-dashed text-primary_text text-xs md:text-xl font-bold py-2 px-2 lg:px-4 rounded-xl">
+            <div className="border-highlight border-2 border-dashed text-primary_text text-xs md:text-xl font-medium font-lato py-2 px-2 lg:px-4 rounded-xl">
               Balcony - Rs.{ticketPrice.balcony}
             </div>
-            <div className="border-highlight border-2 border-dashed text-primary_text text-xs md:text-xl font-bold py-2 px-2 lg:px-4 rounded-xl">
+            <div className="border-highlight border-2 border-dashed text-primary_text text-xs md:text-xl font-medium font-lato py-2 px-2 lg:px-4 rounded-xl">
               Rear Stall - Rs.{ticketPrice.rearStall}
             </div>
-            <div className="border-highlight border-2 border-dashed text-primary_text text-xs md:text-xl font-bold py-2 px-2 lg:px-4 rounded-xl">
+            <div className="border-highlight border-2 border-dashed text-primary_text text-xs md:text-xl font-medium font-lato py-2 px-2 lg:px-4 rounded-xl">
               Front Stall - Rs.{ticketPrice.frontStall}
             </div>
           </div>
           <button
             onClick={handleBookNow}
             type="button"
-            className=" bg-highlight hover:bg-highlight_hover text-primary_text text-xs md:text-xl font-ubuntu font-bold py-2 px-4 lg:px-6 rounded-xl"
+            className=" bg-highlight hover:bg-highlight_hover text-primary_text text-xs md:text-xl font-medium font-ubuntu py-2 px-4 lg:px-6 rounded-xl"
           >
             Book Now
           </button>

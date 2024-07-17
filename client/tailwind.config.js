@@ -17,7 +17,7 @@ export default {
         // code: "var(--font-code)",
         // grotesk: "var(--font-grotesk)",
         open_sans: ["Open Sans", "sans-serif"], // normal text
-        roboto: ["Roboto", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
         lato: ["Lato", "sans-serif"], // secondary heading
         montserrat: ["Montserrat", "sans-serif"], // primary heading
         ubuntu: ["Ubuntu", "sans-serif"], // buttons

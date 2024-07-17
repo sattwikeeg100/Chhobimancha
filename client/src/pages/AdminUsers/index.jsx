@@ -86,7 +86,7 @@ const AdminUsers = () => {
       {/* Admin Users */}
       {isOwner && (
         <>
-          <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
+          <h1 className="text-4xl font-semibold text-primary_text mb-4 tracking-tighter  font-playfair">
             All Admins
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -103,7 +103,7 @@ const AdminUsers = () => {
         </>
       )}
       {/* Non Admin Users */}
-      <h1 className="text-xl sm:text-4xl lg:text-5xl font-bold text-primary_text py-4 font-montserrat">
+      <h1 className="text-4xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
         All Users
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

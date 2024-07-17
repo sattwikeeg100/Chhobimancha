@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import PaymentPopup from "./PaymentPopup";
-import BookYourSeat from "./BookYourSeat";
-import ShowDetails from "./ShowDetails";
-import TheatreCastCrew from "./TheatreCastCrew";
+import PaymentPopup from "../../components/PaymentPopup/PaymentPopup";
+import BookYourSeat from "../../components/BookYourSeat/BookYourSeat";
+import ShowDetails from "../../components/ShowDetails/ShowDetails";
+import TheatreCastCrew from "../../components/TheatreCastCrew/TheatreCastCrew";
 
 import { useDispatch, useSelector } from "react-redux";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
@@ -220,7 +220,7 @@ const SingleShow = () => {
         <div className="flex flex-col gap-y-4 lg:w-[56%] xl:w-[64%] lg:pr-10">
           {/* cast */}
           <div className=" flex flex-col ">
-            <div className="text-3xl sm:text-4xl text-primary_text pl-10  font-bold">
+            <div className="text-3xl pl-10    sm:text-2xl text-md font-bold font-montserrat text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
               Artist
             </div>
             <div className="pt-7">
@@ -231,7 +231,7 @@ const SingleShow = () => {
 
           {/* crew */}
           <div className=" flex flex-col ">
-            <div className="text-3xl sm:text-4xl text-primary_text pl-10  font-bold">
+            <div className="text-3xl pl-10    sm:text-2xl text-md font-bold font-montserrat text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
               Crew
             </div>
             <div className="pt-7">
@@ -239,20 +239,12 @@ const SingleShow = () => {
             </div>
           </div>
         </div>
-
-        {/* booking */}
-        {/* <BookYourSeat
-            selectedSeats={selectedSeats}
-            handleSeatClick={handleSeatClick}
-            handleBookNow={handleBookNow}
-            getSeatClass={getSeatClass}
-          /> */}
       </div>
 
       {/* about section */}
 
       <div className="px-10 flex flex-col gap-y-3">
-        <div className=" text-3xl sm:text-4xl text-primary_text  font-bold">
+        <div className="sm:text-2xl text-3xl font-bold font-montserrat tracking-wider common-heading">
           About The Play
         </div>
         <p className=" text-secondary_text sm:text-lg leading-8">
@@ -264,8 +256,8 @@ const SingleShow = () => {
 
       {/* booking */}
 
-      <div className="flex flex-col gap-y-5">
-        <div className="px-10 text-3xl sm:text-4xl text-primary_text  font-bold">
+      <div className="flex flex-col gap-y-5 ">
+        <div className="px-10 sm:text-2xl text-3xl font-bold font-montserrat tracking-wider common-heading">
           Grab Your Seats
         </div>
         <BookYourSeat
