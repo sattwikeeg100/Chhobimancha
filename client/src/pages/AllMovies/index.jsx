@@ -202,23 +202,21 @@ const AllMovies = () => {
   };
 
   return (
-
-    <div className="justify-center items-center px-5 sm:px-10  bg-background1 min-h-screen">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
+    <div className="justify-center items-center px-10 py-5 bg-background1 min-h-screen">
+      <div className="flex items-center justify-between pb-4">
+        <h1 className="text-xl sm:text-5xl font-bold text-white font-montserrat">
           Movies
         </h1>
-        <div className="flex items-center justify-center gap-x-4">
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              placeholder="Search for movies..."
-              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
-
+        {/* <div className="flex items-center justify-center gap-x-4"> */}
+        <div className="relative flex items-center">
+          <input
+            type="text"
+            placeholder="Search for movies..."
+            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4 "
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <FaSearch className="absolute left-3 sm:left-4 text-gray-400" />
         </div>
       </div>
 
@@ -266,34 +264,27 @@ const AllMovies = () => {
         </div>
       </div>
 
-      {filteredMovies.length > 0 ? (
-        <div className="relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-5 bg-background1">
-            {filteredMovies.slice(0, visibleMovies).map((movie, index) => (
-              <MovieCard
-                key={index}
-                movie={movie}
-                onAddToFavorites={() => handleAddToFavorites(movie._id)}
-              />
-            ))}
-          </div>
-          {filteredMovies.length < totalMovies.length && (
-            <div className="flex justify-center pb-5 flex-row">
-              <button
-                onClick={handleLoadMore}
-                className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold py-2 px-4 rounded-md flex flex-row"
-              >
-                Load More
-                <MdArrowDownward className="w-6 h-6 text-primary_text ml-1 font-semibold" />
-              </button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <p className="text-primary_text text-center pt-40">
-          Sorry, we don't have movies matching your criteria right now.
-        </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8">
+        {filteredMovies.map((movie) => (
+          <MovieCard
+            key={movie._id}
+            movie={movie}
+            toggleZoom={toggleZoom}
+            isZoomed={isZoomed}
+            handleAddToFavorites={handleAddToFavorites}
+          />
+        ))}
+      </div>
 
+      {filteredMovies.length < totalMovies.length && (
+        <div className="flex justify-center py-8">
+          <button
+            onClick={handleLoadMore}
+            className="text-white bg-highlight hover:bg-opacity-80 py-2 px-4 rounded-lg flex items-center"
+          >
+            Load More <MdArrowDownward className="ml-2" />
+          </button>
+        </div>
       )}
 
       <GoToTop />
