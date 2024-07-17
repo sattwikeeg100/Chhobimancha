@@ -5,8 +5,8 @@ import SkeletonAllShow from "../../components/Skeletons/skeletonAllShow";
 import { FaSearch, FaFilter, FaTimes } from "react-icons/fa";
 import { MdArrowDownward } from "react-icons/md";
 import GoToTop from "../../components/goToTopButton";
+import axiosInstance from "../../config/axiosInstance";
 
-const APIURL = import.meta.env.VITE_API_URL;
 
 const AllShows = () => {
   const [shows, setShows] = useState([]);
@@ -18,7 +18,7 @@ const AllShows = () => {
 
   const GetAllShows = async () => {
     try {
-      const response = await axios.get(`${APIURL}/shows`);
+      const response = await axiosInstance.get("/shows");
       const shows = response.data;
 
       const currentDate = new Date();
