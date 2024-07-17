@@ -70,7 +70,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
       ) : (
         <h3
           id=""
-          className="text-2xl sm:text-5xl text-primary_text font-normal py-7"
+          className="text-2xl sm:text-4xl text-primary_text font-semibold font-playfair tracking-tighter py-7"
         >
           {title}
         </h3>
@@ -117,7 +117,7 @@ const HomeCardSlider = ({ elements, title, what }) => {
                                      rounded-lg`
                               } `}
                             />
-                            <div className="mt-3  font-bold text-2xl font-lato">
+                            <div className="mt-3  font-medium text-2xl font-lato">
                               <h3>{element.title}</h3>
                             </div>
                           </div>
@@ -137,11 +137,11 @@ const HomeCardSlider = ({ elements, title, what }) => {
               className={`flex-1 flex justify-center items-center  `}
             >
               <div
-                className={`bg-background2 h-28 w-[50%] rounded-[30px] flex justify-center items-center flex-wrap text-center ${
+                className={`bg-background1 hover:bg-background2 h-28 w-[50%] rounded-[30px] flex justify-center items-center flex-wrap text-center ${
                   elements.length != 0 && !loading ? "block" : "hidden"
                 }`}
               >
-                <span className="text-primary_text  md:text-xl font-lato font-bold text-lg p-2 ">
+                <span className="text-primary_text  md:text-xl font-lato font-medium  text-lg p-2 ">
                   Explore more {what === "movies" ? "movies" : "shows"}
                 </span>
               </div>

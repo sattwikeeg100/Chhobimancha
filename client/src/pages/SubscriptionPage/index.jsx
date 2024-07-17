@@ -149,7 +149,7 @@ const SubscriptionPage = () => {
     <div className="min-h-screen py-12 bg-background1">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-background2 text-primary_text shadow-xl rounded-lg p-8">
-          <h2 className="text-3xl font-montserrat font-bold text-center">
+          <h2 className="  text-center  text-xl sm:text-4xl text-primary_text font-semibold font-playfair tracking-tighter">
             Subscribe Now
           </h2>
           <p className="mt-4 text-center text-secondary_text">

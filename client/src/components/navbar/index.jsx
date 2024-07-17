@@ -116,7 +116,7 @@ const Navbar = ({ open, setOpen }) => {
         </NavLink>
       </div>
       <div className="hidden lg:flex items-center justify-center space-x-5">
-        <div className="flex space-x-4 font-ubuntu">
+        <div className="flex space-x-4 font-ubuntu font-medium">
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -164,7 +164,7 @@ const Navbar = ({ open, setOpen }) => {
           </NavLink>
         </div>
 
-        <div className="relative flex items-center">
+        <div className="relative flex items-center ">
           {user ? (
             <>
               {user.image ? (
@@ -183,7 +183,7 @@ const Navbar = ({ open, setOpen }) => {
                 </div>
               )}
               {isDropdownOpen && (
-                <div className="z-30 absolute right-0 mt-56 w-48 bg-shadow rounded-md shadow-lg font-ubuntu text-primary-text">
+                <div className="z-30 absolute right-0 mt-56 w-48 bg-shadow rounded-md shadow-lg font-ubuntu text-primary_text font-medium">
                   <NavLink
                     to="/myfavourites"
                     className="block px-4 py-2 hover:rounded-t-md hover:bg-secondary_text"

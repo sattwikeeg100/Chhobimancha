@@ -66,7 +66,7 @@ const MyProfile = () => {
 
   return (
     <div className="container mx-auto px-5 sm:px-10 py-5 bg-background1 text-primary_text">
-      <h1 className="text-4xl font-montserrat font-bold pb-5 text-center">
+      <h1 className=" pb-5 text-center text-xl sm:text-4xl text-primary_text font-semibold font-playfair tracking-tighter">
         My Profile
       </h1>
       <div className="flex justify-center">

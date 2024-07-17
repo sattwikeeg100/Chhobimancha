@@ -146,7 +146,7 @@ const AllMovies = () => {
   return (
     <div className="justify-center items-center px-5 sm:px-10  bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-5xl font-bold text-primary_text py-4 font-montserrat">
+        <h1 className="text-xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
           Movies
         </h1>
         <div className="flex items-center justify-center gap-x-4">
@@ -154,7 +154,7 @@ const AllMovies = () => {
             <input
               type="text"
               placeholder="Search for movies..."
-              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4 "
+              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -224,7 +224,7 @@ const AllMovies = () => {
         </div>
       </div>
       {filteredMovies.length > 0 ? (
-        <>
+        <div className="relative">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-5 bg-background1">
             {filteredMovies.slice(0, visibleMovies).map((movie, index) => (
               <MovieCard
@@ -245,7 +245,7 @@ const AllMovies = () => {
               </button>
             </div>
           )}
-        </>
+        </div>
       ) : (
         <p className="text-primary_text text-center pt-40">
           Sorry, we don't have movies matching your criteria right now.
