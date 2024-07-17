@@ -158,7 +158,7 @@ const AllMovies = () => {
       borderColor: state.isFocused ? "#e1251a" : "#d1d5db",
       backgroundColor: "#232222",
       color: "#ffffff",
-      fontSize: "16px",
+      fontSize: "14px",
       boxShadow: state.isFocused ? "0 0 0 1px #e1251a" : null,
       "&:hover": {
         borderColor: "#e1251a",
@@ -202,9 +202,9 @@ const AllMovies = () => {
   };
 
   return (
-    <div className="justify-center items-center px-10 py-5 bg-background1 min-h-screen">
-      <div className="flex items-center justify-between pb-4">
-        <h1 className="text-xl sm:text-5xl font-bold text-white font-montserrat">
+    <div className="justify-center items-center px-5 sm:px-10 bg-background1 min-h-screen">
+      <div className="flex items-center justify-between pb-5">
+        <h1 className="text-xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
           Movies
         </h1>
         {/* <div className="flex items-center justify-center gap-x-4"> */}
@@ -212,7 +212,7 @@ const AllMovies = () => {
           <input
             type="text"
             placeholder="Search for movies..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-2 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4 "
+            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -220,9 +220,9 @@ const AllMovies = () => {
         </div>
       </div>
 
-      <div className="flex flex-row gap-x-4">
-        <div className="flex flex-row gap-x-2">
-          <label className="text-xl font-lato text-primary_text mt-1">
+      <div className="flex flex-wrap gap-4">
+        <div className="flex items-center flex-row gap-x-2">
+          <label className="text-base font-lato text-primary_text ">
             Genre:
           </label>
           <Select
@@ -236,8 +236,8 @@ const AllMovies = () => {
           />
         </div>
 
-        <div className="flex flex-row gap-x-2">
-          <label className="text-xl font-lato text-primary_text  mt-1">
+        <div className="flex items-center flex-row gap-x-2">
+          <label className="text-base font-lato text-primary_text  ">
             Sort By:
           </label>
           <Select
@@ -250,8 +250,8 @@ const AllMovies = () => {
           />
         </div>
 
-        <div className="flex flex-row gap-x-2">
-          <label className="text-xl font-lato text-primary_text  mt-1">
+        <div className="flex items-center flex-row gap-x-2">
+          <label className="text-base font-lato text-primary_text  ">
             Order:
           </label>
           <Select
@@ -264,7 +264,7 @@ const AllMovies = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-5">
         {filteredMovies.map((movie) => (
           <MovieCard
             key={movie._id}

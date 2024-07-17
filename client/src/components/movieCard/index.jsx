@@ -79,7 +79,7 @@ const MovieCard = ({ movie }) => {
             {movie.averageRating}/5
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-between self-stretch gap-x-10 gap-y-2 md:gap-x-7 xl:gap-x-5 sm:gap-x-2 pb-5">
+        <div className="flex flex-wrap w-full items-center justify-between self-stretch  gap-y-2  pb-5">
           <div className="flex items-center justify-center gap-x-0 text-sm md:text-base font-semibold">
             <BsDot className="font-semibold w-5 h-5 mt-1" />
             {moment(movie.releaseDate).year()}
