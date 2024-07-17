@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import PaymentPopup from "./PaymentPopup";
-import BookYourSeat from "./BookYourSeat";
-import ShowDetails from "./ShowDetails";
-import TheatreCastCrew from "./TheatreCastCrew";
+import PaymentPopup from "../../components/PaymentPopup/PaymentPopup";
+import BookYourSeat from "../../components/BookYourSeat/BookYourSeat";
+import ShowDetails from "../../components/ShowDetails/ShowDetails";
+import TheatreCastCrew from "../../components/TheatreCastCrew/TheatreCastCrew";
 
 import { useDispatch, useSelector } from "react-redux";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
