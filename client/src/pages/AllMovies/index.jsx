@@ -6,11 +6,13 @@ import { MdArrowDownward } from "react-icons/md";
 import { toast } from "sonner";
 import GoToTop from "../../components/goToTopButton/index.jsx";
 import SkeletonAllMovies from "../../components/Skeletons/skeletonAllMovies/index.jsx";
+import Select from "react-select";
 
 const INITIAL_LOAD_COUNT = 8;
 const LOAD_MORE_COUNT = 8;
 
 const genreOptions = [
+  { value: "", label: "All" },
   { value: "Drama", label: "Drama" },
   { value: "Thriller", label: "Thriller" },
   { value: "Romance", label: "Romance" },
@@ -22,6 +24,18 @@ const genreOptions = [
   { value: "Documentary", label: "Documentary" },
   { value: "Science-Fiction", label: "Science Fiction" },
   { value: "Other", label: "Other" },
+];
+
+const sortOptions = [
+  { value: "", label: "None" },
+  { value: "rating", label: "Rating" },
+  { value: "popularity", label: "Popularity" },
+  { value: "releaseDate", label: "Release Date" },
+];
+
+const orderOptions = [
+  { value: "asc", label: "Ascending" },
+  { value: "desc", label: "Descending" },
 ];
 
 const AllMovies = () => {
@@ -44,8 +58,6 @@ const AllMovies = () => {
   const GetAllMovies = async () => {
     try {
       const response = await axiosInstance.get("/movies");
-      //setMovies(response.data);
-      //setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
       setTimeout(() => {
         setMovies(response.data);
         setFilteredMovies(response.data.slice(0, INITIAL_LOAD_COUNT));
@@ -55,9 +67,6 @@ const AllMovies = () => {
       console.error(error);
       setLocalLoading(false);
     }
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   useEffect(() => {
@@ -117,7 +126,6 @@ const AllMovies = () => {
     }
     setTotalMovies(tempMovies);
     setFilteredMovies(tempMovies.slice(0, visibleMovies));
-    //setFilteredMovies(tempMovies);
   };
 
   const handleAddToFavorites = async (movieId) => {
@@ -141,9 +149,60 @@ const AllMovies = () => {
   if (localLoading) {
     return <SkeletonAllMovies />;
   }
-  // console.log(filteredMovies);
+
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      padding: "0px 6px",
+      borderRadius: "0.375rem",
+      borderColor: state.isFocused ? "#e1251a" : "#d1d5db",
+      backgroundColor: "#232222",
+      color: "#ffffff",
+      fontSize: "16px",
+      boxShadow: state.isFocused ? "0 0 0 1px #e1251a" : null,
+      "&:hover": {
+        borderColor: "#e1251a",
+      },
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: "#232222",
+      color: "#ffffff",
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: "#e1251a",
+      color: "#ffffff",
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: "#ffffff",
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      color: "#ffffff",
+      ":hover": {
+        backgroundColor: "#e1251a",
+        color: "#000000",
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#e1251a"
+        : state.isFocused
+        ? "#374151"
+        : "#232222",
+      color: "#ffffff",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#ffffff",
+    }),
+  };
 
   return (
+
     <div className="justify-center items-center px-5 sm:px-10  bg-background1 min-h-screen">
       <div className="flex items-center justify-between">
         <h1 className="text-xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
@@ -159,70 +218,54 @@ const AllMovies = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
-          </div>
+
         </div>
       </div>
-      <div className="flex md:flex-row mb-10 gap-4 flex-col ">
-        <div>
-          <label
-            htmlFor="genre"
-            className="mr-2 text-primary_text font-semibold font-roboto"
-          >
-            Genre :
+
+      <div className="flex flex-row gap-x-4">
+        <div className="flex flex-row gap-x-2">
+          <label className="text-xl font-lato text-primary_text mt-1">
+            Genre:
           </label>
-          <select
-            className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
-            id="genre"
-            value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
-          >
-            <option value="">All</option>
-            {genreOptions.map((genreOption, key) => (
-              <option key={key} value={genreOption.value}>
-                {genreOption.label}
-              </option>
-            ))}
-          </select>
+          <Select
+            options={genreOptions}
+            styles={customStyles}
+            placeholder="Filter by Genre"
+            value={genreOptions.find(
+              (option) => option.value === selectedGenre
+            )}
+            onChange={(option) => setSelectedGenre(option.value)}
+          />
         </div>
 
-        <div>
-          <label
-            htmlFor="sort"
-            className="md:ml-4 mr-2 text-primary_text font-semibold font-roboto"
-          >
+        <div className="flex flex-row gap-x-2">
+          <label className="text-xl font-lato text-primary_text  mt-1">
             Sort By:
           </label>
-          <select
-            className="text-primary_text bg-background2 p-1 rounded-md mr-4 font-ubuntu"
-            id="sort"
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="">None</option>
-            <option value="rating">Rating</option>
-            <option value="popularity">Popularity</option>
-            <option value="releaseDate">Release Date</option>
-          </select>
+          <Select
+            options={sortOptions}
+            styles={customStyles}
+            placeholder="Sort By"
+            className="text-white"
+            value={sortOptions.find((option) => option.value === sortOption)}
+            onChange={(option) => setSortOption(option.value)}
+          />
         </div>
 
-        <div>
-          <label
-            htmlFor="order"
-            className="md:ml-4 md:mr-2 mr-4 text-primary_text font-semibold font-roboto"
-          >
+        <div className="flex flex-row gap-x-2">
+          <label className="text-xl font-lato text-primary_text  mt-1">
             Order:
           </label>
-          <select
-            className="text-primary_text bg-background2 md:p-1 px-3 py-1 rounded-md mr-4 font-ubuntu"
-            id="order"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
+          <Select
+            options={orderOptions}
+            styles={customStyles}
+            placeholder="Order"
+            value={orderOptions.find((option) => option.value === sortOrder)}
+            onChange={(option) => setSortOrder(option.value)}
+          />
         </div>
       </div>
+
       {filteredMovies.length > 0 ? (
         <div className="relative">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-5 bg-background1">
@@ -250,7 +293,9 @@ const AllMovies = () => {
         <p className="text-primary_text text-center pt-40">
           Sorry, we don't have movies matching your criteria right now.
         </p>
+
       )}
+
       <GoToTop />
     </div>
   );
