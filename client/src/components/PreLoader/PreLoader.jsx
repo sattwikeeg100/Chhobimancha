@@ -32,9 +32,9 @@ const PreLoader = ({ setLoading }) => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
+  //min-h-[calc(100vh-64px)]
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-64px)] bg-background1">
+    <div className="flex items-center justify-center min-h-screen bg-background1">
       <div className="flex items-center justify-center w-full h-full">
         <Lottie options={defaultOptions} height={200} width={200} />
       </div>

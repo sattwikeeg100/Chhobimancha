@@ -189,9 +189,9 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="container max-w-screen flex flex-col p-5 gap-y-10 mx-auto overflow-x-hidden">
+    <div className=" min-h-screen max-w-screen flex flex-col p-5 gap-y-10 mx-auto overflow-x-hidden">
       <div className="flex flex-col">
-        <h1 className="text-2xl font-bold mb-4 text-primary_text">
+        <h1 className="text-3xl font-semibold tracking-tighter font-playfair mb-4 text-primary_text">
           Admin Dashboard
         </h1>
         <div className="w-full">
@@ -225,7 +225,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 justify-around items-stretch">
+      <div className="flex flex-col lg:flex-row justify-evenly items-center">
         <DashboardChart
           title="Total Revenue"
           data={pieData}
@@ -238,14 +238,14 @@ const AdminDashboard = () => {
         />
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 justify-around items-stretch">
+      <div className="flex flex-col lg:flex-row justify-evenly items-center">
         <DashboardChart
-          title="Booking Revenue (Last 6 Months)"
+          title="Booking Revenue<br/>(Last 6 Months)"
           data={bookingData}
           className="w-[300px] md:w-[450px]"
         />
         <DashboardChart
-          title="Subscription Revenue (Last 6 Months)"
+          title="Subscription Revenue<br/>(Last 6 Months)"
           data={subscriptionData}
           className="w-[300px] md:w-[450px]"
         />
@@ -256,16 +256,17 @@ const AdminDashboard = () => {
 
 const InfoCard = ({ title, value, loading }) => (
   <div className="bg-shadow text-primary_text p-4 rounded-lg shadow-md w-full sm:w-44 xl:w-48 2xl:w-56">
-    <h2 className="text-lg font-semibold mb-2">{title}</h2>
+    <h2 className="text-lg font-semibold font-open_sans mb-2">{title}</h2>
     {loading ? <p>Loading...</p> : <p>{`${title}: ${value}`}</p>}
   </div>
 );
 
 const DashboardChart = ({ title, data, className }) => (
-  <div className="flex flex-col items-start gap-y-5">
-    <h2 className="text-xl md:text-3xl text-primary_text font-montserrat">
-      {title}
-    </h2>
+  <div className="flex flex-col items-center gap-y-5">
+    <h2
+      className="text-xl md:text-2xl text-primary_text font-playfair text-center"
+      dangerouslySetInnerHTML={{ __html: title }}
+    ></h2>
     <div className={className}>
       <Bar data={data} className="rounded-xl bg-shadow p-2" />
     </div>
