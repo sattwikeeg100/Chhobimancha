@@ -130,18 +130,18 @@ const Home = () => {
     GetAllMovies();
     GetAllShows();
   }, []);
-  useEffect(() => {
+/*   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  }, []);
+  }, []); */
 
   return (
     <div
       id="Home"
       className=" w-screen h-fit flex flex-col items-center bg-background1 text-primary_text font-semibold font-montserrat"
     >
-      {loading ? (
+      {moviesLoading ? (
         <SkeletonLoaderHeader />
       ) : (
         <header className="h-full w-full my-5 min-h-[60vw] md:min-h-[30vw]">

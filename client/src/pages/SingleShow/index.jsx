@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
 import axiosInstance from "../../config/axiosInstance";
 
-import logo from "/logo.jpg";
+import logo from "../../assets/logo/chobimancha_logo3.png";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -63,41 +63,38 @@ const SingleShow = () => {
   };
 
   const generateBookingPDF = (booking) => {
-    const doc = new jsPDF();
+  const doc = new jsPDF();
 
-    const img = new Image();
-    img.src = logo;
+  const img = new Image();
+  img.src = logo;
 
-    return new Promise((resolve) => {
-      img.onload = () => {
-        doc.addImage(img, "PNG", 14, 10, 50, 20);
-        doc.setFontSize(18);
-        doc.text("Ticket Details", 14, 40);
+  return new Promise((resolve) => {
+    img.onload = () => {
+      doc.addImage(img, "PNG", 14, 10, 50, 20);
+      doc.setFontSize(18);
+      doc.text("Chhobimancha: Booked Ticket Details", 14, 40);
 
-        const details = [
-          ["Show Title", booking.show.title],
-          ["User Name", user.name],
-          ["User Email", user.email],
-          ["Show Date", new Date(booking.show.date).toLocaleDateString()],
-          ["Show Time", booking.show.time],
-          ["Theatre Name", booking.show.theatre.name],
-          ["Theatre Address", booking.show.theatre.address],
-          ["Booked Seats", booking.seats.join(", ")],
-          ["Total Amount", `$${booking.totalAmount.toFixed(2)}`],
-        ];
+      const details = [
+        ["Show Title", booking.show.title],
+        ["Show Date", new Date(booking.show.date).toLocaleDateString()],
+        ["Show Time", booking.show.time],
+        ["Theatre Name", booking.show.theatre.name],
+        ["Booked Seats", booking.seats.join(", ")],
+        ["Total Amount", `Rs. ${booking.totalAmount.toFixed(2)}`],
+      ];
 
-        doc.autoTable({
-          startY: 50,
-          head: [["Field", "Details"]],
-          body: details,
-          theme: "grid",
-        });
+      doc.autoTable({
+        startY: 50,
+        head: [["Field", "Details"]],
+        body: details,
+        theme: "striped",
+      });
 
-        const pdfBase64 = doc.output("datauristring");
-        resolve(pdfBase64);
-      };
-    });
-  };
+      const pdfBlob = doc.output("blob");
+      resolve(pdfBlob);
+    };
+  });
+};
 
   const getSeatPrice = (seatId) => {
     const row = seatId.charAt(0); // Extract the row letter
@@ -156,12 +153,19 @@ const SingleShow = () => {
               console.log("RESPONSE:", bookingInfo);
               const booking = bookingInfo.data.booking;
               const pdfBlob = await generateBookingPDF(booking);
+              // Prepare FormData
+              const formData = new FormData();
+              formData.append("file", pdfBlob, `${booking._id}-${show.title}.pdf`);
 
               try {
+                const response = await axiosInstance.post(`/upload/image`, formData, {
+                  headers: { "Content-Type": "multipart/form-data" },
+                });
+                const ticketFileUrl = response.data.url;
                 await axiosInstance.post("/bookings/send-email", {
                   name: user.name,
                   email: user.email,
-                  pdfBlob,
+                  pdfUrl: ticketFileUrl,
                   showTitle: booking.show.title,
                 });
                 setEmailSuccessPopup(true);

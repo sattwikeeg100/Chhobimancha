@@ -4,6 +4,8 @@ import { instance } from "../config/paymentGatewayConfig.js";
 import Show from "../models/showModel.js";
 import Booking from "../models/bookingModel.js";
 import nodemailer from "nodemailer";
+import fs from "fs";
+import path from "path";
 
 // ************************* Private CONTROLLERS *********************
 
@@ -68,19 +70,19 @@ export const paymentVerification = asyncHandler(async (req, res) => {
 });
 
 export const sendEmailWithPDF = async (req, res) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.TEAM_EMAIL_ADDRESS,
-      pass: process.env.TEAM_EMAIL_PASSWORD,
-    },
-  });
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.TEAM_EMAIL_ADDRESS,
+            pass: process.env.TEAM_EMAIL_PASSWORD,
+        },
+    });
 
-  const mailOptions = {
-    from: "chobimancha2024@gmail.com",
-    to: req.body.email,
-    subject: "Your Booking Confirmation",
-    text: `Dear ${req.body.name},
+    const mailOptions = {
+        from: "chobimancha2024@gmail.com",
+        to: req.body.email,
+        subject: "Your Booking Confirmation",
+        text: `Dear ${req.body.name},
 
 Thank you for booking with Chhobimancha! Your seats for the upcoming Bengali theatre play are confirmed. We can't wait to have you join us for an evening of captivating performances and unforgettable moments.
 
@@ -88,23 +90,22 @@ See you at the show!
 
 Warm regards,
 The Chhobimancha Team`,
-    attachments: [
-      {
-        filename: `${req.body.showTitle}-ticket.pdf`,
-        content: req.body.pdfBlob,
-        encoding: "base64",
-      },
-    ],
-  };
+        attachments: [
+            {
+                filename: `${req.body.showTitle}-ticket.pdf`,
+                path: req.body.pdfUrl,
+            },
+        ],
+    };
 
-  try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent successfully.");
-    res.status(200).json(info);
-  } catch (error) {
-    // console.error("Error sending email:", error);
-    throw new Error("Failed to send email");
-  }
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log("Email sent successfully.");
+        res.status(200).json(info);
+    } catch (error) {
+        console.error("Error sending email:", error);
+        res.status(500).json({ error: "Failed to send email" });
+    }
 };
 
 export const getAllBookings = asyncHandler(async (req, res) => {
