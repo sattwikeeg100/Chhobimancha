@@ -101,7 +101,7 @@ const AdminMovies = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 min-h-screen">
       <h1 className="text-4xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
         Admin Movie Management
       </h1>

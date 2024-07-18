@@ -55,7 +55,7 @@ const MovieCard = ({ movie }) => {
     <div className=" max-w-sm rounded-md overflow-hidden shadow-lg  bg-shadow text-primary_text h-150 p-4">
       <div className="relative">
         <img
-          className="w-80 h-80 object-cover "
+          className="w-auto h-auto rounded-lg object-cover "
           src={movie.poster}
           alt={movie.title}
         />
@@ -67,7 +67,7 @@ const MovieCard = ({ movie }) => {
         </button>
       </div>
       <div
-        className="flex flex-col cursor-pointer gap-y-5"
+        className="flex flex-col cursor-pointer gap-y-2"
         onClick={() => navigate(`/explore/movies/${movie.slug}`)}
       >
         <div className="flex flex-wrap items-center w-full justify-between pt-5 ">
@@ -97,7 +97,7 @@ const MovieCard = ({ movie }) => {
         </div>
       </div>
       <button
-        className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold  font-ubuntu my-4 py-2 px-4 rounded w-full"
+        className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold  font-ubuntu my-0 py-2 px-4 rounded w-full"
         onClick={() => navigate(`/explore/movies/${movie.slug}`)}
       >
         Watch Now
