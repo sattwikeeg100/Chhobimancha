@@ -69,7 +69,10 @@ const SubscriptionPage = () => {
   };
 
   const handleCancelSubscription = async () => {
-    window.confirm("Are you sure you want to cancel your subscription?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to cancel your subscription?"
+    );
+    if (!confirmDelete) return;
 
     try {
       const response = await axiosInstance.post(`/users/cancel-subscription`, {

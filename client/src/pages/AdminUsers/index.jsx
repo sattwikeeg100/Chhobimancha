@@ -66,6 +66,11 @@ const AdminUsers = () => {
   const handleDeleteClick = async (userId) => {
     if (!isOwner) return;
 
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete the user?"
+    );
+    if (!confirmDelete) return;
+
     try {
       await axiosInstance.delete(`/users/${userId}`);
       toast.success("User deleted successfully");

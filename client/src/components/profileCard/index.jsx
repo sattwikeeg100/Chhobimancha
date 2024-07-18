@@ -39,7 +39,6 @@ const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
         </p>
       ) : (
         <>
-          <p className="text-secondary_text mb-4 text-center">Subscriber</p>
           <Link to="/subscribe" className="text-highlight mb-4 text-center">
             Planning to get a subscription? <u>Subscribe Now</u>
           </Link>

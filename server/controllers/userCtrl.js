@@ -26,7 +26,6 @@ export const registerUser = asyncHandler(async (req, res) => {
         password,
         confirmPassword,
         image,
-        isSubscriber,
     } = req.body;
 
     if (password !== confirmPassword) {
@@ -48,7 +47,6 @@ export const registerUser = asyncHandler(async (req, res) => {
         email,
         password: hash,
         image,
-        isSubscriber,
     });
 
     try {
@@ -60,8 +58,6 @@ export const registerUser = asyncHandler(async (req, res) => {
                 fullName: user.fullName,
                 email: user.email,
                 image: user.image,
-                isAdmin: user.isAdmin,
-                isSubscriber: user.isSubscriber,
                 favoriteMovies: user.favoriteMovies,
                 token: generateToken(user._id),
             });

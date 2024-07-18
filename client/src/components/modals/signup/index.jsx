@@ -13,14 +13,11 @@ import { MdDeleteForever } from "react-icons/md";
 const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
   if (!isOpen) return null;
 
-  const [imageFile, setImageFile] = useState(null);
   const [image, setImage] = useState();
   const [imageUploading, setImageUploading] = useState(false);
   const [imageDeleting, setImageDeleting] = useState(false);
   const [error, setError] = useState(false);
-  const [saveRequire, setSaveRequire] = useState(false); // Added this line
 
-  const APIURL = import.meta.env.VITE_API_URL;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -44,7 +41,7 @@ const SignUpModal = ({ isOpen, onClose, onLoginClick }) => {
       image,
     };
     try {
-      const response = await axiosInstance.post(`${APIURL}/users`, payload);
+      const response = await axiosInstance.post(`/users`, payload);
       setError(null);
       toast.success("Registration successful!");
       onLoginClick();

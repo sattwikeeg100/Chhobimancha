@@ -18,7 +18,7 @@ const ShowModal = ({ show, onClose }) => {
   const [time, setTime] = useState("");
   const [frontStall, setFrontStall] = useState(0);
   const [rearStall, setRearStall] = useState(0);
-  const [balcony, setBalcony] = useState(0); // TODO: Remove the files state
+  const [balcony, setBalcony] = useState(0);
   const [theatres, setTheatres] = useState([]);
   const [selectedTheatre, setSelectedTheatre] = useState("");
   const [casts, setCasts] = useState([{ person: "", role: "" }]);
@@ -68,9 +68,8 @@ const ShowModal = ({ show, onClose }) => {
 
   const handleInputChange = (setter) => (e) => {
     setter(e.target.value);
-  }; // TODO:
+  }; 
 
-  // TODO: Remove the handleFile change
 
   const handleArrayChange = (index, array, setArray) => (e) => {
     const { name, value } = e.target;
@@ -127,7 +126,6 @@ const ShowModal = ({ show, onClose }) => {
   };
 
   const handleCancel = async () => {
-    // TODO:
     if (show) {
       if (!poster || saveRequire) {
         toast.warning("You need to save the changes before leaving!");
@@ -173,7 +171,7 @@ const ShowModal = ({ show, onClose }) => {
               onChange={handleInputChange(setDescription)}
             />
           </div>
-          {/* Poster TODO: */}
+          {/* Poster */}
           <div className="flex flex-row items-center justify-between ">
             <label className="block text-xl font-lato text-primary_text ">
               Show Poster
@@ -196,7 +194,6 @@ const ShowModal = ({ show, onClose }) => {
                 type="file"
                 className="hidden"
                 onChange={(e) => {
-                  // TODO:
                   setSaveRequire(true);
                   handleImageFileUpload(
                     e.target.files[0],
@@ -219,7 +216,6 @@ const ShowModal = ({ show, onClose }) => {
                       size={46}
                       className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
                       onClick={() => {
-                        // TODO:
                         setSaveRequire(false);
                         handleImageFileDelete(
                           poster,

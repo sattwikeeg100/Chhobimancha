@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
         },
         googleId: {
             type: String,
-            unique: true,
+            sparse: true,
         },
         resetPasswordCode: { type: String },
         resetPasswordExpires: { type: Date },

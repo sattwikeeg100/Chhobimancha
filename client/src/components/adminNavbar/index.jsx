@@ -40,16 +40,7 @@ const AdminNavSidebar = ({ open }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  //   const user = useSelector((state) => state.user.userInfo);
-  const [user, setUser] = useState(null);
-
-  const loggedInUser = useSelector((state) => state.user.userInfo);
-
-  useEffect(() => {
-    if (loggedInUser) {
-      setUser(loggedInUser);
-    }
-  }, []);
+    const user = useSelector((state) => state.user.userInfo);
 
   const getInitials = (name) => {
     const names = name.split(" ");
@@ -60,7 +51,6 @@ const AdminNavSidebar = ({ open }) => {
   const handleLogout = () => {
     try {
       dispatch(logoutUser());
-      setUser(null);
 
       navigate("/");
       window.location.reload();

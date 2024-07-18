@@ -15,7 +15,6 @@ const HomeCardSlider = ({ elements, title, what, isLoading }) => {
     setImageLoaded((prevState) => {
       const newLoadedState = [...prevState];
       newLoadedState[index] = true;
-      console.log(newLoadedState);
       return newLoadedState;
     });
   };
@@ -57,7 +56,6 @@ const HomeCardSlider = ({ elements, title, what, isLoading }) => {
   };
 
   const visibleElements = elements.slice(0, 7);
-  console.log(elements.length);
 
   return (
     <div id="" className="m-auto w-[85%] sm:w-[90%]">

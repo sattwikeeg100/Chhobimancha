@@ -65,6 +65,4 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running successfully on port ${PORT}`);
-  console.log("Client ID:", process.env.OAUTH_CLIENT_ID);
-  console.log("Client Secret:", process.env.OAUTH_CLIENT_SECRET);
 });

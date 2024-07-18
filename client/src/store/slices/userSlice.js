@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../../config/axiosInstance.js";
 
-const APIURL = import.meta.env.VITE_API_URL;
 
 const getUserFromLocalStorage = () => {
     const user = localStorage.getItem("user");
@@ -29,7 +28,7 @@ export const loginUser = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.post(
-                `${APIURL}/users/login`,
+                `/users/login`,
                 payload
             );
             return response.data;
@@ -48,7 +47,7 @@ export const updateUser = createAsyncThunk(
     async (payload, { rejectWithValue }) => {
         try {
             const response = await axiosInstance.put(
-                `${APIURL}/users`,
+                `/users`,
                 payload
             );
             console.log(response.data);
