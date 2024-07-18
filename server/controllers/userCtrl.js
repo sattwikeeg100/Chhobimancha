@@ -75,7 +75,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     if (!user) {
         res.status(404);
         throw new Error("User does not exist");
-    } else if(!password) {
+    } else if(!user.password) {
         throw new Error("User signed up using google. Please continue with google to login");
     }
 
