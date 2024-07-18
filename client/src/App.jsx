@@ -35,6 +35,7 @@ import { useSelector } from "react-redux";
 
 import { RiMenuFold2Line, RiMenuUnfold2Line } from "react-icons/ri";
 import ScrollToTop from "./components/scrollToTop";
+import WatchMovie from "./pages/WatchMovie";
 
 const UserLayout = ({ children }) => {
   const [open, setOpen] = useState(true);
@@ -134,6 +135,7 @@ function App() {
               <Route path="explore/movies" element={<AllMovies />} />
               <Route path="explore/shows" element={<AllShows />} />
               <Route path="explore/movies/:slug" element={<SingleMovie />} />
+              <Route path="explore/movies/:slug/watch" element={<WatchMovie />} />
               <Route path="explore/shows/:slug" element={<SingleShow />} />
               <Route path="/subscribe" element={<SubscriptionPage />} />
               {user && (
