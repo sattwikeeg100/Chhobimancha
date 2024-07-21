@@ -29,10 +29,10 @@ const reviewSchema = new mongoose.Schema(
 
 const moviesSchema = new mongoose.Schema(
     {
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
+        isPremium: {
+            type: Boolean,
             required: true,
+            default: false,
         },
         title: {
             type: String,

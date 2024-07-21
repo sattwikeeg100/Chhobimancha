@@ -93,14 +93,19 @@ const SingleMovie = () => {
   //for play now button
   const handlePlayClick = (e) => {
     e.preventDefault();
-    if (user?.isSubscriber) {
-      if (movie.video) {
-        navigate("watch");
+    if(user){
+      if (!movie.isPremium || user?.isSubscriber) {
+          if (movie.video) {
+              navigate("watch");
+          } else {
+              alert("Sorry, we don't have this movie available right now");
+          }
       } else {
-        alert("Sorry, we don't have this movie available right now");
+          navigate("/subscribe");
       }
-    } else {
-      navigate("/subscribe");
+    }
+    else {
+      dispatch(switchLoginModalOpen(true));
     }
   };
 

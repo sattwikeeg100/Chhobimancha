@@ -29,6 +29,7 @@ const genreOptions = [
 ];
 
 const MovieModal = ({ movie, onClose }) => {
+  const [isPremium, setIsPremium] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [coverImage, setCoverImage] = useState(null);
@@ -114,6 +115,7 @@ const MovieModal = ({ movie, onClose }) => {
     setSaving(true);
     try {
       const movieData = {
+        isPremium,
         title,
         description,
         coverImage,
@@ -228,376 +230,426 @@ const MovieModal = ({ movie, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-background1  bg-opacity-50">
-      <div className="bg-shadow p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
-        <h2 className="text-3xl font-montserrat text-primary_text font-bold mb-4">
-          {movie ? "Edit Movie" : "Add New Movie"}
-        </h2>
-        <form onSubmit={handleSubmit}>
-          {/* Title */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Title
-            </label>
-            <input
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-              type="text"
-              value={title}
-              onChange={handleInputChange(setTitle)}
-            />
-          </div>
-
-          {/* Description */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Description
-            </label>
-            <textarea
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-              value={description}
-              onChange={handleInputChange(setDescription)}
-            />
-          </div>
-          {/* Cover Image */}
-          <div className="flex flex-row items-center justify-between mb-4">
-            <label className="block text-xl font-lato text-primary_text ">
-              Cover Image
-            </label>
-            <div className="flex items-center gap-x-3">
-              {uploadingCover ? (
-                <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
-                  Uploading image...
-                </label>
-              ) : (
-                <label
-                  className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
-                  htmlFor="coverImageUpload"
-                >
-                  Upload image
-                </label>
-              )}
-              <input
-                id="coverImageUpload"
-                type="file"
-                className="hidden"
-                onChange={(e) => {
-                  setSaveRequire_Cover(true);
-                  handleImageFileUpload(
-                    e.target.files[0],
-                    coverImage,
-                    setCoverImage,
-                    setUploadingCover
-                  );
-                }}
-              />
-              {coverImage && (
-                <div className="w-fit flex items-center gap-x-3">
-                  <img
-                    src={coverImage}
-                    className="h-14 w-14 rounded-full object-cover"
-                  />
-                  {deletingCover ? (
-                    <AiOutlineLoading3Quarters className="animate-spin" />
-                  ) : (
-                    <MdDeleteForever
-                      size={46}
-                      className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
-                      onClick={() => {
-                        setSaveRequire_Cover(false);
-                        handleImageFileDelete(
-                          coverImage,
-                          setCoverImage,
-                          setDeletingCover
-                        );
-                      }}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Poster */}
-          <div className="flex flex-row items-center justify-between mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Poster
-            </label>
-            <div className="flex items-center gap-x-3">
-              {uploadingPoster ? (
-                <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
-                  Uploading image...
-                </label>
-              ) : (
-                <label
-                  className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
-                  htmlFor="posterUpload"
-                >
-                  Upload image
-                </label>
-              )}
-              <input
-                id="posterUpload"
-                type="file"
-                className="hidden"
-                onChange={(e) => {
-                  setSaveRequire_Poster(true);
-                  handleImageFileUpload(
-                    e.target.files[0],
-                    poster,
-                    setPoster,
-                    setUploadingPoster
-                  );
-                }}
-              />
-              {poster && (
-                <div className="w-fit flex items-center gap-x-3">
-                  <img
-                    src={poster}
-                    className="h-14 w-14 rounded-full object-cover"
-                  />
-                  {deletingPoster ? (
-                    <AiOutlineLoading3Quarters className="animate-spin" />
-                  ) : (
-                    <MdDeleteForever
-                      size={46}
-                      className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
-                      onClick={() => {
-                        setSaveRequire_Poster(false);
-                        handleImageFileDelete(
-                          poster,
-                          setPoster,
-                          setDeletingPoster
-                        );
-                      }}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          {/* Genre */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Genres
-            </label>
-            <Select
-              isMulti
-              onChange={handleGenreChange}
-              options={genreOptions}
-              styles={customStyles}
-              classNamePrefix="react-select" // Add a prefix to make it easier to target with Tailwind
-            />
-          </div>
-          {/* Language */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Language
-            </label>
-            <input
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-              type="text"
-              value={language}
-              onChange={handleInputChange(setLanguage)}
-            />
-          </div>
-
-          {/* Release Date */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Release Date
-            </label>
-            <input
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-              type="date"
-              value={releaseDate}
-              onChange={handleInputChange(setReleaseDate)}
-            />
-          </div>
-          {/* Duration */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Duration (hours)
-            </label>
-            <input
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-              type="number"
-              value={duration}
-              onChange={handleInputChange(setDuration)}
-            />
-          </div>
-          {/* Video */}
-          {(!movie || !movie.video) && (
-            <div className="flex flex-row items-center justify-between mb-4">
-              <label className="block text-xl font-lato text-primary_text ">
-                Movie Video
-              </label>
-              <div className="flex items-center gap-x-3">
-                {uploadingVideo ? (
-                  <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
-                    Uploading video...
-                  </label>
-                ) : (
-                  <label
-                    className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
-                    htmlFor="videoUpload"
-                  >
-                    Upload video
-                  </label>
-                )}
-                <input
-                  id="videoUpload"
-                  type="file"
-                  className="hidden"
-                  onChange={(e) =>
-                    handleVideoFileUpload(
-                      e.target.files[0],
-                      video,
-                      setVideo,
-                      setUploadingVideo
-                    )
-                  }
-                />
-                {video && (
-                  <div className="w-fit flex items-center gap-x-3 ">
-                    {!uploadingVideo && <MdCloudDone className="h-12 w-12" />}
-                    {deletingVideo ? (
-                      <AiOutlineLoading3Quarters className="animate-spin" />
-                    ) : (
-                      <MdDeleteForever
-                        size={46}
-                        className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
-                        onClick={() =>
-                          handleVideoFileDelete(
-                            video,
-                            setVideo,
-                            setDeletingVideo
-                          )
-                        }
+      <div className="fixed inset-0 flex items-center justify-center bg-background1  bg-opacity-50">
+          <div className="bg-shadow p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
+              <h2 className="text-3xl font-montserrat text-primary_text font-bold mb-4">
+                  {movie ? "Edit Movie" : "Add New Movie"}
+              </h2>
+              <form onSubmit={handleSubmit}>
+                  {/* Title */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Title
+                      </label>
+                      <input
+                          className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                          type="text"
+                          value={title}
+                          onChange={handleInputChange(setTitle)}
                       />
-                    )}
                   </div>
-                )}
-              </div>
-            </div>
-          )}
+                  {/* Free or Premium */}
+                  <div className="mb-4 flex gap-9">
+                      <label className="text-xl font-lato text-primary_text">
+                          Choose whether free or premium view:
+                      </label>
+                      <div>
+                          <input
+                              type="radio"
+                              name="plan"
+                              value="Free"
+                              checked={!isPremium}
+                              onChange={() => setIsPremium(false)}
+                              className="form-radio h-5 w-5 text-highlight"
+                          />
+                          <span className="ml-2 text-xl font-lato text-primary_text">
+                              Free
+                          </span>
+                      </div>
+                      <div>
+                          <input
+                              type="radio"
+                              name="plan"
+                              value="Premium"
+                              checked={isPremium}
+                              onChange={() => setIsPremium(true)}
+                              className="form-radio h-5 w-5 text-highlight"
+                          />
+                          <span className="ml-2 text-xl font-lato text-primary_text">
+                              Premium
+                          </span>
+                      </div>
+                  </div>
+                  {/* Description */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Description
+                      </label>
+                      <textarea
+                          className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                          value={description}
+                          onChange={handleInputChange(setDescription)}
+                      />
+                  </div>
+                  {/* Cover Image */}
+                  <div className="flex flex-row items-center justify-between mb-4">
+                      <label className="block text-xl font-lato text-primary_text ">
+                          Cover Image
+                      </label>
+                      <div className="flex items-center gap-x-3">
+                          {uploadingCover ? (
+                              <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
+                                  Uploading image...
+                              </label>
+                          ) : (
+                              <label
+                                  className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
+                                  htmlFor="coverImageUpload">
+                                  Upload image
+                              </label>
+                          )}
+                          <input
+                              id="coverImageUpload"
+                              type="file"
+                              className="hidden"
+                              onChange={(e) => {
+                                  setSaveRequire_Cover(true);
+                                  handleImageFileUpload(
+                                      e.target.files[0],
+                                      coverImage,
+                                      setCoverImage,
+                                      setUploadingCover
+                                  );
+                              }}
+                          />
+                          {coverImage && (
+                              <div className="w-fit flex items-center gap-x-3">
+                                  <img
+                                      src={coverImage}
+                                      className="h-14 w-14 rounded-full object-cover"
+                                  />
+                                  {deletingCover ? (
+                                      <AiOutlineLoading3Quarters className="animate-spin" />
+                                  ) : (
+                                      <MdDeleteForever
+                                          size={46}
+                                          className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
+                                          onClick={() => {
+                                              setSaveRequire_Cover(false);
+                                              handleImageFileDelete(
+                                                  coverImage,
+                                                  setCoverImage,
+                                                  setDeletingCover
+                                              );
+                                          }}
+                                      />
+                                  )}
+                              </div>
+                          )}
+                      </div>
+                  </div>
 
-          {/* Casts */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Casts
-            </label>
-            {casts.map((cast, index) => (
-              <div key={index} className="flex mb-2">
-                <select
-                  name="person"
-                  value={cast.person}
-                  onChange={handleArrayChange(index, casts, setCasts)}
-                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
-                >
-                  <option value="">Select a cineast</option>
-                  {cineasts.map((cineast) => (
-                    <option key={cineast._id} value={cineast._id}>
-                      {cineast.name}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  name="role"
-                  value={cast.role}
-                  onChange={handleArrayChange(index, casts, setCasts)}
-                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-                  type="text"
-                  placeholder="Role"
-                />
-                <button
-                  type="button"
-                  onClick={removeArrayItem(index, casts, setCasts)}
-                  className="ml-2 px-3 py-2 bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text rounded"
-                >
-                  -
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addArrayItem(setCasts, casts)}
-              className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300"
-            >
-              Add Cast
-            </button>
-          </div>
+                  {/* Poster */}
+                  <div className="flex flex-row items-center justify-between mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Poster
+                      </label>
+                      <div className="flex items-center gap-x-3">
+                          {uploadingPoster ? (
+                              <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
+                                  Uploading image...
+                              </label>
+                          ) : (
+                              <label
+                                  className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
+                                  htmlFor="posterUpload">
+                                  Upload image
+                              </label>
+                          )}
+                          <input
+                              id="posterUpload"
+                              type="file"
+                              className="hidden"
+                              onChange={(e) => {
+                                  setSaveRequire_Poster(true);
+                                  handleImageFileUpload(
+                                      e.target.files[0],
+                                      poster,
+                                      setPoster,
+                                      setUploadingPoster
+                                  );
+                              }}
+                          />
+                          {poster && (
+                              <div className="w-fit flex items-center gap-x-3">
+                                  <img
+                                      src={poster}
+                                      className="h-14 w-14 rounded-full object-cover"
+                                  />
+                                  {deletingPoster ? (
+                                      <AiOutlineLoading3Quarters className="animate-spin" />
+                                  ) : (
+                                      <MdDeleteForever
+                                          size={46}
+                                          className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
+                                          onClick={() => {
+                                              setSaveRequire_Poster(false);
+                                              handleImageFileDelete(
+                                                  poster,
+                                                  setPoster,
+                                                  setDeletingPoster
+                                              );
+                                          }}
+                                      />
+                                  )}
+                              </div>
+                          )}
+                      </div>
+                  </div>
+                  {/* Genre */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Genres
+                      </label>
+                      <Select
+                          isMulti
+                          onChange={handleGenreChange}
+                          options={genreOptions}
+                          styles={customStyles}
+                          classNamePrefix="react-select" // Add a prefix to make it easier to target with Tailwind
+                      />
+                  </div>
+                  {/* Language */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Language
+                      </label>
+                      <input
+                          className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                          type="text"
+                          value={language}
+                          onChange={handleInputChange(setLanguage)}
+                      />
+                  </div>
 
-          {/* Crews */}
-          <div className="mb-4">
-            <label className="block text-xl font-lato text-primary_text">
-              Crews
-            </label>
-            {crews.map((crew, index) => (
-              <div key={index} className="flex mb-2">
-                <select
-                  name="person"
-                  value={crew.person}
-                  onChange={handleArrayChange(index, crews, setCrews)}
-                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
-                >
-                  <option value="">Select a cineast</option>
-                  {cineasts.map((cineast) => (
-                    <option key={cineast._id} value={cineast._id}>
-                      {cineast.name}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  name="role"
-                  value={crew.role}
-                  onChange={handleArrayChange(index, crews, setCrews)}
-                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-                  type="text"
-                  placeholder="Role"
-                />
-                <button
-                  type="button"
-                  onClick={removeArrayItem(index, crews, setCrews)}
-                  className="ml-2 px-3 py-2 bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text rounded"
-                >
-                  -
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={addArrayItem(setCrews, crews)}
-              className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300"
-            >
-              Add Crew
-            </button>
-          </div>
+                  {/* Release Date */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Release Date
+                      </label>
+                      <input
+                          className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                          type="date"
+                          value={releaseDate}
+                          onChange={handleInputChange(setReleaseDate)}
+                      />
+                  </div>
+                  {/* Duration */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Duration (hours)
+                      </label>
+                      <input
+                          className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                          type="number"
+                          value={duration}
+                          onChange={handleInputChange(setDuration)}
+                      />
+                  </div>
+                  {/* Video */}
+                  {(!movie || !movie.video) && (
+                      <div className="flex flex-row items-center justify-between mb-4">
+                          <label className="block text-xl font-lato text-primary_text ">
+                              Movie Video
+                          </label>
+                          <div className="flex items-center gap-x-3">
+                              {uploadingVideo ? (
+                                  <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
+                                      Uploading video...
+                                  </label>
+                              ) : (
+                                  <label
+                                      className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer"
+                                      htmlFor="videoUpload">
+                                      Upload video
+                                  </label>
+                              )}
+                              <input
+                                  id="videoUpload"
+                                  type="file"
+                                  className="hidden"
+                                  onChange={(e) =>
+                                      handleVideoFileUpload(
+                                          e.target.files[0],
+                                          video,
+                                          setVideo,
+                                          setUploadingVideo
+                                      )
+                                  }
+                              />
+                              {video && (
+                                  <div className="w-fit flex items-center gap-x-3 ">
+                                      {!uploadingVideo && (
+                                          <MdCloudDone className="h-12 w-12" />
+                                      )}
+                                      {deletingVideo ? (
+                                          <AiOutlineLoading3Quarters className="animate-spin" />
+                                      ) : (
+                                          <MdDeleteForever
+                                              size={46}
+                                              className="cursor-pointer h-8 w-8 rounded-lg bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text"
+                                              onClick={() =>
+                                                  handleVideoFileDelete(
+                                                      video,
+                                                      setVideo,
+                                                      setDeletingVideo
+                                                  )
+                                              }
+                                          />
+                                      )}
+                                  </div>
+                              )}
+                          </div>
+                      </div>
+                  )}
 
-          {/* Submit Button */}
-          <div className="flex justify-end">
-            <button
-              className="bg-gray-500 hover:text-gray-700 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300 font-bold"
-              onClick={() => handleCancel()}
-              type="button"
-            >
-              Cancel
-            </button>
-            {loading ? (
-              <button className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-not-allowed">
-                Saving...
-              </button>
-            ) : (
-              <button
-                className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300"
-                type="submit"
-              >
-                Save
-              </button>
-            )}
+                  {/* Casts */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Casts
+                      </label>
+                      {casts.map((cast, index) => (
+                          <div key={index} className="flex mb-2">
+                              <select
+                                  name="person"
+                                  value={cast.person}
+                                  onChange={handleArrayChange(
+                                      index,
+                                      casts,
+                                      setCasts
+                                  )}
+                                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2">
+                                  <option value="">Select a cineast</option>
+                                  {cineasts.map((cineast) => (
+                                      <option
+                                          key={cineast._id}
+                                          value={cineast._id}>
+                                          {cineast.name}
+                                      </option>
+                                  ))}
+                              </select>
+                              <input
+                                  name="role"
+                                  value={cast.role}
+                                  onChange={handleArrayChange(
+                                      index,
+                                      casts,
+                                      setCasts
+                                  )}
+                                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                                  type="text"
+                                  placeholder="Role"
+                              />
+                              <button
+                                  type="button"
+                                  onClick={removeArrayItem(
+                                      index,
+                                      casts,
+                                      setCasts
+                                  )}
+                                  className="ml-2 px-3 py-2 bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text rounded">
+                                  -
+                              </button>
+                          </div>
+                      ))}
+                      <button
+                          type="button"
+                          onClick={addArrayItem(setCasts, casts)}
+                          className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300">
+                          Add Cast
+                      </button>
+                  </div>
+
+                  {/* Crews */}
+                  <div className="mb-4">
+                      <label className="block text-xl font-lato text-primary_text">
+                          Crews
+                      </label>
+                      {crews.map((crew, index) => (
+                          <div key={index} className="flex mb-2">
+                              <select
+                                  name="person"
+                                  value={crew.person}
+                                  onChange={handleArrayChange(
+                                      index,
+                                      crews,
+                                      setCrews
+                                  )}
+                                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2">
+                                  <option value="">Select a cineast</option>
+                                  {cineasts.map((cineast) => (
+                                      <option
+                                          key={cineast._id}
+                                          value={cineast._id}>
+                                          {cineast.name}
+                                      </option>
+                                  ))}
+                              </select>
+                              <input
+                                  name="role"
+                                  value={crew.role}
+                                  onChange={handleArrayChange(
+                                      index,
+                                      crews,
+                                      setCrews
+                                  )}
+                                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                                  type="text"
+                                  placeholder="Role"
+                              />
+                              <button
+                                  type="button"
+                                  onClick={removeArrayItem(
+                                      index,
+                                      crews,
+                                      setCrews
+                                  )}
+                                  className="ml-2 px-3 py-2 bg-primary_text hover:bg-red-800 text-highlight hover:text-primary_text rounded">
+                                  -
+                              </button>
+                          </div>
+                      ))}
+                      <button
+                          type="button"
+                          onClick={addArrayItem(setCrews, crews)}
+                          className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300">
+                          Add Crew
+                      </button>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="flex justify-end">
+                      <button
+                          className="bg-gray-500 hover:text-gray-700 text-primary_text px-4 py-2 rounded mr-2 transition-all duration-300 font-bold"
+                          onClick={() => handleCancel()}
+                          type="button">
+                          Cancel
+                      </button>
+                      {loading ? (
+                          <button className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-not-allowed">
+                              Saving...
+                          </button>
+                      ) : (
+                          <button
+                              className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300"
+                              type="submit">
+                              Save
+                          </button>
+                      )}
+                  </div>
+              </form>
           </div>
-        </form>
       </div>
-    </div>
   );
 };
 

@@ -81,6 +81,7 @@ export const createMovieReview = asyncHandler(async (req, res) => {
 
 export const createMovie = asyncHandler(async (req, res) => {
     const {
+        isPremium,
         title,
         description,
         coverImage,
@@ -101,7 +102,7 @@ export const createMovie = asyncHandler(async (req, res) => {
     }).toLowerCase();
 
     const movie = new Movie({
-        userId: req.user._id,
+        isPremium,
         title,
         slug,
         description,
@@ -128,6 +129,7 @@ export const createMovie = asyncHandler(async (req, res) => {
 
 export const updateMovie = asyncHandler(async (req, res) => {
     const {
+        isPremium,
         title,
         description,
         coverImage,
@@ -161,6 +163,7 @@ export const updateMovie = asyncHandler(async (req, res) => {
         ).toLowerCase();
     }
     if (movie) {
+        movie.isPremium = isPremium || movie.isPremium;
         movie.title = title || movie.title;
         movie.slug = slug || movie.slug;
         movie.description = description || movie.description;
