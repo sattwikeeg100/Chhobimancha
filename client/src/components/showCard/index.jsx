@@ -15,7 +15,7 @@ const ShowCard = ({ show }) => {
         <img
           src={show.poster}
           alt={show.title}
-          className="w-full h-72 mb-4 rounded-md"
+          className="w-full h-full mb-4 rounded-md"
         />
         <h2 className="text-lg  font-semibold">{show.title}</h2>
         {/* <p className="text-gray-600">{show.description}</p> */}
