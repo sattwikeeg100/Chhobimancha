@@ -41,7 +41,7 @@ const ShowAdminCard = ({ show, onEditClick, onDeleteClick }) => {
         )}
       </p>
 
-      <div className="flex items-center justify-between w-full  text-primary_text">
+      <div className="flex flex-wrap items-center justify-between w-full  text-primary_text">
         <p className=" font-medium text-center text-xl flex flex-row items-center gap-x-2">
           <FaCalendar className="w-5 h-5" />
           {new Date(show.date).toLocaleDateString()}
