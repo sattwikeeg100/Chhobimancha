@@ -148,41 +148,44 @@ const SingleMovie = () => {
           </div>
 
           {/* right side */}
-          <div className="flex flex-col justify-center items-start text-primary_text xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 w-3/5 lg:gap-5 md:gap-2 sm:gap-1">
+          <div className="flex flex-col font-lato justify-center items-start text-primary_text xl:w-2/5 lg:w-2/4 md:w-3/5 sm:w-2/4 w-3/5 lg:gap-5 md:gap-2 sm:gap-1 gap-2">
             {/* movie name */}
             <div className=" tracking-normal mt-5 sm:mt-0 text-left lg:text-4xl md:text-xl text-base mb-2 md:mb-1 md:ml-3 sm:ml-1 ml-0 font-montserrat">
               <strong>{movie.title}</strong>
             </div>
 
-            <div className="flex flex-row items-center ">
+            <div className="flex flex-row items-center flex-wrap gap-x-2 gap-y-2">
               {/* duration */}
-              <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3 w-2 h-2" />
-              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight lg:mr-3 md:mr-2 sm:mr-1 font-roboto">
+
+              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight lg:mr-3 md:mr-2 sm:mr-1 font-roboto flex flex-row gap-x-1 ">
+                <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3 w-4 h-4 mt-1 " />
                 {movie.duration} hr
               </div>
 
               {/* year of release */}
-              <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3 w-4 h-4" />
-              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight lg:mr-3 mr-0 font-roboto">
+
+              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight lg:mr-3 mr-0 font-roboto flex flex-row gap-x-1">
+                <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3 w-4 h-4 mt-1 " />
                 {moment(movie.releaseDate).year()}
               </div>
 
               {/* category */}
-              <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3 w-4 h-4" />
-              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight font-roboto">
+
+              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight font-roboto flex flex-row gap-x-1">
+                <LuDot className="md:w-6 md:h-6 sm:w-3 sm:h-3w-4 h-4 mt-1 " />
                 {movie.genres.join(", ")}
               </div>
             </div>
 
-            <div className="flex flex-wrap sm:gap-2 gap-x-3 gap-y-1 items-center py-3 md:ml-3 sm:ml-0 rounded-[8px]">
+            <div className="flex flex-wrap sm:gap-2 gap-x-3 gap-y-1 items-center py-3 md:ml-3 sm:ml-0 rounded-[8px] font-lato">
               {/* average rating */}
               <FaStar className="md:h-4 md:w-4 sm:w-3 sm:h-3 h-4 w-4 text-primary_text" />
-              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight tracking-tighter font-roboto">
+              <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight tracking-tighter ">
                 {movie.averageRating}/5
               </div>
 
               {/* total ratings */}
-              <div className="lg:text-xl md:text-sm text-base lg:ml-10 sm:ml-5 ml-2 tracking-normal md:tracking-tight font-roboto">
+              <div className="lg:text-xl md:text-sm text-base lg:ml-10 sm:ml-5 ml-2 tracking-normal md:tracking-tight">
                 {movie.reviews.length} votes
               </div>
 
@@ -234,10 +237,10 @@ const SingleMovie = () => {
       {/* Movie Description */}
       <div className="lg:px-10 md:px-2 sm:px-5 px-1  flex flex-col gap-y-8">
         <div className=" text-left text-primary_text flex flex-col pt-8 common-container md:px-16 sm:px-5 px-10">
-          <div className="sm:text-2xl text-base font-bold font-montserrat tracking-wider common-heading">
+          <div className="text-2xl font-bold font-montserrat tracking-wider common-heading">
             Description:
           </div>
-          <p className="lg:text-lg sm:text-base text-xs mb-2 font-roboto">
+          <p className="lg:text-lg sm:text-base text-sm mb-2 font-roboto">
             {movie.description}
           </p>
         </div>

@@ -41,7 +41,7 @@ const CastSlider = ({ casts, who }) => {
 
   return (
     <div className="relative w-full lg:px-10 md:px-8 sm:px-0 px-0">
-      <h2 className=" text-3xl sm:text-2xl text-md font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
+      <h2 className="  text-2xl  font-bold font-montserrat mb-4 text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
         {who === "casts" ? "Casts:" : "Crews:"}
       </h2>
       <div className="flex items-center">

@@ -65,7 +65,14 @@ const MovieCard = ({ movie }) => {
         >
           {isFavourite ? <FaHeart color="red" /> : <FaHeart />}
         </button>
+
+        {movie.isPremium && (
+          <div className="absolute top-2 left-2 bg-background1 p-[6px] rounded-full">
+            <FaStar className="text-yellow-300 w-4 h-4" />
+          </div>
+        )}
       </div>
+
       <div
         className="flex flex-col cursor-pointer gap-y-2"
         onClick={() => navigate(`/explore/movies/${movie.slug}`)}
