@@ -4,14 +4,14 @@ const SkeletonAllMovies = () => {
   return (
     <div>
       <div className="justify-center items-center p-4  sm:px-10 bg-background1">
-        <div className="flex sm:flex-row sm:justify-between flex-col justify-start pb-5 sm:pb-0">
-          <h2 className=" h-[2rem] sm:h-[2.5rem] w-[50%] sm:w-[35%] lg:w-[22.5%] bg-shadow  animate-pulse mb-4 rounded-xl"></h2>
+        <div className="flex sm:flex-row sm:justify-between flex-col justify-start pb-5 sm:pb-7">
+          <h2 className=" h-[2rem] sm:h-[2.5rem] w-[50%] sm:w-[35%] lg:w-[15%] bg-shadow  animate-pulse mb-4 rounded-xl"></h2>
           <h2 className="h-[2.5rem] w-full sm:w-[35%] lg:w-[22.5%] bg-shadow  animate-pulse rounded-xl"></h2>
         </div>
         {/* <h2 className=" h-[2rem] sm:h-[2.5rem] w-[50%] sm:w-[35%] lg:w-[22.5%] bg-shadow  animate-pulse mb-4 rounded-xl"></h2> */}
         <div className="flex flex-col sm:flex-row gap-4 mb-5">
-          <h2 className="h-[2.5rem] w-[70%] sm:w-[20%] lg:w-[22.5%] xl:w-[10%] bg-shadow  animate-pulse rounded-xl"></h2>
-          <h2 className="h-[2.5rem] w-[70%] sm:w-[20%] lg:w-[22.5%] xl:w-[10%] bg-shadow  animate-pulse rounded-xl"></h2>
+          <h2 className="h-[2.5rem] w-[70%] sm:w-[20%] lg:w-[22.5%] xl:w-[20%] bg-shadow  animate-pulse rounded-xl"></h2>
+          <h2 className="h-[2.5rem] w-[70%] sm:w-[20%] lg:w-[22.5%] xl:w-[20%] bg-shadow  animate-pulse rounded-xl"></h2>
           {/* <h2 className="h-[2.5rem] w-[70%] sm:w[50%] lg:w-[22.5%] bg-shadow  animate-pulse rounded-xl"></h2> */}
         </div>
 

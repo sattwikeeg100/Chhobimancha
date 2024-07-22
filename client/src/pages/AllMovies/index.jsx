@@ -158,7 +158,7 @@ const AllMovies = () => {
       borderColor: state.isFocused ? "#e1251a" : "#d1d5db",
       backgroundColor: "#232222",
       color: "#ffffff",
-      fontSize: "14px",
+      fontSize: "18px",
       boxShadow: state.isFocused ? "0 0 0 1px #e1251a" : null,
       "&:hover": {
         borderColor: "#e1251a",
@@ -203,7 +203,7 @@ const AllMovies = () => {
 
   return (
     <div className=" pb-7 px-5 sm:px-10 bg-background1 min-h-screen">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 pb-5 sm:pb-0">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 pb-5 sm:pb-7">
         <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
           Movies
         </h1>
@@ -225,9 +225,9 @@ const AllMovies = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-x-6 gap-y-4">
         <div className="flex items-center flex-row gap-x-2">
-          <label className="sm:text-base text-xl font-lato text-primary_text ">
+          <label className="sm:text-2xl text-xl text-primary_text font-ubuntu">
             Genre:
           </label>
           <Select
@@ -242,7 +242,7 @@ const AllMovies = () => {
         </div>
 
         <div className="flex items-center flex-row gap-x-2">
-          <label className="sm:text-base text-xl font-lato text-primary_text  ">
+          <label className="sm:text-2xl text-xl text-primary_text font-ubuntu ">
             Sort By:
           </label>
           <Select
