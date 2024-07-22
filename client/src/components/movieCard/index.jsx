@@ -4,6 +4,8 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { FaStar } from "react-icons/fa6";
 import { BsDot } from "react-icons/bs";
+import { FaCrown } from "react-icons/fa";
+import { BiSolidCrown } from "react-icons/bi";
 import "react-circular-progressbar/dist/styles.css";
 import { FaHeart } from "react-icons/fa";
 import { switchLoginModalOpen } from "../../store/slices/loginModalOpenSlice";
@@ -68,7 +70,7 @@ const MovieCard = ({ movie }) => {
 
         {movie.isPremium && (
           <div className="absolute top-2 left-2 bg-background1 p-[6px] rounded-full">
-            <FaStar className="text-yellow-300 w-4 h-4" />
+            <FaCrown className="text-yellow-300 w-4 h-4" />
           </div>
         )}
       </div>
