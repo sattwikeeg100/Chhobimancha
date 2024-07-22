@@ -78,9 +78,9 @@ const AdminProfileSettings = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 min-h-screen ">
+    <div className="container  min-h-screen ">
       <div className="flex flex-col items-center ">
-        <h1 className="text-5xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
+        <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
           My Profile
         </h1>
         <ProfileCard
