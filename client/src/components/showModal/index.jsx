@@ -68,8 +68,7 @@ const ShowModal = ({ show, onClose }) => {
 
   const handleInputChange = (setter) => (e) => {
     setter(e.target.value);
-  }; 
-
+  };
 
   const handleArrayChange = (index, array, setArray) => (e) => {
     const { name, value } = e.target;
@@ -143,7 +142,7 @@ const ShowModal = ({ show, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-background1  bg-opacity-50">
-      <div className="bg-shadow p-8 rounded shadow-lg w-[60%] h-[95%] max-h-screen overflow-y-auto">
+      <div className="bg-shadow p-5 sm:p-8 rounded shadow-lg w-[85%] h-[95%] md:w-[80%] lg:w-[60%]  max-h-screen overflow-y-auto">
         <h2 className="text-3xl font-montserrat text-primary_text font-bold mb-4">
           {show ? "Edit Show" : "Add New Show"}
         </h2>
@@ -166,17 +165,17 @@ const ShowModal = ({ show, onClose }) => {
               Description
             </label>
             <textarea
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+              className="px-4 gap-x-3 w-full py-2 border  h-32 border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               value={description}
               onChange={handleInputChange(setDescription)}
             />
           </div>
           {/* Poster */}
-          <div className="flex flex-row items-center justify-between ">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 ">
             <label className="block text-xl font-lato text-primary_text ">
               Show Poster
             </label>
-            <div className="flex items-center gap-x-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               {uploadingPoster ? (
                 <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
                   Uploading image...
@@ -266,40 +265,44 @@ const ShowModal = ({ show, onClose }) => {
             />
           </div>
           {/* Ticket Price */}
-          <label className="block text-xl font-lato text-primary_text">
-            Ticket Prices
-          </label>
-          <div className="flex flex-row w-full justify-between mt-2">
-            <div className="mb-4">
-              <label className="block text-primary_text text-sm">
-                Front Stall
-              </label>
-              <input
-                className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-                type="number"
-                value={frontStall}
-                onChange={handleInputChange(setFrontStall)}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-primary_text text-sm">
-                Rear Stall
-              </label>
-              <input
-                className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-                type="number"
-                value={rearStall}
-                onChange={handleInputChange(setRearStall)}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-primary_text text-sm">Balcony</label>
-              <input
-                className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
-                type="number"
-                value={balcony}
-                onChange={handleInputChange(setBalcony)}
-              />
+          <div className="mb-4 ">
+            <label className="block text-xl font-lato text-primary_text">
+              Ticket Prices
+            </label>
+            <div className="flex flex-wrap w-full justify-between gap-2 mt-2">
+              <div>
+                <label className="block text-primary_text text-sm">
+                  Front Stall
+                </label>
+                <input
+                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                  type="number"
+                  value={frontStall}
+                  onChange={handleInputChange(setFrontStall)}
+                />
+              </div>
+              <div>
+                <label className="block text-primary_text text-sm">
+                  Rear Stall
+                </label>
+                <input
+                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                  type="number"
+                  value={rearStall}
+                  onChange={handleInputChange(setRearStall)}
+                />
+              </div>
+              <div>
+                <label className="block text-primary_text text-sm">
+                  Balcony
+                </label>
+                <input
+                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                  type="number"
+                  value={balcony}
+                  onChange={handleInputChange(setBalcony)}
+                />
+              </div>
             </div>
           </div>
           {/* Theatre */}
@@ -328,7 +331,7 @@ const ShowModal = ({ show, onClose }) => {
               Casts
             </label>
             {casts.map((cast, index) => (
-              <div key={index} className="flex mb-2">
+              <div key={index} className="flex mb-3">
                 <select
                   name="person"
                   value={cast.person}
@@ -373,7 +376,7 @@ const ShowModal = ({ show, onClose }) => {
               Crews
             </label>
             {crews.map((crew, index) => (
-              <div key={index} className="flex mb-2">
+              <div key={index} className="flex mb-3">
                 <select
                   name="person"
                   value={crew.person}

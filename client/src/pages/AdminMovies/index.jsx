@@ -5,6 +5,7 @@ import axiosInstance from "../../config/axiosInstance";
 import { toast } from "sonner";
 import Preloader from "../../components/PreLoader/PreLoader";
 import { FaSearch } from "react-icons/fa";
+import GoToTop from "../../components/goToTopButton";
 
 const AdminMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -101,30 +102,35 @@ const AdminMovies = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 min-h-screen">
-      <h1 className="text-4xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
+    <div className="container min-h-screen">
+      <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
         Admin Movie Management
       </h1>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 mb-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-primary_text font-medium font-ubuntu sm:text-base py-1 px-3 rounded"
+          className="bg-highlight hover:bg-highlight_hover text-primary_text font-medium font-ubuntu sm:text-base py-2 px-4 rounded"
           onClick={handleAddClick}
         >
           Add New Movie
         </button>
 
-        <div className="relative flex items-center">
+        <div className="relative w-full sm:w-fit flex items-center">
           <input
             type="text"
             placeholder="Search for movies..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
+            className="w-full text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight 
+            
+            text-base sm:text-base 
+            pl-10 sm:pl-10  
+            py-2
+            sm:px-4"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <FaSearch className="absolute left-3 text-primary_text w-4 h-4" />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
         {filteredMovies.map((movie) => (
           <MovieAdminCard
             key={movie._id}
@@ -137,6 +143,8 @@ const AdminMovies = () => {
       {modalOpen && (
         <MovieModal movie={currentMovie} onClose={handleModalClose} />
       )}
+
+      <GoToTop />
     </div>
   );
 };

@@ -68,7 +68,7 @@ const ProfileModal = ({ profile, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background1 bg-opacity-50 backdrop-blur-sm transition-opacity duration-300">
-      <div className=" bg-background2 text-primary_text p-6 rounded-lg shadow-lg w-full max-w-[22rem] sm:max-w-md transform transition-transform duration-300 scale-105">
+      <div className=" bg-shadow text-primary_text p-6 rounded-lg shadow-lg w-[90%]  sm:w-full max-w-[22rem] sm:max-w-md transform transition-transform duration-300 scale-105">
         <h2 className="text-3xl font-montserrat font-bold mb-4">
           Edit Profile
         </h2>
@@ -76,7 +76,7 @@ const ProfileModal = ({ profile, onClose }) => {
           <div className="mb-4">
             <label className="block text-secondary_text mb-1">Name</label>
             <input
-              className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
+              className="w-full px-4 py-2 border rounded-lg bg-shadow text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
               type="text"
               value={name}
               onChange={handleInputChange(setName)}
@@ -85,7 +85,7 @@ const ProfileModal = ({ profile, onClose }) => {
           <div className="mb-4">
             <label className="block text-secondary_text mb-1">Email</label>
             <input
-              className="w-full px-4 py-2 border rounded-lg bg-background1 text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
+              className="w-full px-4 py-2 border rounded-lg bg-shadow text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
               type="email"
               value={email}
               onChange={handleInputChange(setEmail)}

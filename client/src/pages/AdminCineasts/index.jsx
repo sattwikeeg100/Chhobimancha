@@ -6,6 +6,7 @@ import Preloader from "../../components/PreLoader/PreLoader.jsx";
 import { toast } from "sonner";
 
 import { FaSearch } from "react-icons/fa";
+import GoToTop from "../../components/goToTopButton/index.jsx";
 
 const AdminCineasts = () => {
   const [cineasts, setCineasts] = useState([]);
@@ -85,23 +86,28 @@ const AdminCineasts = () => {
   }
 
   return (
-    <div className="container  mx-auto p-4 min-h-screen">
-      <h1 className="text-4xl font-semibold text-primary_text py-4 tracking-tighter font-playfair">
+    <div className="container min-h-screen">
+      <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
         Admin Cineast Management
       </h1>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 mb-4">
         <button
-          className="bg-highlight hover:bg-highlight_hover text-primary_text font-medium font-ubuntu sm:text-base py-1 px-3 rounded"
+          className="bg-highlight hover:bg-highlight_hover text-primary_text font-medium font-ubuntu sm:text-base py-2 px-4 rounded"
           onClick={handleAddClick}
         >
           Add New Cineast
         </button>
 
-        <div className="relative flex items-center">
+        <div className="relative w-full sm:w-fit flex items-center">
           <input
             type="text"
             placeholder="Search for cineasts..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
+            className="w-full text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight 
+            
+            text-base sm:text-base 
+            pl-10 sm:pl-10  
+            py-2
+            sm:px-4"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -121,6 +127,7 @@ const AdminCineasts = () => {
       {modalOpen && (
         <CineastModal cineast={currentCineast} onClose={handleModalClose} />
       )}
+      <GoToTop />
     </div>
   );
 };

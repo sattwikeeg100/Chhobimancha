@@ -16,17 +16,17 @@ const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
         <img
           src={profile.image}
           alt={profile.name}
-          className="w-60 h-60 sm:w-64 sm:h-64 object-cover mb-4 rounded-full"
+          className="w-60 h-60 sm:w-60 sm:h-60 object-cover mb-4 rounded-full"
         />
       ) : (
-        <h2 className="w-64 h-64 flex items-center justify-center bg-gray-700 rounded-full text-4xl text-primary_text font-montserrat font-semibold mb-4">
+        <h2 className="w-64 h-64 flex items-center justify-center bg-gray-700 rounded-full text-7xl text-primary_text font-montserrat font-semibold mb-4">
           {getInitials(profile.name)}
         </h2>
       )}
       <h2 className="text-3xl text-primary_text font-bold mb-2 text-center font-montserrat">
         {profile.name}
       </h2>
-      <p className="text-secondary_text font-semibold font-lato text-sm sm:text-lg mb-2">
+      <p className="text-secondary_text font-semibold font-lato text-base sm:text-lg mb-2">
         {profile.email}
       </p>
       {profile.isAdmin ? (
@@ -46,14 +46,14 @@ const ProfileCard = ({ profile, onEditClick, onDeleteClick }) => {
       )}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-y-3 gap-x-4">
         <button
-          className="border border-highlight text-highlight hover:bg-highlight hover:text-primary_text flex items-center font-semibold p-2 rounded gap-2"
+          className="border border-highlight text-highlight hover:bg-highlight hover:text-primary_text flex items-center font-semibold font-ubuntu p-2 rounded gap-2"
           onClick={onEditClick}
         >
           Edit Profile
           <FaEdit />
         </button>
         <button
-          className="bg-highlight hover:bg-highlight_hover  text-primary_text flex items-center font-semibold p-2 rounded gap-2"
+          className="bg-highlight hover:bg-highlight_hover  text-primary_text flex items-center font-semibold font-ubuntu p-2 rounded gap-2"
           onClick={onDeleteClick}
         >
           Delete Account
