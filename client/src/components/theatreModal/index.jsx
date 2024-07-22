@@ -93,7 +93,7 @@ const TheatreModal = ({ theatre, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-background1 bg-opacity-50">
-      <div className="bg-shadow p-8 lg:w-[40%] md:w-[60%] w-full m-4 rounded shadow-lg">
+      <div className="bg-shadow p-5 sm:p-8 rounded shadow-lg w-[85%] h-[95%] md:w-[80%] lg:w-[60%] lg:h-auto  max-h-screen overflow-y-auto">
         <h2 className="text-3xl font-montserrat text-primary_text font-bold mb-4">
           {theatre ? "Edit Theatre" : "Add New Theatre"}
         </h2>
@@ -111,11 +111,11 @@ const TheatreModal = ({ theatre, onClose }) => {
             />
           </div>
           {/* Image */}
-          <div className="flex flex-row items-center justify-between ">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 justify-between ">
             <label className="block text-xl font-lato text-primary_text ">
               Theatre Photo
             </label>
-            <div className="flex items-center gap-x-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               {uploadingImage ? (
                 <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
                   Uploading image...
