@@ -286,7 +286,7 @@ const MovieModal = ({ movie, onClose }) => {
               Description
             </label>
             <textarea
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+              className="px-4 gap-x-3 w-full py-2 border  h-32 border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               value={description}
               onChange={handleInputChange(setDescription)}
             />
