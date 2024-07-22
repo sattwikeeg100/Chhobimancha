@@ -237,7 +237,7 @@ const SingleMovie = () => {
       {/* Movie Description */}
       <div className="lg:px-10 md:px-2 sm:px-5 px-1  flex flex-col gap-y-8">
         <div className=" text-left text-primary_text flex flex-col pt-8 common-container md:px-16 sm:px-5 px-10">
-          <div className="sm:text-2xl text-3xl font-bold font-montserrat tracking-wider common-heading">
+          <div className="text-2xl font-bold font-montserrat tracking-wider common-heading">
             Description:
           </div>
           <p className="lg:text-lg sm:text-base text-sm mb-2 font-roboto">
