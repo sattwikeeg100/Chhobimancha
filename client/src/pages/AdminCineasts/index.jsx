@@ -6,6 +6,7 @@ import Preloader from "../../components/PreLoader/PreLoader.jsx";
 import { toast } from "sonner";
 
 import { FaSearch } from "react-icons/fa";
+import GoToTop from "../../components/goToTopButton/index.jsx";
 
 const AdminCineasts = () => {
   const [cineasts, setCineasts] = useState([]);
@@ -126,6 +127,7 @@ const AdminCineasts = () => {
       {modalOpen && (
         <CineastModal cineast={currentCineast} onClose={handleModalClose} />
       )}
+      <GoToTop />
     </div>
   );
 };
