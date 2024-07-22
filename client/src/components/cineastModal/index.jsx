@@ -98,11 +98,11 @@ const CineastModal = ({ cineast, onClose }) => {
             />
           </div>
           {/* Image */}
-          <div className="flex flex-row items-center justify-between ">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ">
             <label className="block text-xl font-lato text-primary_text ">
               Cineast Photo
             </label>
-            <div className="flex items-center gap-x-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
               {uploadingImage ? (
                 <label className="bg-highlight hover:bg-highlight_hover text-primary_text px-4 py-2 rounded font-bold transition-all duration-300 cursor-pointer">
                   Uploading image...
@@ -160,7 +160,7 @@ const CineastModal = ({ cineast, onClose }) => {
               Details
             </label>
             <textarea
-              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
+              className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  h-36 focus:outline-none focus:border focus:border-highlight "
               value={details}
               onChange={handleInputChange(setDetails)}
             />
