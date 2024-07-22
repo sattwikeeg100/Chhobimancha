@@ -202,17 +202,22 @@ const AllMovies = () => {
   };
 
   return (
-    <div className="justify-center items-center px-5 sm:px-10 bg-background1 min-h-screen">
-      <div className="flex items-center justify-between pb-5">
-        <h1 className="text-xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
+    <div className=" pb-7 px-5 sm:px-10 bg-background1 min-h-screen">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 pb-5 sm:pb-0">
+        <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
           Movies
         </h1>
         {/* <div className="flex items-center justify-center gap-x-4"> */}
-        <div className="relative flex items-center">
+        <div className="relative w-full sm:w-fit flex items-center">
           <input
             type="text"
             placeholder="Search for movies..."
-            className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
+            className="w-full text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight 
+            
+            text-base sm:text-base 
+            pl-10 sm:pl-10  
+            py-2
+            sm:px-4"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -222,7 +227,7 @@ const AllMovies = () => {
 
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center flex-row gap-x-2">
-          <label className="text-base font-lato text-primary_text ">
+          <label className="sm:text-base text-xl font-lato text-primary_text ">
             Genre:
           </label>
           <Select
@@ -237,7 +242,7 @@ const AllMovies = () => {
         </div>
 
         <div className="flex items-center flex-row gap-x-2">
-          <label className="text-base font-lato text-primary_text  ">
+          <label className="sm:text-base text-xl font-lato text-primary_text  ">
             Sort By:
           </label>
           <Select
@@ -250,8 +255,8 @@ const AllMovies = () => {
           />
         </div>
 
-        <div className="flex items-center flex-row gap-x-2">
-          <label className="text-base font-lato text-primary_text  ">
+        {/* <div className="flex items-center flex-row gap-x-2">
+          <label className="sm:text-base text-xl font-lato text-primary_text  ">
             Order:
           </label>
           <Select
@@ -261,7 +266,7 @@ const AllMovies = () => {
             value={orderOptions.find((option) => option.value === sortOrder)}
             onChange={(option) => setSortOrder(option.value)}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pt-5">
