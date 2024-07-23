@@ -7,7 +7,6 @@ import { MdArrowDownward } from "react-icons/md";
 import GoToTop from "../../components/goToTopButton";
 import axiosInstance from "../../config/axiosInstance";
 
-
 const AllShows = () => {
   const [shows, setShows] = useState([]);
   const [localLoading, setLocalLoading] = useState(true);
@@ -51,6 +50,8 @@ const AllShows = () => {
     return <SkeletonAllShow />;
   }
 
+  shows.sort((a, b) => new Date(a.date) - new Date(b.date));
+
   // Filter shows based on the search query and filters
   const filteredShows = shows.filter((show) => {
     const matchesSearch = show.title
@@ -75,17 +76,22 @@ const AllShows = () => {
   };
 
   return (
-    <div className="justify-center items-center px-5 sm:px-10 bg-background1 min-h-screen">
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
-          Natyo kola
+    <div className="justify-center items-center px-5  pb-5 sm:px-10 bg-background1 min-h-screen">
+      <div className="flex flex-col sm:flex-row items-center justify-between mb-5 sm:mb-0">
+        <h1 className="text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
+          Theatre Shows
         </h1>
-        <div className="flex items-center justify-center gap-x-4">
-          <div className="relative flex items-center">
+        <div className="flex w-full sm:w-fit items-center justify-center gap-x-4">
+          <div className="relative w-full sm:w-fit flex items-center">
             <input
               type="text"
-              placeholder="Search for shows..."
-              className="text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight py-1 text-xs sm:text-base pl-10 sm:pl-10 mx-1 sm:px-4"
+              placeholder="Search for theatre shows..."
+              className="w-full text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight 
+            
+              text-base sm:text-base 
+              pl-10 sm:pl-10  
+              py-2
+              sm:px-4"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -93,7 +99,7 @@ const AllShows = () => {
           </div>
           <div>
             <FaFilter
-              className="text-primary_text cursor-pointer w-4 h-4 sm:w-5 sm:h-5"
+              className="text-primary_text cursor-pointer w-4 h-4 sm:w-4 sm:h-4"
               onClick={() => setFilterModalOpen(true)}
             />
           </div>
@@ -158,7 +164,7 @@ const AllShows = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {filteredShows.slice(0, visibleCount).map((show, index) => (
           <div key={index}>
             <ShowCard show={show} />
@@ -167,7 +173,7 @@ const AllShows = () => {
       </div>
 
       {filteredShows.length > visibleCount && (
-        <div className="flex justify-center mt-8 flex-row">
+        <div className="flex justify-center pt-5">
           <button
             onClick={handleLoadMore}
             className="bg-highlight hover:bg-highlight_hover text-primary_text font-bold py-2 px-4 rounded-md flex flex-row"

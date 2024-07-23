@@ -18,7 +18,7 @@ const ShowDetails = ({ show }) => {
       </div>
 
       <div className="flex flex-wrap gap-y-1 gap-x-10 items-center justify-center text-primary_text w-full">
-        <div className="flex items-center justify-between self-stretch gap-x-10">
+        <div className="flex flex-wrap items-center justify-between self-stretch gap-x-10">
           <div className="flex items-center justify-center gap-x-2 text-base sm:text-lg font-semibold">
             <FaCalendarDay /> {new Date(show.date).toLocaleDateString()}
           </div>

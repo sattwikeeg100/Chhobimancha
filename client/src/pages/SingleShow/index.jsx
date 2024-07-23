@@ -63,38 +63,38 @@ const SingleShow = () => {
   };
 
   const generateBookingPDF = (booking) => {
-  const doc = new jsPDF();
+    const doc = new jsPDF();
 
-  const img = new Image();
-  img.src = logo;
+    const img = new Image();
+    img.src = logo;
 
-  return new Promise((resolve) => {
-    img.onload = () => {
-      doc.addImage(img, "PNG", 14, 10, 50, 20);
-      doc.setFontSize(18);
-      doc.text("Chhobimancha: Booked Ticket Details", 14, 40);
+    return new Promise((resolve) => {
+      img.onload = () => {
+        doc.addImage(img, "PNG", 14, 10, 50, 20);
+        doc.setFontSize(18);
+        doc.text("Chhobimancha: Booked Ticket Details", 14, 40);
 
-      const details = [
-        ["Show Title", booking.show.title],
-        ["Show Date", new Date(booking.show.date).toLocaleDateString()],
-        ["Show Time", booking.show.time],
-        ["Theatre Name", booking.show.theatre.name],
-        ["Booked Seats", booking.seats.join(", ")],
-        ["Total Amount", `Rs. ${booking.totalAmount.toFixed(2)}`],
-      ];
+        const details = [
+          ["Show Title", booking.show.title],
+          ["Show Date", new Date(booking.show.date).toLocaleDateString()],
+          ["Show Time", booking.show.time],
+          ["Theatre Name", booking.show.theatre.name],
+          ["Booked Seats", booking.seats.join(", ")],
+          ["Total Amount", `Rs. ${booking.totalAmount.toFixed(2)}`],
+        ];
 
-      doc.autoTable({
-        startY: 50,
-        head: [["Field", "Details"]],
-        body: details,
-        theme: "striped",
-      });
+        doc.autoTable({
+          startY: 50,
+          head: [["Field", "Details"]],
+          body: details,
+          theme: "striped",
+        });
 
-      const pdfBlob = doc.output("blob");
-      resolve(pdfBlob);
-    };
-  });
-};
+        const pdfBlob = doc.output("blob");
+        resolve(pdfBlob);
+      };
+    });
+  };
 
   const getSeatPrice = (seatId) => {
     const row = seatId.charAt(0); // Extract the row letter
@@ -155,12 +155,20 @@ const SingleShow = () => {
               const pdfBlob = await generateBookingPDF(booking);
               // Prepare FormData
               const formData = new FormData();
-              formData.append("file", pdfBlob, `${booking._id}-${show.title}.pdf`);
+              formData.append(
+                "file",
+                pdfBlob,
+                `${booking._id}-${show.title}.pdf`
+              );
 
               try {
-                const response = await axiosInstance.post(`/upload/image`, formData, {
-                  headers: { "Content-Type": "multipart/form-data" },
-                });
+                const response = await axiosInstance.post(
+                  `/upload/image`,
+                  formData,
+                  {
+                    headers: { "Content-Type": "multipart/form-data" },
+                  }
+                );
                 const ticketFileUrl = response.data.url;
                 await axiosInstance.post("/bookings/send-email", {
                   name: user.name,
@@ -224,7 +232,7 @@ const SingleShow = () => {
         <div className="flex flex-col gap-y-4 lg:w-[56%] xl:w-[64%] lg:pr-10">
           {/* cast */}
           <div className=" flex flex-col ">
-            <div className="text-3xl pl-10    sm:text-2xl text-md font-bold font-montserrat text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
+            <div className="text-3xl pl-10 font-bold font-montserrat text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
               Artist
             </div>
             <div className="pt-7">
@@ -235,7 +243,7 @@ const SingleShow = () => {
 
           {/* crew */}
           <div className=" flex flex-col ">
-            <div className="text-3xl pl-10    sm:text-2xl text-md font-bold font-montserrat text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
+            <div className="text-3xl pl-10 font-bold font-montserrat text-left lg:px-10 md:px-8 sm:px-5 px-10 text-primary_text">
               Crew
             </div>
             <div className="pt-7">

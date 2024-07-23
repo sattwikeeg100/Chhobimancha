@@ -135,13 +135,13 @@ const Footer = () => {
           <div className="flex items-center justify-center gap-x-3 font-lato ">
             <IoCall className=" text-highlight  p-1 text-2xl sm:text-xl lg:text-2xl bg-shadow rounded-full" />
             <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-medium">
-              +91 74393 22718
+              +91 1120481070
             </h1>
           </div>
           <div className="flex items-center justify-center gap-x-3 font-lato ">
             <IoMail className=" text-highlight  p-1 text-2xl sm:text-xl lg:text-2xl bg-shadow rounded-full" />
             <h1 className="text-base sm:text-xs md:text-sm lg:text-base font-medium">
-              chobimanchahelpline@gmail.com
+              chobimancha2024@gmail.com
             </h1>
           </div>
         </div>

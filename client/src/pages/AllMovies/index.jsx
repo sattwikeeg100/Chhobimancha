@@ -202,8 +202,8 @@ const AllMovies = () => {
   };
 
   return (
-    <div className=" pb-7 px-5 sm:px-10 bg-background1 min-h-screen">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 pb-5 sm:pb-7">
+    <div className=" pb-5 px-5 sm:px-10 bg-background1 min-h-screen">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center ">
         <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
           Movies
         </h1>
@@ -225,9 +225,9 @@ const AllMovies = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-x-6 gap-y-4">
-        <div className="flex items-center flex-row gap-x-2">
-          <label className="sm:text-2xl text-xl text-primary_text font-ubuntu">
+      <div className="flex pt-3 sm:pt-0 w-full flex-wrap gap-x-6 gap-y-3">
+        <div className="flex  items-center flex-row gap-x-2">
+          <label className=" text-xl text-primary_text font-ubuntu">
             Genre:
           </label>
           <Select
@@ -238,11 +238,12 @@ const AllMovies = () => {
               (option) => option.value === selectedGenre
             )}
             onChange={(option) => setSelectedGenre(option.value)}
+            className=" w-[7.3rem] "
           />
         </div>
 
         <div className="flex items-center flex-row gap-x-2">
-          <label className="sm:text-2xl text-xl text-primary_text font-ubuntu ">
+          <label className=" text-xl text-primary_text font-ubuntu ">
             Sort By:
           </label>
           <Select
@@ -252,6 +253,7 @@ const AllMovies = () => {
             className="text-white"
             value={sortOptions.find((option) => option.value === sortOption)}
             onChange={(option) => setSortOption(option.value)}
+            className=" w-[7.3rem]"
           />
         </div>
 
@@ -282,7 +284,7 @@ const AllMovies = () => {
       </div>
 
       {filteredMovies.length < totalMovies.length && (
-        <div className="flex justify-center py-8">
+        <div className="flex justify-center pt-5">
           <button
             onClick={handleLoadMore}
             className="text-white bg-highlight hover:bg-opacity-80 py-2 px-4 rounded-lg flex items-center"

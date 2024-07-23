@@ -61,7 +61,7 @@ const SkeletonSingleShow = () => {
         <div className="flex flex-col gap-y-16 lg:w-[56%] xl:w-[64%] lg:pr-10">
           {/* cast */}
           <div className=" flex flex-col lg:px-10 xl:pl-16">
-            <div className="w-[8rem] h-[2rem] sm:w-[22rem]  lg:max-h-[3rem] lg:min-h-[3rem]  lg:w-[10rem] animate-pulse bg-shadow"></div>
+            <div className="w-[8rem] h-[2rem] sm:w-[22rem]  lg:h-[2.5rem]  lg:w-[10rem] animate-pulse bg-shadow"></div>
             <div className="pt-7">
               {/* <TheatreCastCrew casts={show.casts} /> */}
               <div className="flex overflow-x-auto gap-x-[2rem] px-1 animate-pulse">
@@ -77,7 +77,7 @@ const SkeletonSingleShow = () => {
 
           {/* crew */}
           <div className=" flex flex-col lg:px-10 xl:pl-16">
-            <div className="w-[8rem] h-[2rem] sm:w-[22rem]  lg:max-h-[3rem] lg:min-h-[3rem]  lg:w-[10rem] animate-pulse bg-shadow"></div>
+            <div className="w-[8rem] h-[2rem] sm:w-[22rem]  lg:h-[2.5rem]  lg:w-[10rem] animate-pulse bg-shadow"></div>
             <div className="pt-7">
               {/* <TheatreCastCrew casts={show.casts} /> */}
               <div className="flex overflow-x-auto gap-x-[2rem] px-1 animate-pulse">
@@ -96,7 +96,7 @@ const SkeletonSingleShow = () => {
       {/* about section */}
 
       <div className="px-0 lg:px-2  flex flex-col gap-y-3">
-        <div className="w-[13rem] h-[3rem] sm:w-[22rem]  lg:max-h-[3rem] lg:min-h-[3rem]  lg:w-[10rem] animate-pulse bg-shadow"></div>
+        <div className="w-[13rem] h-[3rem] sm:w-[22rem]  lg:max-h-[3rem] lg:min-h-[3rem]  lg:w-[12rem] animate-pulse bg-shadow"></div>
         <div className="w-full h-[20rem] animate-pulse bg-shadow"></div>
       </div>
 
