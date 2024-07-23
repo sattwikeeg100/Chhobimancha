@@ -78,7 +78,7 @@ const AllShows = () => {
   return (
     <div className="justify-center items-center px-5  pb-5 sm:px-10 bg-background1 min-h-screen">
       <div className="flex flex-col sm:flex-row items-center justify-between mb-5 sm:mb-0">
-        <h1 className="text-4xl sm:text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
+        <h1 className="text-4xl text-primary_text py-4 font-semibold font-playfair tracking-tighter">
           Theatre Shows
         </h1>
         <div className="flex w-full sm:w-fit items-center justify-center gap-x-4">

@@ -52,9 +52,7 @@ const BookYourSeat = ({
   };
   return (
     <div
-      className={`min-h-screen bg-cover bg-center ${
-        isLargeScreen ? "custom-bg" : ""
-      }`}
+      className={` bg-cover bg-center ${isLargeScreen ? "custom-bg" : ""}`}
       style={isLargeScreen ? bgStyle : {}}
     >
       <form className="flex flex-col items-center justify-center  ">

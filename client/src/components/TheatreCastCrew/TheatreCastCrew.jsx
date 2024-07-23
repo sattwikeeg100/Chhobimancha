@@ -66,7 +66,9 @@ const TheatreCastCrew = ({ casts }) => {
                 <div className="font-semibold text-primary_text">
                   {member.person.name}
                 </div>
-                <div className="font-bold text-primary_text">{member.role}</div>
+                <div className="font-lato text-secondary_text">
+                  {member.role}
+                </div>
               </div>
             </div>
           ))}
