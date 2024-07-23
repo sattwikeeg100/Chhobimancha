@@ -202,7 +202,7 @@ const AllMovies = () => {
   };
 
   return (
-    <div className=" pb-7 px-5 sm:px-10 bg-background1 min-h-screen">
+    <div className=" pb-5 px-5 sm:px-10 bg-background1 min-h-screen">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-y-3 pb-5 sm:pb-7">
         <h1 className="text-4xl font-semibold text-primary_text pb-4 sm:pt-4 tracking-tighter font-playfair">
           Movies
@@ -282,7 +282,7 @@ const AllMovies = () => {
       </div>
 
       {filteredMovies.length < totalMovies.length && (
-        <div className="flex justify-center py-8">
+        <div className="flex justify-center pt-5">
           <button
             onClick={handleLoadMore}
             className="text-white bg-highlight hover:bg-opacity-80 py-2 px-4 rounded-lg flex items-center"
