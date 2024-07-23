@@ -70,7 +70,7 @@ const CastSlider = ({ casts, who }) => {
                 <div className="font-semibold text-primary_text">
                   {cast.person.name}
                 </div>
-                <div className="font-bold text-primary_text">{cast.role}</div>
+                <div className="font-lato text-secondary_text">{cast.role}</div>
               </div>
             </div>
           ))}
