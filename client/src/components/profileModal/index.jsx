@@ -78,6 +78,7 @@ const ProfileModal = ({ profile, onClose }) => {
             <input
               className="w-full px-4 py-2 border rounded-lg bg-shadow text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
               type="text"
+              required
               value={name}
               onChange={handleInputChange(setName)}
             />
@@ -87,6 +88,7 @@ const ProfileModal = ({ profile, onClose }) => {
             <input
               className="w-full px-4 py-2 border rounded-lg bg-shadow text-primary_text focus:outline-none focus:ring-2 focus:ring-highlight"
               type="email"
+              required
               value={email}
               onChange={handleInputChange(setEmail)}
             />
@@ -112,6 +114,7 @@ const ProfileModal = ({ profile, onClose }) => {
               <input
                 id="imageUpload"
                 type="file"
+                required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire(true);

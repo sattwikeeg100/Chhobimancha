@@ -106,6 +106,7 @@ const TheatreModal = ({ theatre, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
               type="text"
+              required
               value={name}
               onChange={handleInputChange(setName)}
             />
@@ -131,6 +132,7 @@ const TheatreModal = ({ theatre, onClose }) => {
               <input
                 id="imageUpload"
                 type="file"
+                required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire(true);
@@ -175,6 +177,7 @@ const TheatreModal = ({ theatre, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
               type="text"
+              required
               value={address}
               onChange={handleInputChange(setAddress)}
             />

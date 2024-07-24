@@ -94,6 +94,7 @@ const CineastModal = ({ cineast, onClose }) => {
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight "
               type="text"
               value={name}
+              required
               onChange={handleInputChange(setName)}
             />
           </div>
@@ -119,6 +120,7 @@ const CineastModal = ({ cineast, onClose }) => {
                 id="imageUpload"
                 type="file"
                 className="hidden"
+                required
                 onChange={(e) => {
                   setSaveRequire(true);
                   handleImageFileUpload(
