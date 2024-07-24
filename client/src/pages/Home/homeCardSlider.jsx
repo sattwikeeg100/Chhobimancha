@@ -60,7 +60,7 @@ const HomeCardSlider = ({ elements, title, what, isLoading }) => {
   return (
     <div id="" className="m-auto w-[85%] sm:w-[90%]">
       {isLoading ? (
-        <div className=" shadow-lg bg-shadow w-[70%] sm:w-[50%] h-10 my-7 rounded-md  "></div>
+        <div className=" shadow-lg bg-shadow  sm:w-[25%] h-10 my-7 rounded-xl animate-pulse  "></div>
       ) : (
         <h3
           id=""
@@ -70,8 +70,8 @@ const HomeCardSlider = ({ elements, title, what, isLoading }) => {
         </h3>
       )}
 
-      <div id="movieCards ">
-        <Slider {...settings} className="object-center ">
+      <div id="movieCards">
+        <Slider {...settings} className="object-center  min-h-[350px] 2xl:min-h-[450px] ">
           {isLoading
             ? Array.from({ length: 7 }).map((_, key) => (
                 <SkeletonMoviecard key={key} />
