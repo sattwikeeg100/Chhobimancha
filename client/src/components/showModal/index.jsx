@@ -155,6 +155,7 @@ const ShowModal = ({ show, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="text"
+              required
               value={title}
               onChange={handleInputChange(setTitle)}
             />
@@ -165,6 +166,7 @@ const ShowModal = ({ show, onClose }) => {
               Description
             </label>
             <textarea
+              required
               className="px-4 gap-x-3 w-full py-2 border  h-32 border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               value={description}
               onChange={handleInputChange(setDescription)}
@@ -192,6 +194,7 @@ const ShowModal = ({ show, onClose }) => {
                 id="posterUpload"
                 type="file"
                 className="hidden"
+                required
                 onChange={(e) => {
                   setSaveRequire(true);
                   handleImageFileUpload(
@@ -234,6 +237,7 @@ const ShowModal = ({ show, onClose }) => {
               Language
             </label>
             <input
+              required
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="text"
               value={language}
@@ -246,6 +250,7 @@ const ShowModal = ({ show, onClose }) => {
               Date
             </label>
             <input
+              required
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="date"
               value={date}
@@ -258,6 +263,7 @@ const ShowModal = ({ show, onClose }) => {
               Time
             </label>
             <input
+              required
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="time"
               value={time}
@@ -275,6 +281,7 @@ const ShowModal = ({ show, onClose }) => {
                   Front Stall
                 </label>
                 <input
+                  required
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
                   type="number"
                   value={frontStall}
@@ -286,6 +293,7 @@ const ShowModal = ({ show, onClose }) => {
                   Rear Stall
                 </label>
                 <input
+                  required
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
                   type="number"
                   value={rearStall}
@@ -297,6 +305,7 @@ const ShowModal = ({ show, onClose }) => {
                   Balcony
                 </label>
                 <input
+                  required
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
                   type="number"
                   value={balcony}
@@ -311,6 +320,7 @@ const ShowModal = ({ show, onClose }) => {
               Theatre
             </label>
             <select
+              required
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               value={selectedTheatre}
               onChange={handleInputChange(setSelectedTheatre)}
@@ -335,6 +345,7 @@ const ShowModal = ({ show, onClose }) => {
                 <select
                   name="person"
                   value={cast.person}
+                  required
                   onChange={handleArrayChange(index, casts, setCasts)}
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
                 >
@@ -378,6 +389,7 @@ const ShowModal = ({ show, onClose }) => {
             {crews.map((crew, index) => (
               <div key={index} className="flex mb-3">
                 <select
+                  required
                   name="person"
                   value={crew.person}
                   onChange={handleArrayChange(index, crews, setCrews)}

@@ -244,6 +244,7 @@ const MovieModal = ({ movie, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="text"
+              required
               value={title}
               onChange={handleInputChange(setTitle)}
             />
@@ -288,6 +289,7 @@ const MovieModal = ({ movie, onClose }) => {
             <textarea
               className="px-4 gap-x-3 w-full py-2 border  h-32 border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               value={description}
+              required
               onChange={handleInputChange(setDescription)}
             />
           </div>
@@ -312,6 +314,7 @@ const MovieModal = ({ movie, onClose }) => {
               <input
                 id="coverImageUpload"
                 type="file"
+                required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire_Cover(true);
@@ -370,6 +373,7 @@ const MovieModal = ({ movie, onClose }) => {
               <input
                 id="posterUpload"
                 type="file"
+                required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire_Poster(true);
@@ -428,6 +432,7 @@ const MovieModal = ({ movie, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="text"
+              required
               value={language}
               onChange={handleInputChange(setLanguage)}
             />
@@ -441,6 +446,7 @@ const MovieModal = ({ movie, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="date"
+              required
               value={releaseDate}
               onChange={handleInputChange(setReleaseDate)}
             />
@@ -453,6 +459,7 @@ const MovieModal = ({ movie, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="number"
+              required
               value={duration}
               onChange={handleInputChange(setDuration)}
             />
@@ -479,6 +486,7 @@ const MovieModal = ({ movie, onClose }) => {
                 <input
                   id="videoUpload"
                   type="file"
+                  required
                   className="hidden"
                   onChange={(e) =>
                     handleVideoFileUpload(
@@ -522,6 +530,7 @@ const MovieModal = ({ movie, onClose }) => {
               <div key={index} className="flex mb-3">
                 <select
                   name="person"
+                  required
                   value={cast.person}
                   onChange={handleArrayChange(index, casts, setCasts)}
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
@@ -568,6 +577,7 @@ const MovieModal = ({ movie, onClose }) => {
               <div key={index} className="flex mb-3">
                 <select
                   name="person"
+                  required
                   value={crew.person}
                   onChange={handleArrayChange(index, crews, setCrews)}
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"

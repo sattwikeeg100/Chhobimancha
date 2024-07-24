@@ -164,7 +164,6 @@ const CineastModal = ({ cineast, onClose }) => {
             <textarea
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  h-36 focus:outline-none focus:border focus:border-highlight "
               value={details}
-              required
               onChange={handleInputChange(setDetails)}
             />
           </div>
