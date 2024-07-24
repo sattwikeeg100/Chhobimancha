@@ -60,7 +60,7 @@ const HomeCardSlider = ({ elements, title, what, isLoading }) => {
   return (
     <div id="" className="m-auto w-[85%] sm:w-[90%]">
       {isLoading ? (
-        <div className=" shadow-lg bg-shadow  sm:w-[25%] h-10 my-7 rounded-xl animate-pulse  "></div>
+        <div className=" shadow-lg bg-shadow w-[50%] md:w-[25%] h-10 my-7 rounded-xl animate-pulse  "></div>
       ) : (
         <h3
           id=""
