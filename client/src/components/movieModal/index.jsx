@@ -536,11 +536,14 @@ const MovieModal = ({ movie, onClose }) => {
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
                 >
                   <option value="">Select a cineast</option>
-                  {cineasts.map((cineast) => (
-                    <option key={cineast._id} value={cineast._id}>
-                      {cineast.name}
-                    </option>
-                  ))}
+                  {cineasts
+                    .slice()
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((cineast) => (
+                      <option key={cineast._id} value={cineast._id}>
+                        {cineast.name}
+                      </option>
+                    ))}
                 </select>
                 <input
                   name="role"
@@ -583,11 +586,14 @@ const MovieModal = ({ movie, onClose }) => {
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
                 >
                   <option value="">Select a cineast</option>
-                  {cineasts.map((cineast) => (
-                    <option key={cineast._id} value={cineast._id}>
-                      {cineast.name}
-                    </option>
-                  ))}
+                  {cineasts
+                    .slice()
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((cineast) => (
+                      <option key={cineast._id} value={cineast._id}>
+                        {cineast.name}
+                      </option>
+                    ))}
                 </select>
                 <input
                   name="role"
