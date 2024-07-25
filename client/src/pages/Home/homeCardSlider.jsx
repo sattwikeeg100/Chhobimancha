@@ -107,7 +107,8 @@ const HomeCardSlider = ({ elements, title, what, isLoading }) => {
                                   rounded-lg`
                                   : `h-[400px] 
                                      w-[300px] 
-                                     
+                                     2xl:w-[320px]
+                                     2xl:h-[450px]
                                      rounded-lg`
                               } `}
                             />
