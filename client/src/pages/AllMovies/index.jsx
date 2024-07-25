@@ -75,7 +75,14 @@ const AllMovies = () => {
 
   useEffect(() => {
       filterAndSortMovies();
-  }, [selectedGenre, sortOption, sortOrder, searchQuery, movies]);
+  }, [
+      selectedGenre,
+      sortOption,
+      sortOrder,
+      searchQuery,
+      visibleMovies,
+      totalMovies,
+  ]);
 
   const filterAndSortMovies = () => {
     let tempMovies = [...movies];
