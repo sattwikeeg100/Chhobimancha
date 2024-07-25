@@ -19,12 +19,12 @@ const genreOptions = [
   { value: "Thriller", label: "Thriller" },
   { value: "Romance", label: "Romance" },
   { value: "Comedy", label: "Comedy" },
-  { value: "Action", label: "Action" },
+  { value: "Mystery", label: "Mystery" },
   { value: "Crime", label: "Crime" },
   { value: "Horror", label: "Horror" },
   { value: "History", label: "History" },
   { value: "Documentary", label: "Documentary" },
-  { value: "Science-Fiction", label: "Science Fiction" },
+  { value: "Classic", label: "Science Fiction" },
   { value: "Other", label: "Other" },
 ];
 
