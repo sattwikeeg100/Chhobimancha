@@ -347,20 +347,23 @@ const ShowModal = ({ show, onClose }) => {
                   value={cast.person}
                   required
                   onChange={handleArrayChange(index, casts, setCasts)}
-                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
+                  className="px-4 gap-x-3 w-full py-2 border border-primary_text text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight mr-2"
                 >
                   <option value="">Select a cineast</option>
-                  {cineasts.map((cineast) => (
-                    <option key={cineast._id} value={cineast._id}>
-                      {cineast.name}
-                    </option>
-                  ))}
+                  {cineasts
+                    .slice()
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((cineast) => (
+                      <option key={cineast._id} value={cineast._id}>
+                        {cineast.name}
+                      </option>
+                    ))}
                 </select>
                 <input
                   name="role"
                   value={cast.role}
                   onChange={handleArrayChange(index, casts, setCasts)}
-                  className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
+                  className="px-4 gap-x-3 w-full py-2 border border-primary_text text-primary_text bg-shadow rounded-lg focus:outline-none focus:border focus:border-highlight"
                   type="text"
                   placeholder="Role"
                 />
@@ -381,6 +384,7 @@ const ShowModal = ({ show, onClose }) => {
               Add Cast
             </button>
           </div>
+
           {/* Crews */}
           <div className="mb-4">
             <label className="block text-xl font-lato text-primary_text">
@@ -396,11 +400,15 @@ const ShowModal = ({ show, onClose }) => {
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
                 >
                   <option value="">Select a cineast</option>
-                  {cineasts.map((cineast) => (
-                    <option key={cineast._id} value={cineast._id}>
-                      {cineast.name}
-                    </option>
-                  ))}
+
+                  {cineasts
+                    .slice()
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map((cineast) => (
+                      <option key={cineast._id} value={cineast._id}>
+                        {cineast.name}
+                      </option>
+                    ))}
                 </select>
                 <input
                   name="role"
