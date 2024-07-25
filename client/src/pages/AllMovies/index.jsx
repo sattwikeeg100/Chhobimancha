@@ -33,10 +33,10 @@ const sortOptions = [
   { value: "releaseDate", label: "Release Date" },
 ];
 
-const orderOptions = [
+/* const orderOptions = [
   { value: "asc", label: "Ascending" },
   { value: "desc", label: "Descending" },
-];
+]; */
 
 const AllMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -70,19 +70,12 @@ const AllMovies = () => {
   };
 
   useEffect(() => {
-    GetAllMovies();
+      GetAllMovies();
   }, []);
 
   useEffect(() => {
-    filterAndSortMovies();
-  }, [
-    selectedGenre,
-    sortOption,
-    sortOrder,
-    searchQuery,
-    visibleMovies,
-    totalMovies,
-  ]);
+      filterAndSortMovies();
+  }, [selectedGenre, sortOption, sortOrder, searchQuery, movies]);
 
   const filterAndSortMovies = () => {
     let tempMovies = [...movies];
@@ -101,24 +94,14 @@ const AllMovies = () => {
 
     switch (sortOption) {
       case "rating":
-        tempMovies.sort((a, b) =>
-          sortOrder === "asc"
-            ? a.averageRating - b.averageRating
-            : b.averageRating - a.averageRating
-        );
+        tempMovies.sort((a, b) => b.averageRating - a.averageRating);
         break;
       case "popularity":
-        tempMovies.sort((a, b) =>
-          sortOrder === "asc"
-            ? a.numberOfReviews - b.numberOfReviews
-            : b.numberOfReviews - a.numberOfReviews
-        );
+        tempMovies.sort((a, b) => b.numberOfReviews - a.numberOfReviews);
         break;
       case "releaseDate":
-        tempMovies.sort((a, b) =>
-          sortOrder === "asc"
-            ? new Date(a.year) - new Date(b.year)
-            : new Date(b.year) - new Date(a.year)
+        tempMovies.sort(
+            (a, b) => new Date(b.releaseDate) - new Date(a.releaseDate)
         );
         break;
       default:
@@ -250,10 +233,9 @@ const AllMovies = () => {
             options={sortOptions}
             styles={customStyles}
             placeholder="Sort By"
-            className="text-white"
+            className="text-white w-[7.3rem]"
             value={sortOptions.find((option) => option.value === sortOption)}
             onChange={(option) => setSortOption(option.value)}
-            className=" w-[7.3rem]"
           />
         </div>
 
