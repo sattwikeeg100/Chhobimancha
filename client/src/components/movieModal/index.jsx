@@ -314,7 +314,7 @@ const MovieModal = ({ movie, onClose }) => {
               <input
                 id="coverImageUpload"
                 type="file"
-                required
+                // required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire_Cover(true);
@@ -373,7 +373,7 @@ const MovieModal = ({ movie, onClose }) => {
               <input
                 id="posterUpload"
                 type="file"
-                required
+                // required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire_Poster(true);
@@ -446,7 +446,7 @@ const MovieModal = ({ movie, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="date"
-              required
+              // required
               value={releaseDate}
               onChange={handleInputChange(setReleaseDate)}
             />
@@ -459,7 +459,7 @@ const MovieModal = ({ movie, onClose }) => {
             <input
               className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight"
               type="number"
-              required
+              // required
               value={duration}
               onChange={handleInputChange(setDuration)}
             />
@@ -486,7 +486,7 @@ const MovieModal = ({ movie, onClose }) => {
                 <input
                   id="videoUpload"
                   type="file"
-                  required
+                  // required
                   className="hidden"
                   onChange={(e) =>
                     handleVideoFileUpload(
@@ -530,7 +530,7 @@ const MovieModal = ({ movie, onClose }) => {
               <div key={index} className="flex mb-3">
                 <select
                   name="person"
-                  required
+                  // required
                   value={cast.person}
                   onChange={handleArrayChange(index, casts, setCasts)}
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"
@@ -577,7 +577,7 @@ const MovieModal = ({ movie, onClose }) => {
               <div key={index} className="flex mb-3">
                 <select
                   name="person"
-                  required
+                  // required
                   value={crew.person}
                   onChange={handleArrayChange(index, crews, setCrews)}
                   className="px-4 gap-x-3 w-full py-2 border border-primary_text  text-primary_text bg-shadow rounded-lg  focus:outline-none focus:border focus:border-highlight mr-2"

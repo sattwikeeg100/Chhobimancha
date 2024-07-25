@@ -132,7 +132,7 @@ const TheatreModal = ({ theatre, onClose }) => {
               <input
                 id="imageUpload"
                 type="file"
-                required
+                // required
                 className="hidden"
                 onChange={(e) => {
                   setSaveRequire(true);
