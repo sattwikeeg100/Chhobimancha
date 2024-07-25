@@ -25,9 +25,6 @@ const AdminCineasts = () => {
       console.error(error);
       setLoading(false);
     }
-    // finally {
-
-    // }
   };
 
   useEffect(() => {
@@ -75,11 +72,13 @@ const AdminCineasts = () => {
     GetAllCineasts();
   };
 
-  const filteredCineasts = cineasts.filter((cineast) => {
-    const cineastName = cineast.name.toLowerCase();
-    const searchQueryLowercase = searchQuery.toLowerCase();
-    return cineastName.includes(searchQueryLowercase);
-  });
+  const filteredCineasts = cineasts
+    .filter((cineast) => {
+      const cineastName = cineast.name.toLowerCase();
+      const searchQueryLowercase = searchQuery.toLowerCase();
+      return cineastName.includes(searchQueryLowercase);
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   if (loading && isInitialLoad) {
     return <Preloader setLoading={setLoading} />;
