@@ -22,7 +22,7 @@ const genreOptions = [
   { value: "Horror", label: "Horror" },
   { value: "History", label: "History" },
   { value: "Documentary", label: "Documentary" },
-  { value: "Classic", label: "Science Fiction" },
+  { value: "Classic", label: "Classic" },
   { value: "Other", label: "Other" },
 ];
 
