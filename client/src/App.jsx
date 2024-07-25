@@ -80,7 +80,7 @@ const AdminLayout = ({ children }) => {
         >
           {" "}
           <h1
-            className="text-2xl bg-gray-50 p-2 rounded-xl font-semibold transition-transform duration-700"
+            className="text-2xl bg-gray-50 p-2 rounded-xl font-semibold cursor-pointer transition-transform duration-700"
             onClick={() => {
               setOpen(!open);
             }}
@@ -135,7 +135,10 @@ function App() {
               <Route path="explore/movies" element={<AllMovies />} />
               <Route path="explore/shows" element={<AllShows />} />
               <Route path="explore/movies/:slug" element={<SingleMovie />} />
-              <Route path="explore/movies/:slug/watch" element={<WatchMovie />} />
+              <Route
+                path="explore/movies/:slug/watch"
+                element={<WatchMovie />}
+              />
               <Route path="explore/shows/:slug" element={<SingleShow />} />
               <Route path="/subscribe" element={<SubscriptionPage />} />
               {user && (

@@ -120,7 +120,7 @@ const CineastModal = ({ cineast, onClose }) => {
                 id="imageUpload"
                 type="file"
                 className="hidden"
-                required
+                // required
                 onChange={(e) => {
                   setSaveRequire(true);
                   handleImageFileUpload(
