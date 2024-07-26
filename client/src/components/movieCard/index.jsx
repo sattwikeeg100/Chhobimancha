@@ -85,7 +85,7 @@ const MovieCard = ({ movie }) => {
           </div>
           <div className="flex justify-center items-center font-semibold font-lato text-primary_text">
             <FaStar className="text-highlight mr-2 " />
-            {movie.averageRating}/5
+            {movie.averageRating.toFixed(1)}/5
           </div>
         </div>
         <div className="flex flex-wrap w-full items-center justify-between self-stretch  gap-y-2  pb-5">
