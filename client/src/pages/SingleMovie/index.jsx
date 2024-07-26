@@ -66,16 +66,20 @@ const SingleMovie = () => {
   //console.log(movie.reviews);
   const handleReviewSubmit = async (review) => {
     try {
-      const userHasReviewed = movie.reviews.some(
-        (existingReview) => existingReview.userId === user.id
+      // Fetch the latest movie data to check if the user has reviewed it
+      const { data: updatedMovie } = await axiosInstance.get(`/movies/${slug}`);
+
+      // Check if the current user has already reviewed the movie
+      const userHasReviewed = updatedMovie.reviews.some(
+        (existingReview) => existingReview.userId === user._id
       );
 
       if (userHasReviewed) {
-        // setWarning("You have already reviewed this movie.");
         toast.error("You have already reviewed this movie.");
         return;
       }
 
+      // Add the review
       await axiosInstance.post(`/movies/reviews/${movie._id}`, review);
       toast.success("Successfully added review");
 
