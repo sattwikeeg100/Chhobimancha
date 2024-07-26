@@ -71,11 +71,11 @@ const SingleMovie = () => {
       );
 
       if (userHasReviewed) {
-        // setWarning("You have already reviewed this movie.");
         toast.error("You have already reviewed this movie.");
         return;
       }
 
+      // Add the review
       await axiosInstance.post(`/movies/reviews/${movie._id}`, review);
       toast.success("Successfully added review");
 
