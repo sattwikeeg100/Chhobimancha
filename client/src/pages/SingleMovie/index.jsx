@@ -67,7 +67,7 @@ const SingleMovie = () => {
   const handleReviewSubmit = async (review) => {
     try {
       const userHasReviewed = movie.reviews.some(
-        (existingReview) => existingReview.userId === user.id
+        (existingReview) => existingReview.user._id === user._id
       );
 
       if (userHasReviewed) {
