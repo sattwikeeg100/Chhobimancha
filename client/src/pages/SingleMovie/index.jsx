@@ -181,7 +181,7 @@ const SingleMovie = () => {
               {/* average rating */}
               <FaStar className="md:h-4 md:w-4 sm:w-3 sm:h-3 h-4 w-4 text-primary_text" />
               <div className="lg:text-xl md:text-sm text-base lg:tracking-normal md:tracking-tight tracking-tighter ">
-                {movie.averageRating}/5
+                {movie.averageRating.toFixed(1)}/5
               </div>
 
               {/* total ratings */}
