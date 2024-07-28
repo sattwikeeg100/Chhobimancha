@@ -1,5 +1,12 @@
 # Welcome to [Chhobimancha](https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby) - Your One-Stop Source of Entertainment!
 
+#### Thumbnail 
+
+![Untitled design](https://github.com/user-attachments/assets/3067a7a0-dec9-4f15-adf4-7d64ec26de4e)
+
+
+#### Full Video Link - [[Chhobimancha](https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby)](https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby)
+
 ## Table of Contents
 1. [About](#about)
 2. [Features](#features)
