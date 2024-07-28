@@ -5,7 +5,7 @@
 ![Untitled design](https://github.com/user-attachments/assets/3067a7a0-dec9-4f15-adf4-7d64ec26de4e)
 
 
-#### Full Video Link - [[Chhobimancha](https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby)](https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby)
+#### Full Video Link - [https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby](https://youtu.be/7M_jV8oXW9Y?si=MaqdZm7agM5Nybby)
 
 ## Table of Contents
 1. [About](#about)
@@ -26,7 +26,7 @@ Welcome to Chhobimancha, the ultimate destination for Bengali entertainment! Imm
 - **Theatre Show Booking:** Book tickets for upcoming theatre shows and events effortlessly.
 - **Email Notifications:** Receive booking confirmations and updates via email.
 - **Secure Payments:** Integrated secure payment processing for show bookings and subscriptions.
-- **Assistant Chatbot:** Assistance or help regarding any query on our platform and more.
+- **Assistant Chatbot:** Assistance or help regarding any query on our platform.
 
 ### User Experience
 - **Password Management:** Easily reset your password if forgotten, with a secure verification process.
@@ -54,16 +54,17 @@ Welcome to Chhobimancha, the ultimate destination for Bengali entertainment! Imm
 2. **Browse Movies:** Explore our vast collection of Bengali movies and find something that interests you.
 3. **Watch and Review:** Stream movies, leave reviews, and rate them based on your experience.
 4. **Book Theatre Shows:** Check out upcoming theatre shows and events, and book tickets with ease.
-5. **Manage Your Watchlist and Bookings:** Curate your favorite movie list and access all your booked show tickets for easy reference and download.
+5. **Manage Your Watchlist and Bookings:** Curate your favourite movie list and access all your booked show tickets for easy reference and download.
 7. **Chatbot Support:** Get answers about the platform, Bengali cinemas, and performing arts with our Chatbase assistant.
 
 ## Support
 If you have any questions, concerns, or feedback, feel free to reach out to our support team at **[chobimancha2024@gmail.com](mailto:chobimancha2024@gmail.com)**. We're here to help!
 
 ## Stay Connected
-Follow us on social media to stay updated on the latest movies, shows, and events:
-- **[Facebook: ChhobimanchaOfficial](https://www.facebook.com/ChhobimanchaOfficial)**
-- **[Twitter: ChhobimanchaOfficial](https://twitter.com/ChhobimanchaOfficial)**
-- **[Instagram: ChhobimanchaOfficial](https://www.instagram.com/ChhobimanchaOfficial)**
+Follow us on LinkedIn:
+- **[Sattwikee Ghosh](https://www.linkedin.com/in/sattwikeeghosh/)**
+- **[Chandrima Kar](https://www.linkedin.com/in/chandrima-kar-303b60281/)**
+- **[Pratik Biswas](https://www.linkedin.com/in/pratik-biswas-511812223/)**
+- **[Roshan Pathak](https://www.linkedin.com/in/roshan-pathak-544512222/)**
 
 Thank you for choosing Chhobimancha for your entertainment needs. Sit back, relax, and enjoy the show!
