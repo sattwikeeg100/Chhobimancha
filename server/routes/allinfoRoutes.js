@@ -46,7 +46,7 @@ router.get("/revenue", authenticate, admin,
             });
 
             const bookingRevenue = bookings.reduce(
-                (total, booking) => total + booking.totalAmount,
+                (total, booking) => total + (booking.totalAmount * 0.025),
                 0
             );
 

@@ -40,13 +40,18 @@ const SubscriptionPage = () => {
         subscription_id: subscription.id,
         name: "Chhobimancha Premium",
         image:
-          "https://chhobimancha.vercel.app/assets/chobimancha_logo3-Cb85A07e.png", // TODO: Our logo url
+          "https://chhobimancha.vercel.app/assets/chobimancha_logo3-Cb85A07e.png",
         description: "Subscription for enjoying unlimited movies",
         handler: function (response) {
+          const subscriptionStart = new Date();
+          const subscriptionEnd = new Date(subscriptionStart);
+          subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 6);
           dispatch(
             updateUser({
               isSubscriber: true,
               subscriptionId: subscription.id,
+              subscriptionStart,
+              subscriptionEnd,
             })
           ).then(() => {
             alert("Payment Successful and Subscription Activated!");

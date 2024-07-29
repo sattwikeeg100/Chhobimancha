@@ -20,13 +20,7 @@ const transporter = nodemailer.createTransport({
 // **************************** PUBLIC CONTROLLERS *******************************
 
 export const registerUser = asyncHandler(async (req, res) => {
-    const {
-        name,
-        email,
-        password,
-        confirmPassword,
-        image,
-    } = req.body;
+    const { name, email, password, confirmPassword, image } = req.body;
 
     if (password !== confirmPassword) {
         res.status(400);
@@ -75,8 +69,10 @@ export const loginUser = asyncHandler(async (req, res) => {
     if (!user) {
         res.status(404);
         throw new Error("User does not exist");
-    } else if(!user.password) {
-        throw new Error("User signed up using google. Please continue with google to login");
+    } else if (!user.password) {
+        throw new Error(
+            "User signed up using google. Please continue with google to login"
+        );
     }
 
     const validRole = isLoggingAsAdmin === user.isAdmin;
@@ -125,7 +121,7 @@ export const requestPasswordReset = asyncHandler(async (req, res) => {
         text: `Your password reset verification code is ${code}. It is valid for 1 hour.`,
     };
 
-    transporter.sendMail(mailOptions, (err) => { 
+    transporter.sendMail(mailOptions, (err) => {
         if (err) {
             throw new Error("Error sending email");
         }
@@ -176,19 +172,25 @@ export const getLoggedInUserDetails = asyncHandler(async (req, res) => {
 });
 
 export const updatedUserProfile = asyncHandler(async (req, res) => {
-    const { name, email, image, isSubscriber, subscriptionId } = req.body;
+    const {
+        name,
+        email,
+        image,
+        isSubscriber,
+        subscriptionId,
+        subscriptionStart,
+        subscriptionEnd,
+    } = req.body;
+
     const user = await User.findById(req.user._id);
     if (user) {
         user.name = name || user.name;
         user.email = email || user.email;
         user.image = image || user.image;
-        if (isSubscriber === false) {
-            user.isSubscriber = false;
-            user.subscriptionId = "";
-        } else {
-            user.isSubscriber = isSubscriber || user.isSubscriber;
-            user.subscriptionId = subscriptionId || user.subscriptionId;
-        }
+        user.isSubscriber = isSubscriber || user.isSubscriber;
+        user.subscriptionId = subscriptionId || user.subscriptionId;
+        user.subscriptionStart = subscriptionStart || user.subscriptionStart;
+        user.subscriptionEnd = subscriptionEnd || user.subscriptionEnd;
 
         try {
             const updatedUser = await user.save();
@@ -207,8 +209,7 @@ export const updatedUserProfile = asyncHandler(async (req, res) => {
             res.status(400);
             throw new Error(error.message);
         }
-    }
-    else {
+    } else {
         res.status(404);
         throw new Error("User does not exist");
     }
@@ -251,8 +252,7 @@ export const getAllFavoriteMovies = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id).populate("favoriteMovies");
     if (user) {
         res.json(user.favoriteMovies);
-    }
-    else {
+    } else {
         res.status(404);
         throw new Error("User not found");
     }
@@ -264,14 +264,12 @@ export const toggleAddToFavoriteMovies = asyncHandler(async (req, res) => {
     if (user) {
         if (user.favoriteMovies.includes(movieId)) {
             user.favoriteMovies.pull(movieId);
-        }
-        else {
+        } else {
             user.favoriteMovies.push(movieId);
         }
         await user.save();
         res.json(user.favoriteMovies);
-    }
-    else {
+    } else {
         res.status(404);
         throw new Error("User not found");
     }
@@ -285,17 +283,6 @@ export const buySubscription = asyncHandler(async (req, res) => {
         plan_id,
         customer_notify,
         total_count: 6, // Monthly subscription for 6 months
-    });
-
-    const subscriptionStart = new Date();
-    const subscriptionEnd = new Date(subscriptionStart);
-    subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 6);
-
-    await User.findByIdAndUpdate(userId, {
-        isSubscriber: true,
-        subscriptionId: subscription.id,
-        subscriptionStart,
-        subscriptionEnd,
     });
 
     res.status(201).json(subscription);
