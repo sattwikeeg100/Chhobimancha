@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Preloader from "../../components/PreLoader/PreLoader.jsx";
@@ -70,7 +69,8 @@ const AdminDashboard = () => {
     fetchData();
   }, []);
 
-  const bookingLabels = revenueData.map((item) => `Month ${item.month}`);
+  const monthNames = { 1 : 'Jan', 2 : 'Feb', 3 : 'Mar', 4 : 'Apr', 5 : 'May', 6 : 'Jun', 7 : 'Jul', 8 : 'Aug', 9 : 'Sep', 10 : 'Oct', 11 : 'Nov', 12 : 'Dec' };
+  const bookingLabels = revenueData.map((item) => monthNames[item.month%12]);
   const bookingRevenues = revenueData.map((item) => item.bookingRevenue);
   const subscriptionRevenues = revenueData.map(
     (item) => item.subscriptionRevenue
@@ -102,22 +102,23 @@ const AdminDashboard = () => {
     ],
   };
 
-  const pieData = {
-    labels: ["Booking Revenue", "Subscription Revenue"],
-    datasets: [
-      {
-        data: [
-          bookingRevenues.reduce((a, b) => a + b, 0),
-          subscriptionRevenues.reduce((a, b) => a + b, 0),
-        ],
-        backgroundColor: [
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-        ],
-        borderColor: ["rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)"],
-        borderWidth: 1,
-      },
-    ],
+  const comparisonData = {
+      labels: ["Booking Revenue", "Subscription Revenue"],
+      datasets: [
+          {
+              label: "Revenues",
+              data: [
+                  bookingRevenues.reduce((a, b) => a + b, 0),
+                  subscriptionRevenues.reduce((a, b) => a + b, 0),
+              ],
+              backgroundColor: [
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+              ],
+              borderColor: ["rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)"],
+              borderWidth: 1,
+          },
+      ],
   };
 
   const consolidatedData = {
@@ -141,45 +142,6 @@ const AdminDashboard = () => {
           "rgba(75, 192, 192, 1)",
         ],
         borderWidth: 1,
-      },
-    ],
-  };
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 650,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
       },
     ],
   };
@@ -228,7 +190,7 @@ const AdminDashboard = () => {
       <div className="flex flex-col lg:flex-row justify-evenly gap-y-8 items-center">
         <DashboardChart
           title="Total Revenue"
-          data={pieData}
+          data={comparisonData}
           className="w-[300px] md:w-[450px]"
         />
         <DashboardChart

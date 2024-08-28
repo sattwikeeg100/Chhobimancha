@@ -36,7 +36,7 @@ router.get("/revenue", authenticate, admin,
 
         const revenues = [];
 
-        for (let i = 0; i < 6; i++) {
+        for (let i = 5; i >= 0; i--) {
             const month = currentMonth - i;
             const startDate = new Date(year, month - 1, 1);
             const endDate = new Date(year, month, 0);
